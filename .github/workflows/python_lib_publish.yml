@@ -2,9 +2,13 @@
 name: python lib distribution
 
 on:
-  push:
-    branches:
-      - project_skeleton
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Log level'
+        required: true
+        default: '0.0.0'
+
 jobs:
   pypi-publish:
     runs-on: ubuntu-latest
@@ -25,6 +29,8 @@ jobs:
           pip install -r requirements.txt
           pip install setuptools wheel twine
       - name: Build
+        env:
+          python_lib_version: ${{ inputs.version }}
         run: |
           python setup.py sdist bdist_wheel
 

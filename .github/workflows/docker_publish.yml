@@ -6,9 +6,7 @@
 name: docker image distribution
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   push_to_registry:

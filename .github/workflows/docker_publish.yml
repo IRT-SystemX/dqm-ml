@@ -8,7 +8,7 @@ name: docker image distribution
 on:
   push:
     branches:
-      - project_skeleton
+      - main
 
 jobs:
   push_to_registry:

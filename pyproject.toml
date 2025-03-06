@@ -1,0 +1,12 @@
+[tool.black]
+force-exclude = '''
+/(
+\.git
+| \.mypy_cache
+| \.venv
+| _build
+| build
+| dist
+| docs
+)/
+'''

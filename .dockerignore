@@ -1,0 +1,20 @@
+# Root
+
+.idea/*
+.github/*
+.docs/*
+.images/*
+
+venv/*
+include/
+bin/
+lib/
+tests/
+
+lib64
+makefile
+pyvenv.cfg
+README.md
+deployment/
+images/
+

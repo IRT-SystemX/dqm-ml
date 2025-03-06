@@ -20,11 +20,7 @@
 
 </div>
 
-##  DataQualityMetrics
-
-Time-series Anomaly Detection Kit with Interactivity and Tools
-
-A toolkit integrating and wrapping all anomaly detection components with a possibility to: interact between the various components (preprocessing, engeering, modeling) interact with a visualization/annotation tool (e.g. Debiai) via an API intended for expert-in-the-loop iterations
+##  Data Quality Metrics
 
 The component is referenced by the [European Trustworthy AI Foundation] in its [catalog]
 
@@ -105,14 +101,14 @@ pip list | grep dqm
 </p>
 ---
 
-[Component Name]: DataQualityMetrics
+[Component Name]: Data Quality Metrics (DQM)
 [IRT-SystemX]: https://github.com/IRT-SystemX
 [PSF Code of Conduct]: https://policies.python.org/python.org/code-of-conduct/
 [Support]: support@irt-systemx.fr
 [web site]: https://IRT-SystemX.github.io/DataQualityMetrics/
 [installation guide]: https://IRT-SystemX.github.io/DataQualityMetrics/
 [European Trustworthy AI Foundation]:https://www.confiance.ai/foundation/
-[catalog]: https://catalog.confiance.ai/records/sa1gd-1s022
+[catalog]: https://catalog.confiance.ai/records/m838a-t2c14
 [Black]: https://black.readthedocs.io/
 [Pylint]: https://pylint.readthedocs.io/
 [pytest]: https://docs.pytest.org/en/stable/

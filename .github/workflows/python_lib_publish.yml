@@ -4,7 +4,7 @@ name: python lib distribution
 on:
   push:
     branches:
-      - main
+      - project_skeleton
 jobs:
   pypi-publish:
     runs-on: ubuntu-latest

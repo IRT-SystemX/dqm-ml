@@ -13,6 +13,7 @@ Usage:
     and evaluates its data completeness.
 """
 import pandas as pd
+import dqm
 from dqm.completeness.metric import DataCompleteness
 
 def main():
@@ -29,13 +30,13 @@ def main():
 
     # Load your data into a pandas DataFrame
     #df = pd.read_csv('path_to_your_data')
-    df = pd.read_csv('../../datasets/features.csv', sep=",")
+    df = pd.read_csv("/home/fadjed/dqm-github/DataQualityMetrics/datasets/features.csv", sep = ",")
 
     # Calculate the overall completeness score for the DataFrame
     overall_score = completeness_evaluator.completeness_tabular(df)
 
     # Calculate the completeness score for a single column
-    column_score = completeness_evaluator.data_completion(df['Car'])
+    column_score = completeness_evaluator.data_completion(df['contrast'])
 
     # Print the results
     print(f'Overall Data Completeness Score: {overall_score}')

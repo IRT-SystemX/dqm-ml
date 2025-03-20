@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+datasets/
 develop-eggs/
 dist/
 downloads/
@@ -15,12 +16,13 @@ eggs/
 .eggs/
 lib/
 lib64/
+notebooks/
+other-files/
 parts/
 sdist/
+share/python-wheels/
 var/
 wheels/
-share/python-wheels/
-other-files/
 *.egg-info/
 .installed.cfg
 *.egg

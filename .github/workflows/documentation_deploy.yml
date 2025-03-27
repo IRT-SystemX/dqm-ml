@@ -33,7 +33,7 @@ jobs:
         python -m pip install --upgrade pip 
         pip install setuptools
         pip install .
-        pip install -r docs/docs_requirements.txt
+        pip install -r docs/docs_req.txt
 
     - name: Build the documentation
       run: |

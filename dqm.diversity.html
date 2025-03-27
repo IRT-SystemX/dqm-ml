@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dqm.diversity package &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=fc837d61"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dqm.domain_gap package" href="dqm.domain_gap.html" />
+    <link rel="prev" title="dqm.completeness package" href="dqm.completeness.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="dqm.html">Package dqm</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="dqm.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">dqm.diversity package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dqm-diversity-main-module">dqm.diversity.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dqm.diversity.metric">dqm.diversity.metric module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dqm.diversity.twe_logger">dqm.diversity.twe_logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dqm.diversity">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.domain_gap.html">dqm.domain_gap package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm.main">dqm.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
+          <li class="breadcrumb-item"><a href="dqm.html">Package dqm</a></li>
+      <li class="breadcrumb-item active">dqm.diversity package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dqm.diversity.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dqm-diversity-package">
+<h1>dqm.diversity package<a class="headerlink" href="#dqm-diversity-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="dqm-diversity-main-module">
+<h2>dqm.diversity.main module<a class="headerlink" href="#dqm-diversity-main-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-dqm.diversity.metric">
+<span id="dqm-diversity-metric-module"></span><h2>dqm.diversity.metric module<a class="headerlink" href="#module-dqm.diversity.metric" title="Link to this heading"></a></h2>
+<p>Diversity Index Calculator</p>
+<p>This module defines the DiversityIndexCalculator class, which
+offers methods to calculate various diversity indices for categorical data.
+These indices are useful in statistical analysis and data science to
+understand the distribution and diversity of categorical data.</p>
+<dl class="simple">
+<dt>Authors:</dt><dd><p>Faouzi ADJED
+Anani DJATO</p>
+</dd>
+<dt>Dependencies:</dt><dd><p>pandas</p>
+</dd>
+<dt>Classes:</dt><dd><p>DiversityIndexCalculator: Provides methods for calculating diversity indices in a dataset.</p>
+</dd>
+</dl>
+<p>Functions: None</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>from metric import DiversityIndexCalculator
+calculator = DiversityIndexCalculator()
+dataset = pandas.Series([…])  # Replace with your data
+simpson_index = calculator.simpson(dataset)
+gini_index = calculator.gini(dataset)</p>
+</dd>
+</dl>
+<p>These methods are useful for ecological, sociological, and
+various other types of categorical data analysis.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.diversity.metric.DiversityIndexCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.diversity.metric.</span></span><span class="sig-name descname"><span class="pre">DiversityIndexCalculator</span></span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.diversity.metric.DiversityIndexCalculator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class provides methods to calculate various diversity
+indices for a given dataset.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.diversity.metric.DiversityIndexCalculator.num">
+<span class="sig-name descname"><span class="pre">num</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.num"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.diversity.metric.DiversityIndexCalculator.num" title="Link to this definition"></a></dt>
+<dd><p>Counts the number of each category in a dataset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.diversity.metric.DiversityIndexCalculator.simpson">
+<span class="sig-name descname"><span class="pre">simpson</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.simpson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.diversity.metric.DiversityIndexCalculator.simpson" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Simpson diversity index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.diversity.metric.DiversityIndexCalculator.prob">
+<span class="sig-name descname"><span class="pre">prob</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.diversity.metric.DiversityIndexCalculator.prob" title="Link to this definition"></a></dt>
+<dd><p>Calculates the frequencies of each category in a dataset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.diversity.metric.DiversityIndexCalculator.gini">
+<span class="sig-name descname"><span class="pre">gini</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.gini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.diversity.metric.DiversityIndexCalculator.gini" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Gini-Simpson index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.diversity.metric.DiversityIndexCalculator.RD">
+<span class="sig-name descname"><span class="pre">RD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.RD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.diversity.metric.DiversityIndexCalculator.RD" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">gini</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.gini"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Compute the Gini-Simpson index, a metric for assessing diversity that
+takes into consideration both the quantity of distinct categories
+and the uniformity of their distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable</strong> (<em>Series</em>) – The data series for which to calculate the Gini-Simpson index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Gini-Simpson index.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>g (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.num"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Calculate the number of each category of a variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable</strong> (<em>Series</em>) – The data series for which to count categories.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The count of each category.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>n (Series)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.prob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Calculate the frequencies of each category in a variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable</strong> (<em>Series</em>) – The data series for which to calculate frequencies.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The frequency of each category.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>p (Series)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">simpson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/metric.html#DiversityIndexCalculator.simpson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Calculate Simpson’s index, which is a measure of diversity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable</strong> (<em>Series</em>) – The data series for which to calculate the Simpson index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Simpson diversity index.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>s (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-dqm.diversity.twe_logger">
+<span id="dqm-diversity-twe-logger-module"></span><h2>dqm.diversity.twe_logger module<a class="headerlink" href="#module-dqm.diversity.twe_logger" title="Link to this heading"></a></h2>
+<p>The confiance_logger module provides a preconfigured logger for logging messages
+with specified formatting and output control. It can log messages to the standard output,
+to a specified file, or both.</p>
+<p>Usage:
+Import the module and get the default logger:
+import twe_logger
+logger = twe_logger.get_logger()</p>
+<blockquote>
+<div><p>If you need a logger with different parameters, call <cite>get_logger</cite> with the desired parameters:</p>
+<blockquote>
+<div><p>logger = twe_logger.get_logger(filename=”my_logs.log”)
+logger = twe_logger.get_logger(name=”my_logger”, level=’debug’,
+filename=’my_logs.log’, output=”both”)</p>
+</div></blockquote>
+<p>Then, use the logger within your code:</p>
+<blockquote>
+<div><p>logger.info(“This is an info message”)
+logger.error(“This is an error message”)</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.diversity.twe_logger.get_logger">
+<span class="sig-prename descclassname"><span class="pre">dqm.diversity.twe_logger.</span></span><span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'twe_logger'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'debug'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/twe_logger.html#get_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.diversity.twe_logger.get_logger" title="Link to this definition"></a></dt>
+<dd><p>Creates and returns a logger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the logger.</p></li>
+<li><p><strong>level</strong> (<em>int</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – The logging level.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the file where the logger should write.</p></li>
+<li><p><strong>output</strong> (<em>str</em><em>, </em><em>optional</em>) – Where should the logger write.
+Can be ‘stdout’, ‘file’, or ‘both’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The logger.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>logging.Logger</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.diversity.twe_logger.log_str_to_level">
+<span class="sig-prename descclassname"><span class="pre">dqm.diversity.twe_logger.</span></span><span class="sig-name descname"><span class="pre">log_str_to_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/diversity/twe_logger.html#log_str_to_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.diversity.twe_logger.log_str_to_level" title="Link to this definition"></a></dt>
+<dd><p>Converts a string to a corresponding logging level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>str_level</strong> (<em>str</em>) – The logging level as a string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The corresponding logging level.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-dqm.diversity">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dqm.diversity" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dqm.completeness.html" class="btn btn-neutral float-left" title="dqm.completeness package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dqm.domain_gap.html" class="btn btn-neutral float-right" title="dqm.domain_gap package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

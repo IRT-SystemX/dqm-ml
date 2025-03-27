@@ -6,19 +6,21 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DataQualityMetrics component documentation &mdash; DataQualityMetrics 1.0 documentation</title>
+  <title>Welcome to DQM’s documentation &mdash; DQM 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f2a433a1"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/documentation_options.js?v=fc837d61"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="💡 Guideline" href="guidelines.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -30,7 +32,7 @@
           
           
           <a href="#" class="icon icon-home">
-            DataQualityMetrics
+            DQM
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -40,18 +42,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">DataQualityMetrics component documentation</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dqm.html">Package dqm</a></li>
 </ul>
-</div>
+
         </div>
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">DataQualityMetrics</a>
+          <a href="#">DQM</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -59,7 +66,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">DataQualityMetrics component documentation</li>
+      <li class="breadcrumb-item active">Welcome to DQM’s documentation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -69,24 +76,186 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="dataqualitymetrics-component-documentation">
-<h1>DataQualityMetrics component documentation<a class="headerlink" href="#dataqualitymetrics-component-documentation" title="Link to this heading"></a></h1>
-<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
-<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
-documentation for details.</p>
-<div class="toctree-wrapper compound">
+  <section id="welcome-to-dqm-s-documentation">
+<h1>Welcome to DQM’s documentation<a class="headerlink" href="#welcome-to-dqm-s-documentation" title="Link to this heading"></a></h1>
+<div align="center">
+    <img src="_static/Logo_ConfianceAI.png" width="20%" alt="ConfianceAI Logo" />
+    <h1 style="font-size: large; font-weight: bold;">DQM</h1>
 </div>
+<div align="center">
+    <a href="#">
+        <img src="https://img.shields.io/badge/Python-3.9-efefef">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/Python-3.10-efefef">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/Python-3.11-efefef">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/Python-3.12-efefef">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/License-MPL-2">
+<p><a class="reference external" href="https://github.com/pylint-dev"><img alt="Code style: Pylint" src="https://img.shields.io/badge/linting-pylint-yellowgreen" /></a>
+<a class="reference external" href="https://flake8.pycqa.org/en/latest/"><img alt="Code style: flake8" src="https://img.shields.io/badge/code%20style-flake8-1c4a6c.svg" /></a></p>
+</div>
+<section id="data-quality-metrics">
+<h2>Data_Quality_Metrics<a class="headerlink" href="#data-quality-metrics" title="Link to this heading"></a></h2>
+<p>Data Quality Metrics called <strong>DQM</strong> is a python library which computes three data inherent metrics and one data-model dependent metrics.</p>
+<p>The data inherent metrics are (defintions from Confiance.ai program):</p>
+<ul class="simple">
+<li><p><strong>Diversity</strong> : Computes the presence in the dataset of all required information defined in the specification (requirements, Operational Design Domain (ODD) … ).</p></li>
+<li><p><strong>Representativeness</strong> : is defined as the conformity of the distribution of the key characteristics of the dataset according to a specification (requirements, ODD.. . )</p></li>
+<li><p><strong>Completeness</strong> : is defiend by the degree to which subject data associated with an entity has values for all expected attributes and related entity instances in a specific context of use.</p></li>
+</ul>
+<p>The data-model dependent metrics are (definition from Confiance. ai program):</p>
+<ul class="simple">
+<li><p><strong>Domain Gap</strong> : In the context of a computer vision task, the Domain Gap (DG) refers to the difference in semantic, textures and shapes between two distributions of images and it can lead to poor performances when a model is trained on a given distribution and then is applied to another one.</p></li>
+</ul>
+<p>For each metric, several approaches are developped to handle the maximum of data types. For more technical and scientific details, you can refer back to this <a class="reference external" href="https://catalog.confiance.ai/records/p46p6-1wt83/files/Scientific_Contribution_For_Data_quality_assessment_metrics_for_Machine_learning_process-v2.pdf?download=1">delivrable</a></p>
+<section id="project-description">
+<h3>Project description<a class="headerlink" href="#project-description" title="Link to this heading"></a></h3>
+<p>Several approches are developped as decscribed in the figure below.</p>
+<img src="_static/library_view.png" width="1024"/>
+<p>In the current version, the approaches developped are:</p>
+<ul class="simple">
+<li><p>Representativeness :</p>
+<ul>
+<li><p>$\chi^2$ goodness of fit test for uniform and normal distibutions.</p></li>
+<li><p>Kolmogorov Smirnov test for uniform and normal distributions.</p></li>
+<li><p>Granular and Relative Theorithecal Entropy GRTE proposed and developed in Confiance.ai program.</p></li>
+</ul>
+</li>
+<li><p>Diversity :</p>
+<ul>
+<li><p>Relative Diverity developed and implemented in Confiance.ai program</p></li>
+<li><p>Gini-Simpson and Simposon indices.</p></li>
+</ul>
+</li>
+<li><p>Completeness :</p>
+<ul>
+<li><p>Ratio of filled inofrmation</p></li>
+</ul>
+</li>
+<li><p>Domain Gap :</p>
+<ul>
+<li><p>MMD</p></li>
+<li><p>CMD</p></li>
+<li><p>Wasserstein</p></li>
+<li><p>H-Divergence</p></li>
+<li><p>FID</p></li>
+<li><p>Kullback-Leiblur MultiVariate Normal distribution</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="references-links">
+<h2>References links<a class="headerlink" href="#references-links" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">chaouche2024dqm</span><span class="p">,</span>
+  <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">DQM</span><span class="p">:</span> <span class="n">Data</span> <span class="n">Quality</span> <span class="n">Metrics</span> <span class="k">for</span> <span class="n">AI</span> <span class="n">components</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">industry</span><span class="p">},</span>
+  <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Chaouche</span><span class="p">,</span> <span class="n">Sabrina</span> <span class="ow">and</span> <span class="n">Randon</span><span class="p">,</span> <span class="n">Yoann</span> <span class="ow">and</span> <span class="n">Adjed</span><span class="p">,</span> <span class="n">Faouzi</span> <span class="ow">and</span> <span class="n">Boudjani</span><span class="p">,</span> <span class="n">Nadira</span> <span class="ow">and</span> <span class="n">Khedher</span><span class="p">,</span> <span class="n">Mohamed</span> <span class="n">Ibn</span><span class="p">},</span>
+  <span class="n">booktitle</span><span class="o">=</span><span class="p">{</span><span class="n">Proceedings</span> <span class="n">of</span> <span class="n">the</span> <span class="n">AAAI</span> <span class="n">Symposium</span> <span class="n">Series</span><span class="p">},</span>
+  <span class="n">volume</span><span class="o">=</span><span class="p">{</span><span class="mi">4</span><span class="p">},</span>
+  <span class="n">number</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span>
+  <span class="n">pages</span><span class="o">=</span><span class="p">{</span><span class="mi">24</span><span class="o">--</span><span class="mi">31</span><span class="p">},</span>
+  <span class="n">year</span><span class="o">=</span><span class="p">{</span><span class="mi">2024</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://hal.science/hal-04719346v1">HAL link</a></p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">💡 Guideline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#set-up-a-clean-virtual-environnement">Set up a clean virtual environnement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#install-the-library-restricted-access">Install the library (restricted access)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#implented-tests">Implented tests:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="completeness.html">🍊 Completeness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="completeness.html#data-completeness-evaluation-description">Data Completeness Evaluation Description</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="completeness.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="completeness.html#components">Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="completeness.html#usage-guide">Usage Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="completeness.html#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="diversity.html">🍎 Diversity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diversity.html#using-the-diversity-analysis-python-scripts">Using the Diversity Analysis Python Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="diversity.html#description">Description:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="diversity.html#components">Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="diversity.html#getting-started">Getting Started</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="domain_gap.html#model-based-metrics-for-domain-gap-estimation-in-image-datasets">Model-Based Metrics for Domain Gap Estimation in Image Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="domain_gap.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_gap.html#quick-start">Quick start</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="domain_gap.html#mmd-computation">MMD computation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="domain_gap.html#class-documentation">Class Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_gap.html#wasserstein1d">Wasserstein1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_gap.html#swd">SWD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_gap.html#pad">PAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_gap.html#fid">FID</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="representativeness.html#description-of-the-use-of-the-representativeness-metrics-scripts">Description of the use of the Representativeness metrics scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="representativeness.html#scripts">Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="representativeness.html#description-of-the-script-utils-py">Description of the script utils.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="representativeness.html#description-of-the-script-metric-py">Description of the script metric.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="representativeness.html#description-of-mup-py-script">Description of mup.py script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="representativeness.html#description-of-main-py-script">Description of main.py script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="representativeness.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dqm.html">Package dqm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.diversity.html">dqm.diversity package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.domain_gap.html">dqm.domain_gap package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm.main">dqm.main module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dqm.html#dqm.main.hello"><code class="docutils literal notranslate"><span class="pre">hello()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="guidelines.html" class="btn btn-neutral float-right" title="💡 Guideline" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, IRT-SystemX.</p>
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

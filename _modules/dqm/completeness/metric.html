@@ -1,0 +1,216 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dqm.completeness.metric &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dqm.html">Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dqm.completeness.metric</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dqm.completeness.metric</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Data Completeness Evaluation Module</span>
+
+<span class="sd">This module provides tools to assess the completeness of tabular data. It is</span>
+<span class="sd">especially useful in data preprocessing and cleaning stages of a data analysis</span>
+<span class="sd">workflow. The module includes a class, DataCompleteness, with methods to</span>
+<span class="sd">calculate completeness scores for dataframes and individual columns.</span>
+<span class="sd">These methods help in identifying columns with missing data and quantifying</span>
+<span class="sd">the extent of missingness.</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    Faouzi ADJED</span>
+<span class="sd">    Anani DJATO</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    DataCompleteness: A class that encapsulates the methods for evaluating data completeness.</span>
+
+<span class="sd">Methods:</span>
+<span class="sd">    completeness_tabular: Calculates the average completeness score for a dataframe.</span>
+<span class="sd">    data_completion: Calculates the completeness score for an individual data column.</span>
+
+<span class="sd">Dependencies:</span>
+<span class="sd">    numpy</span>
+<span class="sd">    pandas</span>
+<span class="sd">    matplotlib</span>
+<span class="sd">    scipy</span>
+<span class="sd">    seaborn</span>
+<span class="sd">    warnings</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">    The DataCompleteness class can be used as follows:</span>
+
+<span class="sd">    from data_completeness import DataCompleteness</span>
+
+<span class="sd">    # Create an instance of the class</span>
+<span class="sd">    completeness_evaluator = DataCompleteness()</span>
+
+<span class="sd">    # Load your data into a pandas DataFrame</span>
+<span class="sd">    df = pd.read_csv(&#39;your_data_path.csv&#39;)</span>
+
+<span class="sd">    # Calculate the overall completeness score for the DataFrame</span>
+<span class="sd">    overall_score = completeness_evaluator.completeness_tabular(df)</span>
+
+<span class="sd">    # Calculate the completeness score for a single column</span>
+<span class="sd">    column_score = completeness_evaluator.data_completion(df[&#39;your_column&#39;])</span>
+
+<span class="sd">    # Print the results</span>
+<span class="sd">    print(f&#39;Overall Data Completeness Score: {overall_score}&#39;)</span>
+<span class="sd">    print(f&#39;Completeness Score for Column: {column_score}&#39;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<div class="viewcode-block" id="DataCompleteness">
+<a class="viewcode-back" href="../../../dqm.completeness.html#dqm.completeness.metric.DataCompleteness">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataCompleteness</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class provides methods to evaluate the completeness of tabular data.</span>
+
+<span class="sd">    It includes methods to calculate completeness scores for individual columns and</span>
+<span class="sd">    for entire dataframes by assessing the presence of non-null data.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        completeness_tabular: Calculate the average completeness score of a dataframe.</span>
+<span class="sd">        data_completion: Calculate the completeness score of a single data column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DataCompleteness.completeness_tabular">
+<a class="viewcode-back" href="../../../dqm.completeness.html#dqm.completeness.metric.DataCompleteness.completeness_tabular">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">completeness_tabular</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the average completeness score of the entire dataframe.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (pd.DataFrame): The dataframe to be evaluated for completeness.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            score_total(float): The average completeness score of</span>
+<span class="sd">                all columns in the dataframe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">score_total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">score_total</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">])</span>
+        <span class="n">score_total</span> <span class="o">=</span> <span class="n">score_total</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">score_total</span></div>
+
+
+<div class="viewcode-block" id="DataCompleteness.data_completion">
+<a class="viewcode-back" href="../../../dqm.completeness.html#dqm.completeness.metric.DataCompleteness.data_completion">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the completeness score of a single data column.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (pd.Series): The data column to be evaluated for completeness.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            completeness_score(float): The completeness score of the column,</span>
+<span class="sd">                calculated as the ratio of non-null entries to total entries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">processed_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">processed_data</span><span class="p">):</span>
+            <span class="n">completeness_score</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">completeness_score</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">processed_data</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">completeness_score</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dqm.diversity.metric &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dqm.html">Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dqm.diversity.metric</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dqm.diversity.metric</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Diversity Index Calculator</span>
+
+<span class="sd">This module defines the DiversityIndexCalculator class, which</span>
+<span class="sd">offers methods to calculate various diversity indices for categorical data.</span>
+<span class="sd">These indices are useful in statistical analysis and data science to</span>
+<span class="sd">understand the distribution and diversity of categorical data.</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    Faouzi ADJED</span>
+<span class="sd">    Anani DJATO</span>
+
+<span class="sd">Dependencies:</span>
+<span class="sd">    pandas</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    DiversityIndexCalculator: Provides methods for calculating diversity indices in a dataset.</span>
+
+<span class="sd">Functions: None</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">    from metric import DiversityIndexCalculator</span>
+<span class="sd">    calculator = DiversityIndexCalculator()</span>
+<span class="sd">    dataset = pandas.Series([...])  # Replace with your data</span>
+<span class="sd">    simpson_index = calculator.simpson(dataset)</span>
+<span class="sd">    gini_index = calculator.gini(dataset)</span>
+
+<span class="sd">These methods are useful for ecological, sociological, and</span>
+<span class="sd">various other types of categorical data analysis.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<div class="viewcode-block" id="DiversityIndexCalculator">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiversityIndexCalculator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class provides methods to calculate various diversity</span>
+<span class="sd">    indices for a given dataset.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        num: Counts the number of each category in a dataset.</span>
+<span class="sd">        simpson: Calculates the Simpson diversity index.</span>
+<span class="sd">        prob: Calculates the frequencies of each category in a dataset.</span>
+<span class="sd">        gini: Calculates the Gini-Simpson index.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiversityIndexCalculator.num">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.num">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">num</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the number of each category of a variable.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            variable (Series): The data series for which to count categories.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            n (Series): The count of each category.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">n</span></div>
+
+
+<div class="viewcode-block" id="DiversityIndexCalculator.simpson">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.simpson">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">simpson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate Simpson&#39;s index, which is a measure of diversity.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            variable (Series): The data series for which to calculate the Simpson index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            s (float): The Simpson diversity index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+<div class="viewcode-block" id="DiversityIndexCalculator.prob">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.prob">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the frequencies of each category in a variable.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            variable (Series): The data series for which to calculate frequencies.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            p (Series): The frequency of each category.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="DiversityIndexCalculator.gini">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.gini">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gini</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Gini-Simpson index, a metric for assessing diversity that</span>
+<span class="sd">        takes into consideration both the quantity of distinct categories</span>
+<span class="sd">        and the uniformity of their distribution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            variable (Series): The data series for which to calculate the Gini-Simpson index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            g (float): The Gini-Simpson index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prob</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">g</span></div>
+
+
+<div class="viewcode-block" id="DiversityIndexCalculator.RD">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.RD">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">RD</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

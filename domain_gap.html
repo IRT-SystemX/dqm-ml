@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍋 Domain gap &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=fc837d61"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="🍓 Representativeness" href="representativeness.html" />
+    <link rel="prev" title="🍎 Diversity" href="diversity.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">🍋 Domain gap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#model-based-metrics-for-domain-gap-estimation-in-image-datasets">Model-Based Metrics for Domain Gap Estimation in Image Datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start">Quick start</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#source-and-target-domain-inputs">source and target domain inputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-use-our-library">How to use our library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model">Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metrics">Metrics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quick-overview">Quick Overview:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mmd-computation">MMD computation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#class-documentation">Class Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wasserstein1d">Wasserstein1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#swd">SWD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pad">PAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fid">FID</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dqm.html">Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">🍋 Domain gap</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/domain_gap.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="domain-gap">
+<span id="id1"></span><h1>🍋 Domain gap<a class="headerlink" href="#domain-gap" title="Link to this heading"></a></h1>
+<section id="model-based-metrics-for-domain-gap-estimation-in-image-datasets">
+<h2>Model-Based Metrics for Domain Gap Estimation in Image Datasets<a class="headerlink" href="#model-based-metrics-for-domain-gap-estimation-in-image-datasets" title="Link to this heading"></a></h2>
+<section id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h3>
+<p>In the context of machine learning, the domain gap refers to the discrepancy between the source and target domains, especially in visual recognition tasks where models trained on one dataset may not generalize well to another. This gap can arise due to differences in data distributions, such as variations in lighting conditions, image resolution, camera angles, object occlusion, and background noise.</p>
+</section>
+<section id="quick-start">
+<h3>Quick start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h3>
+<section id="source-and-target-domain-inputs">
+<h4>source and target domain inputs<a class="headerlink" href="#source-and-target-domain-inputs" title="Link to this heading"></a></h4>
+<p>Source and target datasets have to be provided as path folder in Json configuration file. Those path msut contains only image extension files (.png, .jpg, …) compatible with PIL (pillow) library.</p>
+</section>
+<section id="how-to-use-our-library">
+<h4>How to use our library<a class="headerlink" href="#how-to-use-our-library" title="Link to this heading"></a></h4>
+<p>We proposed 2 approaches to use our implemented metrics. The first appraoch consists of importing the desired metrics class and use it a notebook or script in your python code. To use a metric, import it’s class and create an instance in your python file, then create a dictionary object like those provided in cfg/metric/metric.json. Then compute with the compute function of the metrics.</p>
+<p>The second approach is to use a metric through CLI, with the main.py script : <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">main.py</span> <span class="pre">--cfg</span> <span class="pre">cfg.json</span></code>. Note that a collection of config files is available in “cfg” folder.</p>
+<!---
+### More than two datasets to measure (Will be refactored/ work only on CMD)
+You can provide with the `--tsk` command line argument a task list that contain a list of data, a list of features and a list of metric to compute. See the `cfg/task_list.json` example
+--->
+</section>
+<section id="model">
+<h4>Model<a class="headerlink" href="#model" title="Link to this heading"></a></h4>
+<p>Model backbone and (optionally) associated feature extraction can be provided.
+Currently every models available on torch can be used as feature extraction, their default weights are based on Imagenet Dataset.
+!! WARNING !! Each metric need specific input to compute, we recommand to use default configuration file to avoid conflict between feature extraction model and metric.</p>
+</section>
+<section id="metrics">
+<h4>Metrics<a class="headerlink" href="#metrics" title="Link to this heading"></a></h4>
+<p>Our current domain gap metric collection:</p>
+<ul class="simple">
+<li><p>Central Mean Discrepancy of order k</p></li>
+<li><p>Kullback Leiblur - divergence with features modelized as a MultiVariate Normal distribution with diagonal covariance.</p></li>
+<li><p>Maximum Mean Discrepancy</p></li>
+<li><p>Wasserstein Distance 1D</p></li>
+<li><p>Sliced Wasserstein distance</p></li>
+<li><p>Proxy A Distance</p></li>
+<li><p>Frechet Inception Distance</p></li>
+</ul>
+</section>
+<section id="quick-overview">
+<h4>Quick Overview:<a class="headerlink" href="#quick-overview" title="Link to this heading"></a></h4>
+<section id="cmd">
+<h5>CMD:<a class="headerlink" href="#cmd" title="Link to this heading"></a></h5>
+<p>Metric which captures high-order central moments statistics beyond the mean (1st order) and variance (2nd order) like skewness (3rd order) or kurtosis (4th order) and measure the discrepancies considering 2 distributions.</p>
+</section>
+<section id="klmvn">
+<h5>KLMVN<a class="headerlink" href="#klmvn" title="Link to this heading"></a></h5>
+<p>Measure the shape and entropy between two multivariate normal distributions, estimating how a distribution diverge from another.</p>
+</section>
+<section id="mmd-maximum-mean-discrepancy-class">
+<h5>MMD (Maximum Mean Discrepancy) Class<a class="headerlink" href="#mmd-maximum-mean-discrepancy-class" title="Link to this heading"></a></h5>
+<section id="overview">
+<h6>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h6>
+<p>The MMD (Maximum Mean Discrepancy) Python module is designed for statistical analysis,
+particularly in computing the discrepancy between two data distributions. This module
+provides a flexible and efficient way to compare distributions using PyTorch tensors,
+making it ideal for applications in machine learning and data science.</p>
+<p>The module offers support for various kernel functions including linear,
+Radial Basis Function (RBF), and polynomial kernels.
+This versatility allows users to choose the most appropriate kernel for their specific data analysis task.</p>
+</section>
+<section id="features">
+<h6>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h6>
+<p>Kernel Flexibility: Supports linear, RBF, and polynomial kernels.
+Device Compatibility: Works with computations on both CPU and GPU devices.
+PyTorch Integration: Seamlessly integrates with PyTorch tensors for efficient computation.</p>
+</section>
+<section id="dependencies">
+<h6>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h6>
+<p>torch: Required for tensor operations and computations.
+twe_logger: A custom logger for logging events and errors
+(must be available in the PYTHONPATH or in the same directory).</p>
+</section>
+<section id="usage">
+<h6>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h6>
+<ul>
+<li><p>Initialization
+First, create an instance of the MMD class by specifying the desired kernel and computing device.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  from mmd import MMD
+
+  mmd_computer = MMD(kernel=&#39;rbf&#39;, device=&#39;cpu&#39;)
+</pre></div>
+</div>
+</li>
+<li><p>Computing MMD
+To compute the MMD between two samples, use the compute method with your data tensors.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> import torch
+
+ # Sample tensors
+ x = torch.rand(10, 5)  # Sample tensor x
+ y = torch.rand(10, 5)  # Sample tensor y
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+</section>
+<section id="mmd-computation">
+<h2>MMD computation<a class="headerlink" href="#mmd-computation" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    mmd_value = mmd_computer.compute(x, y)
+    print(&quot;MMD Value:&quot;, mmd_value)
+</pre></div>
+</div>
+<section id="class-documentation">
+<h3>Class Documentation<a class="headerlink" href="#class-documentation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>class MMD
+A class for computing the Maximum Mean Discrepancy (MMD) between two samples.
+MMD is a measure of the difference between two probability distributions based on samples from these distributions.</p>
+<ul>
+<li><p>Attributes</p>
+<ul>
+<li><p>kernel (str): The type of kernel used for computation (options: ‘linear’, ‘rbf’, ‘poly’).</p></li>
+<li><p>device (str): The computing device (‘cpu’ or ‘cuda’).</p></li>
+</ul>
+</li>
+<li><p>Methods</p>
+<ul>
+<li><p><strong>init</strong>(self, kernel, device=’cpu’): Initializes the MMD object.</p></li>
+<li><p>kernel(self): Getter for the kernel attribute.</p></li>
+<li><p>kernel(self, value): Setter for the kernel attribute.</p></li>
+<li><p>device(self): Getter for the device attribute.</p></li>
+<li><p>device(self, value): Setter for the device attribute.</p></li>
+<li><p>__rbf_kernel(self, x, y, gamma): Private method to compute the RBF kernel.</p></li>
+<li><p>__polynomial_kernel(self, x, y, params): Private method to compute the polynomial kernel.</p></li>
+<li><p>compute(self, x, y, **kwargs): Computes the MMD value between two samples.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!---
+## License
+This MMD module is open-sourced and freely available for modification and distribution,
+keeping in mind the credits to the original authors
+--->
+</section>
+<section id="wasserstein1d">
+<h3>Wasserstein1D<a class="headerlink" href="#wasserstein1d" title="Link to this heading"></a></h3>
+<p>Estimate a dsitance using Earth Mover distance algorithm: how much 2 normal distribution are differents considering distributions means.</p>
+</section>
+<section id="swd">
+<h3>SWD<a class="headerlink" href="#swd" title="Link to this heading"></a></h3>
+<p>Compute a distance between two distribution considering only the two most different embeddings features components which have highest eigen values.</p>
+</section>
+<section id="pad">
+<h3>PAD<a class="headerlink" href="#pad" title="Link to this heading"></a></h3>
+<p>Evaluate how well a proxy classifier can distinguish between 2 distributions embeddings by returning the mean of the proxy classifer performance while it  discriminate between two distribution features generated with multiple features extractor model.</p>
+</section>
+<section id="fid">
+<h3>FID<a class="headerlink" href="#fid" title="Link to this heading"></a></h3>
+<p>Measurement using mean and covariance between 2 distributions Inceptionv3 embeddings.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="diversity.html" class="btn btn-neutral float-left" title="🍎 Diversity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="representativeness.html" class="btn btn-neutral float-right" title="🍓 Representativeness" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

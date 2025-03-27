@@ -1,0 +1,1560 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dqm.html">Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/diversity_tests.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p>Texte expliquant comment ça fonctionne et de ce dont on a besoin</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">diversity</span>
+</pre></div>
+</div>
+</div>
+<p>Data Preprocessing</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../vdp_image_train_and_test_v2.csv&quot;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>image</th>
+      <th>camera</th>
+      <th>sequence</th>
+      <th>environment</th>
+      <th>country</th>
+      <th>sky_cover</th>
+      <th>surface_condition</th>
+      <th>timestamp</th>
+      <th>lighting_level</th>
+      <th>climatic_conditions</th>
+      <th>...</th>
+      <th>Traffic_light_unknown</th>
+      <th>Traffic_light_green</th>
+      <th>Bicycle</th>
+      <th>Other_mobile</th>
+      <th>Person_group</th>
+      <th>Bus</th>
+      <th>Trailer</th>
+      <th>Caravan</th>
+      <th>Train</th>
+      <th>unknown</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>20170320_144339_cam_0_00011702.jpg</td>
+      <td>FV</td>
+      <td>20170320_144339</td>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>dry</td>
+      <td>0</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>20170320_144339_cam_0_00011708.jpg</td>
+      <td>FV</td>
+      <td>20170320_144339</td>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>dry</td>
+      <td>1</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20170320_144339_cam_0_00011714.jpg</td>
+      <td>FV</td>
+      <td>20170320_144339</td>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>dry</td>
+      <td>2</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>20170320_144339_cam_0_00011720.jpg</td>
+      <td>FV</td>
+      <td>20170320_144339</td>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>dry</td>
+      <td>3</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>20170320_144339_cam_0_00011726.jpg</td>
+      <td>FV</td>
+      <td>20170320_144339</td>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>dry</td>
+      <td>4</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 32 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(124020, 32)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;image&#39;, &#39;camera&#39;, &#39;sequence&#39;, &#39;environment&#39;, &#39;country&#39;, &#39;sky_cover&#39;,
+       &#39;surface_condition&#39;, &#39;timestamp&#39;, &#39;lighting_level&#39;,
+       &#39;climatic_conditions&#39;, &#39;surface_type&#39;, &#39;isTrain&#39;, &#39;Car&#39;, &#39;Van&#39;, &#39;Truck&#39;,
+       &#39;Other_occluding&#39;, &#39;Traffic_sign&#39;, &#39;Motorcycle&#39;, &#39;Person&#39;,
+       &#39;Vehicle_group&#39;, &#39;Traffic_light_yellow&#39;, &#39;Traffic_light_red&#39;,
+       &#39;Traffic_light_unknown&#39;, &#39;Traffic_light_green&#39;, &#39;Bicycle&#39;,
+       &#39;Other_mobile&#39;, &#39;Person_group&#39;, &#39;Bus&#39;, &#39;Trailer&#39;, &#39;Caravan&#39;, &#39;Train&#39;,
+       &#39;unknown&#39;],
+      dtype=&#39;object&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+image                    object
+camera                   object
+sequence                 object
+environment              object
+country                  object
+sky_cover                object
+surface_condition        object
+timestamp                 int64
+lighting_level           object
+climatic_conditions      object
+surface_type             object
+isTrain                    bool
+Car                       int64
+Van                       int64
+Truck                     int64
+Other_occluding           int64
+Traffic_sign              int64
+Motorcycle                int64
+Person                    int64
+Vehicle_group             int64
+Traffic_light_yellow      int64
+Traffic_light_red         int64
+Traffic_light_unknown     int64
+Traffic_light_green       int64
+Bicycle                   int64
+Other_mobile              int64
+Person_group              int64
+Bus                       int64
+Trailer                   int64
+Caravan                   int64
+Train                     int64
+unknown                   int64
+dtype: object
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+image                    0
+camera                   0
+sequence                 0
+environment              0
+country                  0
+sky_cover                0
+surface_condition        0
+timestamp                0
+lighting_level           0
+climatic_conditions      0
+surface_type             0
+isTrain                  0
+Car                      0
+Van                      0
+Truck                    0
+Other_occluding          0
+Traffic_sign             0
+Motorcycle               0
+Person                   0
+Vehicle_group            0
+Traffic_light_yellow     0
+Traffic_light_red        0
+Traffic_light_unknown    0
+Traffic_light_green      0
+Bicycle                  0
+Other_mobile             0
+Person_group             0
+Bus                      0
+Trailer                  0
+Caravan                  0
+Train                    0
+unknown                  0
+dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>timestamp</th>
+      <td>124020.0</td>
+      <td>166.508200</td>
+      <td>149.113025</td>
+      <td>0.0</td>
+      <td>62.0</td>
+      <td>124.0</td>
+      <td>234.0</td>
+      <td>899.0</td>
+    </tr>
+    <tr>
+      <th>Car</th>
+      <td>124020.0</td>
+      <td>7.122787</td>
+      <td>4.614932</td>
+      <td>0.0</td>
+      <td>4.0</td>
+      <td>6.0</td>
+      <td>10.0</td>
+      <td>41.0</td>
+    </tr>
+    <tr>
+      <th>Van</th>
+      <td>124020.0</td>
+      <td>0.880140</td>
+      <td>1.171204</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>9.0</td>
+    </tr>
+    <tr>
+      <th>Truck</th>
+      <td>124020.0</td>
+      <td>0.636373</td>
+      <td>1.121335</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>Other_occluding</th>
+      <td>124020.0</td>
+      <td>0.385591</td>
+      <td>1.355415</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>23.0</td>
+    </tr>
+    <tr>
+      <th>Traffic_sign</th>
+      <td>124020.0</td>
+      <td>1.942130</td>
+      <td>2.882223</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>37.0</td>
+    </tr>
+    <tr>
+      <th>Motorcycle</th>
+      <td>124020.0</td>
+      <td>0.609611</td>
+      <td>1.432627</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>Person</th>
+      <td>124020.0</td>
+      <td>4.113006</td>
+      <td>5.809231</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>6.0</td>
+      <td>62.0</td>
+    </tr>
+    <tr>
+      <th>Vehicle_group</th>
+      <td>124020.0</td>
+      <td>0.655685</td>
+      <td>1.096322</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>Traffic_light_yellow</th>
+      <td>124020.0</td>
+      <td>0.014562</td>
+      <td>0.151159</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>Traffic_light_red</th>
+      <td>124020.0</td>
+      <td>0.138413</td>
+      <td>0.466610</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>Traffic_light_unknown</th>
+      <td>124020.0</td>
+      <td>0.083535</td>
+      <td>0.377576</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>Traffic_light_green</th>
+      <td>124020.0</td>
+      <td>0.182664</td>
+      <td>0.542280</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>Bicycle</th>
+      <td>124020.0</td>
+      <td>0.452371</td>
+      <td>1.177584</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>Other_mobile</th>
+      <td>124020.0</td>
+      <td>0.219239</td>
+      <td>1.009973</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <th>Person_group</th>
+      <td>124020.0</td>
+      <td>0.199202</td>
+      <td>0.727278</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>Bus</th>
+      <td>124020.0</td>
+      <td>0.407370</td>
+      <td>0.885255</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>Trailer</th>
+      <td>124020.0</td>
+      <td>0.024335</td>
+      <td>0.162542</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>Caravan</th>
+      <td>124020.0</td>
+      <td>0.026181</td>
+      <td>0.190231</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>Train</th>
+      <td>124020.0</td>
+      <td>0.032301</td>
+      <td>0.268226</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>unknown</th>
+      <td>124020.0</td>
+      <td>0.000008</td>
+      <td>0.002840</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;image&#39;</span><span class="p">,</span><span class="s1">&#39;camera&#39;</span><span class="p">,</span><span class="s1">&#39;sequence&#39;</span><span class="p">,</span><span class="s1">&#39;timestamp&#39;</span><span class="p">,</span><span class="s1">&#39;surface_condition&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>environment</th>
+      <th>country</th>
+      <th>sky_cover</th>
+      <th>lighting_level</th>
+      <th>climatic_conditions</th>
+      <th>surface_type</th>
+      <th>isTrain</th>
+      <th>Car</th>
+      <th>Van</th>
+      <th>Truck</th>
+      <th>...</th>
+      <th>Traffic_light_unknown</th>
+      <th>Traffic_light_green</th>
+      <th>Bicycle</th>
+      <th>Other_mobile</th>
+      <th>Person_group</th>
+      <th>Bus</th>
+      <th>Trailer</th>
+      <th>Caravan</th>
+      <th>Train</th>
+      <th>unknown</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>11</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>10</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>10</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>9</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>8</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 27 columns</p>
+</div></div>
+</div>
+<p>Diversité</p>
+<p>Simpson index</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">,</span><span class="s1">&#39;Simpson&#39;</span><span class="p">,</span><span class="s1">&#39;Gini&#39;</span><span class="p">])</span>
+<span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Variables</th>
+      <th>Simpson</th>
+      <th>Gini</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">simpson</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">gini</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="n">i</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">g</span><span class="p">]],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">,</span><span class="s1">&#39;Simpson&#39;</span><span class="p">,</span><span class="s1">&#39;Gini&#39;</span><span class="p">])</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">res</span><span class="p">,</span><span class="n">r</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Variables</th>
+      <th>Simpson</th>
+      <th>Gini</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>environment</td>
+      <td>0.286694</td>
+      <td>0.286692</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>country</td>
+      <td>0.651782</td>
+      <td>0.651777</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>sky_cover</td>
+      <td>0.567566</td>
+      <td>0.567561</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>lighting_level</td>
+      <td>0.363462</td>
+      <td>0.363459</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>climatic_conditions</td>
+      <td>0.028321</td>
+      <td>0.028320</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>surface_type</td>
+      <td>0.301047</td>
+      <td>0.301045</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>isTrain</td>
+      <td>0.359761</td>
+      <td>0.359758</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Car</td>
+      <td>0.932339</td>
+      <td>0.932331</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Van</td>
+      <td>0.651716</td>
+      <td>0.651711</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Truck</td>
+      <td>0.538864</td>
+      <td>0.538860</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Other_occluding</td>
+      <td>0.243207</td>
+      <td>0.243205</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Traffic_sign</td>
+      <td>0.756128</td>
+      <td>0.756122</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Motorcycle</td>
+      <td>0.467221</td>
+      <td>0.467217</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Person</td>
+      <td>0.851241</td>
+      <td>0.851234</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Vehicle_group</td>
+      <td>0.552858</td>
+      <td>0.552854</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Traffic_light_yellow</td>
+      <td>0.022071</td>
+      <td>0.022071</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Traffic_light_red</td>
+      <td>0.183493</td>
+      <td>0.183491</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Traffic_light_unknown</td>
+      <td>0.114764</td>
+      <td>0.114763</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Traffic_light_green</td>
+      <td>0.224319</td>
+      <td>0.224317</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Bicycle</td>
+      <td>0.388734</td>
+      <td>0.388731</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Other_mobile</td>
+      <td>0.155205</td>
+      <td>0.155204</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Person_group</td>
+      <td>0.206770</td>
+      <td>0.206768</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Bus</td>
+      <td>0.415832</td>
+      <td>0.415829</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Trailer</td>
+      <td>0.045067</td>
+      <td>0.045067</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Caravan</td>
+      <td>0.043525</td>
+      <td>0.043525</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Train</td>
+      <td>0.049888</td>
+      <td>0.049888</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>unknown</td>
+      <td>0.000016</td>
+      <td>0.000016</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">],</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Simpson&#39;</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Simpson&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">],</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Simpson&#39;</span><span class="p">],</span><span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">],</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Gini&#39;</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gini-Simpson&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">],</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;Gini&#39;</span><span class="p">],</span><span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="c1"># Simpson 0 diversité maximale</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7fbfca22aca0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_diversity_tests_17_1.png" src="../_images/examples_diversity_tests_17_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">dictVal</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">ligne</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dictVal</span><span class="p">:</span>
+            <span class="n">dictVal</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dictVal</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ligne</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="o">**</span><span class="n">dictVal</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span> <span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="p">)})</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>environment</th>
+      <th>country</th>
+      <th>sky_cover</th>
+      <th>lighting_level</th>
+      <th>climatic_conditions</th>
+      <th>surface_type</th>
+      <th>isTrain</th>
+      <th>Car</th>
+      <th>Van</th>
+      <th>Truck</th>
+      <th>...</th>
+      <th>Traffic_light_green</th>
+      <th>Bicycle</th>
+      <th>Other_mobile</th>
+      <th>Person_group</th>
+      <th>Bus</th>
+      <th>Trailer</th>
+      <th>Caravan</th>
+      <th>Train</th>
+      <th>unknown</th>
+      <th>p</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Urban</td>
+      <td>US</td>
+      <td>Clear</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>10</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.001266</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Highway</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000903</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Clear</td>
+      <td>Dawn/Dusk/Low_light</td>
+      <td>Dry</td>
+      <td>Cobbled/Paving</td>
+      <td>False</td>
+      <td>4</td>
+      <td>2</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000839</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Rural</td>
+      <td>DE2</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>1</td>
+      <td>3</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000645</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Highway</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000645</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>75808</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000008</td>
+    </tr>
+    <tr>
+      <th>75809</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000008</td>
+    </tr>
+    <tr>
+      <th>75810</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000008</td>
+    </tr>
+    <tr>
+      <th>75811</th>
+      <td>Urban</td>
+      <td>FR</td>
+      <td>Cloudy</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>True</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000008</td>
+    </tr>
+    <tr>
+      <th>75812</th>
+      <td>Urban</td>
+      <td>US</td>
+      <td>Overcast</td>
+      <td>Daylight/Bright</td>
+      <td>Dry</td>
+      <td>Asphalt</td>
+      <td>False</td>
+      <td>9</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.000008</td>
+    </tr>
+  </tbody>
+</table>
+<p>75813 rows × 28 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">a</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+6.501544597956315e-11
+</pre></div></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

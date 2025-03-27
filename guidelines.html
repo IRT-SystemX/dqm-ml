@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💡 Guideline &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=fc837d61"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="🍊 Completeness" href="completeness.html" />
+    <link rel="prev" title="Welcome to DQM’s documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">💡 Guideline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#set-up-a-clean-virtual-environnement">Set up a clean virtual environnement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-the-library-restricted-access">Install the library (restricted access)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#implented-tests">Implented tests:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dqm.html">Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">💡 Guideline</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/guidelines.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="guideline">
+<span id="guidelines"></span><h1>💡 Guideline<a class="headerlink" href="#guideline" title="Link to this heading"></a></h1>
+<section id="set-up-a-clean-virtual-environnement">
+<h2>Set up a clean virtual environnement<a class="headerlink" href="#set-up-a-clean-virtual-environnement" title="Link to this heading"></a></h2>
+<p>Validated python version : 3.9.18</p>
+<p>Linux setting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span>
+<span class="n">virtualenv</span> <span class="n">myenv</span>
+<span class="n">source</span> <span class="n">myenv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
+</pre></div>
+</div>
+<p>Windows setting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtual</span> <span class="n">env</span>
+<span class="n">virtualenv</span> <span class="n">myenv</span>
+<span class="o">.</span>\<span class="n">myenv</span>\<span class="n">Scripts</span>\<span class="n">activate</span>
+</pre></div>
+</div>
+</section>
+<section id="install-the-library-restricted-access">
+<h2>Install the library (restricted access)<a class="headerlink" href="#install-the-library-restricted-access" title="Link to this heading"></a></h2>
+<p>You can install it by a direct downloading from PyPi using the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">dqm</span>
+</pre></div>
+</div>
+<p>You can installing it from it github sources by launching the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">IRT</span><span class="o">-</span><span class="n">SystemX</span><span class="o">/</span><span class="n">DataQualityMetrics</span>
+</pre></div>
+</div>
+<p>If you got the source code as a zip file, you can install the library from the root directory of the archive by typing :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>For detailed informations about implemented metrics see the metrics dedied sections:</p>
+<ul class="simple">
+<li><p>Completness</p></li>
+<li><p>Diversity</p></li>
+<li><p>Domain Gap</p></li>
+<li><p>Representativeness</p></li>
+</ul>
+<section id="implented-tests">
+<h3>Implented tests:<a class="headerlink" href="#implented-tests" title="Link to this heading"></a></h3>
+<ul>
+<li><p>All tests are implented by using VDP use case in the file <em>final-tests.ipynb</em></p></li>
+<li><p>For Completeness :</p>
+<ul class="simple">
+<li><p>import the metric <code> from dqm.completeness.metric import DataCompleteness </code></p></li>
+<li><p>call completeenss metric <code> completeness_evaluator = DataCompleteness() </code></p></li>
+<li><p>For the whole dataset (dataframe : df):</p>
+<ul>
+<li><p><code> completeness_evaluator.completeness_tabular(df) </code></p></li>
+</ul>
+</li>
+<li><p>for a specific column :</p>
+<ul>
+<li><p><code> completeness_evaluator.data_completion(df[‘Car’]) </code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>For Representativness :</p>
+<ul class="simple">
+<li><p>import the metric <code> from dqm.representativeness.metric import DistributionAnalyzer </code></p></li>
+<li><p>For normal distribution :</p>
+<ul>
+<li><p><code>analyzer = DistributionAnalyzer(df[‘Car’], 20, ‘normal’) </code></p></li>
+<li><p>$\chi^2$ test :</p>
+<ul>
+<li><p><code> pvalue, intervals_frequencies = analyzer.chisquare_test() </code>, where the <em>pvalue</em> designe the probability value to accepte the null hypothesis and intervals_frenquecies details the theoretical and observed frenquecies in each bin.</p></li>
+</ul>
+</li>
+<li><p>KS test :</p>
+<ul>
+<li><p><code>ks_pvalue = analyzer.kolmogorov()</code>, where <em>ks_pvalue</em> is the pvlaue of the test.</p></li>
+</ul>
+</li>
+<li><p>GRTE method :</p>
+<ul>
+<li><p><code> grte_result, intervals_discretized = analyzer.grte() </code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>These methods can include required normal paramters (mean and standard deviation)</p>
+<ul class="simple">
+<li><p>The same code can be used for <strong>uniform</strong> distibution.</p></li>
+</ul>
+</li>
+<li><p>For diversity :</p>
+<ul class="simple">
+<li><p>import metric : <code>from dqm.diversity.metric import DiversityIndexCalculator </code></p></li>
+<li><p>call the function : <code>metric_calculator = DiversityIndexCalculator() </code></p></li>
+<li><p>Diversity scores :</p>
+<ul>
+<li><p>Simpson index : <code> metric_calculator.simpson(data[‘Car’]) </code></p></li>
+<li><p>Gini-Simpson index : <code>metric_calculator.gini(data[‘Car’]) </code></p></li>
+</ul>
+</li>
+<li><p>Relative diversity :</p>
+<ul>
+<li><p><code> … </code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to DQM’s documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="completeness.html" class="btn btn-neutral float-right" title="🍊 Completeness" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

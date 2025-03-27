@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍓 Representativeness &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=fc837d61"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="modules.html" />
+    <link rel="prev" title="🍋 Domain gap" href="domain_gap.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">🍓 Representativeness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description-of-the-use-of-the-representativeness-metrics-scripts">Description of the use of the Representativeness metrics scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scripts">Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#description-of-the-script-utils-py">Description of the script utils.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#description-of-discretisationparams-class">Description of DiscretisationParams class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description-of-variableanalysis-class">Description of VariableAnalysis class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-of-utilization-of-utils-py-script">Example of utilization of utils.py script</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#description-of-the-script-metric-py">Description of the script metric.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#chisquare-test">chisquare_test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gof">gof</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kolmogorov">kolmogorov</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shannon-entropy">shannon_entropy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#confidence-interval">confidence_interval</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-of-utilization-of-metric-py-script">Example of utilization of metric.py script</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#description-of-mup-py-script">Description of mup.py script</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#class-initialization">Class Initialization:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#description-of-main-py-script">Description of main.py script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dqm.html">Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">🍓 Representativeness</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/representativeness.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="representativeness">
+<span id="id1"></span><h1>🍓 Representativeness<a class="headerlink" href="#representativeness" title="Link to this heading"></a></h1>
+<section id="description-of-the-use-of-the-representativeness-metrics-scripts">
+<h2>Description of the use of the Representativeness metrics scripts<a class="headerlink" href="#description-of-the-use-of-the-representativeness-metrics-scripts" title="Link to this heading"></a></h2>
+<p>This project provides a set of Python scripts for analyzing data representativeness from various perspectives.
+The scripts focus on variable analysis, data distribution, and the identification of Minimal Unstable Patterns (MUPs) in a dataset.</p>
+<p>The Representativeness library primarily consists of three Python scripts and a main script that orchestrates the functionality provided by the others.
+The three scripts are named utils.py, metric.py, and mup.py. The main script, logically named main.py, coordinates the execution of the features
+offered by these scripts. Below a description of each of these scripts:</p>
+</section>
+<section id="scripts">
+<h2>Scripts<a class="headerlink" href="#scripts" title="Link to this heading"></a></h2>
+<section id="description-of-the-script-utils-py">
+<h3>Description of the script utils.py<a class="headerlink" href="#description-of-the-script-utils-py" title="Link to this heading"></a></h3>
+<p>The script provides tools for variable analysis, visualization, and data preparation for statistical tests such as chi-square tests.
+It offers a convenient interface for discretizing variables based on normal or uniform distributions and features functionality to
+generate histograms for observed and expected values.</p>
+<p>The “utils.py” script implements two main classes, “DiscretisationParams” and “VariableAnalysis,” along with several associated functions:</p>
+<section id="description-of-discretisationparams-class">
+<h4>Description of DiscretisationParams class<a class="headerlink" href="#description-of-discretisationparams-class" title="Link to this heading"></a></h4>
+<p>This class is used to define discretization parameters. It takes input data (data) and distribution parameters
+(“distribution_params”), including distribution theory (‘normal’ or ‘uniform’), empirical distribution, mean (mean), and standard deviation (std).
+It provides methods to convert parameters into a dictionary (“to_dict”) and retrieve input data (“get_data”).</p>
+</section>
+<section id="description-of-variableanalysis-class">
+<h4>Description of VariableAnalysis class<a class="headerlink" href="#description-of-variableanalysis-class" title="Link to this heading"></a></h4>
+<p>This class provides functionality for variable analysis, visualization, and discretization. It includes methods such as
+“variable_counting” to count unique values, “countplot” to visualize category frequencies, and “discretization” to discretize a variable.
+Methods like “data_processing_for_chisqure_test” and “delete_na” are intended to process data for statistical tests, handling missing values,
+for example. The “expected_hist” and “observed_hist” methods generate histograms for expected and observed values, respectively.
+The class also contains utility functions such as “uniform_discretization” which discretizes a variable with a uniform distribution,
+and the “discretisation_intervals” function discretizes a set of data into intervals based on empirical distribution and calculates
+observed and expected frequencies for each interval.</p>
+</section>
+<section id="example-of-utilization-of-utils-py-script">
+<h4>Example of utilization of utils.py script<a class="headerlink" href="#example-of-utilization-of-utils-py-script" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    # Importer les classes du script utils.py
+    from utils import VariableAnalysis, DiscretisationParams
+
+    # Exemple d&#39;utilisation de la classe VariableAnalysis
+    variable_analyzer = VariableAnalysis()
+
+    # Exemple d&#39;utilisation de la méthode variable_counting
+    my_variable = pd.Series([1, 2, 2, 3, 3, 3, 4, 4, 4, 4])
+    counts = variable_analyzer.variable_counting(my_variable)
+    print(&quot;Counts of unique values:&quot;)
+    print(counts)
+
+    # Exemple d&#39;utilisation de la méthode countplot (qui affiche un graphique, donc plt.show() est nécessaire)
+    variable_analyzer.countplot(my_variable)
+    plt.show()
+
+    # Instancier la classe DiscretisationParams
+    discretisation_params = DiscretisationParams(
+            data=my_variable,
+            distribution_params={
+                    &#39;theory&#39;: &#39;normal&#39;,
+                    &#39;emprical&#39;: [-1.0, 0.0, 1.0, 2.0],
+                    &#39;mean&#39;: 0.0,
+                    &#39;std&#39;: 1.0
+            }
+    )
+
+    # Exemple d&#39;utilisation de la méthode discretisation_intervals
+    interval_data = variable_analyzer.discretisation_intervals(discretisation_params)
+    if interval_data is not None:
+        print(&quot;Discretization Intervals:&quot;)
+        print(interval_data)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="description-of-the-script-metric-py">
+<h3>Description of the script metric.py<a class="headerlink" href="#description-of-the-script-metric-py" title="Link to this heading"></a></h3>
+<p>The script is designed for analyzing the distribution of data and includes error handling for categorical or boolean variables.
+It also logs relevant information using the dqm.representativeness.twe_logger module.</p>
+<p>The script provides a DistributionAnalyzer class with methods for analyzing data distribution using various statistical tests and measures.
+There are some key functionalities of the class like as follow :</p>
+<section id="chisquare-test">
+<h4>chisquare_test<a class="headerlink" href="#chisquare-test" title="Link to this heading"></a></h4>
+<p>This method performs a chi-square test for goodness of fit on the provided data.
+It supports both normal and uniform distributions.
+The result includes the chi-square test p-value and intervals frequencies</p>
+</section>
+<section id="gof">
+<h4>gof<a class="headerlink" href="#gof" title="Link to this heading"></a></h4>
+<p>It calculates the goodness of fit using the Kolmogorov-Smirnov test
+The result is the goodness of fit (KS) p-value.</p>
+</section>
+<section id="kolmogorov">
+<h4>kolmogorov<a class="headerlink" href="#kolmogorov" title="Link to this heading"></a></h4>
+<p>The method calculates the Kolmogorov-Smirnov test for a chosen distribution. It returns the KS test p-value</p>
+</section>
+<section id="shannon-entropy">
+<h4>shannon_entropy<a class="headerlink" href="#shannon-entropy" title="Link to this heading"></a></h4>
+<p>It calculates Shannon entropy for the provided intervals</p>
+</section>
+<section id="confidence-interval">
+<h4>confidence_interval<a class="headerlink" href="#confidence-interval" title="Link to this heading"></a></h4>
+<p>The method calculates the confidence interval for the provided data</p>
+</section>
+<section id="example-of-utilization-of-metric-py-script">
+<h4>Example of utilization of metric.py script<a class="headerlink" href="#example-of-utilization-of-metric-py-script" title="Link to this heading"></a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    # Import the Necessary modules or class
+    from metric import DistributionAnalyzer
+    from twe_logger import get_logger
+
+    analyzer = DistributionAnalyzer()
+    logger = get_logger()
+
+    # Use the Provided Methods:
+    ## Chi-Square Test Example
+    my_data = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+    bins = 10
+    distribution = &#39;normal&#39;
+    mean = 0
+    std = 1
+
+    result = analyzer.chisquare_test(my_data, bins, distribution, mean, std)
+    if result is not None:
+        p_value, intervals_frequencies = result
+        logger.info(&quot;Chi-Square Test P-Value : %s&quot;, p_value)
+        loggerinfo(&quot;Intervals Frequencies: %s&quot;, intervals_frequencies)
+
+    # Goodness-of-Fit Test Example
+    goodness_of_fit = analyzer.gof(&#39;normal&#39;, intervals_frequencies)
+    if goodness_of_fit is not None:
+        logger.info(&quot;Goodness of Fit (KS) P-Value: %s&quot;, goodness_of_fit)
+
+
+    # Kolmogorov-Smirnov Test Example
+    ks_p_value = analyzer.kolmogorov(my_data, &#39;normal&#39;, mean, std)
+    if ks_p_value is not None:
+        logger.info(&quot;Kolmogorov-Smirnov Test P-Value: %s&quot;, ks_p_value)
+
+
+    # Shannon Entropy Example
+    entropy = analyzer.shannon_entropy(intervals_frequencies)
+    logger.info(&quot;Shannon Entropy: %s&quot;, entropy)
+
+    # Confidence Interval Example
+    confidence_interval, mean = analyzer.confidence_interval(my_data)
+    if confidence_interval is not None:
+        logger.info(&quot;Confidence Interval: %s&quot;, confidence_interval)
+        logger.info(&quot;Mean: %s&quot;, mean)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="description-of-mup-py-script">
+<h3>Description of mup.py script<a class="headerlink" href="#description-of-mup-py-script" title="Link to this heading"></a></h3>
+<p>The script provides a versatile tool for MUP analysis in various datasets, with customizable threshold settings for MUP identification.</p>
+<p>It provides a class called MUPAnalyzer designed for analyzing Minimal Unstable Patterns (MUPs) in a given dataset.
+Here’s a detailed explanation of what the script does:</p>
+<section id="class-initialization">
+<h4>Class Initialization:<a class="headerlink" href="#class-initialization" title="Link to this heading"></a></h4>
+<p>The class is initialized with a constant WILDCARD, which serves as a placeholder for a wildcard value in feature combinations.</p>
+</section>
+<section id="methods">
+<h4>Methods:<a class="headerlink" href="#methods" title="Link to this heading"></a></h4>
+<section id="count-occurrences">
+<h5>count_occurrences:<a class="headerlink" href="#count-occurrences" title="Link to this heading"></a></h5>
+<p>Counts occurrences of a specific combination of feature values in a dataset.</p>
+</section>
+<section id="product">
+<h5>product:<a class="headerlink" href="#product" title="Link to this heading"></a></h5>
+<p>Generates the Cartesian product of feature values.</p>
+</section>
+<section id="compute-mup">
+<h5>compute_mup:<a class="headerlink" href="#compute-mup" title="Link to this heading"></a></h5>
+<p>Identifies Minimal Unstable Patterns (MUPs) in a dataset based on the number of occurrences of each node.
+It traverses the dataset in a depth-first, bottom-up manner.</p>
+</section>
+<section id="default-threshold">
+<h5>default_threshold:<a class="headerlink" href="#default-threshold" title="Link to this heading"></a></h5>
+<p>Calculates a default threshold for MUP identification based on dataset characteristics.</p>
+</section>
+<section id="pruned">
+<h5>pruned:<a class="headerlink" href="#pruned" title="Link to this heading"></a></h5>
+<p>Prunes identified MUPs by removing those that have a parent MUP.</p>
+</section>
+<section id="do-titanic">
+<h5>do_titanic:<a class="headerlink" href="#do-titanic" title="Link to this heading"></a></h5>
+<p>Analyzes MUPs in the Titanic dataset and prints the results.</p>
+</section>
+<section id="do-vdp">
+<h5>do_vdp:<a class="headerlink" href="#do-vdp" title="Link to this heading"></a></h5>
+<p>Analyzes MUPs in a custom dataset (VDP) and prints the results.</p>
+</section>
+<section id="example-of-utilization-of-mup-py-script">
+<h5>Example of utilization of mup.py script<a class="headerlink" href="#example-of-utilization-of-mup-py-script" title="Link to this heading"></a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    # Import the MUPAnalyzer class
+    from mup import MUPAnalyzer
+
+    # Create an instance of MUPAnalyzer
+    analyzer = MUPAnalyzer()
+
+    # Use the methods of the MUPAnalyzer class
+    ## Use the do_titanic method to analyze MUPs in the Titanic dataset
+    analyzer.do_titanic(r&#39;path/to/titanic.csv&#39;)
+
+    ## Use the do_vdp method to analyze MUPs in a custom dataset (e.g., VDP)
+    analyzer.do_vdp(r&#39;path/to/vdp.csv&#39;)
+
+    # Replace &#39;path/to/titanic.csv&#39; and &#39;path/to/vdp.csv&#39; with the actual file paths of your data files
+    # Run the script with bash command (python mup.py) or by other process
+    &quot;&quot;&quot;
+    Make sure to check if all the dependencies mentioned in the script (itertools, math, pandas, tqdm, typing)
+    are installed in your Python environment.
+    You can install them using pip if needed: pip install itertools math pandas tqdm typing
+    &quot;&quot;&quot;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="description-of-main-py-script">
+<h3>Description of main.py script<a class="headerlink" href="#description-of-main-py-script" title="Link to this heading"></a></h3>
+<p>The script defines a main function that demonstrates the usage of classes and functions from three Python scripts:
+utils.py, metric.py, and mup.py. The main() function showcases the capabilities of the modules by creating
+instances of classes and invoking their methods.</p>
+<p>The main() function serves as a central point to showcase and test the functionality provided by these scripts.
+It creates instances of the relevant classes, performs operations on sample data, and logs the results using a logger.</p>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Ensure you have installed all dependencies using the following command (bash):
+pip install -r requirements.txt</p></li>
+<li><p>To perform a comprehensive analysis of variables, distribution, and MUPs on a sample dataset, run the main.py script (bash):
+python main.py</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="domain_gap.html" class="btn btn-neutral float-left" title="🍋 Domain gap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

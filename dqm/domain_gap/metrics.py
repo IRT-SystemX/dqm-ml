@@ -38,7 +38,6 @@ from typing import Dict
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision.models.feature_extraction import create_feature_extractor
 
 from dqm.domain_gap.utils import (
     extract_nth_layer_feature,
@@ -51,22 +50,23 @@ from dqm.domain_gap.utils import (
 from scipy.stats import wasserstein_distance
 from scipy.linalg import sqrtm
 from scipy.linalg import eigh
-from scipy.linalg import pinv, det
 
 
 import ot
 import numpy as np
 
 from sklearn import svm
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from dqm.domain_gap.feature_extractor import FeatureExtractor
 
 
 class Metric:
+    """Base class for defining a metric."""
+
     def __init__(self) -> None:
+        """Initialize the Metric instance."""
         pass
 
     def compute(self) -> float:
+        """Compute the value of the metric."""
         pass
 
 
@@ -74,23 +74,88 @@ class Metric:
 #                      MMD - Maximum Mean Discrepancy                       #
 # ==========================================================================#
 class MMD(Metric):
+    """Maximum Mean Discrepancy metric class defintion"""
 
     def __init__(self) -> None:
         super().__init__()
 
     def __rbf_kernel(self, x, y, gamma: float) -> float:
+        """
+        Computes the Radial Basis Function (RBF) kernel between two sets of vectors.
+
+        Args:
+            x (torch.Tensor): Tensor of shape (N, D), where N is the number of samples.
+            y (torch.Tensor): Tensor of shape (M, D), where M is the number of samples.
+            gamma (float): Kernel coefficient, typically 1 / (2 * sigma^2).
+
+        Returns:
+            torch.Tensor: Kernel matrix of shape (N, M) with RBF similarities.
+        """
         k = torch.cdist(x, y, p=2.0)
         k = -gamma * k
         return torch.exp(k)
 
     def __polynomial_kernel(
         self, x, y, degree: float, gamma: float, coefficient0: float
-    ) -> float:
+    ) -> torch.Tensor:
+        """
+        Computes the Polynomial Kernel between two tensors.
+
+        The polynomial kernel is defined as:
+            K(x, y) = (γ * ⟨x, y⟩ + c) ^ d
+
+        where:
+            - ⟨x, y⟩ is the dot product of `x` and `y`
+            - γ (gamma) is a scaling factor
+            - c (coefficient0) is a bias term
+            - d (degree) is the polynomial degree
+
+        Args:
+            x (torch.Tensor): A tensor of shape (N, D), where N is the number of samples.
+            y (torch.Tensor): A tensor of shape (M, D), where M is the number of samples.
+            degree (float): The degree of the polynomial.
+            gamma (float): The scaling factor for the dot product.
+            coefficient0 (float): The bias term.
+
+        Returns:
+            torch.Tensor: A kernel matrix of shape (N, M) containing polynomial similarities.
+        """
         k = torch.matmul(x, y) * gamma + coefficient0
         return torch.pow(k, degree)
 
     @torch.no_grad()
     def compute(self, cfg) -> float:
+        """
+        Computes a domain gap metric between two datasets using a specified kernel method.
+
+        This function extracts features from source and target datasets using a deep learning model,
+        applies a specified kernel function (linear, RBF, or polynomial), and computes a similarity
+        measure between the datasets.
+
+        Args:
+            cfg (dict): Configuration dictionary containing:
+                - `DATA`:
+                    - `source` (str): Path to the source dataset.
+                    - `target` (str): Path to the target dataset.
+                    - `batch_size` (int): Batch size for dataloaders.
+                    - `width` (int): Width of input images.
+                    - `height` (int): Height of input images.
+                    - `norm_mean` (tuple): Mean for normalization.
+                    - `norm_std` (tuple): Standard deviation for normalization.
+                - `MODEL`:
+                    - `arch` (str): Model architecture.
+                    - `n_layer_feature` (int): Layer from which features are extracted.
+                    - `device` (str): Device to run computations ('cpu' or 'cuda').
+                - `METHOD`:
+                    - `kernel` (str): Kernel type ('linear', 'rbf', 'poly').
+                    - `kernel_params` (dict): Parameters for the chosen kernel.
+
+        Returns:
+            float: Computed domain gap value based on the selected kernel.
+
+        Raises:
+            AssertionError: If source and target datasets have different sizes.
+        """
         source_folder_path = cfg["DATA"]["source"]
         target_folder_path = cfg["DATA"]["target"]
         batch_size = cfg["DATA"]["batch_size"]
@@ -166,6 +231,21 @@ class MMD(Metric):
 
 
 class RMSELoss(nn.Module):
+    """
+    Compute the Root Mean Squared Error (RMSE) loss between the predicted values and the target values.
+
+    This class provides a PyTorch module for calculating the RMSE loss, which is a common metric for
+    evaluating the accuracy of regression models. The RMSE is the square root of the average of squared
+    differences between predicted values and target values.
+
+    Attributes:
+        mse (nn.MSELoss): Mean Squared Error loss module with reduction set to "sum".
+        eps (float): A small value added to the loss to prevent division by zero and ensure numerical stability.
+
+    Methods:
+        forward(yhat, y): Compute the RMSE loss between the predicted values `yhat` and the target values `y`.
+    """
+
     def __init__(self, eps=0):
         super().__init__()
         self.mse = nn.MSELoss(reduction="sum")
@@ -182,6 +262,22 @@ class CMD(Metric):
         super().__init__()
 
     def __get_unbiased(self, n: int, k: int) -> int:
+        """
+        Computes an unbiased normalization factor for higher-order statistical moments.
+
+        This function calculates the product of `(n-1) * (n-2) * ... * (n-k+1)`,
+        which is used to adjust higher-order moment estimations to be unbiased.
+
+        Args:
+            n (int): Total number of samples.
+            k (int): Order of the moment being computed.
+
+        Returns:
+            int: The unbiased normalization factor.
+
+        Raises:
+            AssertionError: If `n <= 0`, `k <= 0`, or `n <= k`.
+        """
         assert n > 0 and k > 0 and n > k
         output = 1
         for i in range(n - 1, n - k, -1):
@@ -199,7 +295,34 @@ class CMD(Metric):
         apply_sigmoid: bool = True,
         unbiased: bool = False,
     ) -> dict:
+        """
+        Computes the first `k` statistical moments of feature maps extracted from a dataset.
 
+        Args:
+            dataloader (torch.utils.data.DataLoader): DataLoader providing batches of input data.
+            feature_extractor (callable): Function or model that extracts features from input data.
+            k (int): Number of moments to compute (e.g., mean, variance, skewness, etc.).
+            device (torch.device): Device on which to perform computations (e.g., "cuda" or "cpu").
+            shapes (dict): Dictionary mapping layer names to their corresponding tensor shapes.
+            axis_config (dict[str, tuple], optional): Dictionary specifying summation and viewing axes.
+                Defaults to `{"sum_axis": (0, 2, 3), "view_axis": (1, -1, 1, 1)}`.
+            apply_sigmoid (bool, optional): Whether to apply a sigmoid function to extracted features.
+                Defaults to True.
+            unbiased (bool, optional): Whether to apply unbiased estimation for higher-order moments.
+                Defaults to False.
+
+        Returns:
+            dict: A dictionary containing computed moments for each layer. The structure is:
+                {
+                    "layer_name": {
+                        0: mean tensor,
+                        1: second moment tensor,
+                        ...
+                        k-1: kth moment tensor
+                    },
+                    ...
+                }
+        """
         # Initialize axis_config if None
         if axis_config is None:
             axis_config = {"sum_axis": (0, 2, 3), "view_axis": (1, -1, 1, 1)}
@@ -268,6 +391,46 @@ class CMD(Metric):
 
     @torch.no_grad()
     def compute(self, cfg) -> float:
+        """
+        Compute the Central Moment Discrepancy (CMD) loss between source and target datasets using a pre-trained model.
+
+        This method calculates the CMD loss, which measures the discrepancy between the distributions of features
+        extracted from source and target datasets. The features are extracted from specified layers of the model,
+        and the loss is computed as a weighted sum of the differences in moments of the feature distributions.
+
+        Args:
+            cfg (Dict): A configuration dictionary containing the following keys:
+                - "DATA": Dictionary with data-related configurations:
+                    - "source" (str): Path to the source folder containing images.
+                    - "target" (str): Path to the target folder containing images.
+                    - "batch_size" (int): The batch size for data loading.
+                    - "width" (int): The width of the images.
+                    - "height" (int): The height of the images.
+                    - "norm_mean" (list of float): Mean values for image normalization.
+                    - "norm_std" (list of float): Standard deviation values for image normalization.
+                - "MODEL": Dictionary with model-related configurations:
+                    - "arch" (str): The architecture of the model to use.
+                    - "n_layer_feature" (list of int): List of layer numbers from which to extract features.
+                    - "feature_extractors_layers_weights" (list of float): Weights for each feature layer.
+                    - "device" (str): The device to run the model on (e.g., "cpu" or "cuda").
+                - "METHOD": Dictionary with method-related configurations:
+                    - "k" (int): The number of moments to consider in the CMD calculation.
+
+        Returns:
+            float: The computed CMD loss between the source and target datasets.
+
+        The method performs the following steps:
+        1. Constructs data loaders for the source and target datasets with specified transformations.
+        2. Loads the model and sets it up on the specified device.
+        3. Extracts features from the specified layers of the model for both datasets.
+        4. Computes the moments of the feature distributions for both datasets.
+        5. Calculates the CMD loss as a weighted sum of the differences in moments.
+        6. Returns the total CMD loss.
+
+        Raises:
+            AssertionError: If the source and target datasets do not have the same number of samples.
+            AssertionError: If the keys of the feature weights dictionary do not match the specified feature layers.
+        """
         source_folder_path = cfg["DATA"]["source"]
         target_folder_path = cfg["DATA"]["target"]
         batch_size = cfg["DATA"]["batch_size"]
@@ -350,13 +513,35 @@ class ProxyADistance(Metric):
         super().__init__()
 
     def adapt_format_like_pred(self, y, pred):
+        """
+        Convert a list of class indices into a one-hot encoded tensor matching the format of the predictions.
+
+        This method takes a list of class indices and converts it into a one-hot encoded tensor that matches the
+        shape and format of the provided predictions tensor. This is useful for comparing ground truth labels
+        with model predictions in a consistent format.
+
+        Args:
+            y (torch.Tensor or list): A 1D tensor or list containing class indices. Each element should be an
+                                     integer representing the class index.
+            pred (torch.Tensor): A 2D tensor containing predicted probabilities or scores for each class.
+                                The shape should be (N, C), where N is the number of samples and C is the
+                                number of classes.
+
+        Returns:
+            torch.Tensor: A one-hot encoded tensor of the same shape as `pred`, where each row has a 1 at the
+                          index of the true class and 0 elsewhere.
+
+        The method performs the following steps:
+        1. Initializes a zero tensor with the same shape as `pred`.
+        2. Iterates over each class index in `y` and sets the corresponding position in the new tensor to 1.
+        """
         # iterate over pred
         new_y_test = torch.zeros_like(pred)
         for i in range(len(y)):
             new_y_test[i][int(y[i])] = 1
         return new_y_test
 
-    def function_pad(self, x, y, eval) -> float:
+    def function_pad(self, x, y, error_metric) -> float:
         """
         Computes the PAD (Presentation Attack Detection) value using SVM classifier.
 
@@ -367,7 +552,7 @@ class ProxyADistance(Metric):
             y_test (np.ndarray): Test labels.
 
         Returns:
-            dict: A dictionary containing PAD, MSE, and MAE values.
+            dict: A dictionary containing PAD either using MSE or MAE metric.
         """
         c = 1
         kernel = "linear"
@@ -377,26 +562,53 @@ class ProxyADistance(Metric):
         adapt_y_test = self.adapt_format_like_pred(y, pred)
 
         # Calculate the MSE
-        if eval == "mse":
+        if error_metric == "mse":
             error = F.mse_loss(adapt_y_test, pred)
-            # pred :  [[0.76 0.24],[0.35 0.65]]
-            # y_test : [0,1]
-            # y_test :[[1.00 0.00],[0.00 1.00]]
 
-        if eval == "mae":
+        # Calculate the MAE
+        if error_metric == "mae":
             error = torch.mean(torch.abs(adapt_y_test - pred))
         pad_value = 2.0 * (1 - 2.0 * error)
 
         return pad_value
 
-    def compute_image_distance(self, cfg: Dict):
+    def compute_image_distance(self, cfg: Dict) -> float:
         """
-        method which compute Proxy as Distance metrics
+        Compute the average image distance between source and target datasets using multiple models.
+
+        This method calculates the average image distance between features extracted from source and target
+        image datasets using multiple pre-trained models. The distance is computed using a specified evaluation
+        function for each model, and the average distance across all models is returned.
+
+        Args:
+            cfg (Dict): A configuration dictionary containing the following keys:
+                - "DATA": Dictionary with data-related configurations:
+                    - "source" (str): Path to the source folder containing images.
+                    - "target" (str): Path to the target folder containing images.
+                    - "batch_size" (int): The batch size for data loading.
+                    - "width" (int): The width of the images.
+                    - "height" (int): The height of the images.
+                    - "norm_mean" (list of float): Mean values for image normalization.
+                    - "norm_std" (list of float): Standard deviation values for image normalization.
+                - "MODEL": Dictionary with model-related configurations:
+                    - "arch" (list of str): List of model architectures to use.
+                    - "n_layer_feature" (int): The layer number from which to extract features.
+                    - "device" (str): The device to run the models on (e.g., "cpu" or "cuda").
+                - "METHOD": Dictionary with method-related configurations:
+                    - "evaluator" (str): The evaluation function to use for computing the distance.
 
         Returns:
-            distance : the Proxy as Distance metrics value
-        """
+            float: The computed average image distance between the source and target datasets across all models.
 
+        The method performs the following steps:
+        1. Constructs data loaders for the source and target datasets with specified transformations.
+        2. Iterates over each model specified in the configuration.
+        3. Loads each model and sets it up on the specified device.
+        4. Extracts features from the specified layer of the model for both datasets.
+        5. Computes the combined features and labels for the source and target datasets.
+        6. Calculates the distance using the specified evaluation function.
+        7. Returns the average distance across all models.
+        """
         source_folder_path = cfg["DATA"]["source"]
         target_folder_path = cfg["DATA"]["target"]
         batch_size = cfg["DATA"]["batch_size"]
@@ -406,7 +618,7 @@ class ProxyADistance(Metric):
         models = cfg["MODEL"]["arch"]
         n_layer_feature = cfg["MODEL"]["n_layer_feature"]
         device = cfg["MODEL"]["device"]
-        eval = cfg["METHOD"]["evaluator"]
+        evaluator = cfg["METHOD"]["evaluator"]
 
         transform = generate_transform(image_size, norm_mean, norm_std)
         source_loader = construct_dataloader(source_folder_path, transform, batch_size)
@@ -431,7 +643,7 @@ class ProxyADistance(Metric):
             )
 
             # Compute pad
-            pad_value = self.function_pad(combined_features, combined_labels, eval)
+            pad_value = self.function_pad(combined_features, combined_labels, evaluator)
 
             sum_pad += pad_value
 
@@ -448,12 +660,63 @@ class Wasserstein:
         super().__init__()
 
     def compute_cov_matrix(self, tensor):
+        """
+        Compute the covariance matrix of a given tensor.
+
+        This method calculates the covariance matrix for a given tensor, which represents a set of feature vectors.
+        The covariance matrix provides a measure of how much the dimensions of the feature vectors vary from the mean
+        with respect to each other.
+
+        Args:
+            tensor (torch.Tensor): A 2D tensor where each row represents a feature vector.
+                                  The tensor should have shape (N, D), where N is the number of samples
+                                  and D is the dimensionality of the features.
+
+        Returns:
+            torch.Tensor: The computed covariance matrix of the feature vectors, with shape (D, D).
+
+        The method performs the following steps:
+        1. Computes the mean vector of the feature vectors.
+        2. Centers the feature vectors by subtracting the mean vector.
+        3. Computes the covariance matrix using the centered feature vectors.
+        """
         mean = torch.mean(tensor, dim=0)
         centered_tensor = tensor - mean
         return torch.mm(centered_tensor.t(), centered_tensor) / (tensor.shape[0] - 1)
 
     def compute_1D_distance(self, cfg):
+        """
+        Compute the average 1D Wasserstein Distance between corresponding features from source and target datasets.
 
+        This method calculates the average 1D Wasserstein Distance between features extracted from source and target
+        image datasets using a pre-trained model. The features are extracted from a specified layer of the model,
+        and the distance is computed for each corresponding feature dimension.
+
+        Args:
+            cfg (dict): A configuration dictionary containing the following keys:
+                - "MODEL": Dictionary with model-related configurations:
+                    - "arch" (str): The architecture of the model to use.
+                    - "device" (str): The device to run the model on (e.g., "cpu" or "cuda").
+                    - "n_layer_feature" (int): The layer number from which to extract features.
+                - "DATA": Dictionary with data-related configurations:
+                    - "width" (int): The width of the images.
+                    - "height" (int): The height of the images.
+                    - "norm_mean" (list of float): Mean values for image normalization.
+                    - "norm_std" (list of float): Standard deviation values for image normalization.
+                    - "batch_size" (int): The batch size for data loading.
+                    - "source" (str): Path to the source folder containing images.
+                    - "target" (str): Path to the target folder containing images.
+
+        Returns:
+            float: The computed average 1D Wasserstein Distance between the source and target image features.
+
+        The method performs the following steps:
+        1. Loads the model and sets it up on the specified device.
+        2. Constructs data loaders for the source and target datasets with specified transformations.
+        3. Extracts features from the specified layer of the model for both datasets.
+        4. Computes the 1D Wasserstein Distance for each corresponding feature dimension.
+        5. Returns the average distance across all feature dimensions.
+        """
         model = cfg["MODEL"]["arch"]
         device = cfg["MODEL"]["device"]
         loaded_model = load_model(model, device)
@@ -486,7 +749,41 @@ class Wasserstein:
         return sum_wass_distance / len(source_features)
 
     def compute_slice_wasserstein_distance(self, cfg):
+        """
+        Compute the Sliced Wasserstein Distance between two sets of image features.
 
+        This method calculates the Sliced Wasserstein Distance between features extracted from source and target
+        image datasets using a pre-trained model. The features are projected onto a lower-dimensional space using
+        the eigenvectors corresponding to the largest eigenvalues of the covariance matrix. The distance is then
+        computed between these projections.
+
+        Args:
+            cfg (dict): A configuration dictionary containing the following keys:
+                - "MODEL": Dictionary with model-related configurations:
+                    - "arch" (str): The architecture of the model to use.
+                    - "device" (str): The device to run the model on (e.g., "cpu" or "cuda").
+                    - "n_layer_feature" (int): The layer number from which to extract features.
+                - "DATA": Dictionary with data-related configurations:
+                    - "width" (int): The width of the images.
+                    - "height" (int): The height of the images.
+                    - "norm_mean" (list of float): Mean values for image normalization.
+                    - "norm_std" (list of float): Standard deviation values for image normalization.
+                    - "batch_size" (int): The batch size for data loading.
+                    - "source" (str): Path to the source folder containing images.
+                    - "target" (str): Path to the target folder containing images.
+
+        Returns:
+            float: The computed Sliced Wasserstein Distance between the source and target image features.
+
+        The method performs the following steps:
+        1. Loads the model and sets it up on the specified device.
+        2. Constructs data loaders for the source and target datasets with specified transformations.
+        3. Extracts features from the specified layer of the model for both datasets.
+        4. Concatenates the features and computes the covariance matrix.
+        5. Computes the eigenvalues and eigenvectors of the covariance matrix.
+        6. Projects the features onto a lower-dimensional space using the eigenvectors.
+        7. Computes the Sliced Wasserstein Distance between the projected features.
+        """
         model = cfg["MODEL"]["arch"]
         device = cfg["MODEL"]["device"]
 
@@ -543,6 +840,28 @@ class FID(Metric):
         self.model = "inception_v3"
 
     def calculate_statistics(self, features: torch.Tensor):
+        """
+        Calculate the mean and covariance matrix of a set of features.
+
+        This method computes the mean vector and the covariance matrix for a given set of features.
+        It converts the features from a PyTorch tensor to a NumPy array for easier manipulation and
+        statistical calculations.
+
+        Args:
+            features (torch.Tensor): A 2D tensor where each row represents a feature vector.
+                                     The tensor should have shape (N, D), where N is the number of
+                                     samples and D is the dimensionality of the features.
+
+        Returns:
+            tuple: A tuple containing:
+                - mu (numpy.ndarray): The mean vector of the features, with shape (D,).
+                - sigma (numpy.ndarray): The covariance matrix of the features, with shape (D, D).
+
+        The function performs the following steps:
+        1. Converts the features tensor to a NumPy array for easier manipulation.
+        2. Computes the mean vector of the features.
+        3. Computes the covariance matrix of the features.
+        """
         # Convert features to numpy for easier manipulation
         features_np = features.detach().numpy()
 
@@ -553,6 +872,38 @@ class FID(Metric):
         return mu, sigma
 
     def compute_image_distance(self, cfg: dict):
+        """
+        Compute the Frechet Inception Distance (FID) between two sets of images.
+
+        This method calculates the FID between images from a source and target dataset using a pre-trained
+        InceptionV3 model to extract features. The FID is a measure of the similarity between two distributions
+        of images, commonly used to evaluate the quality of generated images.
+
+        Args:
+            cfg (dict): A configuration dictionary containing the following keys:
+                - "MODEL": Dictionary with model-related configurations:
+                    - "device" (str): The device to run the model on (e.g., "cpu" or "cuda").
+                    - "n_layer_feature" (int): The layer number from which to extract features.
+                - "DATA": Dictionary with data-related configurations:
+                    - "width" (int): The width of the images.
+                    - "height" (int): The height of the images.
+                    - "norm_mean" (list of float): Mean values for image normalization.
+                    - "norm_std" (list of float): Standard deviation values for image normalization.
+                    - "batch_size" (int): The batch size for data loading.
+                    - "source" (str): Path to the source folder containing images.
+                    - "target" (str): Path to the target folder containing images.
+
+        Returns:
+            torch.Tensor: The computed FID score, representing the distance between the source and target image distributions.
+
+        The method performs the following steps:
+        1. Loads the InceptionV3 model and sets it up on the specified device.
+        2. Constructs data loaders for the source and target datasets with specified transformations.
+        3. Extracts features from the specified layer of the model for both datasets.
+        4. Calculates the mean and covariance of the features for both datasets.
+        5. Computes the FID score using the means and covariances of the features.
+        6. Ensures the FID score is positive by taking the absolute value.
+        """
         device = cfg["MODEL"]["device"]
         n_layer_feature = cfg["MODEL"]["n_layer_feature"]
         img_size = (cfg["DATA"]["width"], cfg["DATA"]["height"])
@@ -601,10 +952,38 @@ class FID(Metric):
 
 
 class KLMVN(Metric):
+    """Instanciate KLMVN class to compute KLMVN metrics"""
+
     def __init__(self):
         super().__init__()
 
     def calculate_statistics(self, features: torch.Tensor):
+        """
+        Calculate the mean and covariance matrix of a set of features.
+
+        This function computes the mean vector and the covariance matrix for a given set of features.
+        It ensures that the feature matrix has full rank, which is necessary for certain statistical
+        operations.
+
+        Args:
+            features (torch.Tensor): A 2D tensor where each row represents a feature vector.
+                                     The tensor should have shape (N, D), where N is the number of
+                                     samples and D is the dimensionality of the features.
+
+        Returns:
+            tuple: A tuple containing:
+                - mu (torch.Tensor): The mean vector of the features, with shape (D,).
+                - sigma (torch.Tensor): The covariance matrix of the features, with shape (D, D).
+
+        Raises:
+            AssertionError: If the feature matrix does not have full rank.
+
+        The function performs the following steps:
+        1. Computes the mean vector of the features.
+        2. Centers the features by subtracting the mean vector.
+        3. Computes the covariance matrix using the centered features.
+        4. Checks the rank of the feature matrix to ensure it has full rank.
+        """
         # Compute the mean of the features
         mu = torch.mean(features, dim=0)
 
@@ -626,10 +1005,50 @@ class KLMVN(Metric):
         return mu, sigma
 
     def regularize_covariance(self, cov_matrix, epsilon=1e-6):
+        """
+        Regularize a covariance matrix by adding a small value to its diagonal elements.
+
+        This function enhances the numerical stability of a covariance matrix by adding a small constant
+        to its diagonal. This is particularly useful when the covariance matrix is nearly singular or
+        when performing operations that require the matrix to be positive definite.
+
+        Args:
+            cov_matrix (numpy.ndarray): The covariance matrix to be regularized. It should be a square matrix.
+            epsilon (float, optional): A small value to add to the diagonal elements of the covariance matrix.
+                                       Default is 1e-6.
+
+        Returns:
+            numpy.ndarray: The regularized covariance matrix with the small value added to its diagonal.
+
+        The function performs the following steps:
+        1. Adds the specified `epsilon` value to the diagonal elements of the input covariance matrix.
+        2. Returns the modified covariance matrix.
+        """
         # Add a small value to the diagonal for numerical stability
         return cov_matrix + epsilon * np.eye(cov_matrix.shape[0])
 
     def klmvn(self, mu1, cov1, mu2, cov2, device):
+        """
+        Compute the Kullback-Leibler (KL) divergence between two multivariate normal distributions.
+
+        This method calculates the KL divergence between two multivariate normal distributions defined by
+        their mean vectors and covariance matrices. It assumes that the covariance matrices are diagonal.
+
+        Args:
+            mu1 (torch.Tensor): Mean vector of the first multivariate normal distribution.
+            cov1 (torch.Tensor): Diagonal elements of the covariance matrix of the first distribution.
+            mu2 (torch.Tensor): Mean vector of the second multivariate normal distribution.
+            cov2 (torch.Tensor): Diagonal elements of the covariance matrix of the second distribution.
+            device (torch.device): The device (CPU or GPU) on which to perform the computation.
+
+        Returns:
+            torch.Tensor: The computed KL divergence between the two distributions.
+
+        The method performs the following steps:
+        1. Constructs diagonal covariance matrices from the provided diagonal elements.
+        2. Creates multivariate normal distributions using the mean vectors and covariance matrices.
+        3. Computes the KL divergence between the two distributions.
+        """
         # assume diagonal matrix
         p_cov = torch.eye(len(cov1), device=device) * cov1
         q_cov = torch.eye(len(cov2), device=device) * cov2
@@ -642,7 +1061,41 @@ class KLMVN(Metric):
         kld = torch.distributions.kl_divergence(p, q)
         return kld
 
-    def compute_image_distance(self, cfg: dict):
+    def compute_image_distance(self, cfg: dict) -> float:
+        """
+        Compute the distance between image features from source and target datasets using a pre-trained model.
+
+        This method calculates the distance between the statistical representations of image features extracted
+        from two datasets. It uses a pre-trained model to extract features from specified layers and computes
+        the Kullback-Leibler divergence between the distributions of these features.
+
+        Args:
+            cfg (dict): A configuration dictionary containing the following keys:
+                - "MODEL": Dictionary with model-related configurations:
+                    - "device" (str): The device to run the model on (e.g., "cpu" or "cuda").
+                    - "arch" (str): The architecture of the model to use.
+                    - "n_layer_feature" (int): The layer number from which to extract features.
+                - "DATA": Dictionary with data-related configurations:
+                    - "width" (int): The width of the images.
+                    - "height" (int): The height of the images.
+                    - "norm_mean" (list of float): Mean values for image normalization.
+                    - "norm_std" (list of float): Standard deviation values for image normalization.
+                    - "batch_size" (int): The batch size for data loading.
+                    - "source" (str): Path to the source folder containing images.
+                    - "target" (str): Path to the target folder containing images.
+
+        Returns:
+            float: The computed distance between the source and target image features.
+
+        The method performs the following steps:
+        1. Loads the model and sets it up on the specified device.
+        2. Constructs data loaders for the source and target datasets with specified transformations.
+        3. Extracts features from the specified layer of the model for both datasets.
+        4. Calculates the mean and covariance of the features for both datasets.
+        5. Regularizes the covariance matrices to ensure numerical stability.
+        6. Computes the Kullback-Leibler divergence between the feature distributions.
+        """
+
         device = cfg["MODEL"]["device"]
         model = cfg["MODEL"]["arch"]
         n_layer_feature = cfg["MODEL"]["n_layer_feature"]

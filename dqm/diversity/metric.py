@@ -31,6 +31,7 @@ various other types of categorical data analysis.
 
 import pandas as pd
 
+
 class DiversityIndexCalculator:
     """
     This class provides methods to calculate various diversity
@@ -96,8 +97,8 @@ class DiversityIndexCalculator:
             g (float): The Gini-Simpson index.
         """
         p = self.prob(variable)
-        g = 1 - (sum(p ** 2))
+        g = 1 - (sum(p**2))
         return g
-    
+
     def RD(self, variable: pd.Series) -> float:
         print(variable)

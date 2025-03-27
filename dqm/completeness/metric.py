@@ -1,11 +1,11 @@
 """
 Data Completeness Evaluation Module
 
-This module provides tools to assess the completeness of tabular data. It is 
-especially useful in data preprocessing and cleaning stages of a data analysis 
-workflow. The module includes a class, DataCompleteness, with methods to 
-calculate completeness scores for dataframes and individual columns. 
-These methods help in identifying columns with missing data and quantifying 
+This module provides tools to assess the completeness of tabular data. It is
+especially useful in data preprocessing and cleaning stages of a data analysis
+workflow. The module includes a class, DataCompleteness, with methods to
+calculate completeness scores for dataframes and individual columns.
+These methods help in identifying columns with missing data and quantifying
 the extent of missingness.
 
 Authors:
@@ -51,11 +51,12 @@ Usage:
 
 import pandas as pd
 
+
 class DataCompleteness:
     """
     This class provides methods to evaluate the completeness of tabular data.
 
-    It includes methods to calculate completeness scores for individual columns and 
+    It includes methods to calculate completeness scores for individual columns and
     for entire dataframes by assessing the presence of non-null data.
 
     Methods:

@@ -36,6 +36,7 @@ from dqm.diversity.metric import DiversityIndexCalculator
 from dqm.diversity.twe_logger import get_logger
 import pandas as pd
 
+
 class DataDiversityAnalyzer:
     """
     A class for analyzing the diversity of datasets.
@@ -74,14 +75,14 @@ class DataDiversityAnalyzer:
 
         Returns: None
         """
-        #self.logger.info("The first 5 lines of the data:")
-        #self.logger.info(data.head())
-        #self.logger.info("Data shape:")
-        #self.logger.info(data.shape)
-        #self.logger.info("Columns:")
-        #self.logger.info(data.columns)
-        #self.logger.info("Columns types:")
-        #self.logger.info(data.dtypes)
+        # self.logger.info("The first 5 lines of the data:")
+        # self.logger.info(data.head())
+        # self.logger.info("Data shape:")
+        # self.logger.info(data.shape)
+        # self.logger.info("Columns:")
+        # self.logger.info(data.columns)
+        # self.logger.info("Columns types:")
+        # self.logger.info(data.dtypes)
 
         data = data.dropna()
 
@@ -91,7 +92,9 @@ class DataDiversityAnalyzer:
         g = self.metric_calculator.gini(data[feature])
         self.logger.info("Gini index: %s", g)
 
-        diversity_score = self.calculator.compute_diversity(data[feature], 'lexical', 'richness')
+        diversity_score = self.calculator.compute_diversity(
+            data[feature], "lexical", "richness"
+        )
         self.logger.info("Diversity score: %s", diversity_score)
 
     def none_function(self) -> None:
@@ -106,12 +109,14 @@ class DataDiversityAnalyzer:
 # Use of DataDiversityAnalyzer Class
 if __name__ == "__main__":
     analyzer = DataDiversityAnalyzer()
-    df = pd.read_csv("/home/fadjed/dqm-github/DataQualityMetrics/datasets/features.csv", sep = ",")
-    #feature_name = "Traffic_light_green"
-    #analyzer.calculate_diversity_scores(df, feature_name)
+    df = pd.read_csv(
+        "/home/fadjed/dqm-github/DataQualityMetrics/datasets/features.csv", sep=","
+    )
+    # feature_name = "Traffic_light_green"
+    # analyzer.calculate_diversity_scores(df, feature_name)
 
     for i in df:
-        if df.dtypes[i] not in ('object', 'bool'):
+        if df.dtypes[i] not in ("object", "bool"):
             print(f"For { i } feature :")
             analyzer.calculate_diversity_scores(df, i)
             print("---------------------------------------------------------")

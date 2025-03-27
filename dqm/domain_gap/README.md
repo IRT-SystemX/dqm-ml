@@ -6,10 +6,12 @@ In the context of machine learning, the domain gap refers to the discrepancy bet
 ## Quick start
 
 ### source and target domain inputs
-Source and target datasets have to be provided as two csv files in the Json configuration file. Image paths must be specified in the `path` column of the csv files.
+Source and target datasets have to be provided as path folder in Json configuration file. Those path msut contains only image extension files (.png, .jpg, ...) compatible with PIL (pillow) library.
 
 ### How to use our library
-We proposed 2 approaches to use our implemented metrics. The first appraoch consists of importing the desired metrics class and use it a notebook or script in your python code. The second approach is to use a metric through CLI, with the main.py script : `python main.py --cfg cfg.json`. Note that a collection of config files is available in "cfg" folder.
+We proposed 2 approaches to use our implemented metrics. The first appraoch consists of importing the desired metrics class and use it a notebook or script in your python code. To use a metric, import it's class and create an instance in your python file, then create a dictionary object like those provided in cfg/metric/metric.json. Then compute with the compute function of the metrics.
+
+ The second approach is to use a metric through CLI, with the main.py script : `python main.py --cfg cfg.json`. Note that a collection of config files is available in "cfg" folder.
 
 <!--- 
 ### More than two datasets to measure (Will be refactored/ work only on CMD)

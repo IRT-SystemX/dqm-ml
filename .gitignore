@@ -52,6 +52,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+flake8
+.flake8/
+pylintrc
 
 # Translations
 *.mo

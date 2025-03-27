@@ -1,13 +1,7 @@
 [flake8]
-extend-ignore = E203
-exclude =
-    .git,
-    __pycache__,
-    docs/source/conf.py,
-    build,
-    dist,
-
-    lib,
-    include,
-    bin
-max-complexity = 10
+max-line-length=120
+ignore=E402,W605,W503,W504
+#    E402, module-level import not at top of file
+#    W605, invalid escape sequence 'x'
+#    W503, line break before binary operator
+#    W504, line break after binary operator

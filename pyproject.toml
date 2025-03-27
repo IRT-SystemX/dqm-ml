@@ -1,12 +1,15 @@
-[tool.black]
-force-exclude = '''
-/(
-\.git
-| \.mypy_cache
-| \.venv
-| _build
-| build
-| dist
-| docs
-)/
-'''
+[project]
+name = "dqm"
+description='Image enhancement library: corruption (noise, meteorological...), removal"'
+readme = "README.md"
+dynamic = ["dependencies"]
+version= "1.1.0"
+license ="MPL-2.0"
+requires-python = ">=3.6"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"

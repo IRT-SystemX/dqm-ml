@@ -1,116 +1,220 @@
 <div align="center">
-    <img src="images/Logo_ConfianceAI_Blanc.png" height="200" align="">
+    <img src="_static/Logo_ConfianceAI.png" width="20%" alt="ConfianceAI Logo" />
+    <h1 style="font-size: large; font-weight: bold;">DQM</h1>
+</div>
 
-[![](https://img.shields.io/static/v1?label=&message=Online%20documentation&color=0077de)]([Web site])
+<div align="center">
+    <a href="#">
+        <img src="https://img.shields.io/badge/Python-3.9-efefef">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/Python-3.10-efefef">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/Python-3.11-efefef">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/Python-3.12-efefef">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/License-MPL-2">
 
-[![Online documentation](https://img.shields.io/badge/MPL--2.0-blue)](https://opensource.org/licenses/Apache-2.0)
-
-[![License](https://img.shields.io/badge/MPL--2.0-blue)](https://opensource.org/licenses/Apache-2.0)
-<br>
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Code style: Pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev)
 [![Code style: flake8](https://img.shields.io/badge/code%20style-flake8-1c4a6c.svg)](https://flake8.pycqa.org/en/latest/)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-
-![Activity](https://img.shields.io/github/commit-activity/m/IRT-SystemX/DataQualityMetrics)
-![Last commit](https://img.shields.io/github/last-commit/IRT-SystemX/DataQualityMetrics)
-
-![python lib](https://github.com/irt-Systemx/DataQualityMetrics/actions/workflows/python_lib_publish.yml/badge.svg)
-![Docker](https://github.com/IRT-SystemX/DataQualityMetrics/actions/workflows/docker_publish.yml/badge.svg)
 
 </div>
 
-##  Data Quality Metrics
+# Data_Quality_Metrics
 
-The component is referenced by the [European Trustworthy AI Foundation] in its [catalog]
+Data Quality Metrics called **DQM** is a python library which computes three data inherent metrics and one data-model dependent metrics.
 
-## Documentation
+The data inherent metrics are (defintions from Confiance.ai program): 
+- **Diversity** : Computes the presence in the dataset of all required information defined in the specification (requirements, Operational Design Domain (ODD) . . . ).
+- **Representativeness** : is defined as the conformity of the distribution of the key characteristics of the dataset according to a specification (requirements, ODD.. . )
+- **Completeness** : is defiend by the degree to which subject data associated with an entity has values for all expected attributes and related entity instances in a specific context of use.
 
-The full documentation is available in the [web site]
+The data-model dependent metrics are (definition from Confiance. ai program): 
+- **Domain Gap** : In the context of a computer vision task, the Domain Gap (DG) refers to the difference in semantic, textures and shapes between two distributions of images and it can lead to poor performances when a model is trained on a given distribution and then is applied to another one.
 
-## Code of Conduct
+[//]: # (- Coverage : The coverage of a couple "Dataset + ML Model" is the ability of the execution of the ML Model on this dataset to generate elements that match the expected space.)
 
-Everyone interacting in the project's codebases, issue trackers, chat rooms, and mailing lists is expected to follow the [Code of Conduct](CODE_OF_CONDUCT_v2.md).
+For each metric, several approaches are developped to handle the maximum of data types. For more technical and scientific details, you can refer back to this [delivrable](https://catalog.confiance.ai/records/p46p6-1wt83/files/Scientific_Contribution_For_Data_quality_assessment_metrics_for_Machine_learning_process-v2.pdf?download=1)
 
-## Quality check
+## Project description
+Several approches are developped as decscribed in the figure below.
 
-Several tools are used for maintaining the quality of the python library, such as code formatting, linting, testing, documentation, and security analysis:
-1. Code Formatting: [Black] is an opinionated Python code formatter that automatically formats your code to make it consistent. It helps reduce debates about code style by enforcing a standard format.
-2. Linting (Code Quality Checks): [Flake8] is A wrapper around PyFlakes, pycodestyle, and mccabe that provides an easy-to-use interface for linting Python code.
-[//]: # ([Pylint] is a widely used linter for Python that checks for errors in Python code, enforces coding standards, and looks for potential code smells.)
-3. Testing: [pytest] is a framework that makes it easy to write simple as well as scalable test cases. It also supports fixtures, parameterization, and many plugins.
+<img src="_static/library_view.png" width="1024"/>
 
-## Installation
+In the current version, the approaches developped are: 
+- Representativeness : 
+  - $\chi^2$ goodness of fit test for uniform and normal distibutions. 
+  - Kolmogorov Smirnov test for uniform and normal distributions. 
+  - Granular and Relative Theorithecal Entropy GRTE proposed and developed in Confiance.ai program. 
+- Diversity : 
+  - Relative Diverity developed and implemented in Confiance.ai program
+  - Gini-Simpson and Simposon indices. 
+- Completeness : 
+  - Ratio of filled inofrmation
+- Domain Gap : 
+  - MMD 
+  - CMD 
+  - Wasserstein 
+  - H-Divergence
+  - FID
+  - Kullback-Leiblur MultiVariate Normal distribution
 
-This component is available with pip or as a Docker image. To install it, you can follow the [installation guide].
+[//]: # (- Coverage : )
 
+[//]: # (  - Approches developed in Neural Coverage &#40;NCL&#41; given [here]&#40;https://github.com/Yuanyuan-Yuan/NeuraL-Coverage&#41;. )
 
-# Developer Area
+# Getting started 
 
-## Get started
+## Set up a clean virtual environnement
+Validated python version : 3.9.18
 
-Please have a look at [the Sphinx documentation]
+Linux setting:
 
-## Generate docs
+```
+pip install virtualenv
+virtualenv myenv
+source myenv/bin/activate
+```
+
+Windows setting:
+
+```
+pip install virtual env 
+virtualenv myenv 
+.\myenv\Scripts\activate
+```
+
+## Install the library (restricted access)
+
+You can install it by a direct downloading from PyPi using the command 
 
 ````
-pip install -r docs/docs_requirements.txt -r requirements.txt
-sphinx-apidoc -o docs/source/generated DataQualityMetrics
-sphinx-build -M html docs/source docs/build -W --keep-going
+pip install dqm
 ````
 
-## Tests
-
+You can installing it from it github sources by launching the following command
 ````
-# Move into whichever directory you want to serve
-cd ./docs/build/html
-
-# Start the http server 
-python -m http.server 8080
+https://github.com/IRT-SystemX/DataQualityMetrics
 ````
-
-## build and locally run the docker 
-
-````
-docker build -t dqm .
-docker run --rm dqm python main.py
-````
-
-## build and locally run the python lib
-
-````
-pip install setuptools wheel
-
-# installs your library in "editable" mode, 
-# meaning changes you make to the code will be immediately reflected without needing to reinstall.
-pip install -e .
-# OR 
+If you got the source code as a zip file, you can install the library from the root directory of the archive by typing : 
+```
 pip install .
+```
 
-# check if the library is successfully installed 
-pip list | grep dqm
-````
+## Usage
+
+[//]: # (All validated and verified functions are detailed in the files **call_main.py**. )
+
+For detailed informations about implemented metrics see the metrics dedied sections:
+- Completness
+- Diversity
+- Domain Gap
+- Representativeness
+
+### Implented tests:
+- All tests are implented by using VDP use case in the file *final-tests.ipynb* 
+- For Completeness : 
+  - import the metric <code> from dqm.completeness.metric import DataCompleteness </code>
+  - call completeenss metric <code> completeness_evaluator = DataCompleteness() </code>
+  - For the whole dataset (dataframe : df): 
+    - <code> completeness_evaluator.completeness_tabular(df) </code>
+  - for a specific column : 
+    - <code> completeness_evaluator.data_completion(df['Car']) </code>
+- For Representativness : 
+  - import the metric <code> from dqm.representativeness.metric import DistributionAnalyzer </code>
+  - For normal distribution : 
+    - <code>analyzer = DistributionAnalyzer(df['Car'], 20, 'normal') </code>
+    - $\chi^2$ test : 
+      - <code> pvalue, intervals_frequencies = analyzer.chisquare_test() </code>, where the *pvalue* designe the probability value to accepte the null hypothesis and intervals_frenquecies details the theoretical and observed frenquecies in each bin. 
+    - KS test : 
+      - <code>ks_pvalue = analyzer.kolmogorov()</code>, where *ks_pvalue* is the pvlaue of the test. 
+    - GRTE method : 
+      - <code> grte_result, intervals_discretized = analyzer.grte() </code>
+  
+  These methods can include required normal paramters (mean and standard deviation)
+  - The same code can be used for **uniform** distibution.  
+- For diversity : 
+  - import metric : <code>from dqm.diversity.metric import DiversityIndexCalculator </code>
+  - call the function : <code>metric_calculator = DiversityIndexCalculator() </code>
+  - Diversity scores : 
+    - Simpson index : <code> metric_calculator.simpson(data['Car']) </code>
+    - Gini-Simpson index : <code>metric_calculator.gini(data['Car']) </code>
+  - Relative diversity : 
+    - <code> ... </code>
+
+[//]: # (## Domain Gap Metrics)
+
+[//]: # (Domain gap metrics are used to quantify the differences between datasets that originate from different domains.  )
+
+[//]: # (These metrics play a crucial role in various applications where understanding and managing domain shifts are essential.  )
+
+[//]: # ( - Domain Adaptation: aims to transfer knowledge learned from a source domain to a target domain)
+
+[//]: # ( - Transfer Learning: aims to evaluate the knowledge shift between 2 domains )
+
+[//]: # ( - Dataset Selection: aims to extract a subsamples of a dataset with more representative data)
+
+[//]: # ( - Dataset Augmentation: aims to improve a dataset representativity by adding new coherent datas)
+
+[//]: # ( - Bias analysis: aims to detect bias in datasets)
+
+[//]: # ()
+[//]: # ( ### Practice)
+
+[//]: # ()
+[//]: # ( Each metrics must compute with a configuration file, this configuration file contains informations about data location and pre-processing, model used for feature extraction, and metric name. A collection of preset config file are available in cfg folder. You will find bellow steps to perform the computing of metrics using terminal command and notebook utilization.)
+
+[//]: # ()
+[//]: # ( #### Terminal Computation &#40;example with Proxy as Distance&#41;)
+
+[//]: # ( - Move to the right folder : <code>cd dqm/domain_gap</code>)
+
+[//]: # ( - Setup a config file : reference config file are available for each metric in <code> ./cfg/proxy </code>)
+
+[//]: # ( - Run main : <code> python main.py --cfg path/to/config.json </code>)
+
+[//]: # ()
+[//]: # (#### Notebook Computation &#40;example with Proxy as Distance&#41;)
+
+[//]: # ( - Import metric : <code> from dqm.domain_gap.utils import ProxyAsDistance </code>)
+
+[//]: # ( - Instanciate metric : <code> pad = ProxyAsDistance&#40;&#41; </code>)
+
+[//]: # ( - Compute metric : <code> pad.compute_image_distance </code>)
+
+[//]: # ()
+[//]: # (## Functions)
+
+[//]: # (*add description for each function developed* )
+
+[//]: # ()
+[//]: # (- Wasserstein &#40;https://arxiv.org/abs/2201.02824&#41; : distance defined in optimal transport theory. The basic idea is to find the most efficient way to "move" one distribution to match another, where efficiency is measured in terms of both the amount of "mass" moved and the distance over which it is moved. In our implementation, we consider 2 approachs :)
+
+[//]: # (    - 1-dimension : we compute the Wasserstein distance for each feature and averages the distances over all features)
+
+[//]: # (    - 2-dimension : we compute the 2D Wasserstein distance between features extracted from two sets of images, using a method that involves computing a covariance matrix and projecting the features onto its eigenvectors)
+
+[//]: # ()
+[//]: # (- Proxy A Distance &#40;http://arxiv.org/pdf/1412.4446&#41; : theoretical concept that measures the ability of a hypothesis class to distinguish between two domains, PAD is an approximation of the H-divergence that uses the performance of a classifier to estimate the divergence.)
+
+## References
 
 
----
-<p align="center justify-content:space-around">
-  This component is maintained by: 
-  <a href="https://www.irt-systemx.fr/" title="IRT SystemX">
-   <img src="https://www.irt-systemx.fr/wp-content/uploads/2013/03/system-x-logo.jpeg"  height="50">
-  </a>
-</p>
----
 
-[Component Name]: Data Quality Metrics (DQM)
-[IRT-SystemX]: https://github.com/IRT-SystemX
-[PSF Code of Conduct]: https://policies.python.org/python.org/code-of-conduct/
-[Support]: support@irt-systemx.fr
-[web site]: https://IRT-SystemX.github.io/DataQualityMetrics/
-[installation guide]: https://IRT-SystemX.github.io/DataQualityMetrics/
-[European Trustworthy AI Foundation]:https://www.confiance.ai/foundation/
-[catalog]: https://catalog.confiance.ai/records/m838a-t2c14
-[Black]: https://black.readthedocs.io/
-[Pylint]: https://pylint.readthedocs.io/
-[pytest]: https://docs.pytest.org/en/stable/
-[Flake8]: https://flake8.pycqa.org/
-[the Sphinx documentation]: https://www.sphinx-doc.org/fr/master/tutorial/getting-started.html#
+```
+@inproceedings{chaouche2024dqm,
+  title={DQM: Data Quality Metrics for AI components in the industry},
+  author={Chaouche, Sabrina and Randon, Yoann and Adjed, Faouzi and Boudjani, Nadira and Khedher, Mohamed Ibn},
+  booktitle={Proceedings of the AAAI Symposium Series},
+  volume={4},
+  number={1},
+  pages={24--31},
+  year={2024}
+}
+```
+
+[HAL link](https://hal.science/hal-04719346v1)

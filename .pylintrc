@@ -1,0 +1,15 @@
+# This file lists the various rules not to be taken into account in the technological evaluation level 3
+[MESSAGES CONTROL]
+disable=
+    C0103, # invalid-name - Variable, function, class, or module name doesn't conform to snake_case naming style.
+    C0411, # wrong-import-order - Import order does not follow PEP 8 guidelines.
+    E1101, # no-member - Instance of 'x' has no 'y' member.
+    R0903, # too-few-public-methods - Too few public methods for a class (default 2).
+    R0913, # too-many-arguments - Too many arguments for function or method (default 5).
+    R0914, # too-many-locals - Function or method has too many local variables (default 15).
+    E0401, # Imports are not checked in test execution env
+[FORMAT]
+max-line-length=120
+
+[DESIGN]
+max-attributes=15 

@@ -3,7 +3,7 @@ name: Deploy Sphinx Docs to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - develop
 
   pull_request:
     branches:
@@ -25,15 +25,20 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.9'
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
+        sudo apt-get update && sudo apt-get install -y pandoc
+        python -m pip install --upgrade pip 
+        pip install setuptools
+        pip install .
+        pip install -r docs/docs_requirements.txt
 
     - name: Build the documentation
       run: |
+        cp -R _static docs/source/
+        cp -R examples docs/source/
         cd docs
         make html
 

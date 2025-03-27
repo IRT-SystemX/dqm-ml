@@ -170,3 +170,11 @@ bin/
 include/
 
 pyvenv.cfg
+
+# Sphinx documentation
+
+docs/build
+docs/source/_static
+docs/source/examples
+_static/pylint
+_static/flake8

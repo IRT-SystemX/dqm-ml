@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 
+
 develop-eggs/
 dist/
 downloads/
@@ -181,3 +182,4 @@ docs/source/_static
 docs/source/examples
 _static/pylint
 _static/flake8
+examples/datasets/synthetic*

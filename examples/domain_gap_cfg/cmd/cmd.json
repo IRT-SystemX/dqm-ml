@@ -1,0 +1,34 @@
+{
+	"DATA": {
+		"height": 224,
+		"width": 224,
+		"batch_size": 10,
+		"norm_mean": [
+			0.485,
+			0.456,
+			0.406
+		],
+		"norm_std": [
+			0.229,
+			0.224,
+			0.225
+		],
+		"source": "datasets/synthetic_source_images",
+		"target": "datasets/synthetic_target_images"
+	},
+	"MODEL": {
+		"arch": "resnet18",
+        "n_layer_feature" : [
+            "maxpool",
+            "layer1.1.relu_1",
+            "layer2.1.relu_1", 
+            "layer3.1.relu_1", 
+            "layer4.1.relu_1"],
+        "feature_extractors_layers_weights" : [1, 1, 1, 1, 1],
+        "device": "cpu"
+	},
+	"METHOD": {
+		"name": "cmd",
+        "k": 5
+	}
+}

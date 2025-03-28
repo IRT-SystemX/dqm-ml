@@ -1,0 +1,33 @@
+{
+	"DATA": {
+		"batch_size": 10,
+		"height": 299,
+		"width": 299,
+		"norm_mean": [
+				0.485,
+				0.456,
+				0.406
+			],
+		"norm_std": [
+				0.229,
+				0.224,
+				0.225
+			],
+		"source": "datasets/synthetic_source_images",
+		"target": "datasets/synthetic_target_images"
+	},
+	"MODEL": {
+        "arch": "resnet18",
+		"device": "cpu",
+		"n_layer_feature": -2
+    	},
+	"METHOD": {
+		"name": "mmd",
+		"kernel": "linear",
+		"kernel_params": {
+			"gamma": 1.0,
+			"degree": 3.0,
+			"coefficient0": 1.0 
+		}
+	}
+}

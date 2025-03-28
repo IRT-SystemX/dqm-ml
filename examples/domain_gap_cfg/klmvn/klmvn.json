@@ -1,0 +1,27 @@
+{
+	"DATA": {
+		"batch_size": 10,
+		"height": 28,
+		"width": 28,
+		"norm_mean": [
+				0.485,
+				0.456,
+				0.406
+			],
+		"norm_std": [
+				0.229,
+				0.224,
+				0.225
+			],
+		"source": "datasets/200-birds-species/CUB_200_2011/images/001.Black_footed_Albatross",
+		"target": "datasets/200-birds-species/CUB_200_2011/images/002.Laysan_Albatross"
+	},
+	"MODEL": {
+        "arch": "resnet18",
+		"device": "cpu",
+		"n_layer_feature": -2
+    	},
+	"METHOD": {
+		"name": "klmvn"
+	}
+}

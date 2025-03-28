@@ -1,0 +1,26 @@
+{
+	"DATA": {
+		"batch_size": 32,
+		"height": 299,
+		"width": 299,
+		"norm_mean": [
+				0.485,
+				0.456,
+				0.406
+			],
+		"norm_std": [
+				0.229,
+				0.224,
+				0.225
+			],
+		"source": "datasets/synthetic_source_images",
+		"target": "datasets/synthetic_target_images"
+	},
+	"MODEL": {
+		"device": "cpu",
+		"n_layer_feature": -2
+    	},
+	"METHOD": {
+		"name": "fid"
+	}
+}

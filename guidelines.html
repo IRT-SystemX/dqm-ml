@@ -48,10 +48,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">💡 Guideline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#set-up-a-clean-virtual-environnement">Set up a clean virtual environnement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-the-library-restricted-access">Install the library (restricted access)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#implented-tests">Implented tests:</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#available-examples">Available examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="completeness.html">🍊 Completeness</a></li>
@@ -120,81 +118,27 @@
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
-<p>For detailed informations about implemented metrics see the metrics dedied sections:</p>
-<ul class="simple">
-<li><p>Completness</p></li>
-<li><p>Diversity</p></li>
-<li><p>Domain Gap</p></li>
-<li><p>Representativeness</p></li>
-</ul>
-<section id="implented-tests">
-<h3>Implented tests:<a class="headerlink" href="#implented-tests" title="Link to this heading"></a></h3>
-<ul>
-<li><p>All tests are implented by using VDP use case in the file <em>final-tests.ipynb</em></p></li>
-<li><p>For Completeness :</p>
-<ul class="simple">
-<li><p>import the metric <code> from dqm.completeness.metric import DataCompleteness </code></p></li>
-<li><p>call completeenss metric <code> completeness_evaluator = DataCompleteness() </code></p></li>
-<li><p>For the whole dataset (dataframe : df):</p>
-<ul>
-<li><p><code> completeness_evaluator.completeness_tabular(df) </code></p></li>
-</ul>
-</li>
-<li><p>for a specific column :</p>
-<ul>
-<li><p><code> completeness_evaluator.data_completion(df[‘Car’]) </code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>For Representativness :</p>
-<ul class="simple">
-<li><p>import the metric <code> from dqm.representativeness.metric import DistributionAnalyzer </code></p></li>
-<li><p>For normal distribution :</p>
-<ul>
-<li><p><code>analyzer = DistributionAnalyzer(df[‘Car’], 20, ‘normal’) </code></p></li>
-<li><p>$\chi^2$ test :</p>
-<ul>
-<li><p><code> pvalue, intervals_frequencies = analyzer.chisquare_test() </code>, where the <em>pvalue</em> designe the probability value to accepte the null hypothesis and intervals_frenquecies details the theoretical and observed frenquecies in each bin.</p></li>
-</ul>
-</li>
-<li><p>KS test :</p>
-<ul>
-<li><p><code>ks_pvalue = analyzer.kolmogorov()</code>, where <em>ks_pvalue</em> is the pvlaue of the test.</p></li>
-</ul>
-</li>
-<li><p>GRTE method :</p>
-<ul>
-<li><p><code> grte_result, intervals_discretized = analyzer.grte() </code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>These methods can include required normal paramters (mean and standard deviation)</p>
-<ul class="simple">
-<li><p>The same code can be used for <strong>uniform</strong> distibution.</p></li>
-</ul>
-</li>
-<li><p>For diversity :</p>
-<ul class="simple">
-<li><p>import metric : <code>from dqm.diversity.metric import DiversityIndexCalculator </code></p></li>
-<li><p>call the function : <code>metric_calculator = DiversityIndexCalculator() </code></p></li>
-<li><p>Diversity scores :</p>
-<ul>
-<li><p>Simpson index : <code> metric_calculator.simpson(data[‘Car’]) </code></p></li>
-<li><p>Gini-Simpson index : <code>metric_calculator.gini(data[‘Car’]) </code></p></li>
-</ul>
-</li>
-<li><p>Relative diversity :</p>
-<ul>
-<li><p><code> … </code></p></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<p>Each metric is used by importing the corresponding modules and class into your code
+For more information about each metrics see the specific README.md in <code class="docutils literal notranslate"><span class="pre">dqm/metrics_name</span></code> subfolders</p>
 </section>
+<section id="available-examples">
+<h2>Available examples<a class="headerlink" href="#available-examples" title="Link to this heading"></a></h2>
+<p>Many examples of DQM application are present in folder <code class="docutils literal notranslate"><span class="pre">/examples</span></code></p>
+<p>You will find :</p>
+<p>2 jupyter_notebooks:</p>
+<ul class="simple">
+<li><p><strong>multiple_metrics_tests.ipynb</strong> : A notebook applying completeness, diversity and representativeness metrics on an example dataset.</p></li>
+<li><p><strong>domain_gap.ipynb</strong> : A notebook showing example of applying domain_gap metrics on a generated synthetic dataset</p></li>
+</ul>
+<p>4 python scripts:</p>
+<p>Those scripts named <strong>main_X.py</strong> gives an example of computation of metrics implemented for domain X on an example dataset.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">main_domain_gap.py</span></code> script requires to be called with a config file passed as an
+argument named <code class="docutils literal notranslate"><span class="pre">--cfg</span></code> .</p>
+<p>Thus, it is called for example with such command:</p>
+<p><code class="docutils literal notranslate"> <span class="pre">python</span> <span class="pre">examples/main_domain_gap.py</span> <span class="pre">--cfg</span> <span class="pre">examples/domain_gap_cfg/cmd/cmd.json</span></code></p>
+<p>We propose in folder <code class="docutils literal notranslate"><span class="pre">/examples/domain_gap_cfg</span> </code>a set of config files for each domain_gap metrics`:</p>
+<p>For some domain_gap examples configuration files the <strong>200_bird_dataset</strong> will be required. It can be downloaded at this <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip">link</a>.
+The zip archive shall be extracted in <code class="docutils literal notranslate"><span class="pre">examples/datasets/</span></code> folder.</p>
 </section>
 </section>
 

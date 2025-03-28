@@ -9,13 +9,13 @@ offered by these scripts. Below a description of each of these scripts:
 
 # Scripts
 
-## Description of the script utils.py
+## Description of dqm.representativeness.utils
 
-The script provides tools for variable analysis, visualization, and data preparation for statistical tests such as chi-square tests.
+This module provides tools for variable analysis, visualization, and data preparation for statistical tests such as chi-square tests.
 It offers a convenient interface for discretizing variables based on normal or uniform distributions and features functionality to 
 generate histograms for observed and expected values.
 
-The "utils.py" script implements two main classes, "DiscretisationParams" and "VariableAnalysis," along with several associated functions:
+It implements two main classes, "DiscretisationParams" and "VariableAnalysis," along with several associated functions:
 
 ### Description of DiscretisationParams class
 This class is used to define discretization parameters. It takes input data (data) and distribution parameters 
@@ -31,7 +31,7 @@ The class also contains utility functions such as "uniform_discretization" which
 and the "discretisation_intervals" function discretizes a set of data into intervals based on empirical distribution and calculates 
 observed and expected frequencies for each interval.
 
-### Example of utilization of utils.py script
+### Example of utilization dqm.representativeness.utils module
 
 	# Importer les classes du script utils.py
 	from utils import VariableAnalysis, DiscretisationParams
@@ -67,7 +67,7 @@ observed and expected frequencies for each interval.
     	    print(interval_data)
 
 
-## Description of the script metric.py
+## Description of the module dqm.representativeness.metric
 
 The script is designed for analyzing the distribution of data and includes error handling for categorical or boolean variables. 
 It also logs relevant information using the dqm.representativeness.twe_logger module.
@@ -139,69 +139,10 @@ The method calculates the confidence interval for the provided data
             logger.info("Mean: %s", mean)
 
 
+## Example
 
-## Description of mup.py script
-
-The script provides a versatile tool for MUP analysis in various datasets, with customizable threshold settings for MUP identification.
-
-It provides a class called MUPAnalyzer designed for analyzing Minimal Unstable Patterns (MUPs) in a given dataset.
-Here's a detailed explanation of what the script does:
-
-### Class Initialization:
-The class is initialized with a constant WILDCARD, which serves as a placeholder for a wildcard value in feature combinations.
-
-### Methods:
-#### count_occurrences:
-Counts occurrences of a specific combination of feature values in a dataset.
-
-#### product:
-Generates the Cartesian product of feature values.
-
-#### compute_mup:
-Identifies Minimal Unstable Patterns (MUPs) in a dataset based on the number of occurrences of each node.
-It traverses the dataset in a depth-first, bottom-up manner.
-
-
-#### default_threshold:
-Calculates a default threshold for MUP identification based on dataset characteristics.
-
-#### pruned:
-Prunes identified MUPs by removing those that have a parent MUP.
-
-#### do_titanic:
-Analyzes MUPs in the Titanic dataset and prints the results.
-
-#### do_vdp:
-Analyzes MUPs in a custom dataset (VDP) and prints the results.
-
-
-#### Example of utilization of mup.py script
-
-	# Import the MUPAnalyzer class
-	from mup import MUPAnalyzer
-
-	# Create an instance of MUPAnalyzer
-	analyzer = MUPAnalyzer()
-	
-	# Use the methods of the MUPAnalyzer class
-	## Use the do_titanic method to analyze MUPs in the Titanic dataset
-	analyzer.do_titanic(r'path/to/titanic.csv')
-
-	## Use the do_vdp method to analyze MUPs in a custom dataset (e.g., VDP)
-	analyzer.do_vdp(r'path/to/vdp.csv')
-
-	# Replace 'path/to/titanic.csv' and 'path/to/vdp.csv' with the actual file paths of your data files
-	# Run the script with bash command (python mup.py) or by other process
-	"""
-	Make sure to check if all the dependencies mentioned in the script (itertools, math, pandas, tqdm, typing) 
-	are installed in your Python environment.
-	You can install them using pip if needed: pip install itertools math pandas tqdm typing
-	"""
-
-## Description of main.py script
-
-The script defines a main function that demonstrates the usage of classes and functions from three Python scripts: 
-utils.py, metric.py, and mup.py. The main() function showcases the capabilities of the modules by creating 
+You will find [here](https://github.com/IRT-SystemX/DataQualityMetrics/blob/main/examples/main_representativeness.py)
+an example of script that demonstrates the usage of classes and functions from two ``dqm.representativeness `` modules.  The main() function showcases the capabilities of the modules by creating 
 instances of classes and invoking their methods.
 
 The main() function serves as a central point to showcase and test the functionality provided by these scripts. 
@@ -209,8 +150,7 @@ It creates instances of the relevant classes, performs operations on sample data
 
 
 # Usage
-1. Ensure you have installed all dependencies using the following command (bash):
-        pip install -r requirements.txt
+1. Ensure you have installed dqm 
 
-2. To perform a comprehensive analysis of variables, distribution, and MUPs on a sample dataset, run the main.py script (bash):
-        python main.py
+2. To perform a comprehensive analysis of variables, and distribution on a sample dataset, run the script (bash):
+        ``python main_representativeness.py``

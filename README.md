@@ -45,7 +45,7 @@ Several approches are developped as decscribed in the figure below.
 
 <img src="_static/library_view.png" width="1024"/>
 
-In the current version, the approaches developped are: 
+In the current version, the available metrics are: 
 - Representativeness : 
   - $\chi^2$ goodness of fit test for uniform and normal distibutions. 
   - Kolmogorov Smirnov test for uniform and normal distributions. 
@@ -70,7 +70,7 @@ In the current version, the approaches developped are:
 # Getting started 
 
 ## Set up a clean virtual environnement
-Validated python version : 3.9.18
+Validated python version : [3.9.18, 3.12.9]
 
 Linux setting:
 
@@ -98,7 +98,7 @@ pip install dqm
 
 You can installing it from it github sources by launching the following command
 ````
-https://github.com/IRT-SystemX/DataQualityMetrics
+pip install git+https://github.com/IRT-SystemX/DataQualityMetrics
 ````
 If you got the source code as a zip file, you can install the library from the root directory of the archive by typing : 
 ```
@@ -109,97 +109,35 @@ pip install .
 
 [//]: # (All validated and verified functions are detailed in the files **call_main.py**. )
 
-For detailed informations about implemented metrics see the metrics dedied sections:
-- Completness
-- Diversity
-- Domain Gap
-- Representativeness
+Each metric is used by importing the corresponding modules and class into your code
+For more information about each metrics see the specific README.md in ```dqm/metrics_name``` subfolders
 
-### Implented tests:
-- All tests are implented by using VDP use case in the file *final-tests.ipynb* 
-- For Completeness : 
-  - import the metric <code> from dqm.completeness.metric import DataCompleteness </code>
-  - call completeenss metric <code> completeness_evaluator = DataCompleteness() </code>
-  - For the whole dataset (dataframe : df): 
-    - <code> completeness_evaluator.completeness_tabular(df) </code>
-  - for a specific column : 
-    - <code> completeness_evaluator.data_completion(df['Car']) </code>
-- For Representativness : 
-  - import the metric <code> from dqm.representativeness.metric import DistributionAnalyzer </code>
-  - For normal distribution : 
-    - <code>analyzer = DistributionAnalyzer(df['Car'], 20, 'normal') </code>
-    - $\chi^2$ test : 
-      - <code> pvalue, intervals_frequencies = analyzer.chisquare_test() </code>, where the *pvalue* designe the probability value to accepte the null hypothesis and intervals_frenquecies details the theoretical and observed frenquecies in each bin. 
-    - KS test : 
-      - <code>ks_pvalue = analyzer.kolmogorov()</code>, where *ks_pvalue* is the pvlaue of the test. 
-    - GRTE method : 
-      - <code> grte_result, intervals_discretized = analyzer.grte() </code>
-  
-  These methods can include required normal paramters (mean and standard deviation)
-  - The same code can be used for **uniform** distibution.  
-- For diversity : 
-  - import metric : <code>from dqm.diversity.metric import DiversityIndexCalculator </code>
-  - call the function : <code>metric_calculator = DiversityIndexCalculator() </code>
-  - Diversity scores : 
-    - Simpson index : <code> metric_calculator.simpson(data['Car']) </code>
-    - Gini-Simpson index : <code>metric_calculator.gini(data['Car']) </code>
-  - Relative diversity : 
-    - <code> ... </code>
+## Available examples
 
-[//]: # (## Domain Gap Metrics)
+Many examples of DQM application are present in folder ```/examples```
 
-[//]: # (Domain gap metrics are used to quantify the differences between datasets that originate from different domains.  )
+You will find :
 
-[//]: # (These metrics play a crucial role in various applications where understanding and managing domain shifts are essential.  )
+2 jupyter_notebooks:
 
-[//]: # ( - Domain Adaptation: aims to transfer knowledge learned from a source domain to a target domain)
+- **multiple_metrics_tests.ipynb** : A notebook applying completeness, diversity and representativeness metrics on an example dataset.
+- **domain_gap.ipynb** : A notebook showing example of applying domain_gap metrics on a generated synthetic dataset
 
-[//]: # ( - Transfer Learning: aims to evaluate the knowledge shift between 2 domains )
+4 python scripts:
 
-[//]: # ( - Dataset Selection: aims to extract a subsamples of a dataset with more representative data)
+Those scripts named **main_X.py** gives an example of computation of metrics implemented for domain X on an example dataset.
 
-[//]: # ( - Dataset Augmentation: aims to improve a dataset representativity by adding new coherent datas)
+The ```main_domain_gap.py``` script requires to be called with a config file passed as an 
+argument named ```--cfg``` .
 
-[//]: # ( - Bias analysis: aims to detect bias in datasets)
+Thus, it is called for example with such command:
 
-[//]: # ()
-[//]: # ( ### Practice)
+``` python examples/main_domain_gap.py --cfg examples/domain_gap_cfg/cmd/cmd.json``` 
 
-[//]: # ()
-[//]: # ( Each metrics must compute with a configuration file, this configuration file contains informations about data location and pre-processing, model used for feature extraction, and metric name. A collection of preset config file are available in cfg folder. You will find bellow steps to perform the computing of metrics using terminal command and notebook utilization.)
+We propose in folder ```/examples/domain_gap_cfg ```a set of config files for each domain_gap metrics`:
 
-[//]: # ()
-[//]: # ( #### Terminal Computation &#40;example with Proxy as Distance&#41;)
-
-[//]: # ( - Move to the right folder : <code>cd dqm/domain_gap</code>)
-
-[//]: # ( - Setup a config file : reference config file are available for each metric in <code> ./cfg/proxy </code>)
-
-[//]: # ( - Run main : <code> python main.py --cfg path/to/config.json </code>)
-
-[//]: # ()
-[//]: # (#### Notebook Computation &#40;example with Proxy as Distance&#41;)
-
-[//]: # ( - Import metric : <code> from dqm.domain_gap.utils import ProxyAsDistance </code>)
-
-[//]: # ( - Instanciate metric : <code> pad = ProxyAsDistance&#40;&#41; </code>)
-
-[//]: # ( - Compute metric : <code> pad.compute_image_distance </code>)
-
-[//]: # ()
-[//]: # (## Functions)
-
-[//]: # (*add description for each function developed* )
-
-[//]: # ()
-[//]: # (- Wasserstein &#40;https://arxiv.org/abs/2201.02824&#41; : distance defined in optimal transport theory. The basic idea is to find the most efficient way to "move" one distribution to match another, where efficiency is measured in terms of both the amount of "mass" moved and the distance over which it is moved. In our implementation, we consider 2 approachs :)
-
-[//]: # (    - 1-dimension : we compute the Wasserstein distance for each feature and averages the distances over all features)
-
-[//]: # (    - 2-dimension : we compute the 2D Wasserstein distance between features extracted from two sets of images, using a method that involves computing a covariance matrix and projecting the features onto its eigenvectors)
-
-[//]: # ()
-[//]: # (- Proxy A Distance &#40;http://arxiv.org/pdf/1412.4446&#41; : theoretical concept that measures the ability of a hypothesis class to distinguish between two domains, PAD is an approximation of the H-divergence that uses the performance of a classifier to estimate the divergence.)
+For some domain_gap examples configuration files the **200_bird_dataset** will be required. It can be downloaded at this [link](http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip).
+The zip archive shall be extracted in ```examples/datasets/``` folder.
 
 ## References
 

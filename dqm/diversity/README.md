@@ -15,30 +15,18 @@ Provides a class DiversityCalculator for calculating different types of diversit
 ### Metric Calculator (metric.py)
 Offers additional metrics, likely including statistical indices like Simpson Index and Gini-Simpson Index for deeper data analysis.
 
-### Main Script (main.py)
-Demonstrates the usage of the DiversityCalculator and DiversityIndexCalculator classes for real-world data application.
-
-The script demonstrates the usage of classes and from diversity and metric scripts: 
-The script showcases the capabilities of the modules by creating instances of classes and invoking their methods.
-
-The main script serves as a central point to showcase and test the functionality provided by these scripts. 
-It creates instances of classes, performs operations on sample data, and logs the results using a logger. 
-
 ## Getting Started
-To utilize scripts, follow these steps:
-
-### Setup
-Install any required dependencies, such as numpy and pandas.
 
 ### Using Diversity Calculator
-Import the DiversityCalculator from diversity.py.
+Import the DiversityCalculator : ```from dqm.diversity.diversity import DiversityCalculator```
 Initialize the calculator and use the compute_diversity method with your data.
 Specify the type of diversity and the aspect you are interested in ('lexical' and 'richness').
 
 ### Using Metric Calculator
-This step depends on the functionality provided in metric.py. 
+This step depends on the functionality provided in from ```dqm.diversity.metric```
 Generally, import the relevant class and use its methods for additional metrics.
 
-### Executing the Main Script
-Run main.py to see other (diversity.py and metric.py) scripts in action.
+### Example 
+See the example [here](
+https://github.com/IRT-SystemX/DataQualityMetrics/blob/develop/examples/main_diversity.py) to see other (diversity.py and metric.py) scripts in action available .
 This script will utilize the aforementioned classes to calculate diversity scores for provided sample datasets.

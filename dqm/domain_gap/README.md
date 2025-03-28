@@ -5,19 +5,23 @@ In the context of machine learning, the domain gap refers to the discrepancy bet
 
 ## Quick start
 
-### source and target domain inputs
+
+
+### Source and target domain inputs
 Source and target datasets have to be provided as path folder in Json configuration file. Those path msut contains only image extension files (.png, .jpg, ...) compatible with PIL (pillow) library.
 
-### How to use our library
+### How to use the domain gap functions
 We proposed 2 approaches to use our implemented metrics. The first appraoch consists of importing the desired metrics class and use it a notebook or script in your python code. To use a metric, import it's class and create an instance in your python file, then create a dictionary object like those provided in cfg/metric/metric.json. Then compute with the compute function of the metrics.
 
- The second approach is to use a metric through CLI, with the main.py script : `python main.py --cfg cfg.json`. Note that a collection of config files is available in "cfg" folder.
+ The second approach is to use a metric through CLI, with the main script available [here](https://github.com/IRT-SystemX/DataQualityMetrics/blob/main/examples/main_domain_gap.py) and using the following ocmmand `python main_domain_gap.py --cfg cfg.json`.
+
+You can find a set of examples of configuration file in this [folder](https://github.com/IRT-SystemX/DataQualityMetrics/tree/main/examples/daomin_gap_cfg) .
+Some config examples will require to downloadthe dataset **200-birds datasets** available at this  [link](http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip) .
 
 <!--- 
 ### More than two datasets to measure (Will be refactored/ work only on CMD)
 You can provide with the `--tsk` command line argument a task list that contain a list of data, a list of features and a list of metric to compute. See the `cfg/task_list.json` example 
 --->
-
 
 ### Model
 

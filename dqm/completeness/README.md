@@ -23,37 +23,9 @@ Calculates the average completeness score for a dataframe.
 - data_completion(data: pd.Series) -> float: 
 Calculates the completeness score for an individual data column.
 
-### main.py (Script)
-
-#### Description
-This script demonstrates the usage of the DataCompleteness class from the metric module to 
-assess data completeness in a DataFrame. It calculates and prints the overall completeness 
-score of the data, as well as the completeness score for a specific column in the DataFrame.
-
-#### Usage
-Run the script directly. It reads a specified CSV file and evaluates its data completeness.
-
-## Usage Guide
-### Setup
-Place both metric.py and main.py in the same directory.
-Ensure you have pandas installed in your Python environment.
-
-### Running the Evaluation
-Modify main.py to point to your specific CSV file by updating the line:
-
-	df = pd.read_csv('path_to_your_data_file.csv')
-
-Run main.py using a Python interpreter:
-
-	python main.py
-
-The script will output:
-- The overall data completeness score for the DataFrame.
-- The completeness score for a specified column (in this case, 'country').
-
 ## Example
 
-	from metric import DataCompleteness
+	from dqm.completeness.metric import DataCompleteness
 	import pandas as pd
 
 	def main():

@@ -1,0 +1,881 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Tests of Completeness, Representtiveness"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Common Libraries\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import dqm "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Tests on challenge welding data\n",
+    "\n",
+    "This dataset is described on the website of challenge welding : https://confianceai.github.io/Welding-Quality-Detection-Challenge/\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>sample_id</th>\n",
+       "      <th>class</th>\n",
+       "      <th>timestamp</th>\n",
+       "      <th>welding-seams</th>\n",
+       "      <th>labelling_type</th>\n",
+       "      <th>resolution</th>\n",
+       "      <th>path</th>\n",
+       "      <th>sha256</th>\n",
+       "      <th>storage_type</th>\n",
+       "      <th>data_origin</th>\n",
+       "      <th>blur_level</th>\n",
+       "      <th>blur_class</th>\n",
+       "      <th>luminosity_level</th>\n",
+       "      <th>external_path</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>data_37966</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>08/07/2022 02:05</td>\n",
+       "      <td>c33</td>\n",
+       "      <td>operator</td>\n",
+       "      <td>[960 540]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'0F\\\\\\x12\\xa1\\x81\\xcdL\\xc3~\\xbe\\x03\\xc90\\x91\\...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>1667.425860</td>\n",
+       "      <td>clean</td>\n",
+       "      <td>51.079433</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>data_25403</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>19/07/2022 00:51</td>\n",
+       "      <td>c102</td>\n",
+       "      <td>operator</td>\n",
+       "      <td>[960 540]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'\\tlM\\xd7\\x83\\\\\\x7fm\\xaeV\\xc6\\xbd\\xd6S@\\x17S\\...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>868.574712</td>\n",
+       "      <td>blur</td>\n",
+       "      <td>32.825601</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>data_27038</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>28/07/2022 16:08</td>\n",
+       "      <td>c102</td>\n",
+       "      <td>operator</td>\n",
+       "      <td>[960 540]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'\\xeb\\xba/\\xe0-\\xe6\\x14\\xd6\\xe0\\xf2oT\\xd1\\xa9...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>1078.402671</td>\n",
+       "      <td>clean</td>\n",
+       "      <td>35.192525</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>data_8767</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>31/01/20 09:41</td>\n",
+       "      <td>c33</td>\n",
+       "      <td>expert</td>\n",
+       "      <td>[1920 1080]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b\"\\x9e@!\\xd3\\xdd\\xaa'\\xb7]\\xeb\\xf7B\\x800\\xf1\\x...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>1240.198851</td>\n",
+       "      <td>clean</td>\n",
+       "      <td>38.510588</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>data_4744</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>25/11/19 21:57</td>\n",
+       "      <td>c20</td>\n",
+       "      <td>expert</td>\n",
+       "      <td>[1920 1080]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'\\x0c\\xd8\\xcfb\\x95\\\\\\xb9\\xa8w\\xe7^\\xea\\rX,8\\x...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>3371.897144</td>\n",
+       "      <td>clean</td>\n",
+       "      <td>46.001366</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>22748</th>\n",
+       "      <td>data_66456</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>29/10/19 01:33</td>\n",
+       "      <td>c102</td>\n",
+       "      <td>expert</td>\n",
+       "      <td>[1920 1080]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'\\x9fZ^\\xc5j\\xf1\\xd8JRw\\x03\\xa4C\\x04\\xa6\\xa1\\...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>4463.079210</td>\n",
+       "      <td>clean</td>\n",
+       "      <td>41.554284</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>22749</th>\n",
+       "      <td>data_24294</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>07/07/2022 01:40</td>\n",
+       "      <td>c102</td>\n",
+       "      <td>operator</td>\n",
+       "      <td>[960 540]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'\\x05\\x07x\\xa4\\xb8\\x01\\xf1a\\x18.\\x13\\xe4\\xe6\\...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>859.194594</td>\n",
+       "      <td>blur</td>\n",
+       "      <td>31.966749</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>22750</th>\n",
+       "      <td>data_25568</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>19/07/2022 11:59</td>\n",
+       "      <td>c102</td>\n",
+       "      <td>operator</td>\n",
+       "      <td>[960 540]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'O\\x0eT\\xa1\\x8b\\xa0\\xf5\\xaei\\x81\\xe8\\x16\\x96p...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>977.316444</td>\n",
+       "      <td>clean</td>\n",
+       "      <td>40.872106</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>22751</th>\n",
+       "      <td>data_39356</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>13/07/2022 06:45</td>\n",
+       "      <td>c33</td>\n",
+       "      <td>operator</td>\n",
+       "      <td>[960 540]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'\\x1bh\\xd9\\x8aK\\x88\\xc1\\xcb\\xea\\xff\\xe3]{\\x0e...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>1653.447154</td>\n",
+       "      <td>clean</td>\n",
+       "      <td>50.429395</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>22752</th>\n",
+       "      <td>data_8988</td>\n",
+       "      <td>OK</td>\n",
+       "      <td>09/03/20 12:22</td>\n",
+       "      <td>c33</td>\n",
+       "      <td>expert</td>\n",
+       "      <td>[1920 1080]</td>\n",
+       "      <td>challenge-welding/datasets/welding-detection-c...</td>\n",
+       "      <td>b'\\xce\\x0e\\x87\\xd7\\x9b\\x8d\\xc4\\x10[\\xe9\\x8fl\\x...</td>\n",
+       "      <td>s3</td>\n",
+       "      <td>real</td>\n",
+       "      <td>593.528212</td>\n",
+       "      <td>blur</td>\n",
+       "      <td>39.343171</td>\n",
+       "      <td>http://minio-storage.apps.confianceai-public.i...</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>22753 rows × 14 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        sample_id class         timestamp welding-seams labelling_type  \\\n",
+       "0      data_37966    OK  08/07/2022 02:05           c33       operator   \n",
+       "1      data_25403    OK  19/07/2022 00:51          c102       operator   \n",
+       "2      data_27038    OK  28/07/2022 16:08          c102       operator   \n",
+       "3       data_8767    OK    31/01/20 09:41           c33         expert   \n",
+       "4       data_4744    OK    25/11/19 21:57           c20         expert   \n",
+       "...           ...   ...               ...           ...            ...   \n",
+       "22748  data_66456    OK    29/10/19 01:33          c102         expert   \n",
+       "22749  data_24294    OK  07/07/2022 01:40          c102       operator   \n",
+       "22750  data_25568    OK  19/07/2022 11:59          c102       operator   \n",
+       "22751  data_39356    OK  13/07/2022 06:45           c33       operator   \n",
+       "22752   data_8988    OK    09/03/20 12:22           c33         expert   \n",
+       "\n",
+       "        resolution                                               path  \\\n",
+       "0        [960 540]  challenge-welding/datasets/welding-detection-c...   \n",
+       "1        [960 540]  challenge-welding/datasets/welding-detection-c...   \n",
+       "2        [960 540]  challenge-welding/datasets/welding-detection-c...   \n",
+       "3      [1920 1080]  challenge-welding/datasets/welding-detection-c...   \n",
+       "4      [1920 1080]  challenge-welding/datasets/welding-detection-c...   \n",
+       "...            ...                                                ...   \n",
+       "22748  [1920 1080]  challenge-welding/datasets/welding-detection-c...   \n",
+       "22749    [960 540]  challenge-welding/datasets/welding-detection-c...   \n",
+       "22750    [960 540]  challenge-welding/datasets/welding-detection-c...   \n",
+       "22751    [960 540]  challenge-welding/datasets/welding-detection-c...   \n",
+       "22752  [1920 1080]  challenge-welding/datasets/welding-detection-c...   \n",
+       "\n",
+       "                                                  sha256 storage_type  \\\n",
+       "0      b'0F\\\\\\x12\\xa1\\x81\\xcdL\\xc3~\\xbe\\x03\\xc90\\x91\\...           s3   \n",
+       "1      b'\\tlM\\xd7\\x83\\\\\\x7fm\\xaeV\\xc6\\xbd\\xd6S@\\x17S\\...           s3   \n",
+       "2      b'\\xeb\\xba/\\xe0-\\xe6\\x14\\xd6\\xe0\\xf2oT\\xd1\\xa9...           s3   \n",
+       "3      b\"\\x9e@!\\xd3\\xdd\\xaa'\\xb7]\\xeb\\xf7B\\x800\\xf1\\x...           s3   \n",
+       "4      b'\\x0c\\xd8\\xcfb\\x95\\\\\\xb9\\xa8w\\xe7^\\xea\\rX,8\\x...           s3   \n",
+       "...                                                  ...          ...   \n",
+       "22748  b'\\x9fZ^\\xc5j\\xf1\\xd8JRw\\x03\\xa4C\\x04\\xa6\\xa1\\...           s3   \n",
+       "22749  b'\\x05\\x07x\\xa4\\xb8\\x01\\xf1a\\x18.\\x13\\xe4\\xe6\\...           s3   \n",
+       "22750  b'O\\x0eT\\xa1\\x8b\\xa0\\xf5\\xaei\\x81\\xe8\\x16\\x96p...           s3   \n",
+       "22751  b'\\x1bh\\xd9\\x8aK\\x88\\xc1\\xcb\\xea\\xff\\xe3]{\\x0e...           s3   \n",
+       "22752  b'\\xce\\x0e\\x87\\xd7\\x9b\\x8d\\xc4\\x10[\\xe9\\x8fl\\x...           s3   \n",
+       "\n",
+       "      data_origin   blur_level blur_class  luminosity_level  \\\n",
+       "0            real  1667.425860      clean         51.079433   \n",
+       "1            real   868.574712       blur         32.825601   \n",
+       "2            real  1078.402671      clean         35.192525   \n",
+       "3            real  1240.198851      clean         38.510588   \n",
+       "4            real  3371.897144      clean         46.001366   \n",
+       "...           ...          ...        ...               ...   \n",
+       "22748        real  4463.079210      clean         41.554284   \n",
+       "22749        real   859.194594       blur         31.966749   \n",
+       "22750        real   977.316444      clean         40.872106   \n",
+       "22751        real  1653.447154      clean         50.429395   \n",
+       "22752        real   593.528212       blur         39.343171   \n",
+       "\n",
+       "                                           external_path  \n",
+       "0      http://minio-storage.apps.confianceai-public.i...  \n",
+       "1      http://minio-storage.apps.confianceai-public.i...  \n",
+       "2      http://minio-storage.apps.confianceai-public.i...  \n",
+       "3      http://minio-storage.apps.confianceai-public.i...  \n",
+       "4      http://minio-storage.apps.confianceai-public.i...  \n",
+       "...                                                  ...  \n",
+       "22748  http://minio-storage.apps.confianceai-public.i...  \n",
+       "22749  http://minio-storage.apps.confianceai-public.i...  \n",
+       "22750  http://minio-storage.apps.confianceai-public.i...  \n",
+       "22751  http://minio-storage.apps.confianceai-public.i...  \n",
+       "22752  http://minio-storage.apps.confianceai-public.i...  \n",
+       "\n",
+       "[22753 rows x 14 columns]"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# upload data \n",
+    "# Dataset path\n",
+    "path = \"datasets/challenge_welding.csv\"\n",
+    "data = pd.read_csv(path, sep=\",\")\n",
+    "#print(\"Data info:\\n\", data.info())\n",
+    "# print(\"The first 5 lines:\\n\", data.head())\n",
+    "data"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Completeness \n",
+    "you can see also the file: *dqm/completeness/main.py*"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "## Specific Libraries \n",
+    "from dqm.completeness.metric import DataCompleteness"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1.0"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Compute completeness on the whole dataset\n",
+    "completeness_evaluator = DataCompleteness()\n",
+    "overall_score = completeness_evaluator.completeness_tabular(data)\n",
+    "overall_score"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Overall Data Completeness Score: 1.0\n",
+      "Completeness Score for Column: 1\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Compute completeness on a single column\n",
+    "column_score = completeness_evaluator.data_completion(data['blur_level'])\n",
+    "\n",
+    "# Print the results\n",
+    "print(f'Overall Data Completeness Score: {overall_score}')\n",
+    "print(f'Completeness Score for Column: {column_score}')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Representativeness"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[03-28 15:55:04] {C:\\SAUVEGARDES_FIN_CONFIANCE\\FONDATION\\Support_composants\\env-dqm-NG\\Lib\\site-packages\\dqm\\representativeness\\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [<StreamHandler stdout (DEBUG)>]\n",
+      "[03-28 15:55:04] {C:\\SAUVEGARDES_FIN_CONFIANCE\\FONDATION\\Support_composants\\env-dqm-NG\\Lib\\site-packages\\dqm\\representativeness\\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [<StreamHandler stdout (DEBUG)>]\n"
+     ]
+    }
+   ],
+   "source": [
+    "## Specific Libraries\n",
+    "from dqm.representativeness.metric import DistributionAnalyzer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1650.9658847770813 946.0829447223126\n"
+     ]
+    }
+   ],
+   "source": [
+    "var = data[\"blur_level\"] # you can choose another variable from the data. \n",
+    "mean = np.mean(var)\n",
+    "std = np.std(var)\n",
+    "# data = pd.Series(np.random.normal(0, 1, 1000))\n",
+    "print(mean,std)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[03-28 15:55:05] {C:\\SAUVEGARDES_FIN_CONFIANCE\\FONDATION\\Support_composants\\env-dqm-NG\\Lib\\site-packages\\dqm\\representativeness\\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [<StreamHandler stdout (DEBUG)>]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Parameters for analysis\n",
+    "bins = 20\n",
+    "distribution = 'normal'\n",
+    "\n",
+    "# Instantiation of DistributionAnalyzer\n",
+    "analyzer = DistributionAnalyzer(var, bins, distribution)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[03-28 15:55:07] {C:\\SAUVEGARDES_FIN_CONFIANCE\\FONDATION\\Support_composants\\env-dqm-NG\\Lib\\site-packages\\dqm\\representativeness\\metric.py:170} INFO      - pvalue = 0.0 < 0.05: Data is not following the normal distribution\n",
+      "Chi-Square Test: p-value = 0.0\n",
+      "Chi-Square Test: discretized intervalls are \n",
+      " =     lower_limit  upper_limit  obs_freq  exp_freq\n",
+      "0          -inf    94.797922       7.0    1209.0\n",
+      "1     94.797922   438.511806    1406.0    1108.0\n",
+      "2    438.511806   670.413932    1274.0    1168.0\n",
+      "3    670.413932   854.722390    2869.0    1065.0\n",
+      "4    854.722390  1012.842636    2083.0    1120.0\n",
+      "5   1012.842636  1154.839504    1025.0    1105.0\n",
+      "6   1154.839504  1286.420763     723.0    1127.0\n",
+      "7   1286.420763  1411.278511     621.0    1119.0\n",
+      "8   1411.278511  1532.079828     618.0    1123.0\n",
+      "9   1532.079828  1650.965885     847.0    1145.0\n",
+      "10  1650.965885  1769.851942    1309.0    1082.0\n",
+      "11  1769.851942  1890.653258    1646.0    1118.0\n",
+      "12  1890.653258  2015.511006    1460.0    1193.0\n",
+      "13  2015.511006  2147.092266    1182.0    1161.0\n",
+      "14  2147.092266  2289.089134     897.0    1122.0\n",
+      "15  2289.089134  2447.209380     708.0    1127.0\n",
+      "16  2447.209380  2631.517838     711.0    1126.0\n",
+      "17  2631.517838  2863.419964     806.0    1205.0\n",
+      "18  2863.419964  3207.133848     935.0    1163.0\n",
+      "19  3207.133848          inf    1626.0    1167.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Using the method chisquare_test\n",
+    "pvalue, intervals_frequencies = analyzer.chisquare_test()\n",
+    "print(f\"Chi-Square Test: p-value = {pvalue}\")\n",
+    "print(f\"Chi-Square Test: discretized intervalls are \\n = {intervals_frequencies}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "par dist (np.float64(1650.9658847770813), np.float64(946.0829447223126))\n",
+      "[03-28 15:56:05] {C:\\SAUVEGARDES_FIN_CONFIANCE\\FONDATION\\Support_composants\\env-dqm-NG\\Lib\\site-packages\\dqm\\representativeness\\metric.py:227} INFO      - KstestResult(statistic=np.float64(0.08743767587843615), pvalue=np.float64(8.40127378157898e-152), statistic_location=np.float64(1038.29640591), statistic_sign=np.int8(1))\n",
+      "[03-28 15:56:05] {C:\\SAUVEGARDES_FIN_CONFIANCE\\FONDATION\\Support_composants\\env-dqm-NG\\Lib\\site-packages\\dqm\\representativeness\\metric.py:230} INFO      - p-value = 8.40127378157898e-152 < 0.05 : The data is not followingthe normal distribution\n",
+      "Kolmogorov-Smirnov Test: p-value = 8.40127378157898e-152\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Using the method kolmogorov\n",
+    "ks_pvalue = analyzer.kolmogorov(mean,std)\n",
+    "print(f\"Kolmogorov-Smirnov Test: p-value = {ks_pvalue}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Shannon Entropy: 2.9951117507101492\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Using the method shannon_entropy\n",
+    "entropy = analyzer.shannon_entropy()\n",
+    "print(f\"Shannon Entropy: {entropy}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "GRTE: 0.7474979873526185\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Using the method grte\n",
+    "grte_result, intervals_discretized = analyzer.grte()\n",
+    "print(f\"GRTE: {grte_result}\")\n",
+    "#print(f\"GRTE discretized intervalls are \\n = {intervals_discretized}\") # uncomment to display data discretization"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Diversity test"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# specifion Libraries \n",
+    "from dqm.diversity.metric import DiversityIndexCalculator"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "metric_calculator = DiversityIndexCalculator()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.9999999729560708"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Simpson index\n",
+    "metric_calculator.simpson(data['luminosity_level'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.9999560227089405"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Gini-Simpson Index\n",
+    "metric_calculator.gini(data['luminosity_level'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[03-28 15:56:28] {C:\\SAUVEGARDES_FIN_CONFIANCE\\FONDATION\\Support_composants\\env-dqm-NG\\Lib\\site-packages\\dqm\\diversity\\twe_logger.py:104} INFO      - Logger: twe_logger, handlers: [<StreamHandler stdout (DEBUG)>]\n"
+     ]
+    }
+   ],
+   "source": [
+    "from dqm.diversity.diversity import DiversityCalculator\n",
+    "from dqm.diversity.metric import DiversityIndexCalculator\n",
+    "from dqm.diversity.twe_logger import get_logger\n",
+    "import pandas as pd\n",
+    "\n",
+    "class DataDiversityAnalyzer:\n",
+    "    \"\"\"\n",
+    "    A class for analyzing the diversity of datasets.\n",
+    "\n",
+    "    This class integrates with DiversityCalculator and DiversityIndexCalculator\n",
+    "    to compute and analyze various diversity indices within a dataset. It provides\n",
+    "    methods to calculate and report diversity scores for specific features, aiding\n",
+    "    in understanding the distribution and representation in datasets.\n",
+    "\n",
+    "    Methods:\n",
+    "        calculate_diversity_scores(data, feature): Calculates and logs the\n",
+    "            diversity scores for a given feature.\n",
+    "        none_function(): A placeholder method that currently does nothing.\n",
+    "    \"\"\"\n",
+    "\n",
+    "    def __init__(self):\n",
+    "        \"\"\"\n",
+    "        Initializes the DataDiversityAnalyzer with necessary components.\n",
+    "\n",
+    "        Attributes:\n",
+    "            metric_calculator (DiversityIndexCalculator): Calculator for diversity indices.\n",
+    "            calculator (DiversityCalculator): Calculator for general diversity metrics.\n",
+    "            logger (Logger): Logger for logging information during the analysis.\n",
+    "        \"\"\"\n",
+    "        self.metric_calculator = DiversityIndexCalculator()\n",
+    "        self.calculator = DiversityCalculator()\n",
+    "        self.logger = get_logger()\n",
+    "\n",
+    "    def calculate_diversity_scores(self, data: pd.Series, feature: str):\n",
+    "        \"\"\"\n",
+    "        Calculate diversity scores for a given feature in the dataset.\n",
+    "\n",
+    "        Args:\n",
+    "            data (pandas.DataFrame): The dataset containing the feature.\n",
+    "            feature (str): The feature for which diversity scores are calculated.\n",
+    "\n",
+    "        Returns: None\n",
+    "        \"\"\"\n",
+    "        #self.logger.info(\"The first 5 lines of the data:\")\n",
+    "        #self.logger.info(data.head())\n",
+    "        #self.logger.info(\"Data shape:\")\n",
+    "        #self.logger.info(data.shape)\n",
+    "        #self.logger.info(\"Columns:\")\n",
+    "        #self.logger.info(data.columns)\n",
+    "        #self.logger.info(\"Columns types:\")\n",
+    "        #self.logger.info(data.dtypes)\n",
+    "\n",
+    "        data = data.dropna()\n",
+    "\n",
+    "        s = self.metric_calculator.simpson(data[feature])\n",
+    "        self.logger.info(\"Simpson index: %s\", s)\n",
+    "\n",
+    "        g = self.metric_calculator.gini(data[feature])\n",
+    "        self.logger.info(\"Gini index: %s\", g)\n",
+    "\n",
+    "        diversity_score = self.calculator.compute_diversity(data[feature], 'lexical', 'richness')\n",
+    "        self.logger.info(\"Diversity score: %s\", diversity_score)\n",
+    "\n",
+    "    def none_function(self) -> None:\n",
+    "        \"\"\"\n",
+    "        A placeholder function that currently performs no operation.\n",
+    "\n",
+    "        Returns: None\n",
+    "        \"\"\"\n",
+    "        self.logger.info(\"Do not something\")\n",
+    "\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[03-28 16:01:40] {C:\\SAUVEGARDES_FIN_CONFIANCE\\FONDATION\\Support_composants\\env-dqm-NG\\Lib\\site-packages\\dqm\\diversity\\twe_logger.py:104} INFO      - Logger: twe_logger, handlers: [<StreamHandler stdout (DEBUG)>]\n",
+      "For blur_level feature :\n",
+      "[03-28 16:01:40] {C:\\Users\\josquin.foulliaron\\AppData\\Local\\Temp\\ipykernel_29424\\3773604603.py:56} INFO      - Simpson index: 1.0\n",
+      "[03-28 16:01:40] {C:\\Users\\josquin.foulliaron\\AppData\\Local\\Temp\\ipykernel_29424\\3773604603.py:59} INFO      - Gini index: 0.9999560497516811\n",
+      "[03-28 16:01:40] {C:\\Users\\josquin.foulliaron\\AppData\\Local\\Temp\\ipykernel_29424\\3773604603.py:62} INFO      - Diversity score: 10.032452283817129\n",
+      "---------------------------------------------------------\n",
+      "For luminosity_level feature :\n",
+      "[03-28 16:01:40] {C:\\Users\\josquin.foulliaron\\AppData\\Local\\Temp\\ipykernel_29424\\3773604603.py:56} INFO      - Simpson index: 0.9999999729560708\n",
+      "[03-28 16:01:40] {C:\\Users\\josquin.foulliaron\\AppData\\Local\\Temp\\ipykernel_29424\\3773604603.py:59} INFO      - Gini index: 0.9999560227089405\n",
+      "[03-28 16:01:40] {C:\\Users\\josquin.foulliaron\\AppData\\Local\\Temp\\ipykernel_29424\\3773604603.py:62} INFO      - Diversity score: 10.03202578794723\n",
+      "---------------------------------------------------------\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Use of DataDiversityAnalyzer Class\n",
+    "analyzer = DataDiversityAnalyzer()\n",
+    "df = pd.read_csv(\"datasets/challenge_welding.csv\", sep = \",\")\n",
+    "#feature_name = \"Traffic_light_green\"\n",
+    "#analyzer.calculate_diversity_scores(df, feature_name)\n",
+    "\n",
+    "for i in df:\n",
+    "    if df.dtypes[i] not in ('object', 'bool'):\n",
+    "        print(f\"For { i } feature :\")\n",
+    "        analyzer.calculate_diversity_scores(df, i)\n",
+    "        print(\"---------------------------------------------------------\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "class\n",
+      "OK    22259\n",
+      "KO      494\n",
+      "Name: count, dtype: int64\n",
+      "c102\n",
+      "c20\n",
+      "c33\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "np.float64(1.5)"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a = df[\"class\"].value_counts()\n",
+    "b = a.index\n",
+    "print(a)\n",
+    "index_in = 0\n",
+    "requirement_welding_seams = [\"c102\",\"c20\", \"c33\"]\n",
+    "\n",
+    "def relative_diversity (variable, requirements):\n",
+    "    index_in = 0\n",
+    "    for i in requirements:\n",
+    "        if i in variable.value_counts().index:\n",
+    "            print(i)\n",
+    "            index_in +=1\n",
+    "\n",
+    "    Relative_diversity_score = index_in /(b.value_counts().count()+len(requirement_camera)-index_in)\n",
+    "    return Relative_diversity_score\n",
+    "#Relative_diversity\n",
+    "\n",
+    "relative_diversity (df[\"welding-seams\"], requirement_welding_seams)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "env-dqmNG",
+   "language": "python",
+   "name": "env-dqmng"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.9"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

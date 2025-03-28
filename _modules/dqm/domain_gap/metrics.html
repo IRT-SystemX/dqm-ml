@@ -1,0 +1,1308 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dqm.domain_gap.metrics &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dqm.html">🎡 Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dqm.domain_gap.metrics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dqm.domain_gap.metrics</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module defines a GapMetric class responsible for calculating</span>
+<span class="sd">the Domain Gap distance between source and target data using various methods and models.</span>
+<span class="sd">It utilizes various methods and models for this purpose.</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    Yoann RANDON</span>
+<span class="sd">    Sabrina CHAOUCHE</span>
+<span class="sd">    Faouzi ADJED</span>
+
+<span class="sd">Dependencies:</span>
+<span class="sd">    time</span>
+<span class="sd">    json</span>
+<span class="sd">    argparse</span>
+<span class="sd">    typing</span>
+<span class="sd">    mlflow</span>
+<span class="sd">    torchvision.models (resnet50, ResNet50_Weights, resnet18, ResNet18_Weights)</span>
+<span class="sd">    utils (DomainMeter)</span>
+<span class="sd">    twe_logger</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    DomainGapMetrics: Class for calculating Central Moment Discrepancy (CMD)</span>
+<span class="sd">        distance between source and target data.</span>
+
+<span class="sd">Functions: None</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">1. Create an instance of GapMetric.</span>
+<span class="sd">2. Parse the configuration using parse_config().</span>
+<span class="sd">3. Load the CNN model using load_model(cfg).</span>
+<span class="sd">4. Compute the CMD distance using compute_distance(cfg).</span>
+<span class="sd">5. Log MLflow parameters using set_mlflow_params(cfg).</span>
+<span class="sd">6. Process multiple tasks using process_tasks(cfg, tsk).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.domain_gap.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">extract_nth_layer_feature</span><span class="p">,</span>
+    <span class="n">generate_transform</span><span class="p">,</span>
+    <span class="n">load_model</span><span class="p">,</span>
+    <span class="n">compute_features</span><span class="p">,</span>
+    <span class="n">construct_dataloader</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">wasserstein_distance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">sqrtm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigh</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">svm</span>
+
+
+<div class="viewcode-block" id="Metric">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.Metric">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Metric</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for defining a metric.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Metric instance.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="Metric.compute">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.Metric.compute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the value of the metric.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<span class="c1"># ==========================================================================#</span>
+<span class="c1">#                      MMD - Maximum Mean Discrepancy                       #</span>
+<span class="c1"># ==========================================================================#</span>
+<div class="viewcode-block" id="MMD">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.MMD">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MMD</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Maximum Mean Discrepancy metric class defintion&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__rbf_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the Radial Basis Function (RBF) kernel between two sets of vectors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): Tensor of shape (N, D), where N is the number of samples.</span>
+<span class="sd">            y (torch.Tensor): Tensor of shape (M, D), where M is the number of samples.</span>
+<span class="sd">            gamma (float): Kernel coefficient, typically 1 / (2 * sigma^2).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: Kernel matrix of shape (N, M) with RBF similarities.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="o">-</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">k</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__polynomial_kernel</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">degree</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">coefficient0</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the Polynomial Kernel between two tensors.</span>
+
+<span class="sd">        The polynomial kernel is defined as:</span>
+<span class="sd">            K(x, y) = (γ * ⟨x, y⟩ + c) ^ d</span>
+
+<span class="sd">        where:</span>
+<span class="sd">            - ⟨x, y⟩ is the dot product of `x` and `y`</span>
+<span class="sd">            - γ (gamma) is a scaling factor</span>
+<span class="sd">            - c (coefficient0) is a bias term</span>
+<span class="sd">            - d (degree) is the polynomial degree</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): A tensor of shape (N, D), where N is the number of samples.</span>
+<span class="sd">            y (torch.Tensor): A tensor of shape (M, D), where M is the number of samples.</span>
+<span class="sd">            degree (float): The degree of the polynomial.</span>
+<span class="sd">            gamma (float): The scaling factor for the dot product.</span>
+<span class="sd">            coefficient0 (float): The bias term.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: A kernel matrix of shape (N, M) containing polynomial similarities.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">gamma</span> <span class="o">+</span> <span class="n">coefficient0</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MMD.compute">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.MMD.compute">[docs]</a>
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes a domain gap metric between two datasets using a specified kernel method.</span>
+
+<span class="sd">        This function extracts features from source and target datasets using a deep learning model,</span>
+<span class="sd">        applies a specified kernel function (linear, RBF, or polynomial), and computes a similarity</span>
+<span class="sd">        measure between the datasets.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cfg (dict): Configuration dictionary containing:</span>
+<span class="sd">                - `DATA`:</span>
+<span class="sd">                    - `source` (str): Path to the source dataset.</span>
+<span class="sd">                    - `target` (str): Path to the target dataset.</span>
+<span class="sd">                    - `batch_size` (int): Batch size for dataloaders.</span>
+<span class="sd">                    - `width` (int): Width of input images.</span>
+<span class="sd">                    - `height` (int): Height of input images.</span>
+<span class="sd">                    - `norm_mean` (tuple): Mean for normalization.</span>
+<span class="sd">                    - `norm_std` (tuple): Standard deviation for normalization.</span>
+<span class="sd">                - `MODEL`:</span>
+<span class="sd">                    - `arch` (str): Model architecture.</span>
+<span class="sd">                    - `n_layer_feature` (int): Layer from which features are extracted.</span>
+<span class="sd">                    - `device` (str): Device to run computations (&#39;cpu&#39; or &#39;cuda&#39;).</span>
+<span class="sd">                - `METHOD`:</span>
+<span class="sd">                    - `kernel` (str): Kernel type (&#39;linear&#39;, &#39;rbf&#39;, &#39;poly&#39;).</span>
+<span class="sd">                    - `kernel_params` (dict): Parameters for the chosen kernel.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: Computed domain gap value based on the selected kernel.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If source and target datasets have different sizes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+        <span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span>
+        <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span>
+        <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;arch&quot;</span><span class="p">]</span>
+        <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;METHOD&quot;</span><span class="p">][</span><span class="s2">&quot;kernel&quot;</span><span class="p">]</span>
+        <span class="n">kernel_params</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;METHOD&quot;</span><span class="p">][</span><span class="s2">&quot;kernel_params&quot;</span><span class="p">]</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">image_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span>
+        <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span>
+
+        <span class="n">source_features_t</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">target_features_t</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># flatten features to compute on matricial features</span>
+        <span class="n">source_features</span> <span class="o">=</span> <span class="n">source_features_t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">source_features_t</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">target_features</span> <span class="o">=</span> <span class="n">target_features_t</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">target_features_t</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Both datasets (source and target) have to have the same size</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">source_features</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_features</span><span class="p">)</span>
+
+        <span class="n">feature_extractor</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+        <span class="c1"># Get the features of the source and target datasets using the model</span>
+        <span class="k">if</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span><span class="p">:</span>
+            <span class="n">xx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">source_features</span><span class="p">,</span> <span class="n">source_features</span><span class="o">.</span><span class="n">t</span><span class="p">())</span>
+            <span class="n">yy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">target_features</span><span class="p">,</span> <span class="n">target_features</span><span class="o">.</span><span class="n">t</span><span class="p">())</span>
+            <span class="n">xy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">source_features</span><span class="p">,</span> <span class="n">target_features</span><span class="o">.</span><span class="n">t</span><span class="p">())</span>
+
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xx</span> <span class="o">+</span> <span class="n">yy</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">xy</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s2">&quot;rbf&quot;</span><span class="p">:</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="n">kernel_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">source_features</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">source_features</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">source_features</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">target_features</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">target_features</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">target_features</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rbf_kernel</span><span class="p">(</span><span class="n">source_features</span><span class="p">,</span> <span class="n">source_features</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+            <span class="n">yy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rbf_kernel</span><span class="p">(</span><span class="n">target_features</span><span class="p">,</span> <span class="n">target_features</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+            <span class="n">xy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rbf_kernel</span><span class="p">(</span><span class="n">source_features</span><span class="p">,</span> <span class="n">target_features</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xx</span> <span class="o">+</span> <span class="n">yy</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">xy</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s2">&quot;poly&quot;</span><span class="p">:</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="n">kernel_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;degree&quot;</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+            <span class="n">gamma</span> <span class="o">=</span> <span class="n">kernel_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">coefficient0</span> <span class="o">=</span> <span class="n">kernel_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coefficient0&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__polynomial_kernel</span><span class="p">(</span>
+                <span class="n">source_features</span><span class="p">,</span> <span class="n">source_features</span><span class="o">.</span><span class="n">t</span><span class="p">(),</span> <span class="n">degree</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">coefficient0</span>
+            <span class="p">)</span>
+            <span class="n">yy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__polynomial_kernel</span><span class="p">(</span>
+                <span class="n">target_features</span><span class="p">,</span> <span class="n">target_features</span><span class="o">.</span><span class="n">t</span><span class="p">(),</span> <span class="n">degree</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">coefficient0</span>
+            <span class="p">)</span>
+            <span class="n">xy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__polynomial_kernel</span><span class="p">(</span>
+                <span class="n">source_features</span><span class="p">,</span> <span class="n">target_features</span><span class="o">.</span><span class="n">t</span><span class="p">(),</span> <span class="n">degree</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">coefficient0</span>
+            <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xx</span> <span class="o">+</span> <span class="n">yy</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">xy</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1"># ==========================================================================#</span>
+<span class="c1">#                     CMD - Central Moments Discrepancy v2                 #</span>
+<span class="c1"># ==========================================================================#</span>
+
+
+<div class="viewcode-block" id="RMSELoss">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.RMSELoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RMSELoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Root Mean Squared Error (RMSE) loss between the predicted values and the target values.</span>
+
+<span class="sd">    This class provides a PyTorch module for calculating the RMSE loss, which is a common metric for</span>
+<span class="sd">    evaluating the accuracy of regression models. The RMSE is the square root of the average of squared</span>
+<span class="sd">    differences between predicted values and target values.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        mse (nn.MSELoss): Mean Squared Error loss module with reduction set to &quot;sum&quot;.</span>
+<span class="sd">        eps (float): A small value added to the loss to prevent division by zero and ensure numerical stability.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        forward(yhat, y): Compute the RMSE loss between the predicted values `yhat` and the target values `y`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mse</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+
+<div class="viewcode-block" id="RMSELoss.forward">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.RMSELoss.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mse</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CMD">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.CMD">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CMD</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__get_unbiased</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes an unbiased normalization factor for higher-order statistical moments.</span>
+
+<span class="sd">        This function calculates the product of `(n-1) * (n-2) * ... * (n-k+1)`,</span>
+<span class="sd">        which is used to adjust higher-order moment estimations to be unbiased.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n (int): Total number of samples.</span>
+<span class="sd">            k (int): Order of the moment being computed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The unbiased normalization factor.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If `n &lt;= 0`, `k &lt;= 0`, or `n &lt;= k`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="n">k</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">*=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__compute_moments</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dataloader</span><span class="p">,</span>
+        <span class="n">feature_extractor</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">,</span>
+        <span class="n">device</span><span class="p">,</span>
+        <span class="n">shapes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">axis_config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">apply_sigmoid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">unbiased</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the first `k` statistical moments of feature maps extracted from a dataset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataloader (torch.utils.data.DataLoader): DataLoader providing batches of input data.</span>
+<span class="sd">            feature_extractor (callable): Function or model that extracts features from input data.</span>
+<span class="sd">            k (int): Number of moments to compute (e.g., mean, variance, skewness, etc.).</span>
+<span class="sd">            device (torch.device): Device on which to perform computations (e.g., &quot;cuda&quot; or &quot;cpu&quot;).</span>
+<span class="sd">            shapes (dict): Dictionary mapping layer names to their corresponding tensor shapes.</span>
+<span class="sd">            axis_config (dict[str, tuple], optional): Dictionary specifying summation and viewing axes.</span>
+<span class="sd">                Defaults to `{&quot;sum_axis&quot;: (0, 2, 3), &quot;view_axis&quot;: (1, -1, 1, 1)}`.</span>
+<span class="sd">            apply_sigmoid (bool, optional): Whether to apply a sigmoid function to extracted features.</span>
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            unbiased (bool, optional): Whether to apply unbiased estimation for higher-order moments.</span>
+<span class="sd">                Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing computed moments for each layer. The structure is:</span>
+<span class="sd">                {</span>
+<span class="sd">                    &quot;layer_name&quot;: {</span>
+<span class="sd">                        0: mean tensor,</span>
+<span class="sd">                        1: second moment tensor,</span>
+<span class="sd">                        ...</span>
+<span class="sd">                        k-1: kth moment tensor</span>
+<span class="sd">                    },</span>
+<span class="sd">                    ...</span>
+<span class="sd">                }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Initialize axis_config if None</span>
+        <span class="k">if</span> <span class="n">axis_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">axis_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sum_axis&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;view_axis&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+
+        <span class="c1"># Initialize statistics dictionary</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="p">{</span><span class="n">layer_name</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">layer_name</span> <span class="ow">in</span> <span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">channels</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+                <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Initialize normalization factors for each layer</span>
+        <span class="n">nb_samples</span> <span class="o">=</span> <span class="p">{</span><span class="n">layer_name</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">layer_name</span> <span class="ow">in</span> <span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>  <span class="c1"># TOTOTOTO</span>
+
+        <span class="c1"># Iterate through the DataLoader</span>
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="c1"># Update the sample count for normalization</span>
+            <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">nb_samples</span><span class="p">[</span><span class="n">layer_name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">batch_size</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+            <span class="c1"># Compute features for the current batch</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="n">feature_extractor</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+
+            <span class="c1"># Compute mean (1st moment)</span>
+            <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">apply_sigmoid</span><span class="p">:</span>
+                    <span class="n">feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+                <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">feature</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sum_axis&quot;</span><span class="p">))</span>
+
+            <span class="c1"># Normalize the first moment (mean)</span>
+            <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nb_samples</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="n">n</span>
+
+                <span class="c1"># Compute higher-order moments (k &gt;= 2)</span>
+            <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+                <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">features</span> <span class="o">=</span> <span class="n">feature_extractor</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">apply_sigmoid</span><span class="p">:</span>
+                        <span class="n">feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+
+                    <span class="c1"># Calculate differences from the mean</span>
+                    <span class="n">difference</span> <span class="o">=</span> <span class="n">feature</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
+                        <span class="n">axis_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;view_axis&quot;</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Accumulate moments for k &gt;= 2</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                        <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">difference</span> <span class="o">**</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                            <span class="n">axis_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sum_axis&quot;</span><span class="p">)</span>
+                        <span class="p">)</span>
+
+        <span class="c1"># Normalize higher-order moments</span>
+        <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nb_samples</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">/=</span> <span class="n">n</span>
+                <span class="k">if</span> <span class="n">unbiased</span><span class="p">:</span>
+                    <span class="n">nb_samples_unbiased</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_unbiased</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                    <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">*=</span> <span class="n">n</span><span class="o">**</span><span class="n">j</span> <span class="o">/</span> <span class="n">nb_samples_unbiased</span>
+
+        <span class="k">return</span> <span class="n">moments</span>
+
+<div class="viewcode-block" id="CMD.compute">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.CMD.compute">[docs]</a>
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Central Moment Discrepancy (CMD) loss between source and target datasets using a pre-trained model.</span>
+
+<span class="sd">        This method calculates the CMD loss, which measures the discrepancy between the distributions of features</span>
+<span class="sd">        extracted from source and target datasets. The features are extracted from specified layers of the model,</span>
+<span class="sd">        and the loss is computed as a weighted sum of the differences in moments of the feature distributions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cfg (Dict): A configuration dictionary containing the following keys:</span>
+<span class="sd">                - &quot;DATA&quot;: Dictionary with data-related configurations:</span>
+<span class="sd">                    - &quot;source&quot; (str): Path to the source folder containing images.</span>
+<span class="sd">                    - &quot;target&quot; (str): Path to the target folder containing images.</span>
+<span class="sd">                    - &quot;batch_size&quot; (int): The batch size for data loading.</span>
+<span class="sd">                    - &quot;width&quot; (int): The width of the images.</span>
+<span class="sd">                    - &quot;height&quot; (int): The height of the images.</span>
+<span class="sd">                    - &quot;norm_mean&quot; (list of float): Mean values for image normalization.</span>
+<span class="sd">                    - &quot;norm_std&quot; (list of float): Standard deviation values for image normalization.</span>
+<span class="sd">                - &quot;MODEL&quot;: Dictionary with model-related configurations:</span>
+<span class="sd">                    - &quot;arch&quot; (str): The architecture of the model to use.</span>
+<span class="sd">                    - &quot;n_layer_feature&quot; (list of int): List of layer numbers from which to extract features.</span>
+<span class="sd">                    - &quot;feature_extractors_layers_weights&quot; (list of float): Weights for each feature layer.</span>
+<span class="sd">                    - &quot;device&quot; (str): The device to run the model on (e.g., &quot;cpu&quot; or &quot;cuda&quot;).</span>
+<span class="sd">                - &quot;METHOD&quot;: Dictionary with method-related configurations:</span>
+<span class="sd">                    - &quot;k&quot; (int): The number of moments to consider in the CMD calculation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The computed CMD loss between the source and target datasets.</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Constructs data loaders for the source and target datasets with specified transformations.</span>
+<span class="sd">        2. Loads the model and sets it up on the specified device.</span>
+<span class="sd">        3. Extracts features from the specified layers of the model for both datasets.</span>
+<span class="sd">        4. Computes the moments of the feature distributions for both datasets.</span>
+<span class="sd">        5. Calculates the CMD loss as a weighted sum of the differences in moments.</span>
+<span class="sd">        6. Returns the total CMD loss.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If the source and target datasets do not have the same number of samples.</span>
+<span class="sd">            AssertionError: If the keys of the feature weights dictionary do not match the specified feature layers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+        <span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span>
+        <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span>
+        <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;arch&quot;</span><span class="p">]</span>
+        <span class="n">feature_extractors_layers</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;METHOD&quot;</span><span class="p">][</span><span class="s2">&quot;k&quot;</span><span class="p">]</span>
+        <span class="n">feature_extractors_layers_weights</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span>
+            <span class="s2">&quot;feature_extractors_layers_weights&quot;</span>
+        <span class="p">]</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">image_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span>
+        <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="c1"># Both datasets (source and target) have to have the same dimension (number of samples)</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">source_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="n">target_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="p">),</span> <span class="s2">&quot;dataset must have the same size&quot;</span>
+
+        <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">loaded_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span>
+            <span class="n">loaded_model</span><span class="p">,</span> <span class="n">feature_extractors_layers</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Initialize RMSE Loss</span>
+        <span class="n">rmse</span> <span class="o">=</span> <span class="n">RMSELoss</span><span class="p">()</span>
+
+        <span class="c1"># Initialize feature weights dictionary =&gt; TO DO:</span>
+        <span class="c1"># Add the features wights dict (layers wights dict) as an input of the function</span>
+        <span class="n">feature_weights</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">node</span><span class="p">:</span> <span class="n">weight</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">feature_extractors_layers</span>
+            <span class="k">for</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">feature_extractors_layers_weights</span>
+        <span class="p">}</span>
+        <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">feature_weights</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">feature_extractors_layers</span><span class="p">)</span>
+        <span class="c1"># The keys of the feature weights dict</span>
+        <span class="c1"># have to be the same as the return nodes specified in the cfg file</span>
+
+        <span class="c1"># Get channel info for each layer</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">image_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># (N,C,H,W)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">feature_extractor</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+            <span class="n">shapes</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">size</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="c1"># Compute source moments</span>
+        <span class="n">source_moments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compute_moments</span><span class="p">(</span>
+            <span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">shapes</span>
+        <span class="p">)</span>
+        <span class="n">target_moments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__compute_moments</span><span class="p">(</span>
+            <span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">shapes</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Compute CMD Loss</span>
+        <span class="n">total_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">feature_weights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">layer_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">statistic_order</span><span class="p">,</span> <span class="n">statistic_weight</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                <span class="n">feature_extractors_layers_weights</span>
+            <span class="p">):</span>
+                <span class="n">source_moment</span> <span class="o">=</span> <span class="n">source_moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="n">statistic_order</span><span class="p">]</span>
+                <span class="n">taregt_moment</span> <span class="o">=</span> <span class="n">target_moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="n">statistic_order</span><span class="p">]</span>
+                <span class="n">layer_loss</span> <span class="o">+=</span> <span class="n">statistic_weight</span> <span class="o">*</span> <span class="n">rmse</span><span class="p">(</span><span class="n">source_moment</span><span class="p">,</span> <span class="n">taregt_moment</span><span class="p">)</span> <span class="o">/</span> <span class="n">k</span>
+            <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">layer_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_weights</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">total_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1"># ========================================================================== #</span>
+<span class="c1">#                            PROXY-A-DISTANCE                                #</span>
+<span class="c1"># ========================================================================== #</span>
+
+
+<div class="viewcode-block" id="ProxyADistance">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.ProxyADistance">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProxyADistance</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ProxyADistance.adapt_format_like_pred">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.ProxyADistance.adapt_format_like_pred">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">adapt_format_like_pred</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">pred</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a list of class indices into a one-hot encoded tensor matching the format of the predictions.</span>
+
+<span class="sd">        This method takes a list of class indices and converts it into a one-hot encoded tensor that matches the</span>
+<span class="sd">        shape and format of the provided predictions tensor. This is useful for comparing ground truth labels</span>
+<span class="sd">        with model predictions in a consistent format.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            y (torch.Tensor or list): A 1D tensor or list containing class indices. Each element should be an</span>
+<span class="sd">                                     integer representing the class index.</span>
+<span class="sd">            pred (torch.Tensor): A 2D tensor containing predicted probabilities or scores for each class.</span>
+<span class="sd">                                The shape should be (N, C), where N is the number of samples and C is the</span>
+<span class="sd">                                number of classes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: A one-hot encoded tensor of the same shape as `pred`, where each row has a 1 at the</span>
+<span class="sd">                          index of the true class and 0 elsewhere.</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Initializes a zero tensor with the same shape as `pred`.</span>
+<span class="sd">        2. Iterates over each class index in `y` and sets the corresponding position in the new tensor to 1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># iterate over pred</span>
+        <span class="n">new_y_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
+            <span class="n">new_y_test</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">new_y_test</span></div>
+
+
+<div class="viewcode-block" id="ProxyADistance.function_pad">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.ProxyADistance.function_pad">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">function_pad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">error_metric</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the PAD (Presentation Attack Detection) value using SVM classifier.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (np.ndarray): Training features.</span>
+<span class="sd">            y (np.ndarray): Training labels.</span>
+<span class="sd">            x_test (np.ndarray): Test features.</span>
+<span class="sd">            y_test (np.ndarray): Test labels.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing PAD either using MSE or MAE metric.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
+        <span class="n">pad_model</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">pad_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">pad_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">adapt_y_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapt_format_like_pred</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the MSE</span>
+        <span class="k">if</span> <span class="n">error_metric</span> <span class="o">==</span> <span class="s2">&quot;mse&quot;</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">adapt_y_test</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the MAE</span>
+        <span class="k">if</span> <span class="n">error_metric</span> <span class="o">==</span> <span class="s2">&quot;mae&quot;</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">adapt_y_test</span> <span class="o">-</span> <span class="n">pred</span><span class="p">))</span>
+        <span class="n">pad_value</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">error</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pad_value</span></div>
+
+
+<div class="viewcode-block" id="ProxyADistance.compute_image_distance">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.ProxyADistance.compute_image_distance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_image_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the average image distance between source and target datasets using multiple models.</span>
+
+<span class="sd">        This method calculates the average image distance between features extracted from source and target</span>
+<span class="sd">        image datasets using multiple pre-trained models. The distance is computed using a specified evaluation</span>
+<span class="sd">        function for each model, and the average distance across all models is returned.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cfg (Dict): A configuration dictionary containing the following keys:</span>
+<span class="sd">                - &quot;DATA&quot;: Dictionary with data-related configurations:</span>
+<span class="sd">                    - &quot;source&quot; (str): Path to the source folder containing images.</span>
+<span class="sd">                    - &quot;target&quot; (str): Path to the target folder containing images.</span>
+<span class="sd">                    - &quot;batch_size&quot; (int): The batch size for data loading.</span>
+<span class="sd">                    - &quot;width&quot; (int): The width of the images.</span>
+<span class="sd">                    - &quot;height&quot; (int): The height of the images.</span>
+<span class="sd">                    - &quot;norm_mean&quot; (list of float): Mean values for image normalization.</span>
+<span class="sd">                    - &quot;norm_std&quot; (list of float): Standard deviation values for image normalization.</span>
+<span class="sd">                - &quot;MODEL&quot;: Dictionary with model-related configurations:</span>
+<span class="sd">                    - &quot;arch&quot; (list of str): List of model architectures to use.</span>
+<span class="sd">                    - &quot;n_layer_feature&quot; (int): The layer number from which to extract features.</span>
+<span class="sd">                    - &quot;device&quot; (str): The device to run the models on (e.g., &quot;cpu&quot; or &quot;cuda&quot;).</span>
+<span class="sd">                - &quot;METHOD&quot;: Dictionary with method-related configurations:</span>
+<span class="sd">                    - &quot;evaluator&quot; (str): The evaluation function to use for computing the distance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The computed average image distance between the source and target datasets across all models.</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Constructs data loaders for the source and target datasets with specified transformations.</span>
+<span class="sd">        2. Iterates over each model specified in the configuration.</span>
+<span class="sd">        3. Loads each model and sets it up on the specified device.</span>
+<span class="sd">        4. Extracts features from the specified layer of the model for both datasets.</span>
+<span class="sd">        5. Computes the combined features and labels for the source and target datasets.</span>
+<span class="sd">        6. Calculates the distance using the specified evaluation function.</span>
+<span class="sd">        7. Returns the average distance across all models.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+        <span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span>
+        <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span>
+        <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span>
+        <span class="n">models</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;arch&quot;</span><span class="p">]</span>
+        <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
+        <span class="n">evaluator</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;METHOD&quot;</span><span class="p">][</span><span class="s2">&quot;evaluator&quot;</span><span class="p">]</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">image_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span>
+        <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="n">sum_pad</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+            <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+            <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span>
+
+            <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+            <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+            <span class="n">combined_features</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">source_features</span><span class="p">,</span> <span class="n">target_features</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">combined_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">source_features</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">target_features</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
+                <span class="p">),</span>
+                <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Compute pad</span>
+            <span class="n">pad_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function_pad</span><span class="p">(</span><span class="n">combined_features</span><span class="p">,</span> <span class="n">combined_labels</span><span class="p">,</span> <span class="n">evaluator</span><span class="p">)</span>
+
+            <span class="n">sum_pad</span> <span class="o">+=</span> <span class="n">pad_value</span>
+
+        <span class="k">return</span> <span class="n">sum_pad</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># ========================================================================== #</span>
+<span class="c1">#                            Wasserstein_Distance                            #</span>
+<span class="c1"># ========================================================================== #</span>
+
+
+<div class="viewcode-block" id="Wasserstein">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.Wasserstein">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Wasserstein</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Wasserstein.compute_cov_matrix">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.Wasserstein.compute_cov_matrix">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_cov_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the covariance matrix of a given tensor.</span>
+
+<span class="sd">        This method calculates the covariance matrix for a given tensor, which represents a set of feature vectors.</span>
+<span class="sd">        The covariance matrix provides a measure of how much the dimensions of the feature vectors vary from the mean</span>
+<span class="sd">        with respect to each other.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tensor (torch.Tensor): A 2D tensor where each row represents a feature vector.</span>
+<span class="sd">                                  The tensor should have shape (N, D), where N is the number of samples</span>
+<span class="sd">                                  and D is the dimensionality of the features.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The computed covariance matrix of the feature vectors, with shape (D, D).</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Computes the mean vector of the feature vectors.</span>
+<span class="sd">        2. Centers the feature vectors by subtracting the mean vector.</span>
+<span class="sd">        3. Computes the covariance matrix using the centered feature vectors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">centered_tensor</span> <span class="o">=</span> <span class="n">tensor</span> <span class="o">-</span> <span class="n">mean</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">centered_tensor</span><span class="o">.</span><span class="n">t</span><span class="p">(),</span> <span class="n">centered_tensor</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Wasserstein.compute_1D_distance">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.Wasserstein.compute_1D_distance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_1D_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the average 1D Wasserstein Distance between corresponding features from source and target datasets.</span>
+
+<span class="sd">        This method calculates the average 1D Wasserstein Distance between features extracted from source and target</span>
+<span class="sd">        image datasets using a pre-trained model. The features are extracted from a specified layer of the model,</span>
+<span class="sd">        and the distance is computed for each corresponding feature dimension.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cfg (dict): A configuration dictionary containing the following keys:</span>
+<span class="sd">                - &quot;MODEL&quot;: Dictionary with model-related configurations:</span>
+<span class="sd">                    - &quot;arch&quot; (str): The architecture of the model to use.</span>
+<span class="sd">                    - &quot;device&quot; (str): The device to run the model on (e.g., &quot;cpu&quot; or &quot;cuda&quot;).</span>
+<span class="sd">                    - &quot;n_layer_feature&quot; (int): The layer number from which to extract features.</span>
+<span class="sd">                - &quot;DATA&quot;: Dictionary with data-related configurations:</span>
+<span class="sd">                    - &quot;width&quot; (int): The width of the images.</span>
+<span class="sd">                    - &quot;height&quot; (int): The height of the images.</span>
+<span class="sd">                    - &quot;norm_mean&quot; (list of float): Mean values for image normalization.</span>
+<span class="sd">                    - &quot;norm_std&quot; (list of float): Standard deviation values for image normalization.</span>
+<span class="sd">                    - &quot;batch_size&quot; (int): The batch size for data loading.</span>
+<span class="sd">                    - &quot;source&quot; (str): Path to the source folder containing images.</span>
+<span class="sd">                    - &quot;target&quot; (str): Path to the target folder containing images.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The computed average 1D Wasserstein Distance between the source and target image features.</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Loads the model and sets it up on the specified device.</span>
+<span class="sd">        2. Constructs data loaders for the source and target datasets with specified transformations.</span>
+<span class="sd">        3. Extracts features from the specified layer of the model for both datasets.</span>
+<span class="sd">        4. Computes the 1D Wasserstein Distance for each corresponding feature dimension.</span>
+<span class="sd">        5. Returns the average distance across all feature dimensions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;arch&quot;</span><span class="p">]</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
+        <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span>
+        <span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span>
+        <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span>
+        <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+        <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">image_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span>
+        <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span>
+
+        <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+        <span class="n">sum_wass_distance</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">source_features</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_features</span><span class="p">))):</span>
+            <span class="n">source_feature_n</span> <span class="o">=</span> <span class="n">source_features</span><span class="p">[:,</span> <span class="n">n</span><span class="p">]</span>
+            <span class="n">target_feature_n</span> <span class="o">=</span> <span class="n">target_features</span><span class="p">[:,</span> <span class="n">n</span><span class="p">]</span>
+            <span class="n">sum_wass_distance</span> <span class="o">+=</span> <span class="n">wasserstein_distance</span><span class="p">(</span>
+                <span class="n">source_feature_n</span><span class="p">,</span> <span class="n">target_feature_n</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">sum_wass_distance</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">source_features</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Wasserstein.compute_slice_wasserstein_distance">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.Wasserstein.compute_slice_wasserstein_distance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_slice_wasserstein_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Sliced Wasserstein Distance between two sets of image features.</span>
+
+<span class="sd">        This method calculates the Sliced Wasserstein Distance between features extracted from source and target</span>
+<span class="sd">        image datasets using a pre-trained model. The features are projected onto a lower-dimensional space using</span>
+<span class="sd">        the eigenvectors corresponding to the largest eigenvalues of the covariance matrix. The distance is then</span>
+<span class="sd">        computed between these projections.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cfg (dict): A configuration dictionary containing the following keys:</span>
+<span class="sd">                - &quot;MODEL&quot;: Dictionary with model-related configurations:</span>
+<span class="sd">                    - &quot;arch&quot; (str): The architecture of the model to use.</span>
+<span class="sd">                    - &quot;device&quot; (str): The device to run the model on (e.g., &quot;cpu&quot; or &quot;cuda&quot;).</span>
+<span class="sd">                    - &quot;n_layer_feature&quot; (int): The layer number from which to extract features.</span>
+<span class="sd">                - &quot;DATA&quot;: Dictionary with data-related configurations:</span>
+<span class="sd">                    - &quot;width&quot; (int): The width of the images.</span>
+<span class="sd">                    - &quot;height&quot; (int): The height of the images.</span>
+<span class="sd">                    - &quot;norm_mean&quot; (list of float): Mean values for image normalization.</span>
+<span class="sd">                    - &quot;norm_std&quot; (list of float): Standard deviation values for image normalization.</span>
+<span class="sd">                    - &quot;batch_size&quot; (int): The batch size for data loading.</span>
+<span class="sd">                    - &quot;source&quot; (str): Path to the source folder containing images.</span>
+<span class="sd">                    - &quot;target&quot; (str): Path to the target folder containing images.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The computed Sliced Wasserstein Distance between the source and target image features.</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Loads the model and sets it up on the specified device.</span>
+<span class="sd">        2. Constructs data loaders for the source and target datasets with specified transformations.</span>
+<span class="sd">        3. Extracts features from the specified layer of the model for both datasets.</span>
+<span class="sd">        4. Concatenates the features and computes the covariance matrix.</span>
+<span class="sd">        5. Computes the eigenvalues and eigenvectors of the covariance matrix.</span>
+<span class="sd">        6. Projects the features onto a lower-dimensional space using the eigenvectors.</span>
+<span class="sd">        7. Computes the Sliced Wasserstein Distance between the projected features.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;arch&quot;</span><span class="p">]</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
+
+        <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span>
+        <span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span>
+        <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span>
+        <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+        <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">image_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span>
+        <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span>
+
+        <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+        <span class="n">all_features</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">source_features</span><span class="p">,</span> <span class="n">target_features</span><span class="p">))</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">source_features</span><span class="p">)),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target_features</span><span class="p">)))</span>
+        <span class="p">)</span>
+        <span class="n">cov_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_cov_matrix</span><span class="p">(</span><span class="n">all_features</span><span class="p">)</span>
+
+        <span class="n">values</span><span class="p">,</span> <span class="n">vectors</span> <span class="o">=</span> <span class="n">eigh</span><span class="p">(</span><span class="n">cov_matrix</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+        <span class="c1"># Select the last two eigenvalues and corresponding eigenvectors</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>  <span class="c1"># Get the last two eigenvalues</span>
+        <span class="n">vectors</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">2</span><span class="p">:]</span>  <span class="c1"># Get the last two eigenvectors</span>
+        <span class="n">values</span><span class="p">,</span> <span class="n">vectors</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+        <span class="n">vectors</span> <span class="o">=</span> <span class="n">vectors</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="n">new_coordinates</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">vectors</span><span class="p">,</span> <span class="n">all_features</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">mask_source</span> <span class="o">=</span> <span class="n">labels</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">mask_target</span> <span class="o">=</span> <span class="n">labels</span> <span class="o">==</span> <span class="mi">1</span>
+
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">new_coordinates</span><span class="p">[</span><span class="n">mask_source</span><span class="p">]</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">new_coordinates</span><span class="p">[</span><span class="n">mask_target</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">ot</span><span class="o">.</span><span class="n">sliced_wasserstein_distance</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># ========================================================================== #</span>
+<span class="c1">#                            Frechet Inception Distance                      #</span>
+<span class="c1"># ========================================================================== #</span>
+
+
+<div class="viewcode-block" id="FID">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.FID">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FID</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;inception_v3&quot;</span>
+
+<div class="viewcode-block" id="FID.calculate_statistics">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.FID.calculate_statistics">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the mean and covariance matrix of a set of features.</span>
+
+<span class="sd">        This method computes the mean vector and the covariance matrix for a given set of features.</span>
+<span class="sd">        It converts the features from a PyTorch tensor to a NumPy array for easier manipulation and</span>
+<span class="sd">        statistical calculations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            features (torch.Tensor): A 2D tensor where each row represents a feature vector.</span>
+<span class="sd">                                     The tensor should have shape (N, D), where N is the number of</span>
+<span class="sd">                                     samples and D is the dimensionality of the features.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: A tuple containing:</span>
+<span class="sd">                - mu (numpy.ndarray): The mean vector of the features, with shape (D,).</span>
+<span class="sd">                - sigma (numpy.ndarray): The covariance matrix of the features, with shape (D, D).</span>
+
+<span class="sd">        The function performs the following steps:</span>
+<span class="sd">        1. Converts the features tensor to a NumPy array for easier manipulation.</span>
+<span class="sd">        2. Computes the mean vector of the features.</span>
+<span class="sd">        3. Computes the covariance matrix of the features.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Convert features to numpy for easier manipulation</span>
+        <span class="n">features_np</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+        <span class="c1"># Compute the mean and covariance</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">features_np</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">features_np</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span></div>
+
+
+<div class="viewcode-block" id="FID.compute_image_distance">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.FID.compute_image_distance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_image_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Frechet Inception Distance (FID) between two sets of images.</span>
+
+<span class="sd">        This method calculates the FID between images from a source and target dataset using a pre-trained</span>
+<span class="sd">        InceptionV3 model to extract features. The FID is a measure of the similarity between two distributions</span>
+<span class="sd">        of images, commonly used to evaluate the quality of generated images.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cfg (dict): A configuration dictionary containing the following keys:</span>
+<span class="sd">                - &quot;MODEL&quot;: Dictionary with model-related configurations:</span>
+<span class="sd">                    - &quot;device&quot; (str): The device to run the model on (e.g., &quot;cpu&quot; or &quot;cuda&quot;).</span>
+<span class="sd">                    - &quot;n_layer_feature&quot; (int): The layer number from which to extract features.</span>
+<span class="sd">                - &quot;DATA&quot;: Dictionary with data-related configurations:</span>
+<span class="sd">                    - &quot;width&quot; (int): The width of the images.</span>
+<span class="sd">                    - &quot;height&quot; (int): The height of the images.</span>
+<span class="sd">                    - &quot;norm_mean&quot; (list of float): Mean values for image normalization.</span>
+<span class="sd">                    - &quot;norm_std&quot; (list of float): Standard deviation values for image normalization.</span>
+<span class="sd">                    - &quot;batch_size&quot; (int): The batch size for data loading.</span>
+<span class="sd">                    - &quot;source&quot; (str): Path to the source folder containing images.</span>
+<span class="sd">                    - &quot;target&quot; (str): Path to the target folder containing images.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The computed FID score, representing the distance between the source and target image distributions.</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Loads the InceptionV3 model and sets it up on the specified device.</span>
+<span class="sd">        2. Constructs data loaders for the source and target datasets with specified transformations.</span>
+<span class="sd">        3. Extracts features from the specified layer of the model for both datasets.</span>
+<span class="sd">        4. Calculates the mean and covariance of the features for both datasets.</span>
+<span class="sd">        5. Computes the FID score using the means and covariances of the features.</span>
+<span class="sd">        6. Ensures the FID score is positive by taking the absolute value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
+        <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span>
+        <span class="n">img_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span>
+        <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span>
+        <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+        <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span>
+        <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="n">inception_v3</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">inception_v3</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span>
+
+        <span class="c1"># compute features as tensor</span>
+        <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Calculate statistics for source features</span>
+        <span class="n">mu1</span><span class="p">,</span> <span class="n">sigma1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">source_features</span><span class="p">)</span>
+
+        <span class="c1"># Calculate statistics for target features</span>
+        <span class="n">mu2</span><span class="p">,</span> <span class="n">sigma2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">target_features</span><span class="p">)</span>
+
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">mu1</span> <span class="o">-</span> <span class="n">mu2</span>
+
+        <span class="c1"># Compute the square root of the product of the covariance matrices</span>
+        <span class="n">covmean</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sqrtm</span><span class="p">(</span><span class="n">sigma1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sigma2</span><span class="p">),</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">covmean</span><span class="p">):</span>
+            <span class="n">covmean</span> <span class="o">=</span> <span class="n">covmean</span><span class="o">.</span><span class="n">real</span>
+
+        <span class="n">fid</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">diff</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">sigma1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">sigma2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">covmean</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">positive_fid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">fid</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">positive_fid</span></div>
+</div>
+
+
+
+<span class="c1"># ========================================================================== #</span>
+<span class="c1">#      Kullback-Leibler divergence for MultiVariate Normal distribution      #</span>
+<span class="c1"># ========================================================================== #</span>
+
+
+<div class="viewcode-block" id="KLMVN">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.KLMVN">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">KLMVN</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instanciate KLMVN class to compute KLMVN metrics&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="KLMVN.calculate_statistics">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.KLMVN.calculate_statistics">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the mean and covariance matrix of a set of features.</span>
+
+<span class="sd">        This function computes the mean vector and the covariance matrix for a given set of features.</span>
+<span class="sd">        It ensures that the feature matrix has full rank, which is necessary for certain statistical</span>
+<span class="sd">        operations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            features (torch.Tensor): A 2D tensor where each row represents a feature vector.</span>
+<span class="sd">                                     The tensor should have shape (N, D), where N is the number of</span>
+<span class="sd">                                     samples and D is the dimensionality of the features.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: A tuple containing:</span>
+<span class="sd">                - mu (torch.Tensor): The mean vector of the features, with shape (D,).</span>
+<span class="sd">                - sigma (torch.Tensor): The covariance matrix of the features, with shape (D, D).</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If the feature matrix does not have full rank.</span>
+
+<span class="sd">        The function performs the following steps:</span>
+<span class="sd">        1. Computes the mean vector of the features.</span>
+<span class="sd">        2. Centers the features by subtracting the mean vector.</span>
+<span class="sd">        3. Computes the covariance matrix using the centered features.</span>
+<span class="sd">        4. Checks the rank of the feature matrix to ensure it has full rank.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute the mean of the features</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Center the features by subtracting the mean</span>
+        <span class="n">centered_features</span> <span class="o">=</span> <span class="n">features</span> <span class="o">-</span> <span class="n">mu</span>
+
+        <span class="c1"># Compute the covariance matrix (similar to np.cov with rowvar=False)</span>
+        <span class="c1"># (N - 1) is used for unbiased estimation</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">centered_features</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">centered_features</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+            <span class="n">features</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Compute the rank of the feature matrix</span>
+        <span class="n">rank_feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+        <span class="c1"># Ensure the feature matrix has full rank</span>
+        <span class="k">assert</span> <span class="n">rank_feature</span> <span class="o">==</span> <span class="n">features</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;The feature matrix is not full rank.&quot;</span>
+
+        <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span></div>
+
+
+<div class="viewcode-block" id="KLMVN.regularize_covariance">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.KLMVN.regularize_covariance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">regularize_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_matrix</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Regularize a covariance matrix by adding a small value to its diagonal elements.</span>
+
+<span class="sd">        This function enhances the numerical stability of a covariance matrix by adding a small constant</span>
+<span class="sd">        to its diagonal. This is particularly useful when the covariance matrix is nearly singular or</span>
+<span class="sd">        when performing operations that require the matrix to be positive definite.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cov_matrix (numpy.ndarray): The covariance matrix to be regularized. It should be a square matrix.</span>
+<span class="sd">            epsilon (float, optional): A small value to add to the diagonal elements of the covariance matrix.</span>
+<span class="sd">                                       Default is 1e-6.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy.ndarray: The regularized covariance matrix with the small value added to its diagonal.</span>
+
+<span class="sd">        The function performs the following steps:</span>
+<span class="sd">        1. Adds the specified `epsilon` value to the diagonal elements of the input covariance matrix.</span>
+<span class="sd">        2. Returns the modified covariance matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Add a small value to the diagonal for numerical stability</span>
+        <span class="k">return</span> <span class="n">cov_matrix</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">cov_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="KLMVN.klmvn">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.KLMVN.klmvn">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">klmvn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Kullback-Leibler (KL) divergence between two multivariate normal distributions.</span>
+
+<span class="sd">        This method calculates the KL divergence between two multivariate normal distributions defined by</span>
+<span class="sd">        their mean vectors and covariance matrices. It assumes that the covariance matrices are diagonal.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mu1 (torch.Tensor): Mean vector of the first multivariate normal distribution.</span>
+<span class="sd">            cov1 (torch.Tensor): Diagonal elements of the covariance matrix of the first distribution.</span>
+<span class="sd">            mu2 (torch.Tensor): Mean vector of the second multivariate normal distribution.</span>
+<span class="sd">            cov2 (torch.Tensor): Diagonal elements of the covariance matrix of the second distribution.</span>
+<span class="sd">            device (torch.device): The device (CPU or GPU) on which to perform the computation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: The computed KL divergence between the two distributions.</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Constructs diagonal covariance matrices from the provided diagonal elements.</span>
+<span class="sd">        2. Creates multivariate normal distributions using the mean vectors and covariance matrices.</span>
+<span class="sd">        3. Computes the KL divergence between the two distributions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># assume diagonal matrix</span>
+        <span class="n">p_cov</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cov1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">cov1</span>
+        <span class="n">q_cov</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cov2</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">cov2</span>
+
+        <span class="c1"># build pdf</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span> <span class="n">p_cov</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mu2</span><span class="p">,</span> <span class="n">q_cov</span><span class="p">)</span>
+
+        <span class="c1"># compute KL Divergence</span>
+        <span class="n">kld</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">kld</span></div>
+
+
+<div class="viewcode-block" id="KLMVN.compute_image_distance">
+<a class="viewcode-back" href="../../../dqm.domain_gap.html#dqm.domain_gap.metrics.KLMVN.compute_image_distance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_image_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the distance between image features from source and target datasets using a pre-trained model.</span>
+
+<span class="sd">        This method calculates the distance between the statistical representations of image features extracted</span>
+<span class="sd">        from two datasets. It uses a pre-trained model to extract features from specified layers and computes</span>
+<span class="sd">        the Kullback-Leibler divergence between the distributions of these features.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cfg (dict): A configuration dictionary containing the following keys:</span>
+<span class="sd">                - &quot;MODEL&quot;: Dictionary with model-related configurations:</span>
+<span class="sd">                    - &quot;device&quot; (str): The device to run the model on (e.g., &quot;cpu&quot; or &quot;cuda&quot;).</span>
+<span class="sd">                    - &quot;arch&quot; (str): The architecture of the model to use.</span>
+<span class="sd">                    - &quot;n_layer_feature&quot; (int): The layer number from which to extract features.</span>
+<span class="sd">                - &quot;DATA&quot;: Dictionary with data-related configurations:</span>
+<span class="sd">                    - &quot;width&quot; (int): The width of the images.</span>
+<span class="sd">                    - &quot;height&quot; (int): The height of the images.</span>
+<span class="sd">                    - &quot;norm_mean&quot; (list of float): Mean values for image normalization.</span>
+<span class="sd">                    - &quot;norm_std&quot; (list of float): Standard deviation values for image normalization.</span>
+<span class="sd">                    - &quot;batch_size&quot; (int): The batch size for data loading.</span>
+<span class="sd">                    - &quot;source&quot; (str): Path to the source folder containing images.</span>
+<span class="sd">                    - &quot;target&quot; (str): Path to the target folder containing images.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The computed distance between the source and target image features.</span>
+
+<span class="sd">        The method performs the following steps:</span>
+<span class="sd">        1. Loads the model and sets it up on the specified device.</span>
+<span class="sd">        2. Constructs data loaders for the source and target datasets with specified transformations.</span>
+<span class="sd">        3. Extracts features from the specified layer of the model for both datasets.</span>
+<span class="sd">        4. Calculates the mean and covariance of the features for both datasets.</span>
+<span class="sd">        5. Regularizes the covariance matrices to ensure numerical stability.</span>
+<span class="sd">        6. Computes the Kullback-Leibler divergence between the feature distributions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;arch&quot;</span><span class="p">]</span>
+        <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span>
+        <span class="n">img_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span>
+        <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span>
+        <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
+        <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+        <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span>
+        <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span>
+
+        <span class="c1"># compute features as tensor</span>
+        <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Calculate statistics for source features</span>
+        <span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">source_features</span><span class="p">)</span>
+        <span class="n">cov1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularize_covariance</span><span class="p">(</span><span class="n">cov1</span><span class="p">)</span>
+
+        <span class="c1"># Calculate statistics for target features</span>
+        <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">target_features</span><span class="p">)</span>
+        <span class="n">cov2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularize_covariance</span><span class="p">(</span><span class="n">cov2</span><span class="p">)</span>
+
+        <span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">klmvn</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dist</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

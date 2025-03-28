@@ -57,8 +57,8 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">dqm.domain_gap package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dqm-domain-gap-main-module">dqm.domain_gap.main module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dqm-domain-gap-metrics-module">dqm.domain_gap.metrics module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dqm-domain-gap-utils-module">dqm.domain_gap.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dqm.domain_gap.metrics">dqm.domain_gap.metrics module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dqm.domain_gap.utils">dqm.domain_gap.utils module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-dqm.domain_gap">Module contents</a></li>
 </ul>
 </li>
@@ -66,7 +66,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm.main">dqm.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#dqm-main-module">dqm.main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm">Module contents</a></li>
 </ul>
 </li>
@@ -106,11 +106,865 @@
 <section id="dqm-domain-gap-main-module">
 <h2>dqm.domain_gap.main module<a class="headerlink" href="#dqm-domain-gap-main-module" title="Link to this heading"></a></h2>
 </section>
-<section id="dqm-domain-gap-metrics-module">
-<h2>dqm.domain_gap.metrics module<a class="headerlink" href="#dqm-domain-gap-metrics-module" title="Link to this heading"></a></h2>
+<section id="module-dqm.domain_gap.metrics">
+<span id="dqm-domain-gap-metrics-module"></span><h2>dqm.domain_gap.metrics module<a class="headerlink" href="#module-dqm.domain_gap.metrics" title="Link to this heading"></a></h2>
+<p>This module defines a GapMetric class responsible for calculating
+the Domain Gap distance between source and target data using various methods and models.
+It utilizes various methods and models for this purpose.</p>
+<dl class="simple">
+<dt>Authors:</dt><dd><p>Yoann RANDON
+Sabrina CHAOUCHE
+Faouzi ADJED</p>
+</dd>
+<dt>Dependencies:</dt><dd><p>time
+json
+argparse
+typing
+mlflow
+torchvision.models (resnet50, ResNet50_Weights, resnet18, ResNet18_Weights)
+utils (DomainMeter)
+twe_logger</p>
+</dd>
+<dt>Classes:</dt><dd><dl class="simple">
+<dt>DomainGapMetrics: Class for calculating Central Moment Discrepancy (CMD)</dt><dd><p>distance between source and target data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Functions: None</p>
+<p>Usage:
+1. Create an instance of GapMetric.
+2. Parse the configuration using parse_config().
+3. Load the CNN model using load_model(cfg).
+4. Compute the CMD distance using compute_distance(cfg).
+5. Log MLflow parameters using set_mlflow_params(cfg).
+6. Process multiple tasks using process_tasks(cfg, tsk).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.CMD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">CMD</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#CMD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.CMD" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.CMD.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#CMD.compute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.CMD.compute" title="Link to this definition"></a></dt>
+<dd><p>Compute the Central Moment Discrepancy (CMD) loss between source and target datasets using a pre-trained model.</p>
+<p>This method calculates the CMD loss, which measures the discrepancy between the distributions of features
+extracted from source and target datasets. The features are extracted from specified layers of the model,
+and the loss is computed as a weighted sum of the differences in moments of the feature distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>Dict</em>) – <p>A configuration dictionary containing the following keys:
+- “DATA”: Dictionary with data-related configurations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>”source” (str): Path to the source folder containing images.</p></li>
+<li><p>”target” (str): Path to the target folder containing images.</p></li>
+<li><p>”batch_size” (int): The batch size for data loading.</p></li>
+<li><p>”width” (int): The width of the images.</p></li>
+<li><p>”height” (int): The height of the images.</p></li>
+<li><p>”norm_mean” (list of float): Mean values for image normalization.</p></li>
+<li><p>”norm_std” (list of float): Standard deviation values for image normalization.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>”MODEL”: Dictionary with model-related configurations:</dt><dd><ul>
+<li><p>”arch” (str): The architecture of the model to use.</p></li>
+<li><p>”n_layer_feature” (list of int): List of layer numbers from which to extract features.</p></li>
+<li><p>”feature_extractors_layers_weights” (list of float): Weights for each feature layer.</p></li>
+<li><p>”device” (str): The device to run the model on (e.g., “cpu” or “cuda”).</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>”METHOD”: Dictionary with method-related configurations:</dt><dd><ul>
+<li><p>”k” (int): The number of moments to consider in the CMD calculation.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed CMD loss between the source and target datasets.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Constructs data loaders for the source and target datasets with specified transformations.
+2. Loads the model and sets it up on the specified device.
+3. Extracts features from the specified layers of the model for both datasets.
+4. Computes the moments of the feature distributions for both datasets.
+5. Calculates the CMD loss as a weighted sum of the differences in moments.
+6. Returns the total CMD loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>AssertionError</strong> – If the source and target datasets do not have the same number of samples.</p></li>
+<li><p><strong>AssertionError</strong> – If the keys of the feature weights dictionary do not match the specified feature layers.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.FID">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">FID</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#FID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.FID" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.FID.calculate_statistics">
+<span class="sig-name descname"><span class="pre">calculate_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#FID.calculate_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.FID.calculate_statistics" title="Link to this definition"></a></dt>
+<dd><p>Calculate the mean and covariance matrix of a set of features.</p>
+<p>This method computes the mean vector and the covariance matrix for a given set of features.
+It converts the features from a PyTorch tensor to a NumPy array for easier manipulation and
+statistical calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>features</strong> (<em>torch.Tensor</em>) – A 2D tensor where each row represents a feature vector.
+The tensor should have shape (N, D), where N is the number of
+samples and D is the dimensionality of the features.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>mu (numpy.ndarray): The mean vector of the features, with shape (D,).</p></li>
+<li><p>sigma (numpy.ndarray): The covariance matrix of the features, with shape (D, D).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+<p>The function performs the following steps:
+1. Converts the features tensor to a NumPy array for easier manipulation.
+2. Computes the mean vector of the features.
+3. Computes the covariance matrix of the features.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.FID.compute_image_distance">
+<span class="sig-name descname"><span class="pre">compute_image_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#FID.compute_image_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.FID.compute_image_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Frechet Inception Distance (FID) between two sets of images.</p>
+<p>This method calculates the FID between images from a source and target dataset using a pre-trained
+InceptionV3 model to extract features. The FID is a measure of the similarity between two distributions
+of images, commonly used to evaluate the quality of generated images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>dict</em>) – <p>A configuration dictionary containing the following keys:
+- “MODEL”: Dictionary with model-related configurations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>”device” (str): The device to run the model on (e.g., “cpu” or “cuda”).</p></li>
+<li><p>”n_layer_feature” (int): The layer number from which to extract features.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>”DATA”: Dictionary with data-related configurations:</dt><dd><ul>
+<li><p>”width” (int): The width of the images.</p></li>
+<li><p>”height” (int): The height of the images.</p></li>
+<li><p>”norm_mean” (list of float): Mean values for image normalization.</p></li>
+<li><p>”norm_std” (list of float): Standard deviation values for image normalization.</p></li>
+<li><p>”batch_size” (int): The batch size for data loading.</p></li>
+<li><p>”source” (str): Path to the source folder containing images.</p></li>
+<li><p>”target” (str): Path to the target folder containing images.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed FID score, representing the distance between the source and target image distributions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Loads the InceptionV3 model and sets it up on the specified device.
+2. Constructs data loaders for the source and target datasets with specified transformations.
+3. Extracts features from the specified layer of the model for both datasets.
+4. Calculates the mean and covariance of the features for both datasets.
+5. Computes the FID score using the means and covariances of the features.
+6. Ensures the FID score is positive by taking the absolute value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.KLMVN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">KLMVN</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#KLMVN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.KLMVN" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
+<p>Instanciate KLMVN class to compute KLMVN metrics</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.KLMVN.calculate_statistics">
+<span class="sig-name descname"><span class="pre">calculate_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#KLMVN.calculate_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.KLMVN.calculate_statistics" title="Link to this definition"></a></dt>
+<dd><p>Calculate the mean and covariance matrix of a set of features.</p>
+<p>This function computes the mean vector and the covariance matrix for a given set of features.
+It ensures that the feature matrix has full rank, which is necessary for certain statistical
+operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>features</strong> (<em>torch.Tensor</em>) – A 2D tensor where each row represents a feature vector.
+The tensor should have shape (N, D), where N is the number of
+samples and D is the dimensionality of the features.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>mu (torch.Tensor): The mean vector of the features, with shape (D,).</p></li>
+<li><p>sigma (torch.Tensor): The covariance matrix of the features, with shape (D, D).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If the feature matrix does not have full rank.</p>
+</dd>
+</dl>
+<p>The function performs the following steps:
+1. Computes the mean vector of the features.
+2. Centers the features by subtracting the mean vector.
+3. Computes the covariance matrix using the centered features.
+4. Checks the rank of the feature matrix to ensure it has full rank.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.KLMVN.compute_image_distance">
+<span class="sig-name descname"><span class="pre">compute_image_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#KLMVN.compute_image_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.KLMVN.compute_image_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the distance between image features from source and target datasets using a pre-trained model.</p>
+<p>This method calculates the distance between the statistical representations of image features extracted
+from two datasets. It uses a pre-trained model to extract features from specified layers and computes
+the Kullback-Leibler divergence between the distributions of these features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>dict</em>) – <p>A configuration dictionary containing the following keys:
+- “MODEL”: Dictionary with model-related configurations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>”device” (str): The device to run the model on (e.g., “cpu” or “cuda”).</p></li>
+<li><p>”arch” (str): The architecture of the model to use.</p></li>
+<li><p>”n_layer_feature” (int): The layer number from which to extract features.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>”DATA”: Dictionary with data-related configurations:</dt><dd><ul>
+<li><p>”width” (int): The width of the images.</p></li>
+<li><p>”height” (int): The height of the images.</p></li>
+<li><p>”norm_mean” (list of float): Mean values for image normalization.</p></li>
+<li><p>”norm_std” (list of float): Standard deviation values for image normalization.</p></li>
+<li><p>”batch_size” (int): The batch size for data loading.</p></li>
+<li><p>”source” (str): Path to the source folder containing images.</p></li>
+<li><p>”target” (str): Path to the target folder containing images.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed distance between the source and target image features.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Loads the model and sets it up on the specified device.
+2. Constructs data loaders for the source and target datasets with specified transformations.
+3. Extracts features from the specified layer of the model for both datasets.
+4. Calculates the mean and covariance of the features for both datasets.
+5. Regularizes the covariance matrices to ensure numerical stability.
+6. Computes the Kullback-Leibler divergence between the feature distributions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.KLMVN.klmvn">
+<span class="sig-name descname"><span class="pre">klmvn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#KLMVN.klmvn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.KLMVN.klmvn" title="Link to this definition"></a></dt>
+<dd><p>Compute the Kullback-Leibler (KL) divergence between two multivariate normal distributions.</p>
+<p>This method calculates the KL divergence between two multivariate normal distributions defined by
+their mean vectors and covariance matrices. It assumes that the covariance matrices are diagonal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu1</strong> (<em>torch.Tensor</em>) – Mean vector of the first multivariate normal distribution.</p></li>
+<li><p><strong>cov1</strong> (<em>torch.Tensor</em>) – Diagonal elements of the covariance matrix of the first distribution.</p></li>
+<li><p><strong>mu2</strong> (<em>torch.Tensor</em>) – Mean vector of the second multivariate normal distribution.</p></li>
+<li><p><strong>cov2</strong> (<em>torch.Tensor</em>) – Diagonal elements of the covariance matrix of the second distribution.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – The device (CPU or GPU) on which to perform the computation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed KL divergence between the two distributions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Constructs diagonal covariance matrices from the provided diagonal elements.
+2. Creates multivariate normal distributions using the mean vectors and covariance matrices.
+3. Computes the KL divergence between the two distributions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.KLMVN.regularize_covariance">
+<span class="sig-name descname"><span class="pre">regularize_covariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cov_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#KLMVN.regularize_covariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.KLMVN.regularize_covariance" title="Link to this definition"></a></dt>
+<dd><p>Regularize a covariance matrix by adding a small value to its diagonal elements.</p>
+<p>This function enhances the numerical stability of a covariance matrix by adding a small constant
+to its diagonal. This is particularly useful when the covariance matrix is nearly singular or
+when performing operations that require the matrix to be positive definite.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cov_matrix</strong> (<em>numpy.ndarray</em>) – The covariance matrix to be regularized. It should be a square matrix.</p></li>
+<li><p><strong>epsilon</strong> (<em>float</em><em>, </em><em>optional</em>) – A small value to add to the diagonal elements of the covariance matrix.
+Default is 1e-6.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The regularized covariance matrix with the small value added to its diagonal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p>The function performs the following steps:
+1. Adds the specified <cite>epsilon</cite> value to the diagonal elements of the input covariance matrix.
+2. Returns the modified covariance matrix.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.MMD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">MMD</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#MMD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.MMD" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
+<p>Maximum Mean Discrepancy metric class defintion</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.MMD.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#MMD.compute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.MMD.compute" title="Link to this definition"></a></dt>
+<dd><p>Computes a domain gap metric between two datasets using a specified kernel method.</p>
+<p>This function extracts features from source and target datasets using a deep learning model,
+applies a specified kernel function (linear, RBF, or polynomial), and computes a similarity
+measure between the datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>dict</em>) – <p>Configuration dictionary containing:
+- <cite>DATA</cite>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>source</cite> (str): Path to the source dataset.</p></li>
+<li><p><cite>target</cite> (str): Path to the target dataset.</p></li>
+<li><p><cite>batch_size</cite> (int): Batch size for dataloaders.</p></li>
+<li><p><cite>width</cite> (int): Width of input images.</p></li>
+<li><p><cite>height</cite> (int): Height of input images.</p></li>
+<li><p><cite>norm_mean</cite> (tuple): Mean for normalization.</p></li>
+<li><p><cite>norm_std</cite> (tuple): Standard deviation for normalization.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt><cite>MODEL</cite>:</dt><dd><ul>
+<li><p><cite>arch</cite> (str): Model architecture.</p></li>
+<li><p><cite>n_layer_feature</cite> (int): Layer from which features are extracted.</p></li>
+<li><p><cite>device</cite> (str): Device to run computations (‘cpu’ or ‘cuda’).</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>METHOD</cite>:</dt><dd><ul>
+<li><p><cite>kernel</cite> (str): Kernel type (‘linear’, ‘rbf’, ‘poly’).</p></li>
+<li><p><cite>kernel_params</cite> (dict): Parameters for the chosen kernel.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed domain gap value based on the selected kernel.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AssertionError</strong> – If source and target datasets have different sizes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.Metric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Metric" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for defining a metric.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.Metric.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Metric.compute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Metric.compute" title="Link to this definition"></a></dt>
+<dd><p>Compute the value of the metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.ProxyADistance">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">ProxyADistance</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#ProxyADistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.ProxyADistance" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.ProxyADistance.adapt_format_like_pred">
+<span class="sig-name descname"><span class="pre">adapt_format_like_pred</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#ProxyADistance.adapt_format_like_pred"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.ProxyADistance.adapt_format_like_pred" title="Link to this definition"></a></dt>
+<dd><p>Convert a list of class indices into a one-hot encoded tensor matching the format of the predictions.</p>
+<p>This method takes a list of class indices and converts it into a one-hot encoded tensor that matches the
+shape and format of the provided predictions tensor. This is useful for comparing ground truth labels
+with model predictions in a consistent format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>torch.Tensor</em><em> or </em><em>list</em>) – A 1D tensor or list containing class indices. Each element should be an
+integer representing the class index.</p></li>
+<li><p><strong>pred</strong> (<em>torch.Tensor</em>) – A 2D tensor containing predicted probabilities or scores for each class.
+The shape should be (N, C), where N is the number of samples and C is the
+number of classes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A one-hot encoded tensor of the same shape as <cite>pred</cite>, where each row has a 1 at the</dt><dd><p>index of the true class and 0 elsewhere.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Initializes a zero tensor with the same shape as <cite>pred</cite>.
+2. Iterates over each class index in <cite>y</cite> and sets the corresponding position in the new tensor to 1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.ProxyADistance.compute_image_distance">
+<span class="sig-name descname"><span class="pre">compute_image_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#ProxyADistance.compute_image_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.ProxyADistance.compute_image_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the average image distance between source and target datasets using multiple models.</p>
+<p>This method calculates the average image distance between features extracted from source and target
+image datasets using multiple pre-trained models. The distance is computed using a specified evaluation
+function for each model, and the average distance across all models is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>Dict</em>) – <p>A configuration dictionary containing the following keys:
+- “DATA”: Dictionary with data-related configurations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>”source” (str): Path to the source folder containing images.</p></li>
+<li><p>”target” (str): Path to the target folder containing images.</p></li>
+<li><p>”batch_size” (int): The batch size for data loading.</p></li>
+<li><p>”width” (int): The width of the images.</p></li>
+<li><p>”height” (int): The height of the images.</p></li>
+<li><p>”norm_mean” (list of float): Mean values for image normalization.</p></li>
+<li><p>”norm_std” (list of float): Standard deviation values for image normalization.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>”MODEL”: Dictionary with model-related configurations:</dt><dd><ul>
+<li><p>”arch” (list of str): List of model architectures to use.</p></li>
+<li><p>”n_layer_feature” (int): The layer number from which to extract features.</p></li>
+<li><p>”device” (str): The device to run the models on (e.g., “cpu” or “cuda”).</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>”METHOD”: Dictionary with method-related configurations:</dt><dd><ul>
+<li><p>”evaluator” (str): The evaluation function to use for computing the distance.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed average image distance between the source and target datasets across all models.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Constructs data loaders for the source and target datasets with specified transformations.
+2. Iterates over each model specified in the configuration.
+3. Loads each model and sets it up on the specified device.
+4. Extracts features from the specified layer of the model for both datasets.
+5. Computes the combined features and labels for the source and target datasets.
+6. Calculates the distance using the specified evaluation function.
+7. Returns the average distance across all models.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.ProxyADistance.function_pad">
+<span class="sig-name descname"><span class="pre">function_pad</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_metric</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#ProxyADistance.function_pad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.ProxyADistance.function_pad" title="Link to this definition"></a></dt>
+<dd><p>Computes the PAD (Presentation Attack Detection) value using SVM classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>np.ndarray</em>) – Training features.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – Training labels.</p></li>
+<li><p><strong>x_test</strong> (<em>np.ndarray</em>) – Test features.</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – Test labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing PAD either using MSE or MAE metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.RMSELoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">RMSELoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#RMSELoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.RMSELoss" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Compute the Root Mean Squared Error (RMSE) loss between the predicted values and the target values.</p>
+<p>This class provides a PyTorch module for calculating the RMSE loss, which is a common metric for
+evaluating the accuracy of regression models. The RMSE is the square root of the average of squared
+differences between predicted values and target values.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.RMSELoss.mse">
+<span class="sig-name descname"><span class="pre">mse</span></span><a class="headerlink" href="#dqm.domain_gap.metrics.RMSELoss.mse" title="Link to this definition"></a></dt>
+<dd><p>Mean Squared Error loss module with reduction set to “sum”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nn.MSELoss</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.RMSELoss.eps">
+<span class="sig-name descname"><span class="pre">eps</span></span><a class="headerlink" href="#dqm.domain_gap.metrics.RMSELoss.eps" title="Link to this definition"></a></dt>
+<dd><p>A small value added to the loss to prevent division by zero and ensure numerical stability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.RMSELoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yhat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#RMSELoss.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.RMSELoss.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute the RMSE loss between the predicted values <cite>yhat</cite> and the target values <cite>y</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yhat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#RMSELoss.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Define the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.Wasserstein">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">Wasserstein</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Wasserstein"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Wasserstein" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.Wasserstein.compute_1D_distance">
+<span class="sig-name descname"><span class="pre">compute_1D_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Wasserstein.compute_1D_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Wasserstein.compute_1D_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the average 1D Wasserstein Distance between corresponding features from source and target datasets.</p>
+<p>This method calculates the average 1D Wasserstein Distance between features extracted from source and target
+image datasets using a pre-trained model. The features are extracted from a specified layer of the model,
+and the distance is computed for each corresponding feature dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>dict</em>) – <p>A configuration dictionary containing the following keys:
+- “MODEL”: Dictionary with model-related configurations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>”arch” (str): The architecture of the model to use.</p></li>
+<li><p>”device” (str): The device to run the model on (e.g., “cpu” or “cuda”).</p></li>
+<li><p>”n_layer_feature” (int): The layer number from which to extract features.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>”DATA”: Dictionary with data-related configurations:</dt><dd><ul>
+<li><p>”width” (int): The width of the images.</p></li>
+<li><p>”height” (int): The height of the images.</p></li>
+<li><p>”norm_mean” (list of float): Mean values for image normalization.</p></li>
+<li><p>”norm_std” (list of float): Standard deviation values for image normalization.</p></li>
+<li><p>”batch_size” (int): The batch size for data loading.</p></li>
+<li><p>”source” (str): Path to the source folder containing images.</p></li>
+<li><p>”target” (str): Path to the target folder containing images.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed average 1D Wasserstein Distance between the source and target image features.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Loads the model and sets it up on the specified device.
+2. Constructs data loaders for the source and target datasets with specified transformations.
+3. Extracts features from the specified layer of the model for both datasets.
+4. Computes the 1D Wasserstein Distance for each corresponding feature dimension.
+5. Returns the average distance across all feature dimensions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.Wasserstein.compute_cov_matrix">
+<span class="sig-name descname"><span class="pre">compute_cov_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Wasserstein.compute_cov_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Wasserstein.compute_cov_matrix" title="Link to this definition"></a></dt>
+<dd><p>Compute the covariance matrix of a given tensor.</p>
+<p>This method calculates the covariance matrix for a given tensor, which represents a set of feature vectors.
+The covariance matrix provides a measure of how much the dimensions of the feature vectors vary from the mean
+with respect to each other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tensor</strong> (<em>torch.Tensor</em>) – A 2D tensor where each row represents a feature vector.
+The tensor should have shape (N, D), where N is the number of samples
+and D is the dimensionality of the features.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed covariance matrix of the feature vectors, with shape (D, D).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Computes the mean vector of the feature vectors.
+2. Centers the feature vectors by subtracting the mean vector.
+3. Computes the covariance matrix using the centered feature vectors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.domain_gap.metrics.Wasserstein.compute_slice_wasserstein_distance">
+<span class="sig-name descname"><span class="pre">compute_slice_wasserstein_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Wasserstein.compute_slice_wasserstein_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Wasserstein.compute_slice_wasserstein_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Sliced Wasserstein Distance between two sets of image features.</p>
+<p>This method calculates the Sliced Wasserstein Distance between features extracted from source and target
+image datasets using a pre-trained model. The features are projected onto a lower-dimensional space using
+the eigenvectors corresponding to the largest eigenvalues of the covariance matrix. The distance is then
+computed between these projections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>dict</em>) – <p>A configuration dictionary containing the following keys:
+- “MODEL”: Dictionary with model-related configurations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>”arch” (str): The architecture of the model to use.</p></li>
+<li><p>”device” (str): The device to run the model on (e.g., “cpu” or “cuda”).</p></li>
+<li><p>”n_layer_feature” (int): The layer number from which to extract features.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>”DATA”: Dictionary with data-related configurations:</dt><dd><ul>
+<li><p>”width” (int): The width of the images.</p></li>
+<li><p>”height” (int): The height of the images.</p></li>
+<li><p>”norm_mean” (list of float): Mean values for image normalization.</p></li>
+<li><p>”norm_std” (list of float): Standard deviation values for image normalization.</p></li>
+<li><p>”batch_size” (int): The batch size for data loading.</p></li>
+<li><p>”source” (str): Path to the source folder containing images.</p></li>
+<li><p>”target” (str): Path to the target folder containing images.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The computed Sliced Wasserstein Distance between the source and target image features.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p>The method performs the following steps:
+1. Loads the model and sets it up on the specified device.
+2. Constructs data loaders for the source and target datasets with specified transformations.
+3. Extracts features from the specified layer of the model for both datasets.
+4. Concatenates the features and computes the covariance matrix.
+5. Computes the eigenvalues and eigenvectors of the covariance matrix.
+6. Projects the features onto a lower-dimensional space using the eigenvectors.
+7. Computes the Sliced Wasserstein Distance between the projected features.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="dqm-domain-gap-utils-module">
-<h2>dqm.domain_gap.utils module<a class="headerlink" href="#dqm-domain-gap-utils-module" title="Link to this heading"></a></h2>
+<section id="module-dqm.domain_gap.utils">
+<span id="dqm-domain-gap-utils-module"></span><h2>dqm.domain_gap.utils module<a class="headerlink" href="#module-dqm.domain_gap.utils" title="Link to this heading"></a></h2>
+<p>Domain Gap Metric Calculation Script</p>
+<p>This script defines a PyTorch module, DomainMeter, for domain adaptation using
+Central Moment Discrepancy (CMD) and Kullback-Leibler (KL) divergence.
+The script also includes custom dataset classes (RMSELoss and PandasDatasets)
+for loading images from a Pandas DataFrame and implementing a custom root mean
+square error (RMSE) loss.</p>
+<dl class="simple">
+<dt>Authors:</dt><dd><p>Sabrina CHAOUCHE
+Yoann RANDON
+Faouzi ADJED</p>
+</dd>
+<dt>Classes:</dt><dd><p>ModelConfiguration
+RMSELoss
+PandasDatasets
+DomainMeter</p>
+</dd>
+<dt>Dependencies:</dt><dd><p>torch
+torchvision
+mlflow
+cmd (DomainMeter class from cmd module)
+twe_logger (Custom logging module)</p>
+</dd>
+</dl>
+<p>Usage:
+Run the script with optional arguments ‘–cfg’
+for the JSON config file path and ‘–tsk’
+for the JSON task config file path.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.domain_gap.utils.compute_features">
+<span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.utils.</span></span><span class="sig-name descname"><span class="pre">compute_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/utils.html#compute_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.utils.compute_features" title="Link to this definition"></a></dt>
+<dd><p>Compute features from a model for images in the DataLoader batch by batch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataloader</strong> (<em>DataLoader</em>) – DataLoader object to load images in batches.</p></li>
+<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – Pre-trained model to extract features.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – Device to run the model (e.g., CPU or GPU).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A concatenated tensor of features for all images.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.domain_gap.utils.construct_dataloader">
+<span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.utils.</span></span><span class="sig-name descname"><span class="pre">construct_dataloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/utils.html#construct_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.utils.construct_dataloader" title="Link to this definition"></a></dt>
+<dd><p>Loads images from a folder and returns a DataLoader for batch-wise processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder_path</strong> (<em>str</em>) – Path to the folder containing images.</p></li>
+<li><p><strong>transform</strong> (<em>transform</em>) – Transform object to fine-tune data for model input.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – Number of images per batch.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataLoader object that yields batches of transformed images.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataLoader</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.domain_gap.utils.display_resume">
+<span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.utils.</span></span><span class="sig-name descname"><span class="pre">display_resume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_lapse</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/utils.html#display_resume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.utils.display_resume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.domain_gap.utils.extract_nth_layer_feature">
+<span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.utils.</span></span><span class="sig-name descname"><span class="pre">extract_nth_layer_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/utils.html#extract_nth_layer_feature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.utils.extract_nth_layer_feature" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.domain_gap.utils.generate_transform">
+<span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.utils.</span></span><span class="sig-name descname"><span class="pre">generate_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm_std</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/utils.html#generate_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.utils.generate_transform" title="Link to this definition"></a></dt>
+<dd><p>Generate transform to change data input into compatible model inputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_size</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – value to resize image</p></li>
+<li><p><strong>norm_mean</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – normalization mean</p></li>
+<li><p><strong>norm_std</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – normalization standard deviation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a function which apply multiple changes to data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>transform</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.domain_gap.utils.load_config">
+<span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.utils.</span></span><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/utils.html#load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.utils.load_config" title="Link to this definition"></a></dt>
+<dd><p>Load configuration from a JSON file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.domain_gap.utils.load_model">
+<span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.utils.</span></span><span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/utils.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.utils.load_model" title="Link to this definition"></a></dt>
+<dd><p>Loads a model based on the input string.</p>
+<p>If the string contains ‘.pt’ or ‘.pth’, tries to load a saved PyTorch model from a file.
+If the string matches a known torchvision model (e.g., ‘resnet18’), it loads the corresponding model.</p>
+<p>Parameters:
+model_str (str): The model string or file path.</p>
+<p>Returns:
+model (torch.nn.Module): The loaded PyTorch model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-dqm.domain_gap">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dqm.domain_gap" title="Link to this heading"></a></h2>

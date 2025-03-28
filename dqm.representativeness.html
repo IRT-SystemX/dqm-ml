@@ -57,16 +57,16 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">dqm.representativeness package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dqm-representativeness-main-module">dqm.representativeness.main module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dqm-representativeness-metric-module">dqm.representativeness.metric module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dqm.representativeness.metric">dqm.representativeness.metric module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-dqm.representativeness.twe_logger">dqm.representativeness.twe_logger module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dqm-representativeness-utils-module">dqm.representativeness.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-dqm.representativeness.utils">dqm.representativeness.utils module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-dqm.representativeness">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm.main">dqm.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html#dqm-main-module">dqm.main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm">Module contents</a></li>
 </ul>
 </li>
@@ -106,8 +106,137 @@
 <section id="dqm-representativeness-main-module">
 <h2>dqm.representativeness.main module<a class="headerlink" href="#dqm-representativeness-main-module" title="Link to this heading"></a></h2>
 </section>
-<section id="dqm-representativeness-metric-module">
-<h2>dqm.representativeness.metric module<a class="headerlink" href="#dqm-representativeness-metric-module" title="Link to this heading"></a></h2>
+<section id="module-dqm.representativeness.metric">
+<span id="dqm-representativeness-metric-module"></span><h2>dqm.representativeness.metric module<a class="headerlink" href="#module-dqm.representativeness.metric" title="Link to this heading"></a></h2>
+<p>This script provides functions for analyzing data distribution using chi-square tests,
+goodness-of-fit tests, Kolmogorov-Smirnov tests, Shannon entropy, and confidence intervals.</p>
+<dl class="simple">
+<dt>Authors:</dt><dd><p>Faouzi ADJED
+Anani DJATO</p>
+</dd>
+<dt>Dependencies:</dt><dd><p>numpy
+pandas
+matplotlib
+scipy
+seaborn
+dqm.representativeness.twe_logger</p>
+</dd>
+<dt>Classes:</dt><dd><p>DistributionAnalyzer: Class for analyzing data distribution</p>
+</dd>
+</dl>
+<p>Functions: None</p>
+<p>Usage: Import this script and use the provided functions for distribution analysis.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.representativeness.metric.DistributionAnalyzer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.representativeness.metric.</span></span><span class="sig-name descname"><span class="pre">DistributionAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.metric.DistributionAnalyzer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for analyzing data distribution.</p>
+<p>Args:
+data (pd.DataFrame): The data to be analyzed.
+bins (int): The number of bins for analysis.
+distribution (str): The distribution type (‘normal’ or ‘uniform’).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.metric.DistributionAnalyzer.chisquare_test">
+<span class="sig-name descname"><span class="pre">chisquare_test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer.chisquare_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.metric.DistributionAnalyzer.chisquare_test" title="Link to this definition"></a></dt>
+<dd><p>Perform the chi-square test on the provided data.
+Returns p-value and confidence intervals</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.metric.DistributionAnalyzer.kolmogorov">
+<span class="sig-name descname"><span class="pre">kolmogorov</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer.kolmogorov"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.metric.DistributionAnalyzer.kolmogorov" title="Link to this definition"></a></dt>
+<dd><p>Calculate the Kolmogorov-Smirnov test for the chosen distribution.
+Returns the KS test p-value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.metric.DistributionAnalyzer.shannon_entropy">
+<span class="sig-name descname"><span class="pre">shannon_entropy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer.shannon_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.metric.DistributionAnalyzer.shannon_entropy" title="Link to this definition"></a></dt>
+<dd><p>Calculate Shannon entropy for the provided intervals.
+Returns Shannon entropy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.metric.DistributionAnalyzer.grte">
+<span class="sig-name descname"><span class="pre">grte</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer.grte"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.metric.DistributionAnalyzer.grte" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Granular Relative and Theoretical Entropy (GRTE) for given data
+Returns The calculated GRTE value and the intervals discretized data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">chisquare_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">par_dist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer.chisquare_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Perform a chi-square test for goodness of fit.</p>
+<p>This method analyzes the distribution of data using a chi-square test
+for goodness of fit. It supports normal and uniform distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*par_dist</strong> (<em>float</em>) – Parameters for the specified distribution.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>The p-value from the chi-square test
+intervals_frequencies (pd.DataFrame): The DataFrame containing</p>
+<blockquote>
+<div><p>observed and expected frequencies.</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>p-value (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">grte</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer.grte"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Granular Relative and Theoretical Entropy (GRTE) for given data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*args</strong> (<em>float</em>) – Optional arguments. For ‘uniform’, provide start
+and end; for ‘normal’, provide mean and std.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The calculated GRTE value.
+intervals_discretized (pd.Series): The intervals discretized data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>grte_res (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">kolmogorov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">par_dist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer.kolmogorov"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Calculation of the Kolmogorov-Smirnov test for every distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*par_dist</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – arbitrary positional arguments, should be numeric</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>KS test p-value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>p-value (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">shannon_entropy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/metric.html#DistributionAnalyzer.shannon_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Calculation of Shannon entropy.</p>
+<p>Args: None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Shannon entropy (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-dqm.representativeness.twe_logger">
 <span id="dqm-representativeness-twe-logger-module"></span><h2>dqm.representativeness.twe_logger module<a class="headerlink" href="#module-dqm.representativeness.twe_logger" title="Link to this heading"></a></h2>
@@ -174,8 +303,449 @@ Can be ‘stdout’, ‘file’, or ‘both’.</p></li>
 </dd></dl>
 
 </section>
-<section id="dqm-representativeness-utils-module">
-<h2>dqm.representativeness.utils module<a class="headerlink" href="#dqm-representativeness-utils-module" title="Link to this heading"></a></h2>
+<section id="module-dqm.representativeness.utils">
+<span id="dqm-representativeness-utils-module"></span><h2>dqm.representativeness.utils module<a class="headerlink" href="#module-dqm.representativeness.utils" title="Link to this heading"></a></h2>
+<p>This module implements two classes, DiscretisationParams and VariableAnalysis,
+providing functionality for variable counting, countplot visualization,
+and discretization of variables using normal or uniform distributions.
+It also includes functions for processing data for chi-square tests, calculating
+expected values, and generating histograms for observed and expected values.</p>
+<dl class="simple">
+<dt>Authors:</dt><dd><p>Faouzi ADJED
+Anani DJATO</p>
+</dd>
+<dt>Dependencies:</dt><dd><p>numpy
+pandas
+matplotlib.pyplot
+scipy.stats
+dqm.representativeness.twe_logger
+seaborn</p>
+</dd>
+</dl>
+<p>Functions : None</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>DiscretisationParams: Class for defining discretization parameters
+VariableAnalysis: Class for analyzing data distribution</p>
+</dd>
+</dl>
+<p>Example:
+from utils import VariableAnalysis, DiscretisationParams</p>
+<p># Example of using VariableAnalysis class
+variable_analyzer = VariableAnalysis()</p>
+<p># Example of using the variable_counting method
+my_variable = pd.Series([1, 2, 2, 3, 3, 3, 4, 4, 4, 4])
+counts = variable_analyzer.variable_counting(my_variable)
+print(“Counts of unique values:”)
+print(counts)</p>
+<p># Example of using the countplot method
+variable_analyzer.countplot(my_variable)
+plt.show()</p>
+<p># Instantiate the DiscretisationParams class
+discretisation_params = DiscretisationParams(</p>
+<blockquote>
+<div><p>data=my_variable,
+distribution_theory=’normal’,
+distribution_empirical=[-1.0, 0.0, 1.0, 2.0],
+mean=0.0,
+std=1.0</p>
+</div></blockquote>
+<p>)</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.DiscretisationParams">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.representativeness.utils.</span></span><span class="sig-name descname"><span class="pre">DiscretisationParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#DiscretisationParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.DiscretisationParams" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters for discretization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Input data.</p></li>
+<li><p><strong>distribution_params</strong> – Dictionary containing distribution parameters.
+‘theory’: Distribution theory (‘normal’ or ‘uniform’).
+‘empirical’: Empirical distribution used for discretization.
+‘mean’: Mean parameter for the distribution theory.
+‘std’: Standard deviation for the distribution theory.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.DiscretisationParams.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#DiscretisationParams.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.DiscretisationParams.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes an instance of the DiscretisationParams class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – Input data.</p></li>
+<li><p><strong>distribution_params</strong> – Dictionary containing distribution parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.DiscretisationParams.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#DiscretisationParams.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.DiscretisationParams.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Converts the parameters to a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary representation of the parameters.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method is not necessary. It was created solely to have at
+least 2 methods as recommended in a class.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.DiscretisationParams.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#DiscretisationParams.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.DiscretisationParams.get_data" title="Link to this definition"></a></dt>
+<dd><p>Gets the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The input data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#DiscretisationParams.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Get the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The input data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#DiscretisationParams.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Convert the parameters to a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary representation of the parameters.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method is not necessary. It was created solely to have at
+least 2 methods as recommended in a class.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.representativeness.utils.</span></span><span class="sig-name descname"><span class="pre">VariableAnalysis</span></span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class provides functions for variable counting, countplot visualization,
+and discretization of variables using normal or uniform distributions.
+It includes functions for processing data for chi-square tests,
+calculating expected values, and generating histograms for observed and expected values.</p>
+<p>Args: None</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.variable_counting">
+<span class="sig-name descname"><span class="pre">variable_counting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.variable_counting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.variable_counting" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.countplot">
+<span class="sig-name descname"><span class="pre">countplot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.countplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.countplot" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.discretisation">
+<span class="sig-name descname"><span class="pre">discretisation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.discretisation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.discretisation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.normal_discretization">
+<span class="sig-name descname"><span class="pre">normal_discretization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.normal_discretization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.normal_discretization" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.data_processing_for_chisqure_test">
+<span class="sig-name descname"><span class="pre">data_processing_for_chisqure_test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.data_processing_for_chisqure_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.data_processing_for_chisqure_test" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.uniform_discretization">
+<span class="sig-name descname"><span class="pre">uniform_discretization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.uniform_discretization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.uniform_discretization" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.discretisation_intervals">
+<span class="sig-name descname"><span class="pre">discretisation_intervals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.discretisation_intervals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.discretisation_intervals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.delete_na">
+<span class="sig-name descname"><span class="pre">delete_na</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.delete_na"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.delete_na" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.expected">
+<span class="sig-name descname"><span class="pre">expected</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.expected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.expected" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.expected_hist">
+<span class="sig-name descname"><span class="pre">expected_hist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.expected_hist" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dqm.representativeness.utils.VariableAnalysis.observed_hist">
+<span class="sig-name descname"><span class="pre">observed_hist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.observed_hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.representativeness.utils.VariableAnalysis.observed_hist" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">countplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.countplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>This function will not be used and will be deleted in the final package (to decide)
+Show the counts of observations of every category</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable</strong> (<em>DataFrame</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>countplot (show the bar plot of counts of variable)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">data_processing_for_chisqure_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.data_processing_for_chisqure_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><p>This function is designed to preprocess the input data for chi-square tests.
+If the data type is object (‘O’), it is assumed to be categorical,
+and the function converts it into value counts.
+This step is crucial for chi-square tests, which require frequency distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pd.DataFrame</em>) – Input data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Processed data suitable for chi-square tests.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data (pd.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">delete_na</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.delete_na"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>Remove missing values (NaN) from the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>pd.DataFrame</em>) – The input data containing missing values.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The input data with missing values removed. If the input is a Series,
+the output will also be a Series. If the input is a DataFrame,
+the output will be a DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>data (pd.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">discretisation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.discretisation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>Discretisation of variable into bins</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distribution</strong> (<em>string</em>) – ‘normal’ ou ‘uniform’</p></li>
+<li><p><strong>variable</strong> (<em>Series</em>)</p></li>
+<li><p><strong>bins</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>discretised variable into bins</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>interval (array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">discretisation_intervals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.discretisation_intervals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>This function discretizes a given set of data into intervals based on
+empirical distribution and calculates observed and expected frequencies
+for each interval. It supports both normal and uniform distribution theories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<a class="reference internal" href="#dqm.representativeness.utils.DiscretisationParams" title="dqm.representativeness.utils.DiscretisationParams"><em>DiscretisationParams</em></a>) – Parameters for discretization.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Intervals and counts of each interval.</dt><dd><p>Returns None if an unsupported distribution theory is provided.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>intervals (Optional[DataFrame])</p>
+</dd>
+</dl>
+<p>Note:
+The function may issue a warning if there are missing values in the data.</p>
+<p class="rubric">Example</p>
+<dl>
+<dt>interval_data = discretisation_intervals(</dt><dd><dl>
+<dt>DiscretisationParams(</dt><dd><dl class="simple">
+<dt>data, {</dt><dd><p>‘theory’: ‘normal’,
+‘empirical’: distribution_empirical,
+‘mean’: mean, ‘std’: std</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>)</p>
+</dd>
+</dl>
+<p>)
+if interval_data is not None:</p>
+<blockquote>
+<div><p>logger.info(interval_data)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">expected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">argv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.expected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Calculate the expected values of the distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distribution</strong> (<em>str</em>) – ‘normal’ or ‘uniform’</p></li>
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Input data.</p></li>
+<li><p><strong>*argv</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Parameters of the distribution.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Expected values for every distribution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>n or u (List[float])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">normal_discretization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.normal_discretization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>normal Discretisation of variable into bins</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bins</strong> (<em>int</em>) – int</p></li>
+<li><p><strong>mean</strong> (<em>float</em>) – the first parameter of the gaussian distribution</p></li>
+<li><p><strong>std</strong> (<em>float</em>) – standard</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</span></p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Returns</dt><dd><p>interval (array): discretised variable into bins</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">observed_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.observed_hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Plot the observed values of the distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable</strong> (<em>pd.Series</em>) – Input variable.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None (plots histogram)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">uniform_discretization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.uniform_discretization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<dd><p>This function discretizes a variable with a uniform distribution into specified bins.
+It uses the inverse transform method with the scipy.stats.uniform.ppf function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bins</strong> (<em>int</em>) – Number of bins.</p></li>
+<li><p><strong>min_value</strong> (<em>float</em>) – Minimum value for the uniform distribution.</p></li>
+<li><p><strong>max_value</strong> (<em>float</em>) – Maximum value for the uniform distribution.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Discretized variable into bins.</dt><dd><p>The list includes intervals with the first element representing negative infinity
+and the last element representing positive infinity.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>interval (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">variable_counting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/representativeness/utils.html#VariableAnalysis.variable_counting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd><p>Counting unique values (only int values and modalities.
+It cannot be used for float values)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable</strong> (<em>panda.Series</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>counts of unique values</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>variable_count (DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-dqm.representativeness">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dqm.representativeness" title="Link to this heading"></a></h2>

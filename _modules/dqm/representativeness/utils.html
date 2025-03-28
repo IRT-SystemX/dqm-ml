@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dqm.representativeness.utils &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dqm.html">🎡 Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dqm.representativeness.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dqm.representativeness.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module implements two classes, DiscretisationParams and VariableAnalysis,</span>
+<span class="sd">providing functionality for variable counting, countplot visualization,</span>
+<span class="sd">and discretization of variables using normal or uniform distributions.</span>
+<span class="sd">It also includes functions for processing data for chi-square tests, calculating</span>
+<span class="sd">expected values, and generating histograms for observed and expected values.</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    Faouzi ADJED</span>
+<span class="sd">    Anani DJATO</span>
+
+<span class="sd">Dependencies:</span>
+<span class="sd">    numpy</span>
+<span class="sd">    pandas</span>
+<span class="sd">    matplotlib.pyplot</span>
+<span class="sd">    scipy.stats</span>
+<span class="sd">    dqm.representativeness.twe_logger</span>
+<span class="sd">    seaborn</span>
+
+<span class="sd">Functions : None</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    DiscretisationParams: Class for defining discretization parameters</span>
+<span class="sd">    VariableAnalysis: Class for analyzing data distribution</span>
+
+<span class="sd">Example:</span>
+<span class="sd">from utils import VariableAnalysis, DiscretisationParams</span>
+
+<span class="sd"># Example of using VariableAnalysis class</span>
+<span class="sd">variable_analyzer = VariableAnalysis()</span>
+
+<span class="sd"># Example of using the variable_counting method</span>
+<span class="sd">my_variable = pd.Series([1, 2, 2, 3, 3, 3, 4, 4, 4, 4])</span>
+<span class="sd">counts = variable_analyzer.variable_counting(my_variable)</span>
+<span class="sd">print(&quot;Counts of unique values:&quot;)</span>
+<span class="sd">print(counts)</span>
+
+<span class="sd"># Example of using the countplot method</span>
+<span class="sd">variable_analyzer.countplot(my_variable)</span>
+<span class="sd">plt.show()</span>
+
+<span class="sd"># Instantiate the DiscretisationParams class</span>
+<span class="sd">discretisation_params = DiscretisationParams(</span>
+<span class="sd">    data=my_variable,</span>
+<span class="sd">    distribution_theory=&#39;normal&#39;,</span>
+<span class="sd">    distribution_empirical=[-1.0, 0.0, 1.0, 2.0],</span>
+<span class="sd">    mean=0.0,</span>
+<span class="sd">    std=1.0</span>
+<span class="sd">)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.representativeness.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DiscretisationParams">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.DiscretisationParams">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiscretisationParams</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters for discretization.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data: Input data.</span>
+<span class="sd">        distribution_params: Dictionary containing distribution parameters.</span>
+<span class="sd">            &#39;theory&#39;: Distribution theory (&#39;normal&#39; or &#39;uniform&#39;).</span>
+<span class="sd">            &#39;empirical&#39;: Empirical distribution used for discretization.</span>
+<span class="sd">            &#39;mean&#39;: Mean parameter for the distribution theory.</span>
+<span class="sd">            &#39;std&#39;: Standard deviation for the distribution theory.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        __init__:</span>
+<span class="sd">            Initializes an instance of the DiscretisationParams class.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                data: Input data.</span>
+<span class="sd">                distribution_params: Dictionary containing distribution parameters.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                None</span>
+
+<span class="sd">        to_dict:</span>
+<span class="sd">            Converts the parameters to a dictionary.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                dict: A dictionary representation of the parameters.</span>
+
+<span class="sd">            Note:</span>
+<span class="sd">                This method is not necessary. It was created solely to have at</span>
+<span class="sd">                least 2 methods as recommended in a class.</span>
+
+<span class="sd">        get_data:</span>
+<span class="sd">            Gets the input data.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                Any: The input data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DiscretisationParams.__init__">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.DiscretisationParams.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">distribution_params</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an instance of the DiscretisationParams class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (pd.Series): Input data.</span>
+<span class="sd">            distribution_params (dict): Dictionary containing distribution parameters.</span>
+<span class="sd">                &#39;theory&#39;: Distribution theory (&#39;normal&#39; or &#39;uniform&#39;).</span>
+<span class="sd">                &#39;empirical&#39;: Empirical distribution used for discretization.</span>
+<span class="sd">                &#39;mean&#39;: Mean parameter for the distribution theory.</span>
+<span class="sd">                &#39;std&#39;: Standard deviation for the distribution theory.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distribution_theory</span> <span class="o">=</span> <span class="n">distribution_params</span><span class="p">[</span><span class="s1">&#39;theory&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distribution_empirical</span> <span class="o">=</span> <span class="n">distribution_params</span><span class="p">[</span><span class="s1">&#39;empirical&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">distribution_params</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">=</span> <span class="n">distribution_params</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="DiscretisationParams.to_dict">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.DiscretisationParams.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the parameters to a dictionary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary representation of the parameters.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method is not necessary. It was created solely to have at</span>
+<span class="sd">            least 2 methods as recommended in a class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="s1">&#39;distribution_theory&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_theory</span><span class="p">,</span>
+            <span class="s1">&#39;distribution_empirical&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution_empirical</span><span class="p">,</span>
+            <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span>
+            <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="DiscretisationParams.get_data">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.DiscretisationParams.get_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the input data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: The input data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="VariableAnalysis">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VariableAnalysis</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class provides functions for variable counting, countplot visualization,</span>
+<span class="sd">    and discretization of variables using normal or uniform distributions.</span>
+<span class="sd">    It includes functions for processing data for chi-square tests,</span>
+<span class="sd">    calculating expected values, and generating histograms for observed and expected values.</span>
+
+<span class="sd">    Args: None</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        variable_counting</span>
+<span class="sd">        countplot</span>
+<span class="sd">        discretisation</span>
+<span class="sd">        normal_discretization</span>
+<span class="sd">        data_processing_for_chisqure_test</span>
+<span class="sd">        uniform_discretization</span>
+<span class="sd">        discretisation_intervals</span>
+<span class="sd">        delete_na</span>
+<span class="sd">        expected</span>
+<span class="sd">        expected_hist</span>
+<span class="sd">        observed_hist</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VariableAnalysis.variable_counting">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.variable_counting">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">variable_counting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Counting unique values (only int values and modalities.</span>
+<span class="sd">        It cannot be used for float values)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            variable (panda.Series)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            variable_count (DataFrame): counts of unique values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">variable_count</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+        <span class="n">variable_count</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span>
+        <span class="n">variable_count</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">variable_count</span></div>
+
+
+<div class="viewcode-block" id="VariableAnalysis.countplot">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.countplot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">countplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function will not be used and will be deleted in the final package (to decide)</span>
+<span class="sd">        Show the counts of observations of every category</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            variable (DataFrame)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            countplot (show the bar plot of counts of variable)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">variable</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="VariableAnalysis.discretisation">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.discretisation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">discretisation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+        <span class="n">distribution</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Discretisation of variable into bins</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            distribution (string): &#39;normal&#39; ou &#39;uniform&#39;</span>
+<span class="sd">            variable (Series)</span>
+<span class="sd">            bins (int)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            interval (array): discretised variable into bins</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">bins</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+                <span class="n">interval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
+            <span class="n">min_value</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="n">max_value</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">uniform</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">bins</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+                <span class="n">interval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+        <span class="n">interval</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="n">interval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">interval</span></div>
+
+
+<div class="viewcode-block" id="VariableAnalysis.normal_discretization">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.normal_discretization">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">normal_discretization</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">mean</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">std</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        normal Discretisation of variable into bins</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            bins (int): int</span>
+<span class="sd">            mean (float): the first parameter of the gaussian distribution</span>
+<span class="sd">            std (float): standard</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">            interval (array): discretised variable into bins</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">bins</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+            <span class="n">interval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">interval</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="n">interval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">interval</span></div>
+
+
+
+<div class="viewcode-block" id="VariableAnalysis.uniform_discretization">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.uniform_discretization">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">uniform_discretization</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">min_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">max_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function discretizes a variable with a uniform distribution into specified bins.</span>
+<span class="sd">        It uses the inverse transform method with the scipy.stats.uniform.ppf function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            bins (int): Number of bins.</span>
+<span class="sd">            min_value (float): Minimum value for the uniform distribution.</span>
+<span class="sd">            max_value (float): Maximum value for the uniform distribution.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            interval (list): Discretized variable into bins.</span>
+<span class="sd">              The list includes intervals with the first element representing negative infinity</span>
+<span class="sd">              and the last element representing positive infinity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bins</span><span class="p">):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">uniform</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">bins</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+            <span class="n">interval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">interval</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="n">interval</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">interval</span></div>
+
+
+
+<div class="viewcode-block" id="VariableAnalysis.data_processing_for_chisqure_test">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.data_processing_for_chisqure_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_processing_for_chisqure_test</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is designed to preprocess the input data for chi-square tests.</span>
+<span class="sd">        If the data type is object (&#39;O&#39;), it is assumed to be categorical,</span>
+<span class="sd">        and the function converts it into value counts.</span>
+<span class="sd">        This step is crucial for chi-square tests, which require frequency distributions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (pd.DataFrame): Input data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            data (pd.DataFrame):</span>
+<span class="sd">                Processed data suitable for chi-square tests.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="VariableAnalysis.discretisation_intervals">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.discretisation_intervals">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">discretisation_intervals</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">DiscretisationParams</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function discretizes a given set of data into intervals based on</span>
+<span class="sd">        empirical distribution and calculates observed and expected frequencies</span>
+<span class="sd">        for each interval. It supports both normal and uniform distribution theories.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            params (DiscretisationParams): Parameters for discretization.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            intervals (Optional[DataFrame]): Intervals and counts of each interval.</span>
+<span class="sd">              Returns None if an unsupported distribution theory is provided.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">        The function may issue a warning if there are missing values in the data.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            interval_data = discretisation_intervals(</span>
+<span class="sd">                DiscretisationParams(</span>
+<span class="sd">                    data, {</span>
+<span class="sd">                        &#39;theory&#39;: &#39;normal&#39;,</span>
+<span class="sd">                        &#39;empirical&#39;: distribution_empirical,</span>
+<span class="sd">                        &#39;mean&#39;: mean, &#39;std&#39;: std</span>
+<span class="sd">                    }</span>
+<span class="sd">                )</span>
+<span class="sd">            )</span>
+<span class="sd">            if interval_data is not None:</span>
+<span class="sd">                logger.info(interval_data)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">processed_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delete_na</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">processed_data</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+            <span class="n">deleted_data</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">processed_data</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;the data is not complete, there are </span><span class="si">%s</span><span class="s2"> missed items&quot;</span><span class="p">,</span> <span class="n">deleted_data</span><span class="p">)</span>
+            <span class="n">params</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">processed_data</span>
+
+        <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">distribution_theory</span> <span class="o">==</span> <span class="s2">&quot;normal&quot;</span><span class="p">:</span>
+            <span class="n">exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">distribution_theory</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">std</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">params</span><span class="o">.</span><span class="n">distribution_theory</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
+            <span class="n">min_value</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">mean</span>
+            <span class="n">max_value</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">mean</span> <span class="o">+</span> <span class="n">params</span><span class="o">.</span><span class="n">std</span>
+            <span class="n">exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">distribution_theory</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">distribution_theory</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;uniform&#39;</span><span class="p">):</span>
+            <span class="n">intervals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">:</span> <span class="n">params</span><span class="o">.</span><span class="n">distribution_empirical</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                 <span class="s1">&#39;upper_limit&#39;</span><span class="p">:</span> <span class="n">params</span><span class="o">.</span><span class="n">distribution_empirical</span><span class="p">[</span><span class="mi">1</span><span class="p">:]}</span>
+            <span class="p">)</span>
+
+            <span class="n">observed_values</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">expected_values</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+
+            <span class="n">intervals</span><span class="p">[</span><span class="s1">&#39;obs_freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intervals</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;upper_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span>\
+                    <span class="ow">in</span> <span class="n">observed_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span>
+
+            <span class="n">intervals</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intervals</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;upper_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span>\
+                    <span class="ow">in</span> <span class="n">expected_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span>
+
+            <span class="k">return</span> <span class="n">intervals</span>
+
+        <span class="c1"># Add a return value (can be None if needed)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="VariableAnalysis.delete_na">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.delete_na">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_na</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove missing values (NaN) from the input data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (pd.DataFrame): The input data containing missing values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            data (pd.DataFrame):</span>
+<span class="sd">                The input data with missing values removed. If the input is a Series,</span>
+<span class="sd">                the output will also be a Series. If the input is a DataFrame,</span>
+<span class="sd">                the output will be a DataFrame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="VariableAnalysis.expected">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.expected">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expected</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">distribution</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="o">*</span><span class="n">argv</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the expected values of the distribution</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            distribution (str): &#39;normal&#39; or &#39;uniform&#39;</span>
+<span class="sd">            data (List[float]): Input data.</span>
+<span class="sd">            *argv : Parameters of the distribution.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            n or u (List[float]): Expected values for every distribution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
+            <span class="n">mean</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">n</span>
+
+        <span class="c1"># Assuming distribution is &#39;uniform&#39;</span>
+        <span class="n">min_value</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">max_value</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">u</span></div>
+
+
+<div class="viewcode-block" id="VariableAnalysis.observed_hist">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.observed_hist">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">observed_hist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the observed values of the distribution</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            variable (pd.Series): Input variable.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None (plots histogram)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;int64&#39;</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">unique</span><span class="p">()))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">variable</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">variable</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">variable</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;bool&#39;</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+            <span class="n">true</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="kc">True</span><span class="p">]</span>
+            <span class="n">false</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="kc">False</span><span class="p">]</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">true</span><span class="p">,</span> <span class="n">false</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -70,7 +70,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Tests of Completeness, Representtiveness</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/examples/final-tests.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/examples/multiple_metrics_tests.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -81,7 +81,7 @@
   <section id="Tests-of-Completeness,-Representtiveness">
 <h1>Tests of Completeness, Representtiveness<a class="headerlink" href="#Tests-of-Completeness,-Representtiveness" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Common Libraries</span>
@@ -91,16 +91,25 @@
 </pre></div>
 </div>
 </div>
-<section id="Tests-on-VDP-dataset">
-<h2>Tests on VDP dataset<a class="headerlink" href="#Tests-on-VDP-dataset" title="Link to this heading"></a></h2>
+<section id="Tests-on-challenge-welding-data">
+<h2>Tests on challenge welding data<a class="headerlink" href="#Tests-on-challenge-welding-data" title="Link to this heading"></a></h2>
+<p>This dataset is described on the website of challenge welding : <a class="reference external" href="https://confianceai.github.io/Welding-Quality-Detection-Challenge/">https://confianceai.github.io/Welding-Quality-Detection-Challenge/</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># upload data</span>
 <span class="c1"># Dataset path</span>
-<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;datasets/features.csv&quot;</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;datasets/challenge_welding.csv&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
 <span class="c1">#print(&quot;Data info:\n&quot;, data.info())</span>
 <span class="c1"># print(&quot;The first 5 lines:\n&quot;, data.head())</span>
 <span class="n">data</span>
@@ -108,7 +117,7 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -130,149 +139,107 @@
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>image</th>
-      <th>camera</th>
-      <th>sequence</th>
-      <th>environment</th>
-      <th>country</th>
-      <th>sky_cover</th>
-      <th>surface_condition</th>
+      <th>sample_id</th>
+      <th>class</th>
       <th>timestamp</th>
-      <th>lighting_level</th>
-      <th>climatic_conditions</th>
-      <th>...</th>
-      <th>Traffic_light_unknown</th>
-      <th>Traffic_light_green</th>
-      <th>Bicycle</th>
-      <th>Other_mobile</th>
-      <th>Person_group</th>
-      <th>Bus</th>
-      <th>Trailer</th>
-      <th>Caravan</th>
-      <th>Train</th>
-      <th>unknown</th>
+      <th>welding-seams</th>
+      <th>labelling_type</th>
+      <th>resolution</th>
+      <th>path</th>
+      <th>sha256</th>
+      <th>storage_type</th>
+      <th>data_origin</th>
+      <th>blur_level</th>
+      <th>blur_class</th>
+      <th>luminosity_level</th>
+      <th>external_path</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>20170320_144339_cam_0_00011702.jpg</td>
-      <td>FV</td>
-      <td>20170320_144339</td>
-      <td>Urban</td>
-      <td>FR</td>
-      <td>Cloudy</td>
-      <td>dry</td>
-      <td>0</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>data_37966</td>
+      <td>OK</td>
+      <td>08/07/2022 02:05</td>
+      <td>c33</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'0F\\\x12\xa1\x81\xcdL\xc3~\xbe\x03\xc90\x91\...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>1667.425860</td>
+      <td>clean</td>
+      <td>51.079433</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>20170320_144339_cam_0_00011708.jpg</td>
-      <td>FV</td>
-      <td>20170320_144339</td>
-      <td>Urban</td>
-      <td>FR</td>
-      <td>Cloudy</td>
-      <td>dry</td>
-      <td>1</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>data_25403</td>
+      <td>OK</td>
+      <td>19/07/2022 00:51</td>
+      <td>c102</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\tlM\xd7\x83\\\x7fm\xaeV\xc6\xbd\xd6S@\x17S\...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>868.574712</td>
+      <td>blur</td>
+      <td>32.825601</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>20170320_144339_cam_0_00011714.jpg</td>
-      <td>FV</td>
-      <td>20170320_144339</td>
-      <td>Urban</td>
-      <td>FR</td>
-      <td>Cloudy</td>
-      <td>dry</td>
-      <td>2</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>data_27038</td>
+      <td>OK</td>
+      <td>28/07/2022 16:08</td>
+      <td>c102</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\xeb\xba/\xe0-\xe6\x14\xd6\xe0\xf2oT\xd1\xa9...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>1078.402671</td>
+      <td>clean</td>
+      <td>35.192525</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>20170320_144339_cam_0_00011720.jpg</td>
-      <td>FV</td>
-      <td>20170320_144339</td>
-      <td>Urban</td>
-      <td>FR</td>
-      <td>Cloudy</td>
-      <td>dry</td>
-      <td>3</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>data_8767</td>
+      <td>OK</td>
+      <td>31/01/20 09:41</td>
+      <td>c33</td>
+      <td>expert</td>
+      <td>[1920 1080]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b"\x9e@!\xd3\xdd\xaa'\xb7]\xeb\xf7B\x800\xf1\x...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>1240.198851</td>
+      <td>clean</td>
+      <td>38.510588</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>20170320_144339_cam_0_00011726.jpg</td>
-      <td>FV</td>
-      <td>20170320_144339</td>
-      <td>Urban</td>
-      <td>FR</td>
-      <td>Cloudy</td>
-      <td>dry</td>
-      <td>4</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>data_4744</td>
+      <td>OK</td>
+      <td>25/11/19 21:57</td>
+      <td>c20</td>
+      <td>expert</td>
+      <td>[1920 1080]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\x0c\xd8\xcfb\x95\\\xb9\xa8w\xe7^\xea\rX,8\x...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>3371.897144</td>
+      <td>clean</td>
+      <td>46.001366</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
       <th>...</th>
@@ -290,137 +257,95 @@
       <td>...</td>
       <td>...</td>
       <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
     </tr>
     <tr>
-      <th>124015</th>
-      <td>20180725_193156_cam_3_00006233.jpg</td>
-      <td>MVL</td>
-      <td>20180725_193156</td>
-      <td>Urban</td>
-      <td>US</td>
-      <td>Clear</td>
-      <td>dry</td>
-      <td>164</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <th>22748</th>
+      <td>data_66456</td>
+      <td>OK</td>
+      <td>29/10/19 01:33</td>
+      <td>c102</td>
+      <td>expert</td>
+      <td>[1920 1080]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\x9fZ^\xc5j\xf1\xd8JRw\x03\xa4C\x04\xa6\xa1\...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>4463.079210</td>
+      <td>clean</td>
+      <td>41.554284</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
-      <th>124016</th>
-      <td>20180725_193156_cam_3_00006234.jpg</td>
-      <td>MVL</td>
-      <td>20180725_193156</td>
-      <td>Urban</td>
-      <td>US</td>
-      <td>Clear</td>
-      <td>dry</td>
-      <td>165</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <th>22749</th>
+      <td>data_24294</td>
+      <td>OK</td>
+      <td>07/07/2022 01:40</td>
+      <td>c102</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\x05\x07x\xa4\xb8\x01\xf1a\x18.\x13\xe4\xe6\...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>859.194594</td>
+      <td>blur</td>
+      <td>31.966749</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
-      <th>124017</th>
-      <td>20180725_193156_cam_3_00006241.jpg</td>
-      <td>MVL</td>
-      <td>20180725_193156</td>
-      <td>Urban</td>
-      <td>US</td>
-      <td>Clear</td>
-      <td>dry</td>
-      <td>166</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <th>22750</th>
+      <td>data_25568</td>
+      <td>OK</td>
+      <td>19/07/2022 11:59</td>
+      <td>c102</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'O\x0eT\xa1\x8b\xa0\xf5\xaei\x81\xe8\x16\x96p...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>977.316444</td>
+      <td>clean</td>
+      <td>40.872106</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
-      <th>124018</th>
-      <td>20180725_193156_cam_3_00006246.jpg</td>
-      <td>MVL</td>
-      <td>20180725_193156</td>
-      <td>Urban</td>
-      <td>US</td>
-      <td>Clear</td>
-      <td>dry</td>
-      <td>167</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <th>22751</th>
+      <td>data_39356</td>
+      <td>OK</td>
+      <td>13/07/2022 06:45</td>
+      <td>c33</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\x1bh\xd9\x8aK\x88\xc1\xcb\xea\xff\xe3]{\x0e...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>1653.447154</td>
+      <td>clean</td>
+      <td>50.429395</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
     <tr>
-      <th>124019</th>
-      <td>20180725_193156_cam_3_00006249.jpg</td>
-      <td>MVL</td>
-      <td>20180725_193156</td>
-      <td>Urban</td>
-      <td>US</td>
-      <td>Clear</td>
-      <td>dry</td>
-      <td>168</td>
-      <td>Daylight/Bright</td>
-      <td>Dry</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <th>22752</th>
+      <td>data_8988</td>
+      <td>OK</td>
+      <td>09/03/20 12:22</td>
+      <td>c33</td>
+      <td>expert</td>
+      <td>[1920 1080]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\xce\x0e\x87\xd7\x9b\x8d\xc4\x10[\xe9\x8fl\x...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>593.528212</td>
+      <td>blur</td>
+      <td>39.343171</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
     </tr>
   </tbody>
 </table>
-<p>124020 rows × 32 columns</p>
+<p>22753 rows × 14 columns</p>
 </div></div>
 </div>
 </section>
@@ -429,7 +354,7 @@
 <h1>Completeness<a class="headerlink" href="#Completeness" title="Link to this heading"></a></h1>
 <p>you can see also the file: <em>dqm/completeness/main.py</em></p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Specific Libraries</span>
@@ -438,17 +363,18 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">completeness_evaluator</span> <span class="o">=</span> <span class="n">DataCompleteness</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute completeness on the whole dataset</span>
+<span class="n">completeness_evaluator</span> <span class="o">=</span> <span class="n">DataCompleteness</span><span class="p">()</span>
 <span class="n">overall_score</span> <span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">completeness_tabular</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="n">overall_score</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -457,10 +383,11 @@
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">column_score</span> <span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Car&#39;</span><span class="p">])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute completeness on a single column</span>
+<span class="n">column_score</span> <span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;blur_level&#39;</span><span class="p">])</span>
 
 <span class="c1"># Print the results</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Overall Data Completeness Score: </span><span class="si">{</span><span class="n">overall_score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -481,7 +408,7 @@ Completeness Score for Column: 1
 <section id="Representativeness">
 <h1>Representativeness<a class="headerlink" href="#Representativeness" title="Link to this heading"></a></h1>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Specific Libraries</span>
@@ -494,23 +421,32 @@ Completeness Score for Column: 1
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[04-26 14:44:23] {/home/ubuntu/data_quality/data_quality_metrics/dqm/representativeness/twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
-[04-26 14:44:23] {/home/ubuntu/data_quality/data_quality_metrics/dqm/representativeness/twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+[03-28 15:55:04] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+[03-28 15:55:04] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Car&quot;</span><span class="p">]</span> <span class="c1"># you can choose another variable from the data.</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">]</span> <span class="c1"># you can choose another variable from the data.</span>
 <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 <span class="c1"># data = pd.Series(np.random.normal(0, 1, 1000))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="n">std</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1650.9658847770813 946.0829447223126
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters for analysis</span>
@@ -527,11 +463,11 @@ Completeness Score for Column: 1
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[04-26 14:44:28] {/home/ubuntu/data_quality/data_quality_metrics/dqm/representativeness/twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+[03-28 15:55:05] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method chisquare_test</span>
@@ -546,38 +482,38 @@ Completeness Score for Column: 1
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[04-26 14:48:39] {/home/ubuntu/data_quality/data_quality_metrics/dqm/representativeness/metric.py:170} INFO      - pvalue = 0.0 &lt; 0.05: Data is not following the normal distribution
+[03-28 15:55:07] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\metric.py:170} INFO      - pvalue = 0.0 &lt; 0.05: Data is not following the normal distribution
 Chi-Square Test: p-value = 0.0
 Chi-Square Test: discretized intervalls are
  =     lower_limit  upper_limit  obs_freq  exp_freq
-0          -inf    -0.468070       0.0    6096.0
-1     -0.468070     1.208538    9419.0    6221.0
-2      1.208538     2.339737    9369.0    6100.0
-3      2.339737     3.238778   10283.0    6182.0
-4      3.238778     4.010075   11344.0    6257.0
-5      4.010075     4.702724       0.0    6216.0
-6      4.702724     5.344566   11310.0    6119.0
-7      5.344566     5.953612       0.0    6163.0
-8      5.953612     6.542870   11410.0    6253.0
-9      6.542870     7.122787   10550.0    6208.0
-10     7.122787     7.702703       0.0    6265.0
-11     7.702703     8.291961    9498.0    6257.0
-12     8.291961     8.901007       0.0    6233.0
-13     8.901007     9.542849    7939.0    6205.0
-14     9.542849    10.235498    7101.0    6074.0
-15    10.235498    11.006795    5919.0    6261.0
-16    11.006795    11.905837       0.0    6377.0
-17    11.905837    13.037036    8326.0    6255.0
-18    13.037036    14.713643    2965.0    6087.0
-19    14.713643          inf    8587.0    6191.0
+0          -inf    94.797922       7.0    1209.0
+1     94.797922   438.511806    1406.0    1108.0
+2    438.511806   670.413932    1274.0    1168.0
+3    670.413932   854.722390    2869.0    1065.0
+4    854.722390  1012.842636    2083.0    1120.0
+5   1012.842636  1154.839504    1025.0    1105.0
+6   1154.839504  1286.420763     723.0    1127.0
+7   1286.420763  1411.278511     621.0    1119.0
+8   1411.278511  1532.079828     618.0    1123.0
+9   1532.079828  1650.965885     847.0    1145.0
+10  1650.965885  1769.851942    1309.0    1082.0
+11  1769.851942  1890.653258    1646.0    1118.0
+12  1890.653258  2015.511006    1460.0    1193.0
+13  2015.511006  2147.092266    1182.0    1161.0
+14  2147.092266  2289.089134     897.0    1122.0
+15  2289.089134  2447.209380     708.0    1127.0
+16  2447.209380  2631.517838     711.0    1126.0
+17  2631.517838  2863.419964     806.0    1205.0
+18  2863.419964  3207.133848     935.0    1163.0
+19  3207.133848          inf    1626.0    1167.0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method kolmogorov</span>
-<span class="n">ks_pvalue</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">kolmogorov</span><span class="p">()</span>
+<span class="n">ks_pvalue</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">kolmogorov</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="n">std</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kolmogorov-Smirnov Test: p-value = </span><span class="si">{</span><span class="n">ks_pvalue</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -587,12 +523,14 @@ Chi-Square Test: discretized intervalls are
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[04-26 14:51:18] {/home/ubuntu/data_quality/data_quality_metrics/dqm/representativeness/metric.py:201} ERROR      - Error: Provide mean and std for normal distribution.
-Kolmogorov-Smirnov Test: p-value = nan
+par dist (np.float64(1650.9658847770813), np.float64(946.0829447223126))
+[03-28 15:56:05] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\metric.py:227} INFO      - KstestResult(statistic=np.float64(0.08743767587843615), pvalue=np.float64(8.40127378157898e-152), statistic_location=np.float64(1038.29640591), statistic_sign=np.int8(1))
+[03-28 15:56:05] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\metric.py:230} INFO      - p-value = 8.40127378157898e-152 &lt; 0.05 : The data is not followingthe normal distribution
+Kolmogorov-Smirnov Test: p-value = 8.40127378157898e-152
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method shannon_entropy</span>
@@ -606,11 +544,11 @@ Kolmogorov-Smirnov Test: p-value = nan
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Shannon Entropy: 2.99564085105308
+Shannon Entropy: 2.9951117507101492
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method grte</span>
@@ -625,14 +563,14 @@ Shannon Entropy: 2.99564085105308
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-GRTE: 0.4539808413284466
+GRTE: 0.7474979873526185
 </pre></div></div>
 </div>
 </section>
 <section id="Diversity-test">
 <h1>Diversity test<a class="headerlink" href="#Diversity-test" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specifion Libraries</span>
@@ -641,7 +579,7 @@ GRTE: 0.4539808413284466
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metric_calculator</span> <span class="o">=</span> <span class="n">DiversityIndexCalculator</span><span class="p">()</span>
@@ -649,43 +587,43 @@ GRTE: 0.4539808413284466
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simpson index</span>
-<span class="n">metric_calculator</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Car&#39;</span><span class="p">])</span>
+<span class="n">metric_calculator</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;luminosity_level&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.9323387738944272
+0.9999999729560708
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gini-Simpson Index</span>
-<span class="n">metric_calculator</span><span class="o">.</span><span class="n">gini</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Car&#39;</span><span class="p">])</span>
+<span class="n">metric_calculator</span><span class="o">.</span><span class="n">gini</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;luminosity_level&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.9323312562458713
+0.9999560227089405
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dqm.diversity.diversity</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiversityCalculator</span>
@@ -766,18 +704,16 @@ GRTE: 0.4539808413284466
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[04-18 09:26:50] {/home/ubuntu/data_quality/data_quality_metrics/dqm/diversity/twe_logger.py:104} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+[03-28 15:56:28] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\diversity\twe_logger.py:104} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use of DataDiversityAnalyzer Class</span>
-<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;data/vdp_image_train_and_test_v2.csv&quot;</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
 <span class="n">analyzer</span> <span class="o">=</span> <span class="n">DataDiversityAnalyzer</span><span class="p">()</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/vdp_image_train_and_test_v2.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;;&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;datasets/challenge_welding.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
 <span class="c1">#feature_name = &quot;Traffic_light_green&quot;</span>
 <span class="c1">#analyzer.calculate_diversity_scores(df, feature_name)</span>
 
@@ -794,125 +730,28 @@ GRTE: 0.4539808413284466
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[04-18 09:28:35] {/home/ubuntu/data_quality/data_quality_metrics/dqm/diversity/twe_logger.py:104} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
-For timestamp feature :
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.9970976766869423
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.9970896368733906
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 6.080977198285112
+[03-28 16:01:40] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\diversity\twe_logger.py:104} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+For blur_level feature :
+[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:56} INFO      - Simpson index: 1.0
+[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:59} INFO      - Gini index: 0.9999560497516811
+[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:62} INFO      - Diversity score: 10.032452283817129
 ---------------------------------------------------------
-For Car feature :
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.9323387738944272
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.9323312562458713
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 2.8433151505861547
----------------------------------------------------------
-For Van feature :
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.651716419208147
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.6517111642781421
-[04-18 09:28:35] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 1.2941409814642448
----------------------------------------------------------
-For Truck feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.5388641326928932
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.5388597877152066
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 1.0880443116538665
----------------------------------------------------------
-For Other_occluding feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.24320731718231825
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.24320535614928207
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.6376700853388106
----------------------------------------------------------
-For Traffic_sign feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.7561284566502878
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.7561223598235127
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 1.8551825446588075
----------------------------------------------------------
-For Motorcycle feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.46722121765396485
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.467217450348549
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 1.0132821017330949
----------------------------------------------------------
-For Person feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.8512408124323341
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.8512339486941272
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 2.4627454954401102
----------------------------------------------------------
-For Vehicle_group feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.5528581858563403
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.5528537280415858
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 1.10829531689193
----------------------------------------------------------
-For Traffic_light_yellow feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.022071459679619876
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.022071281712681468
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.0690185981780445
----------------------------------------------------------
-For Traffic_light_red feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.18349282147425072
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.18349134193206806
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.40522304793064917
----------------------------------------------------------
-For Traffic_light_unknown feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.11476441868241238
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.11476349331216007
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.27669248376265476
----------------------------------------------------------
-For Traffic_light_green feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.22431870847325142
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.22431689974313962
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.4847130632946491
----------------------------------------------------------
-For Bicycle feature :
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.3887342728497317
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.38873113840147466
-[04-18 09:28:36] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.8483535810638099
----------------------------------------------------------
-For Other_mobile feature :
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.15520541295817358
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.15520416150346483
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.40123511976113146
----------------------------------------------------------
-For Person_group feature :
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.20676991676053447
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.20676824953011386
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.48632058103972675
----------------------------------------------------------
-For Bus feature :
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.41583207960762403
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.41582872666390847
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.8348802619173306
----------------------------------------------------------
-For Trailer feature :
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.045067094329235724
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.04506673094353708
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.11469135556815079
----------------------------------------------------------
-For Caravan feature :
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.04352518052077481
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.04352482956785986
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.11729187228393431
----------------------------------------------------------
-For Train feature :
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 0.04988835425086291
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 0.049887951990306156
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.1325605322798743
----------------------------------------------------------
-For unknown feature :
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:56} INFO      - Simpson index: 1.6126431220730986e-05
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:59} INFO      - Gini index: 1.612630118996705e-05
-[04-18 09:28:37] {/tmp/ipykernel_396843/3773604603.py:62} INFO      - Diversity score: 0.0001026301732808389
+For luminosity_level feature :
+[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:56} INFO      - Simpson index: 0.9999999729560708
+[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:59} INFO      - Gini index: 0.9999560227089405
+[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:62} INFO      - Diversity score: 10.03202578794723
 ---------------------------------------------------------
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># relative diversity :</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">index</span>
-<span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span> <span class="ow">in</span> <span class="n">b</span><span class="p">)</span>
-<span class="n">c</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="n">index_in</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">requirement_camera</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RV&quot;</span><span class="p">,</span> <span class="s2">&quot;MVR&quot;</span><span class="p">,</span> <span class="s2">&quot;FV&quot;</span><span class="p">,</span> <span class="s2">&quot;adf&quot;</span><span class="p">,</span> <span class="s2">&quot;dfg&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">requirement_welding_seams</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;c102&quot;</span><span class="p">,</span><span class="s2">&quot;c20&quot;</span><span class="p">,</span> <span class="s2">&quot;c33&quot;</span><span class="p">]</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">relative_diversity</span> <span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">requirements</span><span class="p">):</span>
     <span class="n">index_in</span> <span class="o">=</span> <span class="mi">0</span>
@@ -925,7 +764,7 @@ For unknown feature :
     <span class="k">return</span> <span class="n">Relative_diversity_score</span>
 <span class="c1">#Relative_diversity</span>
 
-<span class="n">relative_diversity</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Car</span><span class="p">,</span> <span class="n">requirement_camera</span><span class="p">)</span>
+<span class="n">relative_diversity</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;welding-seams&quot;</span><span class="p">],</span> <span class="n">requirement_welding_seams</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -934,37 +773,47 @@ For unknown feature :
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-5
+class
+OK    22259
+KO      494
+Name: count, dtype: int64
+c102
+c20
+c33
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.1111111111111111
+np.float64(1.5)
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">df</span><span class="o">.</span><span class="n">Car</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Index([ 6,  4,  5,  7,  3,  8,  2,  9, 10,  1, 11, 12, 13, 14,  0, 15, 16, 17,
-       18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 32, 31, 34, 33, 35,
-       38, 37, 36, 41, 39],
-      dtype=&#39;int64&#39;, name=&#39;Car&#39;)
-</pre></div></div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 </section>
 

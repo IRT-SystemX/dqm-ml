@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dqm.representativeness.metric &mdash; DQM 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            DQM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dqm.html">🎡 Package dqm</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">DQM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dqm.representativeness.metric</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dqm.representativeness.metric</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script provides functions for analyzing data distribution using chi-square tests,</span>
+<span class="sd">goodness-of-fit tests, Kolmogorov-Smirnov tests, Shannon entropy, and confidence intervals.</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    Faouzi ADJED</span>
+<span class="sd">    Anani DJATO</span>
+
+<span class="sd">Dependencies:</span>
+<span class="sd">    numpy</span>
+<span class="sd">    pandas</span>
+<span class="sd">    matplotlib</span>
+<span class="sd">    scipy</span>
+<span class="sd">    seaborn</span>
+<span class="sd">    dqm.representativeness.twe_logger</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    DistributionAnalyzer: Class for analyzing data distribution</span>
+
+<span class="sd">Functions: None</span>
+
+<span class="sd">Usage: Import this script and use the provided functions for distribution analysis.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.representativeness.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">VariableAnalysis</span><span class="p">,</span> <span class="n">DiscretisationParams</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.representativeness.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+<span class="n">variable_analyzer</span> <span class="o">=</span> <span class="n">VariableAnalysis</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="DistributionAnalyzer">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DistributionAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for analyzing data distribution.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">    data (pd.DataFrame): The data to be analyzed.</span>
+<span class="sd">    bins (int): The number of bins for analysis.</span>
+<span class="sd">    distribution (str): The distribution type (&#39;normal&#39; or &#39;uniform&#39;).</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        chisquare_test: Perform the chi-square test on the provided data.</span>
+<span class="sd">            Returns p-value and confidence intervals</span>
+
+<span class="sd">        kolmogorov: Calculate the Kolmogorov-Smirnov test for the chosen distribution.</span>
+<span class="sd">            Returns the KS test p-value.</span>
+
+<span class="sd">        shannon_entropy: Calculate Shannon entropy for the provided intervals.</span>
+<span class="sd">            Returns Shannon entropy.</span>
+
+<span class="sd">        grte: Calculates the Granular Relative and Theoretical Entropy (GRTE) for given data</span>
+<span class="sd">            Returns The calculated GRTE value and the intervals discretized data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">distribution</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize DistributionAnalyzer with the provided data and parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (pd.Series): The data to be analyzed.</span>
+<span class="sd">            bins (int): The number of bins for analysis.</span>
+<span class="sd">            distribution (str): The distribution type (&#39;normal&#39; or &#39;uniform&#39;).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">distribution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable_analyzer</span> <span class="o">=</span> <span class="n">VariableAnalysis</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="DistributionAnalyzer.chisquare_test">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer.chisquare_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chisquare_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">par_dist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a chi-square test for goodness of fit.</span>
+
+<span class="sd">        This method analyzes the distribution of data using a chi-square test</span>
+<span class="sd">        for goodness of fit. It supports normal and uniform distributions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *par_dist (float): Parameters for the specified distribution.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            p-value (float): The p-value from the chi-square test</span>
+<span class="sd">            intervals_frequencies (pd.DataFrame): The DataFrame containing </span>
+<span class="sd">                observed and expected frequencies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtypes</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;bool&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Categorical or boolean data are not processed yet.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Create a dictionary for distribution parameters</span>
+        <span class="n">distribution_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;theory&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
+            <span class="c1">#if len(par_dist)&gt;0:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">par_dist</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="n">mean</span> <span class="o">=</span> <span class="n">par_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">std</span> <span class="o">=</span> <span class="n">par_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="c1"># Update distribution parameters for uniform distribution</span>
+                <span class="n">distribution_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s1">&#39;empirical&#39;</span><span class="p">:</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">normal_discretization</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span>
+                            <span class="n">mean</span><span class="p">,</span>
+                            <span class="n">std</span>
+                        <span class="p">),</span>
+                        <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">mean</span><span class="p">,</span>
+                        <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">std</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+            <span class="c1">#discrete_distrib = variable_analyzer.normal_discretization(bins, mean, std)</span>
+            <span class="c1"># Create an instance of DiscretisationParams</span>
+            <span class="n">discretisation_params</span> <span class="o">=</span> <span class="n">DiscretisationParams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">distribution_params</span><span class="p">)</span>
+            <span class="n">intervals_frequencies</span> <span class="o">=</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">discretisation_intervals</span><span class="p">(</span>
+                <span class="n">discretisation_params</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">intervals_frequencies</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Number of intervals is to large to get acceptable expected values&quot;</span><span class="p">)</span>
+
+            <span class="n">chi</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chisquare</span><span class="p">(</span>
+                <span class="n">intervals_frequencies</span><span class="p">[</span><span class="s1">&#39;obs_freq&#39;</span><span class="p">],</span>
+                <span class="n">intervals_frequencies</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
+            <span class="c1">#if len(par_dist)&gt;0:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">par_dist</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="n">min_value</span> <span class="o">=</span> <span class="n">par_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">par_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">min_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+                <span class="c1"># Update distribution parameters for uniform distribution</span>
+                <span class="n">distribution_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s1">&#39;empirical&#39;</span><span class="p">:</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">uniform_discretization</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span>
+                            <span class="n">min_value</span><span class="p">,</span>
+                            <span class="n">max_value</span>
+                        <span class="p">),</span>
+                        <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">min_value</span><span class="p">,</span>
+                        <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">max_value</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+            <span class="c1">#discrete_distrib = variable_analyzer.uniform_discretization(bins, min_value, max_value)</span>
+            <span class="c1"># Create an instance of DiscretisationParams</span>
+            <span class="n">discretisation_params</span> <span class="o">=</span> <span class="n">DiscretisationParams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">distribution_params</span><span class="p">)</span>
+            <span class="n">intervals_frequencies</span> <span class="o">=</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">discretisation_intervals</span><span class="p">(</span>
+                <span class="n">discretisation_params</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">intervals_frequencies</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Number of intervals is to large to get acceptable expected values&quot;</span><span class="p">)</span>
+
+            <span class="n">chi</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chisquare</span><span class="p">(</span>
+                <span class="n">intervals_frequencies</span><span class="p">[</span><span class="s1">&#39;obs_freq&#39;</span><span class="p">],</span>
+                <span class="n">intervals_frequencies</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">chi</span><span class="o">.</span><span class="n">pvalue</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;pvalue = </span><span class="si">%s</span><span class="s2"> &lt; 0.05: Data is not following the </span><span class="si">%s</span><span class="s2"> distribution&quot;</span><span class="p">,</span>
+                <span class="n">chi</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;pvalue = </span><span class="si">%s</span><span class="s2"> &gt;= 0.05: Data is following the </span><span class="si">%s</span><span class="s2"> distribution&quot;</span><span class="p">,</span>
+                <span class="n">chi</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">chi</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span> <span class="n">intervals_frequencies</span></div>
+
+
+
+<div class="viewcode-block" id="DistributionAnalyzer.kolmogorov">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer.kolmogorov">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kolmogorov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">par_dist</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation of the Kolmogorov-Smirnov test for every distribution.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *par_dist: arbitrary positional arguments, should be numeric</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            p-value (float): KS test p-value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#if data.dtypes in {&#39;O&#39;, &#39;bool&#39;}:</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">))</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Categorical or boolean variables are not treated yet.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">par_dist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error: Provide mean and std for normal distribution.&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+
+            <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">par_dist</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">par_dist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error: Provide min and max for uniform distribution.&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+
+            <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">par_dist</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unsupported distribution </span><span class="si">%s</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">kstest</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">,</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+        <span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span> <span class="k">else</span> <span class="n">stats</span><span class="o">.</span><span class="n">kstest</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                    <span class="n">stats</span><span class="o">.</span><span class="n">uniform</span><span class="o">.</span><span class="n">cdf</span><span class="p">,</span>
+                    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">mean</span> <span class="o">+</span> <span class="n">std</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">pvalue</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;p-value = </span><span class="si">%s</span><span class="s2"> &lt; 0.05 : The data is not following&quot;</span>
+                    <span class="s2">&quot;the </span><span class="si">%s</span><span class="s2"> distribution&quot;</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;p-value = </span><span class="si">%s</span><span class="s2"> &gt;= 0.05 : The data is not following&quot;</span>
+                    <span class="s2">&quot;the </span><span class="si">%s</span><span class="s2"> distribution&quot;</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">k</span><span class="o">.</span><span class="n">pvalue</span></div>
+
+
+
+<div class="viewcode-block" id="DistributionAnalyzer.shannon_entropy">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer.shannon_entropy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shannon_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation of Shannon entropy.</span>
+
+<span class="sd">        Args: None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Shannon entropy (float):</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
+            <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">discrete_distrib</span> <span class="o">=</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">uniform_discretization</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span>
+                <span class="n">min_value</span><span class="p">,</span>
+                <span class="n">max_value</span>
+            <span class="p">)</span>
+            <span class="c1"># Create a dictionary for distribution parameters</span>
+            <span class="n">distribution_params</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;theory&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">,</span>
+                <span class="s1">&#39;empirical&#39;</span><span class="p">:</span> <span class="n">discrete_distrib</span><span class="p">,</span>
+                <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">min_value</span><span class="p">,</span>
+                <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">max_value</span>
+                <span class="p">}</span>
+            <span class="n">discretisation_params</span> <span class="o">=</span> <span class="n">DiscretisationParams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">distribution_params</span><span class="p">)</span>
+            <span class="n">intervals</span> <span class="o">=</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">discretisation_intervals</span><span class="p">(</span><span class="n">discretisation_params</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s2">&quot;normal&quot;</span><span class="p">:</span>
+            <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">discrete_distrib</span> <span class="o">=</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">normal_discretization</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+            <span class="c1"># Create a dictionary for distribution parameters</span>
+            <span class="n">distribution_params</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;theory&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">,</span>
+                <span class="s1">&#39;empirical&#39;</span><span class="p">:</span> <span class="n">discrete_distrib</span><span class="p">,</span>
+                <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">mean</span><span class="p">,</span>
+                <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">std</span>
+                <span class="p">}</span>
+            <span class="n">discretisation_params</span> <span class="o">=</span> <span class="n">DiscretisationParams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">distribution_params</span><span class="p">)</span>
+            <span class="n">intervals</span> <span class="o">=</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">discretisation_intervals</span><span class="p">(</span><span class="n">discretisation_params</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">intervals</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Leading division by zero&quot;</span><span class="p">)</span>
+
+        <span class="n">prob_exp</span> <span class="o">=</span> <span class="n">intervals</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">intervals</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">prob_exp</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DistributionAnalyzer.grte">
+<a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer.grte">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the Granular Relative and Theoretical Entropy (GRTE) for given data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args (float): Optional arguments. For &#39;uniform&#39;, provide start</span>
+<span class="sd">                and end; for &#39;normal&#39;, provide mean and std.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            grte_res (float): The calculated GRTE value.</span>
+<span class="sd">            intervals_discretized (pd.Series): The intervals discretized data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create a dictionary for distribution parameters</span>
+        <span class="n">distribution_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;theory&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">}</span>
+
+        <span class="c1"># Check the specified distribution type and process accordingly</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
+            <span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> \
+                <span class="k">else</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;debut </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;la fin </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+
+            <span class="c1"># Update distribution parameters for uniform distribution</span>
+            <span class="n">distribution_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;empirical&#39;</span><span class="p">:</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">uniform_discretization</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span>
+                        <span class="n">min_value</span><span class="p">,</span>
+                        <span class="n">max_value</span>
+                    <span class="p">),</span>
+                    <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">min_value</span><span class="p">,</span>
+                    <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">max_value</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">==</span> <span class="s2">&quot;normal&quot;</span><span class="p">:</span>
+            <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> \
+                <span class="k">else</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+            <span class="c1"># Update distribution parameters for normal distribution</span>
+            <span class="n">distribution_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;empirical&#39;</span><span class="p">:</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">normal_discretization</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span>
+                        <span class="n">mean</span><span class="p">,</span>
+                        <span class="n">std</span>
+                    <span class="p">),</span>
+                    <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">mean</span><span class="p">,</span>
+                    <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">std</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Expecting only uniform or normal distribution&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="c1"># Create an instance of DiscretisationParams</span>
+        <span class="n">discretisation_params</span> <span class="o">=</span> <span class="n">DiscretisationParams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">distribution_params</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the intervals for the discretized data</span>
+        <span class="n">intervals_discretized</span> <span class="o">=</span> <span class="n">variable_analyzer</span><span class="o">.</span><span class="n">discretisation_intervals</span><span class="p">(</span><span class="n">discretisation_params</span><span class="p">)</span>
+
+        <span class="c1"># Compute GRTE using the entropy of expected and observed frequencies</span>
+        <span class="n">grte_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">intervals_discretized</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">])</span> <span class="o">-</span>\
+            <span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">intervals_discretized</span><span class="p">[</span><span class="s1">&#39;obs_freq&#39;</span><span class="p">])))</span>
+
+        <span class="c1"># Return the GRTE result and the discretized intervals</span>
+        <span class="k">return</span> <span class="n">grte_res</span><span class="p">,</span> <span class="n">intervals_discretized</span></div>
+</div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

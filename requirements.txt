@@ -9,3 +9,4 @@ scipy
 scikit-learn
 POT
 ipykernel
+seaborn

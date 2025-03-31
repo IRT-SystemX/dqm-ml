@@ -51,12 +51,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#components">Components</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#metric-py-module">metric.py (Module)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#main-py-script">main.py (Script)</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#usage-guide">Usage Guide</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#setup">Setup</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#running-the-evaluation">Running the Evaluation</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
@@ -131,47 +125,10 @@ Calculates the completeness score for an individual data column.</p></li>
 </section>
 </section>
 </section>
-<section id="main-py-script">
-<h4>main.py (Script)<a class="headerlink" href="#main-py-script" title="Link to this heading"></a></h4>
-<section id="id1">
-<h5>Description<a class="headerlink" href="#id1" title="Link to this heading"></a></h5>
-<p>This script demonstrates the usage of the DataCompleteness class from the metric module to
-assess data completeness in a DataFrame. It calculates and prints the overall completeness
-score of the data, as well as the completeness score for a specific column in the DataFrame.</p>
-</section>
-<section id="usage">
-<h5>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h5>
-<p>Run the script directly. It reads a specified CSV file and evaluates its data completeness.</p>
-</section>
-</section>
-</section>
-<section id="usage-guide">
-<h3>Usage Guide<a class="headerlink" href="#usage-guide" title="Link to this heading"></a></h3>
-<section id="setup">
-<h4>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h4>
-<p>Place both metric.py and main.py in the same directory.
-Ensure you have pandas installed in your Python environment.</p>
-</section>
-<section id="running-the-evaluation">
-<h4>Running the Evaluation<a class="headerlink" href="#running-the-evaluation" title="Link to this heading"></a></h4>
-<p>Modify main.py to point to your specific CSV file by updating the line:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    df = pd.read_csv(&#39;path_to_your_data_file.csv&#39;)
-</pre></div>
-</div>
-<p>Run main.py using a Python interpreter:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    python main.py
-</pre></div>
-</div>
-<p>The script will output:</p>
-<ul class="simple">
-<li><p>The overall data completeness score for the DataFrame.</p></li>
-<li><p>The completeness score for a specified column (in this case, ‘country’).</p></li>
-</ul>
-</section>
 </section>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    from metric import DataCompleteness
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    from dqm.completeness.metric import DataCompleteness
     import pandas as pd
 
     def main():

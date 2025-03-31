@@ -52,8 +52,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#model-based-metrics-for-domain-gap-estimation-in-image-datasets">Model-Based Metrics for Domain Gap Estimation in Image Datasets</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#quick-start">Quick start</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#source-and-target-domain-inputs">source and target domain inputs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#how-to-use-our-library">How to use our library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#source-and-target-domain-inputs">Source and target domain inputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-use-the-domain-gap-functions">How to use the domain gap functions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#model">Model</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#metrics">Metrics</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quick-overview">Quick Overview:</a></li>
@@ -110,13 +110,15 @@
 <section id="quick-start">
 <h3>Quick start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h3>
 <section id="source-and-target-domain-inputs">
-<h4>source and target domain inputs<a class="headerlink" href="#source-and-target-domain-inputs" title="Link to this heading"></a></h4>
+<h4>Source and target domain inputs<a class="headerlink" href="#source-and-target-domain-inputs" title="Link to this heading"></a></h4>
 <p>Source and target datasets have to be provided as path folder in Json configuration file. Those path msut contains only image extension files (.png, .jpg, …) compatible with PIL (pillow) library.</p>
 </section>
-<section id="how-to-use-our-library">
-<h4>How to use our library<a class="headerlink" href="#how-to-use-our-library" title="Link to this heading"></a></h4>
+<section id="how-to-use-the-domain-gap-functions">
+<h4>How to use the domain gap functions<a class="headerlink" href="#how-to-use-the-domain-gap-functions" title="Link to this heading"></a></h4>
 <p>We proposed 2 approaches to use our implemented metrics. The first appraoch consists of importing the desired metrics class and use it a notebook or script in your python code. To use a metric, import it’s class and create an instance in your python file, then create a dictionary object like those provided in cfg/metric/metric.json. Then compute with the compute function of the metrics.</p>
-<p>The second approach is to use a metric through CLI, with the main.py script : <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">main.py</span> <span class="pre">--cfg</span> <span class="pre">cfg.json</span></code>. Note that a collection of config files is available in “cfg” folder.</p>
+<p>The second approach is to use a metric through CLI, with the main script available <a class="reference external" href="https://github.com/IRT-SystemX/DataQualityMetrics/blob/main/examples/main_domain_gap.py">here</a> and using the following ocmmand <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">main_domain_gap.py</span> <span class="pre">--cfg</span> <span class="pre">cfg.json</span></code>.</p>
+<p>You can find a set of examples of configuration file in this <a class="reference external" href="https://github.com/IRT-SystemX/DataQualityMetrics/tree/main/examples/daomin_gap_cfg">folder</a> .
+Some config examples will require to downloadthe dataset <strong>200-birds datasets</strong> available at this  <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip">link</a> .</p>
 <!---
 ### More than two datasets to measure (Will be refactored/ work only on CMD)
 You can provide with the `--tsk` command line argument a task list that contain a list of data, a list of features and a list of metric to compute. See the `cfg/task_list.json` example

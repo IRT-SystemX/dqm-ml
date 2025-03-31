@@ -53,14 +53,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#components">Components</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#diversity-calculator-diversity-py">Diversity Calculator (diversity.py)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#metric-calculator-metric-py">Metric Calculator (metric.py)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#main-script-main-py">Main Script (main.py)</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#getting-started">Getting Started</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#setup">Setup</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#using-diversity-calculator">Using Diversity Calculator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#using-metric-calculator">Using Metric Calculator</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#executing-the-main-script">Executing the Main Script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -118,36 +116,23 @@ These scripts provide a comprehensive approach to understanding the diversity wi
 <h4>Metric Calculator (metric.py)<a class="headerlink" href="#metric-calculator-metric-py" title="Link to this heading"></a></h4>
 <p>Offers additional metrics, likely including statistical indices like Simpson Index and Gini-Simpson Index for deeper data analysis.</p>
 </section>
-<section id="main-script-main-py">
-<h4>Main Script (main.py)<a class="headerlink" href="#main-script-main-py" title="Link to this heading"></a></h4>
-<p>Demonstrates the usage of the DiversityCalculator and DiversityIndexCalculator classes for real-world data application.</p>
-<p>The script demonstrates the usage of classes and from diversity and metric scripts:
-The script showcases the capabilities of the modules by creating instances of classes and invoking their methods.</p>
-<p>The main script serves as a central point to showcase and test the functionality provided by these scripts.
-It creates instances of classes, performs operations on sample data, and logs the results using a logger.</p>
-</section>
 </section>
 <section id="getting-started">
 <h3>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h3>
-<p>To utilize scripts, follow these steps:</p>
-<section id="setup">
-<h4>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h4>
-<p>Install any required dependencies, such as numpy and pandas.</p>
-</section>
 <section id="using-diversity-calculator">
 <h4>Using Diversity Calculator<a class="headerlink" href="#using-diversity-calculator" title="Link to this heading"></a></h4>
-<p>Import the DiversityCalculator from diversity.py.
+<p>Import the DiversityCalculator : <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">dqm.diversity.diversity</span> <span class="pre">import</span> <span class="pre">DiversityCalculator</span></code>
 Initialize the calculator and use the compute_diversity method with your data.
 Specify the type of diversity and the aspect you are interested in (‘lexical’ and ‘richness’).</p>
 </section>
 <section id="using-metric-calculator">
 <h4>Using Metric Calculator<a class="headerlink" href="#using-metric-calculator" title="Link to this heading"></a></h4>
-<p>This step depends on the functionality provided in metric.py.
+<p>This step depends on the functionality provided in from <code class="docutils literal notranslate"><span class="pre">dqm.diversity.metric</span></code>
 Generally, import the relevant class and use its methods for additional metrics.</p>
 </section>
-<section id="executing-the-main-script">
-<h4>Executing the Main Script<a class="headerlink" href="#executing-the-main-script" title="Link to this heading"></a></h4>
-<p>Run main.py to see other (diversity.py and metric.py) scripts in action.
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h4>
+<p>See the example <a class="reference external" href="https://github.com/IRT-SystemX/DataQualityMetrics/blob/develop/examples/main_diversity.py">here</a> to see other (diversity.py and metric.py) scripts in action available .
 This script will utilize the aforementioned classes to calculate diversity scores for provided sample datasets.</p>
 </section>
 </section>

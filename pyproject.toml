@@ -11,7 +11,10 @@ authors = [
   {email="contact@confiance.ai"}
 ]
 
-
+[project.urls]
+Homepage = "https://irt-systemx.github.io/DataQualityMetrics"
+Documentation = "https://irt-systemx.github.io/DataQualityMetrics"
+Repository = "https://github.com/IRT-SystemX/DataQualityMetrics"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}

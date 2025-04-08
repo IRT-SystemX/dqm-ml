@@ -110,8 +110,10 @@ in identifying columns with missing data and quantifying the extent of missingne
 </section>
 <section id="authors">
 <h5>Authors<a class="headerlink" href="#authors" title="Link to this heading"></a></h5>
-<p>Faouzi ADJED</p>
-<p>Anani DJATO</p>
+<ul class="simple">
+<li><p>Faouzi ADJED</p></li>
+<li><p>Anani DJATO</p></li>
+</ul>
 </section>
 <section id="class-datacompleteness">
 <h5>Class: DataCompleteness<a class="headerlink" href="#class-datacompleteness" title="Link to this heading"></a></h5>
@@ -129,19 +131,19 @@ Calculates the completeness score for an individual data column.</p></li>
 </section>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    from dqm.completeness.metric import DataCompleteness
-    import pandas as pd
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dqm.completeness.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataCompleteness</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-    def main():
-        completeness_evaluator = DataCompleteness()
-        df = pd.read_csv(&#39;your_data.csv&#39;, sep=&quot;;&quot;)
-        overall_score = completeness_evaluator.completeness_tabular(df)
-        column_score = completeness_evaluator.data_completion(df[&#39;your_column&#39;])
-        print(f&#39;Overall Data Completeness Score: {overall_score}&#39;)
-        print(f&#39;Completeness Score for Column: {column_score}&#39;)
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">completeness_evaluator</span> <span class="o">=</span> <span class="n">DataCompleteness</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;your_data.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
+    <span class="n">overall_score</span> <span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">completeness_tabular</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">column_score</span> <span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;your_column&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Overall Data Completeness Score: </span><span class="si">{</span><span class="n">overall_score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Completeness Score for Column: </span><span class="si">{</span><span class="n">column_score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    if __name__ == &quot;__main__&quot;:
-        main()
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>

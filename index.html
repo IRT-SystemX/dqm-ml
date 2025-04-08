@@ -103,50 +103,51 @@
 </div>
 <section id="data-quality-metrics">
 <h2>Data Quality Metrics<a class="headerlink" href="#data-quality-metrics" title="Link to this heading"></a></h2>
-<p>Data Quality Metrics called <strong>dqm-ml</strong> is a python library which computes three data inherent metrics and one data-model dependent metrics.</p>
-<p>The data inherent metrics are (defintions from Confiance.ai program):</p>
+<p>The current version of the Data Quality Metrics (called <strong>dqm-ml</strong>) computes three data inherent metrics and one data-model dependent metric.</p>
+<p>The data inherent metrics are</p>
 <ul class="simple">
 <li><p><strong>Diversity</strong> : Computes the presence in the dataset of all required information defined in the specification (requirements, Operational Design Domain (ODD) … ).</p></li>
 <li><p><strong>Representativeness</strong> : is defined as the conformity of the distribution of the key characteristics of the dataset according to a specification (requirements, ODD.. . )</p></li>
 <li><p><strong>Completeness</strong> : is defiend by the degree to which subject data associated with an entity has values for all expected attributes and related entity instances in a specific context of use.</p></li>
 </ul>
-<p>The data-model dependent metrics are (definition from Confiance. ai program):</p>
+<p>The data-model dependent metrics are:</p>
 <ul class="simple">
 <li><p><strong>Domain Gap</strong> : In the context of a computer vision task, the Domain Gap (DG) refers to the difference in semantic, textures and shapes between two distributions of images and it can lead to poor performances when a model is trained on a given distribution and then is applied to another one.</p></li>
 </ul>
-<p>For each metric, several approaches are developped to handle the maximum of data types. For more technical and scientific details, you can refer back to this <a class="reference external" href="https://catalog.confiance.ai/records/p46p6-1wt83/files/Scientific_Contribution_For_Data_quality_assessment_metrics_for_Machine_learning_process-v2.pdf?download=1">delivrable</a></p>
+<p>(Definitions from <a class="reference external" href="https://www.confiance.ai/">Confiance.ai program</a>)</p>
+<p>For each metric, several approaches are developped to handle the maximum of data types. For more technical and scientific details, please refer to this <a class="reference external" href="https://catalog.confiance.ai/records/p46p6-1wt83/files/Scientific_Contribution_For_Data_quality_assessment_metrics_for_Machine_learning_process-v2.pdf?download=1">deliverable</a></p>
 <section id="project-description">
 <h3>Project description<a class="headerlink" href="#project-description" title="Link to this heading"></a></h3>
-<p>Several approches are developped as decscribed in the figure below.</p>
+<p>Several approches are developped as described in the figure below.</p>
 <img src="_static/library_view.png" width="1024"/>
 <p>In the current version, the available metrics are:</p>
 <ul class="simple">
-<li><p>Representativeness :</p>
+<li><p>Representativeness:</p>
 <ul>
-<li><p>$\chi^2$ goodness of fit test for uniform and normal distibutions.</p></li>
-<li><p>Kolmogorov Smirnov test for uniform and normal distributions.</p></li>
-<li><p>Granular and Relative Theorithecal Entropy GRTE proposed and developed in Confiance.ai program.</p></li>
+<li><p>$\chi^2$ Goodness of fit test for Uniform and Normal Distributions</p></li>
+<li><p>Kolmogorov Smirnov test for Uniform and Normal Distributions</p></li>
+<li><p>Granular and Relative Theorithecal Entropy GRTE proposed and developed in the Confiance.ai Research Program</p></li>
 </ul>
 </li>
-<li><p>Diversity :</p>
+<li><p>Diversity:</p>
 <ul>
-<li><p>Relative Diverity developed and implemented in Confiance.ai program</p></li>
-<li><p>Gini-Simpson and Simposon indices.</p></li>
+<li><p>Relative Diversity developed and implemented in Confiance.ai Research Program</p></li>
+<li><p>Gini-Simpson and Simposon indices</p></li>
 </ul>
 </li>
-<li><p>Completeness :</p>
+<li><p>Completeness:</p>
 <ul>
-<li><p>Ratio of filled inofrmation</p></li>
+<li><p>Ratio of filled information</p></li>
 </ul>
 </li>
-<li><p>Domain Gap :</p>
+<li><p>Domain Gap:</p>
 <ul>
 <li><p>MMD</p></li>
 <li><p>CMD</p></li>
 <li><p>Wasserstein</p></li>
 <li><p>H-Divergence</p></li>
 <li><p>FID</p></li>
-<li><p>Kullback-Leiblur MultiVariate Normal distribution</p></li>
+<li><p>Kullback-Leiblur MultiVariate Normal Distribution</p></li>
 </ul>
 </li>
 </ul>

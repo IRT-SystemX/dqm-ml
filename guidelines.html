@@ -103,42 +103,36 @@
 </section>
 <section id="install-the-library">
 <h2>Install the library<a class="headerlink" href="#install-the-library" title="Link to this heading"></a></h2>
-<p>You can install it by a direct downloading from PyPi using the command</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">dqm</span>
+<p>You can install it by directly downloading from PyPi using the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">dqm</span><span class="o">-</span><span class="n">ml</span>
 </pre></div>
 </div>
-<p>You can installing it from it github sources by launching the following command</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">IRT</span><span class="o">-</span><span class="n">SystemX</span><span class="o">/</span><span class="n">dqm</span><span class="o">-</span><span class="n">ml</span>
-</pre></div>
-</div>
-<p>If you got the source code as a zip file, you can install the library from the root directory of the archive by typing :</p>
+<p>Or you can installing it from the source code by launching the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
 </pre></div>
 </div>
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
-<p>Each metric is used by importing the corresponding modules and class into your code
-For more information about each metrics see the specific README.md in <code class="docutils literal notranslate"><span class="pre">dqm/metrics_name</span></code> subfolders</p>
+<p>Each metric is used by importing the corresponding modules and class into your code.
+For more information about each metric, refer to the specific README.md in <code class="docutils literal notranslate"><span class="pre">dqm/&lt;metric_name&gt;</span></code> subfolders</p>
 </section>
 <section id="available-examples">
 <h2>Available examples<a class="headerlink" href="#available-examples" title="Link to this heading"></a></h2>
-<p>Many examples of DQM application are present in folder <code class="docutils literal notranslate"><span class="pre">/examples</span></code></p>
+<p>Many examples of DQM-ML applications are avalaible in the folder <code class="docutils literal notranslate"><span class="pre">/examples</span></code></p>
 <p>You will find :</p>
 <p>2 jupyter_notebooks:</p>
 <ul class="simple">
 <li><p><strong>multiple_metrics_tests.ipynb</strong> : A notebook applying completeness, diversity and representativeness metrics on an example dataset.</p></li>
-<li><p><strong>domain_gap.ipynb</strong> : A notebook showing example of applying domain_gap metrics on a generated synthetic dataset</p></li>
+<li><p><strong>domain_gap.ipynb</strong> : A notebook demonstrating an example of applying domain_gap metrics to a generated synthetic dataset.</p></li>
 </ul>
 <p>4 python scripts:</p>
-<p>Those scripts named <strong>main_X.py</strong> gives an example of computation of metrics implemented for domain X on an example dataset.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">main_domain_gap.py</span></code> script requires to be called with a config file passed as an
-argument named <code class="docutils literal notranslate"><span class="pre">--cfg</span></code> .</p>
-<p>Thus, it is called for example with such command:</p>
+<p>Those scripts named <strong>main_X.py</strong> gives an example of computation of approaches implemented for metrics <X> on samples.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">main_domain_gap.py</span></code> script must be called with a config file passed as an argument using <code class="docutils literal notranslate"><span class="pre">--cfg</span></code>.</p>
+<p>For example:</p>
 <p><code class="docutils literal notranslate"> <span class="pre">python</span> <span class="pre">examples/main_domain_gap.py</span> <span class="pre">--cfg</span> <span class="pre">examples/domain_gap_cfg/cmd/cmd.json</span></code></p>
-<p>We propose in folder <code class="docutils literal notranslate"><span class="pre">/examples/domain_gap_cfg</span> </code>a set of config files for each domain_gap metrics`:</p>
-<p>For some domain_gap examples configuration files the <strong>200_bird_dataset</strong> will be required. It can be downloaded at this <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip">link</a>.
-The zip archive shall be extracted in <code class="docutils literal notranslate"><span class="pre">examples/datasets/</span></code> folder.</p>
+<p>We provide in the folder <code class="docutils literal notranslate"><span class="pre">/examples/domain_gap_cfg</span></code> a set of config files for each domain_gap approaches`:</p>
+<p>For some domain_gap examples, the <strong>200_bird_dataset</strong> will be required. It can be downloaded from this <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip">link</a>. The zip archive will be extracted into the <code class="docutils literal notranslate"><span class="pre">examples/datasets/</span></code> folder.</p>
 </section>
 </section>
 

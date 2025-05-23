@@ -359,25 +359,25 @@ class CMD(Metric):
             for layer_name, n in nb_samples.items():
                 moments[layer_name][0] /= n
 
-                # Compute higher-order moments (k >= 2)
-            for batch in dataloader:
-                batch = batch.to(device)
-                features = feature_extractor(batch)
+        # Compute higher-order moments (k >= 2)
+        for batch in dataloader:
+            batch = batch.to(device)
+            features = feature_extractor(batch)
 
-                for layer_name, feature in features.items():
-                    if apply_sigmoid:
-                        feature = torch.sigmoid(feature)
+            for layer_name, feature in features.items():
+                if apply_sigmoid:
+                    feature = torch.sigmoid(feature)
 
-                    # Calculate differences from the mean
-                    difference = feature - moments[layer_name][0].view(
-                        axis_config.get("view_axis")
+                # Calculate differences from the mean
+                difference = feature - moments[layer_name][0].view(
+                    axis_config.get("view_axis")
+                )
+
+                # Accumulate moments for k >= 2
+                for j in range(1, k):
+                    moments[layer_name][j] += (difference ** (j + 1)).sum(
+                        axis_config.get("sum_axis")
                     )
-
-                    # Accumulate moments for k >= 2
-                    for j in range(1, k):
-                        moments[layer_name][j] += (difference ** (j + 1)).sum(
-                            axis_config.get("sum_axis")
-                        )
 
         # Normalize higher-order moments
         for layer_name, n in nb_samples.items():

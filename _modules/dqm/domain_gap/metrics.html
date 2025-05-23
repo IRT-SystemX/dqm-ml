@@ -457,25 +457,25 @@
             <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nb_samples</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="n">n</span>
 
-                <span class="c1"># Compute higher-order moments (k &gt;= 2)</span>
-            <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
-                <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-                <span class="n">features</span> <span class="o">=</span> <span class="n">feature_extractor</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="c1"># Compute higher-order moments (k &gt;= 2)</span>
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="n">feature_extractor</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 
-                <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">apply_sigmoid</span><span class="p">:</span>
-                        <span class="n">feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">apply_sigmoid</span><span class="p">:</span>
+                    <span class="n">feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
 
-                    <span class="c1"># Calculate differences from the mean</span>
-                    <span class="n">difference</span> <span class="o">=</span> <span class="n">feature</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
-                        <span class="n">axis_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;view_axis&quot;</span><span class="p">)</span>
+                <span class="c1"># Calculate differences from the mean</span>
+                <span class="n">difference</span> <span class="o">=</span> <span class="n">feature</span> <span class="o">-</span> <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
+                    <span class="n">axis_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;view_axis&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Accumulate moments for k &gt;= 2</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                    <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">difference</span> <span class="o">**</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                        <span class="n">axis_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sum_axis&quot;</span><span class="p">)</span>
                     <span class="p">)</span>
-
-                    <span class="c1"># Accumulate moments for k &gt;= 2</span>
-                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-                        <span class="n">moments</span><span class="p">[</span><span class="n">layer_name</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">difference</span> <span class="o">**</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
-                            <span class="n">axis_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sum_axis&quot;</span><span class="p">)</span>
-                        <span class="p">)</span>
 
         <span class="c1"># Normalize higher-order moments</span>
         <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nb_samples</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>

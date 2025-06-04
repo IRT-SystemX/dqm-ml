@@ -1,0 +1,15 @@
+[run]
+# Include all files in the test directory for coverage analysis
+include =  dqm/*
+
+# Exclude certain specific files or folders that are not relevant for coverage
+#omit =
+#    ml_waterickmarking/excluded_file.py
+#    ml_watermarking/subdirectory_to_exclude/*
+#    ml_watermarking/*_exclude.py
+
+[report]
+# Show coverage percentages in the terminal
+show_missing = True
+skip_covered = False
+

@@ -3,9 +3,9 @@ name = "dqm-ml"
 description="Python library designed to compute data quality metrics for Machine Learning"
 readme = "README.md"
 dynamic = ["dependencies"]
-version= "1.1.0"
+version= "1.1.1"
 license ="MPL-2.0"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
   {name = "IRT SystemX"},
   {email="support@irt-systemx.fr"}
@@ -22,3 +22,6 @@ dependencies = {file = ["requirements.txt"]}
 [build-system]
 requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
+
+[project.scripts]
+dqm-ml  = "dqm.main:main"

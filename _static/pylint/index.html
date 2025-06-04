@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="author" content="Stephan Müller" />
+
+  <title>pylint</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css" />
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-light bg-light">
+    <span class="navbar-brand mb-0 h1">pylint</span>
+  </nav>
+
+  <section class="content">
+    <div class="container-fluid mt-3">
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.diversity.diversity</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-error">
+                    <td><a href="/blob//dqm\diversity\diversity.py#L89" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>89</td>
+                    <td>21</td>
+                    <td>error</td>
+                    <td>DiversityCalculator.compute_diversity</td>
+                    <td>Possibly using variable 'diversity' before assignment</td>
+                    <td>possibly-used-before-assignment</td>
+                    <td>E0606</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.diversity.metric</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\diversity\metric.py#L103" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>103</td>
+                    <td>4</td>
+                    <td>convention</td>
+                    <td>DiversityIndexCalculator.RD</td>
+                    <td>Missing function or method docstring</td>
+                    <td>missing-function-docstring</td>
+                    <td>C0116</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.domain_gap.custom_datasets</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\custom_datasets.py#L1" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Missing module docstring</td>
+                    <td>missing-module-docstring</td>
+                    <td>C0114</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\custom_datasets.py#L7" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>7</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>ImagesWithLabelsDataset</td>
+                    <td>Missing class docstring</td>
+                    <td>missing-class-docstring</td>
+                    <td>C0115</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\custom_datasets.py#L15" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>15</td>
+                    <td>13</td>
+                    <td>warning</td>
+                    <td>ImagesWithLabelsDataset.__init__</td>
+                    <td>Using open without explicitly specifying an encoding</td>
+                    <td>unspecified-encoding</td>
+                    <td>W1514</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\custom_datasets.py#L34" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>34</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>ImagesFromFolderDataset</td>
+                    <td>Missing class docstring</td>
+                    <td>missing-class-docstring</td>
+                    <td>C0115</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.domain_gap.metrics</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L1" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Too many lines in module (1130/1000)</td>
+                    <td>too-many-lines</td>
+                    <td>C0302</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L39" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>39</td>
+                    <td>0</td>
+                    <td>refactor</td>
+                    <td></td>
+                    <td>Use 'from torch import nn' instead</td>
+                    <td>consider-using-from-import</td>
+                    <td>R0402</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L66" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>66</td>
+                    <td>8</td>
+                    <td>warning</td>
+                    <td>Metric.__init__</td>
+                    <td>Unnecessary pass statement</td>
+                    <td>unnecessary-pass</td>
+                    <td>W0107</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L70" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>70</td>
+                    <td>8</td>
+                    <td>warning</td>
+                    <td>Metric.compute</td>
+                    <td>Unnecessary pass statement</td>
+                    <td>unnecessary-pass</td>
+                    <td>W0107</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L79" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>79</td>
+                    <td>4</td>
+                    <td>warning</td>
+                    <td>MMD.__init__</td>
+                    <td>Useless parent or super() delegation in method '__init__'</td>
+                    <td>useless-parent-delegation</td>
+                    <td>W0246</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L98" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>98</td>
+                    <td>4</td>
+                    <td>refactor</td>
+                    <td>MMD.__polynomial_kernel</td>
+                    <td>Too many positional arguments (6/5)</td>
+                    <td>too-many-positional-arguments</td>
+                    <td>R0917</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L127" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>127</td>
+                    <td>4</td>
+                    <td>warning</td>
+                    <td>MMD.compute</td>
+                    <td>Number of parameters was 1 in 'Metric.compute' and is now 2 in overriding 'MMD.compute' method</td>
+                    <td>arguments-differ</td>
+                    <td>W0221</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L170" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>170</td>
+                    <td>8</td>
+                    <td>warning</td>
+                    <td>MMD.compute</td>
+                    <td>Assigning the same variable 'device' to itself</td>
+                    <td>self-assigning-variable</td>
+                    <td>W0127</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L127" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>127</td>
+                    <td>4</td>
+                    <td>refactor</td>
+                    <td>MMD.compute</td>
+                    <td>Either all return statements in a function should return an expression, or none of them should.</td>
+                    <td>inconsistent-return-statements</td>
+                    <td>R1710</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L254" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>254</td>
+                    <td>4</td>
+                    <td>convention</td>
+                    <td>RMSELoss.forward</td>
+                    <td>Missing function or method docstring</td>
+                    <td>missing-function-docstring</td>
+                    <td>C0116</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L259" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>259</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>CMD</td>
+                    <td>Missing class docstring</td>
+                    <td>missing-class-docstring</td>
+                    <td>C0115</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L261" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>261</td>
+                    <td>4</td>
+                    <td>warning</td>
+                    <td>CMD.__init__</td>
+                    <td>Useless parent or super() delegation in method '__init__'</td>
+                    <td>useless-parent-delegation</td>
+                    <td>W0246</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L281" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>281</td>
+                    <td>15</td>
+                    <td>refactor</td>
+                    <td>CMD.__get_unbiased</td>
+                    <td>Simplify chained comparison between the operands</td>
+                    <td>chained-comparison</td>
+                    <td>R1716</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L287" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>287</td>
+                    <td>4</td>
+                    <td>refactor</td>
+                    <td>CMD.__compute_moments</td>
+                    <td>Too many positional arguments (9/5)</td>
+                    <td>too-many-positional-arguments</td>
+                    <td>R0917</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L331" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>331</td>
+                    <td>31</td>
+                    <td>refactor</td>
+                    <td>CMD.__compute_moments</td>
+                    <td>Consider using '{}' instead of a call to 'dict'.</td>
+                    <td>use-dict-literal</td>
+                    <td>R1735</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L287" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>287</td>
+                    <td>4</td>
+                    <td>refactor</td>
+                    <td>CMD.__compute_moments</td>
+                    <td>Too many branches (15/12)</td>
+                    <td>too-many-branches</td>
+                    <td>R0912</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L393" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>393</td>
+                    <td>4</td>
+                    <td>warning</td>
+                    <td>CMD.compute</td>
+                    <td>Number of parameters was 1 in 'Metric.compute' and is now 2 in overriding 'CMD.compute' method</td>
+                    <td>arguments-differ</td>
+                    <td>W0221</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L511" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>511</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>ProxyADistance</td>
+                    <td>Missing class docstring</td>
+                    <td>missing-class-docstring</td>
+                    <td>C0115</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L512" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>512</td>
+                    <td>4</td>
+                    <td>warning</td>
+                    <td>ProxyADistance.__init__</td>
+                    <td>Useless parent or super() delegation in method '__init__'</td>
+                    <td>useless-parent-delegation</td>
+                    <td>W0246</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L540" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>540</td>
+                    <td>8</td>
+                    <td>convention</td>
+                    <td>ProxyADistance.adapt_format_like_pred</td>
+                    <td>Consider using enumerate instead of iterating with range and len</td>
+                    <td>consider-using-enumerate</td>
+                    <td>C0200</td>
+                  </tr>
+                  <tr class="table-error">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L571" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>571</td>
+                    <td>37</td>
+                    <td>error</td>
+                    <td>ProxyADistance.function_pad</td>
+                    <td>Possibly using variable 'error' before assignment</td>
+                    <td>possibly-used-before-assignment</td>
+                    <td>E0606</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L658" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>658</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>Wasserstein</td>
+                    <td>Missing class docstring</td>
+                    <td>missing-class-docstring</td>
+                    <td>C0115</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L659" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>659</td>
+                    <td>4</td>
+                    <td>warning</td>
+                    <td>Wasserstein.__init__</td>
+                    <td>Useless parent or super() delegation in method '__init__'</td>
+                    <td>useless-parent-delegation</td>
+                    <td>W0246</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L837" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>837</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>FID</td>
+                    <td>Missing class docstring</td>
+                    <td>missing-class-docstring</td>
+                    <td>C0115</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L958" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>958</td>
+                    <td>4</td>
+                    <td>warning</td>
+                    <td>KLMVN.__init__</td>
+                    <td>Useless parent or super() delegation in method '__init__'</td>
+                    <td>useless-parent-delegation</td>
+                    <td>W0246</td>
+                  </tr>
+                  <tr class="table-error">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L1001" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>1001</td>
+                    <td>23</td>
+                    <td>error</td>
+                    <td>KLMVN.calculate_statistics</td>
+                    <td>torch.linalg.matrix_rank is not callable</td>
+                    <td>not-callable</td>
+                    <td>E1102</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\metrics.py#L1031" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>1031</td>
+                    <td>4</td>
+                    <td>refactor</td>
+                    <td>KLMVN.klmvn</td>
+                    <td>Too many positional arguments (6/5)</td>
+                    <td>too-many-positional-arguments</td>
+                    <td>R0917</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.domain_gap.utils</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\utils.py#L150" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>150</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Line too long (130/120)</td>
+                    <td>line-too-long</td>
+                    <td>C0301</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\utils.py#L49" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>49</td>
+                    <td>13</td>
+                    <td>warning</td>
+                    <td>load_config</td>
+                    <td>Using open without explicitly specifying an encoding</td>
+                    <td>unspecified-encoding</td>
+                    <td>W1514</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\utils.py#L54" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>54</td>
+                    <td>8</td>
+                    <td>refactor</td>
+                    <td>load_config</td>
+                    <td>Consider using 'sys.exit' instead</td>
+                    <td>consider-using-sys-exit</td>
+                    <td>R1722</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\utils.py#L57" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>57</td>
+                    <td>8</td>
+                    <td>refactor</td>
+                    <td>load_config</td>
+                    <td>Consider using 'sys.exit' instead</td>
+                    <td>consider-using-sys-exit</td>
+                    <td>R1722</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\utils.py#L46" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>46</td>
+                    <td>0</td>
+                    <td>refactor</td>
+                    <td>load_config</td>
+                    <td>Either all return statements in a function should return an expression, or none of them should.</td>
+                    <td>inconsistent-return-statements</td>
+                    <td>R1710</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\utils.py#L60" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>60</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>display_resume</td>
+                    <td>Missing function or method docstring</td>
+                    <td>missing-function-docstring</td>
+                    <td>C0116</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\domain_gap\utils.py#L115" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>115</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>extract_nth_layer_feature</td>
+                    <td>Missing function or method docstring</td>
+                    <td>missing-function-docstring</td>
+                    <td>C0116</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm\domain_gap\utils.py#L185" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>185</td>
+                    <td>16</td>
+                    <td>warning</td>
+                    <td>load_model</td>
+                    <td>Consider explicitly re-raising using 'raise ValueError(f'Error loading model from file: {e}') from e'</td>
+                    <td>raise-missing-from</td>
+                    <td>W0707</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.main</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\main.py#L87" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>87</td>
+                    <td>0</td>
+                    <td>refactor</td>
+                    <td>main</td>
+                    <td>Too many statements (66/50)</td>
+                    <td>too-many-statements</td>
+                    <td>R0915</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.representativeness.__init__</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm\representativeness\__init__.py#L1" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>refactor</td>
+                    <td></td>
+                    <td>Similar lines in 2 files<br />==dqm.diversity.twe_logger:[24:104]<br />==dqm.representativeness.twe_logger:[24:104]<br />LOGGER_DEFAULT_NAME = "twe_logger"<br /><br /><br />def log_str_to_level(str_level):<br />    """<br />    Converts a string to a corresponding logging level.<br /><br />    Args:<br />        str_level (str): The logging level as a string.<br /><br />    Returns:<br />        int: The corresponding logging level.<br />    """<br />    if str_level == "debug":<br />        level = logging.DEBUG<br />    elif str_level == "info":<br />        level = logging.INFO<br />    elif str_level == "warning":<br />        level = logging.WARNING<br />    elif str_level == "error":<br />        level = logging.ERROR<br />    elif str_level == "critical":<br />        level = logging.CRITICAL<br />    else:<br />        level = logging.NOTSET<br />    return level<br /><br /><br />def get_logger(name=LOGGER_DEFAULT_NAME, level="debug", filename=None, output=None):<br />    """<br />    Creates and returns a logger.<br /><br />    Args:<br />        name (str, optional): The name of the logger.<br />        level (int or str, optional): The logging level.<br />        filename (str, optional): The name of the file where the logger should write.<br />        output (str, optional): Where should the logger write.<br />                                Can be 'stdout', 'file', or 'both'.<br /><br />    Returns:<br />        logging.Logger: The logger.<br />    """<br />    if isinstance(level, str):<br />        level = log_str_to_level(level)<br /><br />    # Decide the output based on whether a filename is provided and output is specified<br />    if output is None:<br />        output = "file" if filename else "stdout"<br /><br />    logger = logging.getLogger(name)<br />    formatter = logging.Formatter(<br />        "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s \<br />     - %(message)s",<br />        "%m-%d %H:%M:%S",<br />    )<br /><br />    handlers = []<br /><br />    if output in ["stdout", "both"]:<br />        # StreamHandler to send logs to stdout<br />        stream_handler = logging.StreamHandler(stream=sys.stdout)<br />        stream_handler.setFormatter(formatter)<br />        stream_handler.setLevel(level)<br />        handlers.append(stream_handler)<br /><br />    if output in ["file", "both"] and filename:<br />        # FileHandler to send logs to a file<br />        file_handler = logging.FileHandler(filename)<br />        file_handler.setFormatter(formatter)<br />        file_handler.setLevel(level)<br />        handlers.append(file_handler)<br /><br />    if not logging.getLogger(name).hasHandlers():<br />        for handler in handlers:<br />            logger.addHandler(handler)<br />    else:<br />        logger.handlers = handlers<br />    logger.setLevel(level)<br />    logger.info("Logger: %s, handlers: %s", name, logger.handlers)<br />    return logger</td>
+                    <td>duplicate-code</td>
+                    <td>R0801</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.representativeness.metric</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-error">
+                    <td><a href="/blob//dqm\representativeness\metric.py#L169" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>169</td>
+                    <td>11</td>
+                    <td>error</td>
+                    <td>DistributionAnalyzer.chisquare_test</td>
+                    <td>Possibly using variable 'chi' before assignment</td>
+                    <td>possibly-used-before-assignment</td>
+                    <td>E0606</td>
+                  </tr>
+                  <tr class="table-error">
+                    <td><a href="/blob//dqm\representativeness\metric.py#L282" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>282</td>
+                    <td>11</td>
+                    <td>error</td>
+                    <td>DistributionAnalyzer.shannon_entropy</td>
+                    <td>Possibly using variable 'intervals' before assignment</td>
+                    <td>possibly-used-before-assignment</td>
+                    <td>E0606</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">dqm.representativeness.utils</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-error">
+                    <td><a href="/blob//dqm\representativeness\utils.py#L369" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>369</td>
+                    <td>37</td>
+                    <td>error</td>
+                    <td>VariableAnalysis.discretisation_intervals</td>
+                    <td>Possibly using variable 'exp' before assignment</td>
+                    <td>possibly-used-before-assignment</td>
+                    <td>E0606</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+</body>
+
+</html>

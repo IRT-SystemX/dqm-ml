@@ -10,3 +10,4 @@ scikit-learn
 POT
 ipykernel
 seaborn
+pyaml

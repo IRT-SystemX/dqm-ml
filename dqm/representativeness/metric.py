@@ -178,7 +178,7 @@ class DistributionAnalyzer:
                 chi.pvalue,
                 self.distribution
             )
-        return chi.pvalue, intervals_frequencies
+        return float(chi.pvalue), intervals_frequencies
 
 
     def kolmogorov(self, *par_dist: float) -> float:
@@ -232,7 +232,7 @@ class DistributionAnalyzer:
             logger.info("p-value = %s >= 0.05 : The data is not following"
                     "the %s distribution", k.pvalue, self.distribution)
 
-        return k.pvalue
+        return float(k.pvalue)
 
 
     def shannon_entropy(self) -> float:
@@ -279,7 +279,7 @@ class DistributionAnalyzer:
             logger.info("Leading division by zero")
 
         prob_exp = intervals['exp_freq'] / intervals['exp_freq'].sum()
-        return stats.entropy(prob_exp)
+        return float(stats.entropy(prob_exp))
 
 
     def grte(self, *args: float) -> Tuple[float, Any]:
@@ -349,5 +349,5 @@ class DistributionAnalyzer:
             stats.entropy(intervals_discretized['obs_freq'])))
 
         # Return the GRTE result and the discretized intervals
-        return grte_res, intervals_discretized
+        return float(grte_res), intervals_discretized
 

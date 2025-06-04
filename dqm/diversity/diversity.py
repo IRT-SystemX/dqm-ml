@@ -83,7 +83,7 @@ class DiversityCalculator:
         else:
             logger.error("Invalid diversity type or need.")
 
-        return diversity
+        return float(diversity) # To be homogenous on output data type
 
     def validate_inputs(self, diversity_type: str, need: str) -> None:
         """

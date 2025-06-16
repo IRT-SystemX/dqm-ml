@@ -1,0 +1,202 @@
+# This file contains the configuration for unit tests of DQM-ML library
+
+completeness:
+
+    params:   
+        dataset: "sample_data/completeness_sample_data.csv"
+        tolerance: 0.1
+        columns_names : ["column_1","column_3","column_6","column_9"]
+        
+    expected_scores:
+        column_1 : 1
+        column_3 : 0.78
+        column_6 : 0.48
+        column_9: 0.211
+        overall_score : 0.618
+
+diversity :
+    params:
+        dataset: "sample_data/SMD_test_ds_sample.csv"
+        tolerance: 0.1
+        columns_names : ["column_2","column_4", "column_6"]
+        
+    expected_scores:
+        simpson:
+            column_2: 0.993
+            column_4 : 0.990
+            column_6 : 0.944
+        gini:
+            column_2: 0.992
+            column_4 : 0.989
+            column_6 : 0.943
+
+representativeness:
+    params:
+        dataset : "sample_data/SMD_test_ds_sample.csv"
+        tolerance: 0.1
+        bins : 10
+        distribution : normal
+        columns_names : ["column_2","column_4", "column_6"]
+   
+    expected_scores:
+       chi-square:
+           column_2 : 0
+           column_4 : 0
+           column_6 : 0
+
+       kolmogorov-smirnov:
+           column_2 : 0
+           column_4 : 0
+           column_6 : 0
+
+       shannon-entropy:
+           column_2 : 2.3
+           column_4 : 2.3
+           column_6 : 2.3
+
+       GRTE:
+           column_2 : 0.8
+           column_4 : 0.7
+           column_6 : 0.7
+
+domain_gap:
+    wasserstein:
+        params:
+            tolerance: 0.1
+            method_config:
+                DATA: 
+                    batch_size: 18
+                    height: 299
+                    width: 299
+                    norm_mean: [0.485, 0.456,0.406]
+                    norm_std: [0.229,0.224,0.225]
+                    source: "sample_data/image_test_ds/c20"
+                    target: "sample_data/image_test_ds/c33"
+                MODEL:
+                    arch: "resnet18"
+                    device: "cpu"
+                    n_layer_feature: -2
+                METHOD: 
+                    name: "wasserstein"
+                    dimension: "1D"
+        expected_score: 0.34
+
+    FID :
+        params:
+            tolerance: 0.1
+            method_config:
+                DATA: 
+                    batch_size: 32
+                    height: 299
+                    width: 299
+                    norm_mean: [0.485,0.456,0.406]
+                    norm_std: [0.229,0.224,0.225]
+                    source: "sample_data/image_test_ds/c20"
+                    target: "sample_data/image_test_ds/c33"  
+                MODEL: 
+                    device: "cpu"
+                    n_layer_feature: -2
+                METHOD: 
+                    name: "fid"
+        
+        expected_score: 444.10
+
+    KLMVN :
+        params:
+            tolerance: 1
+            method_config:
+                DATA: 
+                    batch_size: 10
+                    height: 20
+                    width: 20
+                    norm_mean: [0.485,0.456,0.406]
+                    norm_std: [0.229,0.224,0.225]
+                    source: "sample_data/image_test_ds/c20"
+                    target: "sample_data/image_test_ds/c33"  
+                MODEL: 
+                    arch: "resnet18"
+                    device: "cpu"
+                    n_layer_feature: -2
+
+                METHOD: 
+                name: "klmvn"
+        
+        expected_score: 13125040
+
+    PAD :
+        params:
+            tolerance: 0.1
+            method_config:
+                DATA: 
+                    batch_size: 10
+                    height: 224
+                    width: 224
+                    norm_mean: [0.485,0.456,0.406]
+                    norm_std: [0.229,0.224,0.225]
+                    source: "sample_data/image_test_ds/c20"
+                    target: "sample_data/image_test_ds/c33"
+
+                MODEL: 
+                    arch: ["efficientnet_b0","vgg16"]
+                    device: "cpu"
+                    n_layer_feature: -2
+                
+                METHOD: 
+                    name: "proxy"
+                    evaluator: "mse"
+        
+        expected_score: 1.95
+
+    MMD:  
+        params:
+            tolerance: 0.1
+            method_config:
+                DATA: 
+                    batch_size: 10
+                    height: 224
+                    width: 224
+                    norm_mean: [0.485,0.456,0.406]
+                    norm_std: [0.229,0.224,0.225]
+                    source: "sample_data/image_test_ds/c20"
+                    target: "sample_data/image_test_ds/c33"
+
+                MODEL: 
+                    arch: "resnet18"
+                    device: "cpu"
+                    n_layer_feature: -2
+                
+                METHOD: 
+                    name: "mmd"
+                    kernel: "linear"
+                    kernel_params: 
+                        gamma: 1.0
+                        degree: 3.0
+                        coefficient0: 1.0 
+
+        expected_score: 355.8
+
+    CMD : 
+        params:
+            tolerance: 0.1
+            method_config:
+                DATA: 
+                    batch_size: 10
+                    height: 224
+                    width: 224
+                    norm_mean: [0.485,0.456,0.406]
+                    norm_std: [0.229,0.224,0.225]
+                    source: "sample_data/image_test_ds/c20"
+                    target: "sample_data/image_test_ds/c33" 
+
+                MODEL: 
+                    arch: "resnet18"
+                    n_layer_feature : ["maxpool","layer1.1.relu_1","layer2.1.relu_1", "layer3.1.relu_1", "layer4.1.relu_1"]
+                    feature_extractors_layers_weights : [1, 1, 1, 1, 1]
+                    device: "cpu"
+
+                METHOD: 
+                    name: "cmd"
+                    k: 5
+        
+        expected_score: 0.13
+    

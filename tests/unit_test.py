@@ -1,7 +1,10 @@
-# This files contain functionnal tests to test metrics right computations
+# This file implements unit test for DQM-ml library
 
 import sys
+import os
 sys.path.append('..')
+
+# Import external dependencies
 
 import pandas as pd
 import pytest
@@ -10,6 +13,8 @@ import numpy as np
 import argparse
 from PIL import Image
 import torch
+import yaml
+# Import internal dependencies
 
 from dqm.completeness.metric import DataCompleteness
 from dqm.diversity.diversity import DiversityCalculator
@@ -18,468 +23,165 @@ from dqm.representativeness.metric import DistributionAnalyzer
 from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, KLMVN
 from dqm.domain_gap.utils import load_config, display_resume
 
+# To force this test file as reference path
 
-ROOT_PATH = str(Path(__file__).parent.resolve()) # To point on test directory
+ROOT_PATH = str(Path(__file__).parent.resolve()) + os.sep # To point on test directory
 
-# Test of completeness
+# Load global unit tests configuration 
+
+with open(ROOT_PATH+"/tests_config/unit_tests_config.yaml", 'r') as stream:
+    tests_config = yaml.safe_load(stream)
+
+print(tests_config)
 
 def test_completeness():
 
-    # Test parameters
-
-    # Those expected scores have been computed manually
-    expected_scores={"column_score_1" :1,
-                     "column_score_3" :0.78,
-                     "column_score_6" :0.48,
-                     "column_score_9" :0.211,
-                     "overall_score" :0.618
-                    } 
-    # Accepted Tolerence threshold for comparing computed values and expected values 
-    epsilon=0.01
+    # load test configuration
+    
+    expected_scores=tests_config["completeness"]["expected_scores"]
+    epsilon=tests_config["completeness"]["params"]["tolerance"]
+    col_names=tests_config["completeness"]["params"]["columns_names"]
+    dataset_path=tests_config["completeness"]["params"]["dataset"]
     
     # Load test dataset
-    df=pd.read_csv(ROOT_PATH+"/sample_data/completeness_sample_data.csv") # columns 1,3,6,9 
-    # print(df)
-    
-    # Init evaluator
+    df=pd.read_csv(ROOT_PATH+dataset_path) 
+
+    # Init evaluator and calculate the completeness scores for each chosen columns
     
     completeness_evaluator = DataCompleteness()
-    
-    # Calculate the completeness scores for each column of the dataset
 
-    computed_scores={
-    "column_score_1" : completeness_evaluator.data_completion(df["column_1"]),
-    "column_score_3" : completeness_evaluator.data_completion(df["column_3"]),
-    "column_score_6" : completeness_evaluator.data_completion(df["column_6"]),
-    "column_score_9" : completeness_evaluator.data_completion(df["column_9"]),
-    "overall_score": completeness_evaluator.completeness_tabular(df)   
-    }
+    # Test completeness by columns
+    for col in col_names:
+        computed_score = completeness_evaluator.data_completion(df[col])
+        expected_score = expected_scores[col]
+        assert computed_score == pytest.approx(expected_score,abs=epsilon), \
+        f"For column : {col}, the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"
 
-    # Display results for debug
-   
-    print("computed scores",computed_scores)
-    print("expected_scores",expected_scores)
+    # Test overall completeness
 
-    # Test approx equality between computed scores and expected ones
-    
-    for col_name in computed_scores.keys():
-        assert computed_scores[col_name] == pytest.approx(expected_scores[col_name], abs=epsilon), \
-            f"Value {computed_scores[col_name]} is not close to the expected one ---> {expected_scores[col_name]}"
+    computed_score = completeness_evaluator.completeness_tabular(df) 
+    expected_score = expected_scores["overall_score"]
+    assert computed_score == pytest.approx(expected_score,abs=epsilon), \
+    f"For overall_score, the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"
 
-def test_diversity():
-    
-    # Test parameters : set from methods themselves
+@pytest.mark.parametrize("metric", ["simpson","gini"])
+def test_diversity_metrics(metric : str):
 
-    expected_scores={
-        "column_2":{
-            "simpson":0.993,"gini":0.992#"lexical_richness":0,"lexical_variety":0,"visual_color":0,"visual_shape":0
-        },
-        "column_4":{
-            "simpson":0.990,"gini":0.989#"lexical_richness":0,"lexical_variety":0,"visual_color":0,"visual_shape":0
-        },
-        "column_6":{
-            "simpson":0.944,"gini":0.9439#"lexical_richness":0,"lexical_variety":0,"visual_color":0,"visual_shape":0
-        }
-    } 
-                    
-    # Accepted Tolerence threshold for comparing computed values and expected values 
-    epsilon=0.001
+    # load test configuration
+    expected_scores=tests_config["diversity"]["expected_scores"][metric]
+    epsilon=tests_config["diversity"]["params"]["tolerance"]
+    col_names=tests_config["diversity"]["params"]["columns_names"]
+    dataset_path=tests_config["diversity"]["params"]["dataset"]
     
     # Load test datasets
-    df=pd.read_csv(ROOT_PATH+"/sample_data/SMD_test_ds_sample.csv") #columns 1,3,6,9 with 
-    # print(df)
+    df=pd.read_csv(ROOT_PATH+dataset_path) #columns 1,3,6,9 with 
 
-   # We choose only 3 columns from the dataset for the tests
-    features=["column_2","column_4","column_6"]
-    computed_scores={}
-
-    # Compute diversity metrics -> gini and simpson
-    
     metric_calculator= DiversityIndexCalculator()
-    diversity_calculator=DiversityCalculator()
-    
-    for feat in features:
-        
-        computed_scores[feat]={
-            "simpson":metric_calculator.simpson(df[feat]),
-            "gini":metric_calculator.gini(df[feat]),
-            # "lexical_richness":diversity_calculator.compute_diversity(df[feat], "lexical", "richness"),
-            # "lexical_variety":diversity_calculator.compute_diversity(df[feat], "lexical", "variety"),
-            # "visual_color":diversity_calculator.compute_diversity(df[feat], "visual", "color"),
-            # "visual_shape":diversity_calculator.compute_diversity(df[feat], "visual", "shape")
-        }
 
-    print("computed" , computed_scores)
-    print("expected" , expected_scores)
-    
-    # Test approx equality between computed scores and expected ones
+    # Compute diversity metrics -> gini and simpson and comapre with expected
+    for col in col_names:
+        if metric=="simpson":
+            computed_score=metric_calculator.simpson(df[col])
+        elif metric=="gini":
+            computed_score=metric_calculator.gini(df[col])
+        else:
+            raise Exception("The given metric", metric, "is not implemented")
 
-    for col_name in computed_scores.keys():
-        for metric_name in ["simpson","gini"]: #,"lexical_richness","lexical_variety","visual_color","visual_shape"]:
-            assert computed_scores[col_name][metric_name] == pytest.approx(expected_scores[col_name][metric_name], abs=epsilon), \
-            f"Value {computed_scores[col_name][metric_name]} is not close to the expected one --->{expected_scores[col_name][metric_name]}"
-    
-# test_diversity()
+        expected_score = expected_scores[col]
+        assert computed_score == pytest.approx(expected_score,abs=epsilon), \
+        f"For column : {col}, the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"
 
-# computed scores :  {'column_2': {'chi-square': 3.500692743258221e-59, 'kolmogorov-smirnov': 4.43274004743264e-22, 'shannon_entropy': 2.3006344832396444, 'GRTE': 0.7010802583930493}, 'column_4': {'chi-square': 3.500692743258221e-59, 'kolmogorov-smirnov': 4.43274004743264e-22, 'shannon_entropy': 2.3006344832396444, 'GRTE': 0.7010802583930493}, 'column_6': {'chi-square': 3.500692743258221e-59, 'kolmogorov-smirnov': 4.43274004743264e-22, 'shannon_entropy': 2.3006344832396444, 'GRTE': 0.7010802583930493}}
+@pytest.mark.parametrize("metric", ["chi-square","kolmogorov-smirnov","shannon-entropy","GRTE"])
+def test_representativeness(metric):
 
+    # load test configuration
+    expected_scores=tests_config["representativeness"]["expected_scores"][metric]
+    epsilon=tests_config["representativeness"]["params"]["tolerance"]
+    col_names=tests_config["representativeness"]["params"]["columns_names"]
+    dataset_path=tests_config["representativeness"]["params"]["dataset"]
+    bins = tests_config["representativeness"]["params"]["bins"]
+    distribution = tests_config["representativeness"]["params"]["distribution"]
 
-def test_representativeness():
-    expected_scores={
-        "column_2":{
-            "chi-square":0,"kolmogorov-smirnov":0,"shannon_entropy":2.3,"GRTE":0.7
-        },
-        "column_4":{
-            "chi-square":0,"kolmogorov-smirnov":0,"shannon_entropy":2.3,"GRTE":0.69
-        },
-        "column_6":{
-            "chi-square":0,"kolmogorov-smirnov":0,"shannon_entropy":2.3,"GRTE":0.69
-        }
-    }
-    
     # Load test datasets
-    df=pd.read_csv(ROOT_PATH+"/sample_data/SMD_test_ds_sample.csv") #columns 1,3,6,9 with 
-    print(df)
-   # We choose only 3 columns from the dataset for the tests
-    features=["column_2","column_4","column_6"]
-    computed_scores=dict(zip(features,len(features)*[{}]))
-    
-    # Parameters for analysis
-    bins = 10
-    distribution = 'normal'         
-    # Accepted Tolerence threshold for comparing computed values and expected values 
-    epsilon=0.1
+    df=pd.read_csv(ROOT_PATH+dataset_path) #columns 1,3,6,9 with 
 
-    for feat in features:
-        print("feature", feat)
-        var= df[feat]
+       
+    # Accepted Tolerence threshold for comparing computed values and expected values 
+
+    for col in col_names:
+        
+        var= df[col]
         mean = np.mean(var)
         std = np.std(var)
         print("meanvar",mean,std)
+        print("feature", col)
+        
         analyzer = DistributionAnalyzer(var, bins, distribution)
         # Using the method chisquare_test
-        pvalue, intervals_frequencies = analyzer.chisquare_test()
-        computed_scores[feat]["chi-square"]=pvalue
-        #computed_scores[feat]["chi-square-interval_freq"]=intervals_frequencies
-        # print(f"Chi-Square Test: p-value = {pvalue}")
-        
-        # Using the method kolmogorov
-        ks_pvalue = analyzer.kolmogorov(mean, std)
-        # print(f"Kolmogorov-Smirnov Test: p-value = {ks_pvalue}")
-        computed_scores[feat]["kolmogorov-smirnov"]=ks_pvalue
-        
-        # Using the method shannon_entropy
-        entropy = analyzer.shannon_entropy()
-        # print(f"Shannon Entropy: {entropy}")
-        computed_scores[feat]["shannon_entropy"]=entropy
-        
-        # Using the method grte
-        grte_result, intervals_discretized = analyzer.grte()
-        print("grte_results",grte_result)
-        # print(f"GRTE: {grte_result}")
-        computed_scores[feat]["GRTE"]=grte_result
-        #computed_scores[feat]["GRTE-intervals_discr"]=intervals_discretized
 
-       
-    # Test approx equality between computed scores and expected ones
+        if metric=="chi-square":
+            pvalue, intervals_frequencies = analyzer.chisquare_test()
+            computed_score=pvalue
 
-    print("computed scores : ", computed_scores)
-    print("expected scores : ", expected_scores)
-    for col_name in computed_scores.keys():
-        print("validation metrique", col_name)
-        for metric_name in ["chi-square","kolmogorov-smirnov","shannon_entropy","GRTE"]:
-            assert computed_scores[col_name][metric_name] == pytest.approx(expected_scores[col_name][metric_name], abs=epsilon), \
-            f"Value {computed_scores[col_name][metric_name]} is not close to the expected one --->{expected_scores[col_name][metric_name]}"
-        
- 
-def test_domain_gap_wassertein():
+        elif metric=="kolmogorov-smirnov":
+            computed_score = analyzer.kolmogorov(mean, std)
 
-    expected_wasserstein=5.16
-    source_folder = ROOT_PATH+"/sample_data/image_test_ds/c20"
-    target_folder = ROOT_PATH+"/sample_data/image_test_ds/c33"
+        elif metric=="shannon-entropy":
+             computed_score = analyzer.shannon_entropy()
 
-    # Wasserstein
+        elif metric=="GRTE":
+            grte_result, intervals_discretized = analyzer.grte()
+            computed_score=grte_result
 
-    epsilon=0.1
-    expected_score=0.34
+        else:
+            raise Exception("The given metric", metric, "is not implemented")
+
+        expected_score= expected_scores[col]
+        assert computed_score == pytest.approx(expected_score,abs=epsilon), \
+        f"For column : {col}, the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"
+
+@pytest.mark.parametrize("metric", ["wasserstein","FID","KLMVN","PAD","MMD","CMD"])
+def test_domain_gaps(metric): 
     
-    wass_config_json = {
-    	"DATA": {
-    		"batch_size": 10,
-    		"height": 299,
-    		"width": 299,
-    		"norm_mean": [
-    				0.485,
-    				0.456,
-    				0.406
-    			],
-    		"norm_std": [
-    				0.229,
-    				0.224,
-    				0.225
-    			],
-    		"source": source_folder, 
-    		"target": target_folder  
-    	},
-    	"MODEL": {
-            "arch": "resnet18",
-    		"device": "cpu",
-    		"n_layer_feature": -2
-        	},
-    	"METHOD": {
-    		"name": "wasserstein",
-    		"dimension": "1D"
-    	}
-    }
-    wass = Wasserstein()
-    wasserstein_score = wass.compute_1D_distance(wass_config_json)
+    expected_score=tests_config["domain_gap"][metric]["expected_score"]
+    epsilon=tests_config["domain_gap"][metric]["params"]["tolerance"]
+    config_method=tests_config["domain_gap"][metric]["params"]["method_config"]
 
-    print(f"wasserstein score: {wasserstein_score.item()}")
-    assert wasserstein_score == pytest.approx(expected_score, abs=epsilon)
+    # Overload dataset path with absolute path
+
+    tests_config["domain_gap"][metric]["params"]["method_config"]["DATA"]["source"]=ROOT_PATH+tests_config["domain_gap"][metric]["params"]["method_config"]["DATA"]["source"]
+    tests_config["domain_gap"][metric]["params"]["method_config"]["DATA"]["target"]=ROOT_PATH+tests_config["domain_gap"][metric]["params"]["method_config"]["DATA"]["target"]
     
-def test_domain_gap_FID():
-
-    epsilon=0.1
-    expected_score=444.10
-
-    # Load data
-    source_folder = ROOT_PATH+"/sample_data/image_test_ds/c20"
-    target_folder = ROOT_PATH+"/sample_data/image_test_ds/c33"
-
-    fid = FID()
+    if metric== "wasserstein":
     
-    # Define your own config file, you can find examples in dqm/domain_gap/cfg/{metric_name}
-    fid_config_json = {
-    	"DATA": {
-    		"batch_size": 32,                      # Features will be compute on {batch_size} images at the same time
-    		"height": 299,                         # Resize images height to {height} value
-    		"width": 299,                          # Resize images width to {width} value
-    		"norm_mean": [                         # Normalize images mean with {norm_mean} values for RGB channels
-    				0.485,
-    				0.456,
-    				0.406
-    			],
-    		"norm_std": [                          # Normalize images std with {norm_std} values for RGB cahnnels
-    				0.229,
-    				0.224,
-    				0.225
-    			],
-    		"source": source_folder,      # source images are retrieved from {source} path
-    		"target": target_folder       # target images are retrieved from {target} path
-    	},
-    	"MODEL": {
-    		"device": "cpu",                       # Metric will be computed in {device}
-    		"n_layer_feature": -2                  # the layer extractor feature will be the:
-        	},                                     # i-th if int       |  {n_layer_feature} if str
-    	"METHOD": {
-    		"name": "fid"                          # Metric name, used only with CLI
-    	}
-    }
+        wass = Wasserstein()
+        computed_score = wass.compute_1D_distance(config_method)
 
-    # Compute the metric
-    FID_score = fid.compute_image_distance(fid_config_json)
-    print(f"FIDn score: {FID_score.item()}")   
-    assert FID_score == pytest.approx(expected_score, abs=epsilon)
+    elif metric== "FID":
+        fid = FID()
+        computed_score = fid.compute_image_distance(config_method)
 
-def test_domain_gap_KLMVN():
+    elif metric== "KLMVN":
+        klmvn = KLMVN()
+        computed_score = klmvn.compute_image_distance(config_method)
 
-    epsilon=1
-    expected_score=14576664
+    elif metric== "PAD":
+        pad = ProxyADistance()
+        computed_score = pad.compute_image_distance(config_method)
 
-     # Data path
-    source_folder = ROOT_PATH+"/sample_data/image_test_ds/c20"
-    target_folder = ROOT_PATH+"/sample_data/image_test_ds/c33"
-    
-    klmvn = KLMVN()
-    # Define your own config file, you can find examples in dqm/domain_gap/cfg/{metric_name}
-    klmvn_config_json = {
-	"DATA": {
-		"batch_size": 10,
-		"height": 28,
-		"width": 28,
-		"norm_mean": [
-				0.485,
-				0.456,
-				0.406
-			],
-		"norm_std": [
-				0.229,
-				0.224,
-				0.225
-			],
-		"source": source_folder, 
-		"target": target_folder 
-	},
-	"MODEL": {
-        "arch": "resnet18",
-		"device": "cpu",
-		"n_layer_feature": -2
-    	},
-	"METHOD": {
-		"name": "klmvn"
-	}
-}
+    elif metric== "MMD":
+        mmd = MMD()
+        computed_score = mmd.compute(config_method)
 
-    # Compute the metric
-    KLMVN_score = klmvn.compute_image_distance(klmvn_config_json)
-    print(f"KLMVN score: {KLMVN_score.item()}")   
-    assert  KLMVN_score == pytest.approx(expected_score, abs=epsilon)
+    elif metric== "CMD":
+        cmd = CMD()
+        computed_score=cmd.compute(config_method)
 
-def test_domain_gap_PAD():
+    else:
+        raise Exception("The given metric", metric, "is not implemented")
 
-    epsilon=0.1
-    expected_score=1.95
-
-     # Data path
-    source_folder = ROOT_PATH+"/sample_data/image_test_ds/c20"
-    target_folder = ROOT_PATH+"/sample_data/image_test_ds/c33"
-    
-    pad = ProxyADistance()
-    # Define your own config file, you can find examples in dqm/domain_gap/cfg/{metric_name}
-    pad_config_json = {
-	"DATA": {
-		"height": 224,
-		"width": 224,
-		"batch_size": 10,
-		"norm_mean": [
-			0.485,
-			0.456,
-			0.406
-		],
-		"norm_std": [
-			0.229,
-			0.224,
-			0.225
-		],
-		"source": source_folder, 
-		"target": target_folder 
-	},
-	"MODEL": {
-		"arch": ["efficientnet_b0","vgg16"],
-		"device": "cpu",
-		"n_layer_feature": -2
-	},
-	"METHOD": {
-		"name": "proxy",
-        "evaluator": "mse"
-	}
-    }
-
-    # Compute the metric
-    pad_score = pad.compute_image_distance(pad_config_json)
-    print(f"PAD score: {pad_score.item()}")   
-    assert  pad_score == pytest.approx(expected_score, abs=epsilon)
-
-def test_domain_gap_MMD():
-
-    epsilon=0.1
-    expected_score=355.8
-
-     # Data path
-    source_folder = ROOT_PATH+"/sample_data/image_test_ds/c20"
-    target_folder = ROOT_PATH+"/sample_data/image_test_ds/c33"
-    
-    mmd = MMD()
-    # Define your own config file, you can find examples in dqm/domain_gap/cfg/{metric_name}
-    mmd_config_json = {
-	"DATA": {
-		"height": 224,
-		"width": 224,
-		"batch_size": 10,
-		"norm_mean": [
-			0.485,
-			0.456,
-			0.406
-		],
-		"norm_std": [
-			0.229,
-			0.224,
-			0.225
-		],
-		"source": source_folder, 
-		"target": target_folder 
-	},
-	"MODEL": {
-        "arch": "resnet18",
-		"device": "cpu",
-		"n_layer_feature": -2
-    	},
-	"METHOD": {
-		"name": "mmd",
-		"kernel": "linear",
-		"kernel_params": {
-			"gamma": 1.0,
-			"degree": 3.0,
-			"coefficient0": 1.0 
-		}
-	}
-}
-
-    # Compute the metric
-    mmd_score = mmd.compute(mmd_config_json)
-    print(f"MMD score: {mmd_score}")   
-    assert  mmd_score == pytest.approx(expected_score, abs=epsilon)
+    assert computed_score == pytest.approx(expected_score,abs=epsilon), \
+    f"For metric the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"
 
 
-def test_domain_gap_CMD():
 
-    epsilon=0.1
-    expected_score=0.13
-
-     # Data path
-    source_folder = ROOT_PATH+"/sample_data/image_test_ds/c20"
-    target_folder = ROOT_PATH+"/sample_data/image_test_ds/c33"
-    
-    cmd = CMD()
-    # Define your own config file, you can find examples in dqm/domain_gap/cfg/{metric_name}
-    cmd_config_json = {
-	"DATA": {
-		"height": 224,
-		"width": 224,
-		"batch_size": 10,
-		"norm_mean": [
-			0.485,
-			0.456,
-			0.406
-		],
-		"norm_std": [
-			0.229,
-			0.224,
-			0.225
-		],
-		"source": source_folder,
-		"target": target_folder
-	},
-	"MODEL": {
-		"arch": "resnet18",
-        "n_layer_feature" : [
-            "maxpool",
-            "layer1.1.relu_1",
-            "layer2.1.relu_1", 
-            "layer3.1.relu_1", 
-            "layer4.1.relu_1"],
-        "feature_extractors_layers_weights" : [1, 1, 1, 1, 1],
-        "device": "cpu"
-	},
-	"METHOD": {
-		"name": "cmd",
-        "k": 5
-	}
-}
-
-    # Compute the metric
-    cmd_score=cmd.compute(cmd_config_json)
-    print(f"CMD score: {cmd_score}")   
-    assert  cmd_score == pytest.approx(expected_score, abs=epsilon)
-
-# Run to test
-
-# test_completeness()
-# test_diversity()
-# test_representativeness()  
-# test_domain_gap_wassertein()
-# test_domain_gap_FID()
-# test_domain_gap_KLMVN()
-# test_domain_gap_PAD()
-# test_domain_gap_MMD()
-# test_domain_gap_CMD()

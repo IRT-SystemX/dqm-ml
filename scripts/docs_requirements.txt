@@ -1,0 +1,6 @@
+sphinx
+sphinx_autodoc_typehints
+sphinx-rtd-theme
+myst_parser
+nbsphinx
+pandoc==2.4

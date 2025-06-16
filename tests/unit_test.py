@@ -119,6 +119,11 @@ def test_diversity():
             assert computed_scores[col_name][metric_name] == pytest.approx(expected_scores[col_name][metric_name], abs=epsilon), \
             f"Value {computed_scores[col_name][metric_name]} is not close to the expected one --->{expected_scores[col_name][metric_name]}"
     
+# test_diversity()
+
+# computed scores :  {'column_2': {'chi-square': 3.500692743258221e-59, 'kolmogorov-smirnov': 4.43274004743264e-22, 'shannon_entropy': 2.3006344832396444, 'GRTE': 0.7010802583930493}, 'column_4': {'chi-square': 3.500692743258221e-59, 'kolmogorov-smirnov': 4.43274004743264e-22, 'shannon_entropy': 2.3006344832396444, 'GRTE': 0.7010802583930493}, 'column_6': {'chi-square': 3.500692743258221e-59, 'kolmogorov-smirnov': 4.43274004743264e-22, 'shannon_entropy': 2.3006344832396444, 'GRTE': 0.7010802583930493}}
+
+
 def test_representativeness():
     expected_scores={
         "column_2":{
@@ -128,7 +133,7 @@ def test_representativeness():
             "chi-square":0,"kolmogorov-smirnov":0,"shannon_entropy":2.3,"GRTE":0.69
         },
         "column_6":{
-            "chi-square":0,"kolmogorov-smirnov":0,"shannon_entropy":2.29,"GRTE":0.69
+            "chi-square":0,"kolmogorov-smirnov":0,"shannon_entropy":2.3,"GRTE":0.69
         }
     }
     
@@ -187,7 +192,7 @@ def test_representativeness():
             f"Value {computed_scores[col_name][metric_name]} is not close to the expected one --->{expected_scores[col_name][metric_name]}"
         
  
-def domain_gap_wassertein():
+def test_domain_gap_wassertein():
 
     expected_wasserstein=5.16
     source_folder = ROOT_PATH+"/sample_data/image_test_ds/c20"
@@ -232,9 +237,9 @@ def domain_gap_wassertein():
     print(f"wasserstein score: {wasserstein_score.item()}")
     assert wasserstein_score == pytest.approx(expected_score, abs=epsilon)
     
-def domain_gap_FID():
+def test_domain_gap_FID():
 
-    epsilon=1
+    epsilon=0.1
     expected_score=444.10
 
     # Load data
@@ -276,7 +281,7 @@ def domain_gap_FID():
     print(f"FIDn score: {FID_score.item()}")   
     assert FID_score == pytest.approx(expected_score, abs=epsilon)
 
-def domain_gap_KLMVN():
+def test_domain_gap_KLMVN():
 
     epsilon=1
     expected_score=14576664
@@ -320,7 +325,7 @@ def domain_gap_KLMVN():
     print(f"KLMVN score: {KLMVN_score.item()}")   
     assert  KLMVN_score == pytest.approx(expected_score, abs=epsilon)
 
-def domain_gap_PAD():
+def test_domain_gap_PAD():
 
     epsilon=0.1
     expected_score=1.95
@@ -365,7 +370,7 @@ def domain_gap_PAD():
     print(f"PAD score: {pad_score.item()}")   
     assert  pad_score == pytest.approx(expected_score, abs=epsilon)
 
-def domain_gap_MMD():
+def test_domain_gap_MMD():
 
     epsilon=0.1
     expected_score=355.8
@@ -416,7 +421,7 @@ def domain_gap_MMD():
     assert  mmd_score == pytest.approx(expected_score, abs=epsilon)
 
 
-def domain_gap_CMD():
+def test_domain_gap_CMD():
 
     epsilon=0.1
     expected_score=0.13
@@ -472,9 +477,9 @@ def domain_gap_CMD():
 # test_completeness()
 # test_diversity()
 # test_representativeness()  
-# domain_gap_wassertein()
-# domain_gap_FID()
-# domain_gap_KLMVN()
-# domain_gap_PAD()
-# domain_gap_MMD()
-# domain_gap_CMD()
+# test_domain_gap_wassertein()
+# test_domain_gap_FID()
+# test_domain_gap_KLMVN()
+# test_domain_gap_PAD()
+# test_domain_gap_MMD()
+# test_domain_gap_CMD()

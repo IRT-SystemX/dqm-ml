@@ -1,0 +1,8 @@
+pylint 
+pylint-exit 
+pylint-gitlab 
+anybadge
+flake8 
+flake8-html
+pytest
+coverage

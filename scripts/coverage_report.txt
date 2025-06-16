@@ -1,0 +1,19 @@
+Name                                   Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------
+dqm/__init__.py                            0      0   100%
+dqm/completeness/__init__.py               0      0   100%
+dqm/completeness/metric.py                14      0   100%
+dqm/diversity/__init__.py                  0      0   100%
+dqm/diversity/diversity.py                32     24    25%   63-86, 100-109
+dqm/diversity/metric.py                   18      1    94%   104
+dqm/diversity/twe_logger.py               41     15    63%   39-48, 93-96, 99-100
+dqm/domain_gap/__init__.py                 0      0   100%
+dqm/domain_gap/custom_datasets.py         36     17    53%   9-20, 23, 26-31
+dqm/domain_gap/metrics.py                351     65    81%   70, 94-96, 123-124, 199-225, 281-285, 387-388, 570, 683-685, 787-829
+dqm/domain_gap/utils.py                   88     45    49%   48-57, 62-87, 133, 141-149, 178-187
+dqm/representativeness/__init__.py         0      0   100%
+dqm/representativeness/metric.py         103     42    59%   91-92, 100-101, 126, 133-164, 176, 196-197, 201-202, 206-214, 232, 249-263, 279, 302-308, 338-339
+dqm/representativeness/twe_logger.py      41     15    63%   39-48, 91-94, 97-98
+dqm/representativeness/utils.py          114     60    47%   133, 148, 185-188, 201-202, 220-238, 286-292, 312-314, 353-355, 359-362, 384, 426-429, 441-454
+--------------------------------------------------------------------
+TOTAL                                    838    284    66%

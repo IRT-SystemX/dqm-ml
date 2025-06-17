@@ -83,13 +83,15 @@ def test_diversity_metrics(metric : str):
 
     # Compute diversity metrics and compare with expected values
     for col in col_names:
-        if metric=="simpson":
-            computed_score=metric_calculator.simpson(df[col])
-        elif metric=="gini":
-            computed_score=metric_calculator.gini(df[col])
-        else:
-            raise Exception("The given metric", metric, "is not implemented")
 
+        match metric:
+            case "simpson":
+                computed_score=metric_calculator.simpson(df[col])
+            case "gini":
+                computed_score=metric_calculator.gini(df[col])
+            case _:
+               raise Exception("The given metric", metric, "is not implemented") 
+        
         expected_score = expected_scores[col]
         assert computed_score == pytest.approx(expected_score,abs=epsilon), \
         f"For column : {col}, the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"
@@ -120,22 +122,24 @@ def test_representativeness(metric):
         
         analyzer = DistributionAnalyzer(var, bins, distribution)
        
-        if metric=="chi-square":
-            pvalue, intervals_frequencies = analyzer.chisquare_test()
-            computed_score=pvalue
+        match metric:
 
-        elif metric=="kolmogorov-smirnov":
-            computed_score = analyzer.kolmogorov(mean, std)
+            case "chi-square":
+                pvalue, intervals_frequencies = analyzer.chisquare_test()
+                computed_score=pvalue
 
-        elif metric=="shannon-entropy":
-             computed_score = analyzer.shannon_entropy()
+            case "kolmogorov-smirnov":
+                computed_score = analyzer.kolmogorov(mean, std)
 
-        elif metric=="GRTE":
-            grte_result, intervals_discretized = analyzer.grte()
-            computed_score=grte_result
+            case "shannon-entropy":
+                computed_score = analyzer.shannon_entropy()
 
-        else:
-            raise Exception("The given metric", metric, "is not implemented")
+            case "GRTE":    
+                grte_result, intervals_discretized = analyzer.grte()
+                computed_score=grte_result
+
+            case _:
+                raise Exception("The given metric", metric, "is not implemented")
 
         expected_score= expected_scores[col]
         assert computed_score == pytest.approx(expected_score,abs=epsilon), \
@@ -157,33 +161,35 @@ def test_domain_gaps(metric):
 
     # Compute domain_gap metrics and compare with expected values
     
-    if metric== "wasserstein":
-    
-        wass = Wasserstein()
-        computed_score = wass.compute_1D_distance(config_method)
+    match metric : 
 
-    elif metric== "FID":
-        fid = FID()
-        computed_score = fid.compute_image_distance(config_method)
+        case "wasserstein" :
+            wass = Wasserstein()
+            computed_score = wass.compute_1D_distance(config_method)
 
-    elif metric== "KLMVN":
-        klmvn = KLMVN()
-        computed_score = klmvn.compute_image_distance(config_method)
+        case "FID" :
+            fid = FID()
+            computed_score = fid.compute_image_distance(config_method)
 
-    elif metric== "PAD":
-        pad = ProxyADistance()
-        computed_score = pad.compute_image_distance(config_method)
+        case "KLMVN" :
+            klmvn = KLMVN()
+            computed_score = klmvn.compute_image_distance(config_method)
 
-    elif metric== "MMD":
-        mmd = MMD()
-        computed_score = mmd.compute(config_method)
+        case "PAD":
+            pad = ProxyADistance()
+            computed_score = pad.compute_image_distance(config_method)
 
-    elif metric== "CMD":
-        cmd = CMD()
-        computed_score=cmd.compute(config_method)
+        case "MMD":
+            mmd = MMD()
+            computed_score = mmd.compute(config_method)
 
-    else:
-        raise Exception("The given metric", metric, "is not implemented")
+        case"CMD":
+            cmd = CMD()
+            computed_score=cmd.compute(config_method)
+
+        case _:
+
+            raise Exception("The given metric", metric, "is not implemented")
 
     assert computed_score == pytest.approx(expected_score,abs=epsilon), \
     f"For metric the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"

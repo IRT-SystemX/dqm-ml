@@ -5,11 +5,11 @@ cp -R examples docs/source/
 
 # Delete old tdaad modules
 
-rm -f docs/source/tdaad*.rst
+rm -f docs/source/dqm*.rst
 
 # Generate package docstring
 
-sphinx-apidoc -o docs/source tdaad
+sphinx-apidoc -o docs/source dqm
 
 # Generate HTML
 

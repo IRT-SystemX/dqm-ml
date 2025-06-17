@@ -14,6 +14,7 @@ import argparse
 from PIL import Image
 import torch
 import yaml
+
 # Import internal dependencies
 
 from dqm.completeness.metric import DataCompleteness
@@ -32,7 +33,6 @@ ROOT_PATH = str(Path(__file__).parent.resolve()) + os.sep # To point on test dir
 with open(ROOT_PATH+"/tests_config/unit_tests_config.yaml", 'r') as stream:
     tests_config = yaml.safe_load(stream)
 
-print(tests_config)
 
 def test_completeness():
 
@@ -44,6 +44,7 @@ def test_completeness():
     dataset_path=tests_config["completeness"]["params"]["dataset"]
     
     # Load test dataset
+    
     df=pd.read_csv(ROOT_PATH+dataset_path) 
 
     # Init evaluator and calculate the completeness scores for each chosen columns
@@ -51,6 +52,7 @@ def test_completeness():
     completeness_evaluator = DataCompleteness()
 
     # Test completeness by columns
+    
     for col in col_names:
         computed_score = completeness_evaluator.data_completion(df[col])
         expected_score = expected_scores[col]
@@ -64,6 +66,7 @@ def test_completeness():
     assert computed_score == pytest.approx(expected_score,abs=epsilon), \
     f"For overall_score, the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"
 
+    
 @pytest.mark.parametrize("metric", ["simpson","gini"])
 def test_diversity_metrics(metric : str):
 
@@ -78,7 +81,7 @@ def test_diversity_metrics(metric : str):
 
     metric_calculator= DiversityIndexCalculator()
 
-    # Compute diversity metrics -> gini and simpson and comapre with expected
+    # Compute diversity metrics and compare with expected values
     for col in col_names:
         if metric=="simpson":
             computed_score=metric_calculator.simpson(df[col])
@@ -95,6 +98,7 @@ def test_diversity_metrics(metric : str):
 def test_representativeness(metric):
 
     # load test configuration
+    
     expected_scores=tests_config["representativeness"]["expected_scores"][metric]
     epsilon=tests_config["representativeness"]["params"]["tolerance"]
     col_names=tests_config["representativeness"]["params"]["columns_names"]
@@ -103,22 +107,19 @@ def test_representativeness(metric):
     distribution = tests_config["representativeness"]["params"]["distribution"]
 
     # Load test datasets
+    
     df=pd.read_csv(ROOT_PATH+dataset_path) #columns 1,3,6,9 with 
-
-       
-    # Accepted Tolerence threshold for comparing computed values and expected values 
+  
+    # Compute representativeness metrics and compare with expected values
 
     for col in col_names:
         
         var= df[col]
         mean = np.mean(var)
         std = np.std(var)
-        print("meanvar",mean,std)
-        print("feature", col)
         
         analyzer = DistributionAnalyzer(var, bins, distribution)
-        # Using the method chisquare_test
-
+       
         if metric=="chi-square":
             pvalue, intervals_frequencies = analyzer.chisquare_test()
             computed_score=pvalue
@@ -142,6 +143,8 @@ def test_representativeness(metric):
 
 @pytest.mark.parametrize("metric", ["wasserstein","FID","KLMVN","PAD","MMD","CMD"])
 def test_domain_gaps(metric): 
+
+    # load test configuration
     
     expected_score=tests_config["domain_gap"][metric]["expected_score"]
     epsilon=tests_config["domain_gap"][metric]["params"]["tolerance"]
@@ -151,6 +154,8 @@ def test_domain_gaps(metric):
 
     tests_config["domain_gap"][metric]["params"]["method_config"]["DATA"]["source"]=ROOT_PATH+tests_config["domain_gap"][metric]["params"]["method_config"]["DATA"]["source"]
     tests_config["domain_gap"][metric]["params"]["method_config"]["DATA"]["target"]=ROOT_PATH+tests_config["domain_gap"][metric]["params"]["method_config"]["DATA"]["target"]
+
+    # Compute domain_gap metrics and compare with expected values
     
     if metric== "wasserstein":
     
@@ -182,6 +187,4 @@ def test_domain_gaps(metric):
 
     assert computed_score == pytest.approx(expected_score,abs=epsilon), \
     f"For metric the distance between computed value : {computed_score} and expected one ---> {expected_score} is greater than the accepted tolerance {epsilon}"
-
-
 

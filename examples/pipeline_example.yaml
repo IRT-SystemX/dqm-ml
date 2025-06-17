@@ -1,0 +1,61 @@
+# This file is an example of pipeline configuration for DQM
+# in datapath field: if path is a file, the dataset is considered to be stored inn this file, if pathis a folder, a file in the given folder will be concatenated
+# by row to form the evaluated dataset
+# if column_names field  is present the metric is computed for each column, otherwise the metric will be computed on all columns by default
+# if metrics field is not present : all metrics will be computed by default
+
+# For domain gap , desired metrics shall explicitly set as primary key, then the config in method_config key.
+
+
+pipeline_definition:
+  - completeness:
+      dataset : /my_folder
+      column_names : ["column_2","column_4","column_6"]
+
+  - representativeness:
+      bins : 10
+      distribution : normal
+      dataset: "sample_data/SMD_test_ds_sample.csv"
+      columns_names : ["column_2","column_4", "column_6"]
+      metrics: ["chi-square","GRTE"]
+
+  - diversity :
+      dataset: "sample_data/SMD_test_ds_sample.csv"
+      columns_names : ["column_2","column_4", "column_6"]
+      metrics: ["simpson","gini"]
+
+  - domain_gap: 
+      - wasserstein:
+          method_config:
+            DATA: 
+              batch_size: 32
+              height: 299
+              width: 299
+              norm_mean: [0.485,0.456,0.406]
+              norm_std: [0.229,0.224,0.225]
+              source: "sample_data/image_test_ds/c20"
+              target: "sample_data/image_test_ds/c33"  
+          MODEL: 
+              device: "cpu"
+              n_layer_feature: -2
+          METHOD: 
+              name: "fid"
+      - PAD:
+          method_config:
+            DATA: 
+                batch_size: 10
+                height: 224
+                width: 224
+                norm_mean: [0.485,0.456,0.406]
+                norm_std: [0.229,0.224,0.225]
+                source: "sample_data/image_test_ds/c20"
+                target: "sample_data/image_test_ds/c33"
+
+            MODEL: 
+                arch: ["efficientnet_b0","vgg16"]
+                device: "cpu"
+                n_layer_feature: -2
+            
+            METHOD: 
+                name: "proxy"
+                evaluator: "mse"

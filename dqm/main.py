@@ -8,6 +8,15 @@ from pathlib import Path
 import os
 import pandas as pd
 import glob
+import collections
+
+from dqm.completeness.metric import DataCompleteness
+from dqm.diversity.diversity import DiversityCalculator
+from dqm.diversity.metric import DiversityIndexCalculator
+from dqm.representativeness.metric import DistributionAnalyzer
+import numpy as np
+# from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, KLMVN
+# from dqm.domain_gap.utils import load_config, display_resume
 
 ROOT_PATH = str(Path(__file__).parent.resolve()) + os.sep # To point on test directory
 
@@ -97,25 +106,108 @@ def main():
 
     print(pipeline_config)
 
-    # Crate output file if it does not exist
+    # Crate output diretory if it does not exist
 
-    if not os.path.isfile(args.result_file_path):
-         Path(args.result_file_path).mkdir(parents=True, exist_ok=True)
+    Path((os.sep).join(args.result_file_path.split(os.sep)[:-1])).mkdir(parents=True, exist_ok=True)
 
-    # prepare computation
+    # Init output results dict, we keep parameters from config , we will just complete this config with scores fields
 
-    res_dict={}
-
+    res_dict=pipeline_config.copy()
     # Loop on metrics to compute
 
-    for item in pipeline_config["pipeline_definition"]:
-        print("domain traite :", item["domain"])
+    for idx in range(0,len(pipeline_config["pipeline_definition"])):
         
-
+        item=pipeline_config["pipeline_definition"][idx]
+        print("item_en_cours :", item)
+        
+        # For metrics working on tabular
         if item["domain"] != "domain_gap":
+            
+            # Load dataframe for specified domain
+
             print("dataset :", item["dataset"])
             main_df=load_dataframe(item)
 
+            # init col variable
+            working_columns=list(main_df.columns) # By default
+
+            # Prepare score field that will be added to result dict
+            res_dict["pipeline_definition"][idx]["scores"]={}
+
+            # Work only of specified column in keyword exists
+            if "columns_names" in item.keys():
+                working_columns=item["columns_names"]
+            
+            match item["domain"]:
+
+                case "completeness" :
+
+                    # Compute completness scores
+                    completeness_evaluator = DataCompleteness()
+                    res_dict["pipeline_definition"][idx]["scores"]["overall_score"]=completeness_evaluator.completeness_tabular(main_df) 
+                    
+                    for col in working_columns :
+                        res_dict["pipeline_definition"][idx]["scores"][col]= completeness_evaluator.data_completion(main_df[col])
+                    
+                case "diversity" :
+
+                    # Compute diversity scores
+                    metric_calculator= DiversityIndexCalculator()
+
+                    for metric in item["metrics"]:
+                        res_dict["pipeline_definition"][idx]["scores"][metric]={}
+                        for col in working_columns :
+                            match metric:
+                                case "simpson":
+                                    computed_score=metric_calculator.simpson(main_df[col])
+                                case "gini":
+                                    computed_score=metric_calculator.gini(main_df[col])
+                                case _:
+                                   raise Exception("The given metric", metric, "is not implemented") 
+            
+                            res_dict["pipeline_definition"][idx]["scores"][metric][col]=computed_score     
+
+
+                case "representativeness" :
+
+                    #Prepare output fields in result dict
+                    for metric in item["metrics"]:
+                        res_dict["pipeline_definition"][idx]["scores"][metric]={}
+
+                    # init analyzer
+                    bins=item["bins"]
+                    distribution=item["distribution"]
+
+                    # Compute representativeness
+                    for col in working_columns :
+
+                        var= main_df[col]
+                        mean = np.mean(var)
+                        std = np.std(var)
+                        analyzer = DistributionAnalyzer(var, bins, distribution)
+
+                        for metric in item["metrics"]:
+                            match metric:
+                                case "chi-square":
+                                    pvalue, intervals_frequencies = analyzer.chisquare_test()
+                                    computed_score=pvalue
+                                     
+                                case "kolmogorov-smirnov":
+                                    computed_score = analyzer.kolmogorov(mean, std)
+                    
+                                case "shannon-entropy":
+                                    computed_score = analyzer.shannon_entropy()
+                    
+                                case "GRTE":    
+                                    grte_result, intervals_discretized = analyzer.grte()
+                                    computed_score=grte_result
+                    
+                                case _:
+                                    raise Exception("The given metric", metric, "is not implemented")
+                            
+                            res_dict["pipeline_definition"][idx]["scores"][metric][col]=computed_score    
+                                        
+        # Specificely for domain gap metrics . . 
         else:
             print("domain_gap auto loading  not implemented yet")
 
@@ -125,7 +217,11 @@ def main():
 
 
 
-
+        print("final results")
+        print(res_dict)
+        final_dict=collections.OrderedDict(res_dict)
+        with open(args.result_file_path, 'w+') as ff:
+            yaml.dump(res_dict, ff,default_flow_style=False,sort_keys=False)
 
 
 

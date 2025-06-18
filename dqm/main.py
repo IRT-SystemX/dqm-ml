@@ -15,8 +15,8 @@ from dqm.diversity.diversity import DiversityCalculator
 from dqm.diversity.metric import DiversityIndexCalculator
 from dqm.representativeness.metric import DistributionAnalyzer
 import numpy as np
-# from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, KLMVN
-# from dqm.domain_gap.utils import load_config, display_resume
+from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, KLMVN
+from dqm.domain_gap.utils import load_config, display_resume
 
 ROOT_PATH = str(Path(__file__).parent.resolve()) + os.sep # To point on test directory
 
@@ -209,19 +209,55 @@ def main():
                                         
         # Specificely for domain gap metrics . . 
         else:
-            print("domain_gap auto loading  not implemented yet")
+             # Init score output file
+             res_dict["pipeline_definition"][idx]["scores"]={}
 
-        print(main_df)
+            # iterate of metrics 
 
+             for metric_dict in item["metrics"]:
 
+                config_method=metric_dict["method_config"]
+                metric=metric_dict["metric_name"]
+                
+                match metric : 
 
+                    case "wasserstein" :
+                        wass = Wasserstein()
+                        computed_score = wass.compute_1D_distance(config_method)
+            
+                    case "FID" :
+                        fid = FID()
+                        computed_score = fid.compute_image_distance(config_method)
+            
+                    case "KLMVN" :
+                        klmvn = KLMVN()
+                        computed_score = klmvn.compute_image_distance(config_method)
+            
+                    case "PAD":
+                        pad = ProxyADistance()
+                        computed_score = pad.compute_image_distance(config_method)
+            
+                    case "MMD":
+                        mmd = MMD()
+                        computed_score = mmd.compute(config_method)
+            
+                    case"CMD":
+                        cmd = CMD()
+                        computed_score=cmd.compute(config_method)
+            
+                    case _:  
+                        raise Exception("The given metric", metric, "is not implemented")
 
+                # Add computed metric to results
 
-        print("final results")
-        print(res_dict)
-        final_dict=collections.OrderedDict(res_dict)
-        with open(args.result_file_path, 'w+') as ff:
-            yaml.dump(res_dict, ff,default_flow_style=False,sort_keys=False)
+                res_dict["pipeline_definition"][idx]["scores"][metric]=float(computed_score)
+
+                    
+    # Export final results to yaml file
+    print("final results")
+    print(res_dict)
+    with open(args.result_file_path, 'w+') as ff:
+        yaml.dump(res_dict, ff,default_flow_style=False,sort_keys=False)
 
 
 

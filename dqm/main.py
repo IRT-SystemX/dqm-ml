@@ -97,14 +97,12 @@ def main():
     )
 
     args = parser.parse_args()
-    print("args", args)
+    # print("args", args)
 
     # Read the pipeline configuration file
 
     with open(args.pipeline_config_path, 'r') as stream:
         pipeline_config = yaml.safe_load(stream)
-
-    print(pipeline_config)
 
     # Crate output diretory if it does not exist
 
@@ -118,7 +116,7 @@ def main():
     for idx in range(0,len(pipeline_config["pipeline_definition"])):
         
         item=pipeline_config["pipeline_definition"][idx]
-        print("item_en_cours :", item)
+        # print("item_en_cours :", item)
         
         # For metrics working on tabular
         if item["domain"] != "domain_gap":
@@ -255,7 +253,7 @@ def main():
                     
     # Export final results to yaml file
     print("final results")
-    print(res_dict)
+    # print(res_dict)
     with open(args.result_file_path, 'w+') as ff:
         yaml.dump(res_dict, ff,default_flow_style=False,sort_keys=False)
 

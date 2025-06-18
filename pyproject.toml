@@ -24,4 +24,4 @@ requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-neural_de  = "dqm.main:main"
+dqm-ml  = "dqm.main:main"

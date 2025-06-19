@@ -9,7 +9,6 @@ import os
 import pandas as pd
 import glob
 import collections
-
 from dqm.completeness.metric import DataCompleteness
 from dqm.diversity.diversity import DiversityCalculator
 from dqm.diversity.metric import DiversityIndexCalculator
@@ -105,7 +104,7 @@ def main():
         pipeline_config = yaml.safe_load(stream)
 
     # Crate output diretory if it does not exist
-
+    # print("creation directory ", args.result_file_path.split(os.sep)[:-1])
     Path((os.sep).join(args.result_file_path.split(os.sep)[:-1])).mkdir(parents=True, exist_ok=True)
 
     # Init output results dict, we keep parameters from config , we will just complete this config with scores fields
@@ -122,8 +121,7 @@ def main():
         if item["domain"] != "domain_gap":
             
             # Load dataframe for specified domain
-
-            print("dataset :", item["dataset"])
+            print("procesing dataset :", item["dataset"], "for domain : ",item["domain"] )
             main_df=load_dataframe(item)
 
             # init col variable
@@ -213,10 +211,10 @@ def main():
             # iterate of metrics 
 
              for metric_dict in item["metrics"]:
-
+                
                 config_method=metric_dict["method_config"]
                 metric=metric_dict["metric_name"]
-                
+                print("procesing domain gap for metric : ", metric, "for datasets : ",config_method["DATA"]["source"],config_method["DATA"]["target"] )
                 match metric : 
 
                     case "wasserstein" :
@@ -252,7 +250,7 @@ def main():
 
                     
     # Export final results to yaml file
-    print("final results")
+    # print("final results")
     # print(res_dict)
     with open(args.result_file_path, 'w+') as ff:
         yaml.dump(res_dict, ff,default_flow_style=False,sort_keys=False)

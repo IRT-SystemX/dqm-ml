@@ -7,14 +7,14 @@ RUN apt-get update && \
 
 WORKDIR /DQM_LIB
 
-# Copy required file for dqm package installation
+# Copy required files for dqm package installation
 
 COPY pyproject.toml .
 COPY README.md .
 COPY requirements.txt .
 COPY dqm ./dqm
 
-# Copy pretrained model in container cache
+# Copy pretrained models in container cache
 
 RUN mkdir -p /root/.cache/torch/hub/checkpoints
 RUN wget -P /root/.cache/torch/hub/checkpoints/ https://download.pytorch.org/models/resnet18-f37072fd.pth

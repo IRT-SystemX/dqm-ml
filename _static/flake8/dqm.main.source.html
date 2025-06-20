@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>dqm\main.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="dqm.main.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               dqm\main.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev- "><tt><i>1</i> <span class="c1"># This scripts is the entry for using DQM with command line and docker</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> &nbsp;</tt>
+            </div>
+            <div id="l3"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (128 > 120 characters)</li>
+               
+               </ul><tt><i>3</i> <span class="c1"># test commnad : python main.py --pipeline_config_path &quot;../examples/pipeline_example.yaml&quot; --result_file_path &quot;results/res.yaml&quot;</span></tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i> &nbsp;</tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i> <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i> <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev- "><tt><i>7</i> <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span></tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i> <span class="kn">import</span><span class="w"> </span><span class="nn">os</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span></tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i> <span class="kn">from</span><span class="w"> </span><span class="nn">dqm.completeness.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataCompleteness</span></tt>
+            </div>
+            <div id="l11"
+               class="code sev- "><tt><i>11</i> <span class="kn">from</span><span class="w"> </span><span class="nn">dqm.diversity.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiversityIndexCalculator</span></tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i> <span class="kn">from</span><span class="w"> </span><span class="nn">dqm.representativeness.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributionAnalyzer</span></tt>
+            </div>
+            <div id="l13"
+               class="code sev- "><tt><i>13</i> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span></tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i> <span class="kn">from</span><span class="w"> </span><span class="nn">dqm.domain_gap.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">CMD</span><span class="p">,</span> <span class="n">MMD</span><span class="p">,</span> <span class="n">Wasserstein</span><span class="p">,</span> <span class="n">ProxyADistance</span><span class="p">,</span> <span class="n">FID</span><span class="p">,</span> <span class="n">KLMVN</span></tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i> &nbsp;</tt>
+            </div>
+            <div id="l16"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E261
+                     </span>
+                     At least two spaces before inline comment</li>
+               
+               </ul><tt><i>16</i> <span class="n">ROOT_PATH</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="c1"># To point on test directory</span></tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i> &nbsp;</tt>
+            </div>
+            <div id="l18"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E302
+                     </span>
+                     Expected 2 blank lines, found 1</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ','</li>
+               
+               </ul><tt><i>18</i> <span class="k">def</span><span class="w"> </span><span class="nf">load_raw_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">separator</span><span class="p">):</span></tt>
+            </div>
+            <div id="l19"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>19</i>     <span class="n">extension</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></tt>
+            </div>
+            <div id="l20"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ',' (in 3 places)</li>
+               
+               </ul><tt><i>20</i>     <span class="k">if</span> <span class="n">extension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;xslx&quot;</span><span class="p">,</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span><span class="s2">&quot;pq&quot;</span><span class="p">,</span><span class="s2">&quot;txt&quot;</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l21"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E211
+                     </span>
+                     Whitespace before '('</li>
+               
+               </ul><tt><i>21</i>         <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s2">&quot;The file named&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="s2">&quot;has an extension that is not supported :--&gt; .&quot;</span><span class="p">,</span> <span class="n">extension</span><span class="p">)</span></tt>
+            </div>
+            <div id="l22"
+               class="code sev- "><tt><i>22</i> &nbsp;</tt>
+            </div>
+            <div id="l23"
+               class="code sev- "><tt><i>23</i>     <span class="k">match</span> <span class="n">extension</span><span class="p">:</span></tt>
+            </div>
+            <div id="l24"
+               class="code sev- "><tt><i>24</i>         <span class="k">case</span> <span class="s2">&quot;csv&quot;</span> <span class="o">|</span> <span class="s2">&quot;txt&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l25"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ','</li>
+               
+               </ul><tt><i>25</i>             <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="n">separator</span><span class="p">)</span></tt>
+            </div>
+            <div id="l26"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>26</i>         <span class="k">case</span> <span class="s2">&quot;xslx&quot;</span> <span class="o">|</span><span class="s2">&quot;xls&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l27"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>27</i>             <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file</span><span class="p">)</span></tt>
+            </div>
+            <div id="l28"
+               class="code sev- "><tt><i>28</i>         <span class="k">case</span> <span class="s2">&quot;parquet&quot;</span> <span class="o">|</span> <span class="s2">&quot;pq&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l29"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>29</i>             <span class="n">df</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">file</span><span class="p">)</span></tt>
+            </div>
+            <div id="l30"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>30</i>     </tt>
+            </div>
+            <div id="l31"
+               class="code sev- "><tt><i>31</i>     <span class="k">return</span> <span class="n">df</span></tt>
+            </div>
+            <div id="l32"
+               class="code sev- "><tt><i>32</i> &nbsp;</tt>
+            </div>
+            <div id="l33"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E302
+                     </span>
+                     Expected 2 blank lines, found 1</li>
+               
+               </ul><tt><i>33</i> <span class="k">def</span><span class="w"> </span><span class="nf">load_dataframe</span><span class="p">(</span><span class="n">config_dict</span><span class="p">):</span></tt>
+            </div>
+            <div id="l34"
+               class="code sev- "><tt><i>34</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l35"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (127 > 120 characters)</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>35</i> <span class="sd">    This function load a pandas datframe from config dict passed as input. This config dict comes from a pipeline configuration </span></tt>
+            </div>
+            <div id="l36"
+               class="code sev- "><tt><i>36</i> <span class="sd">    Args:</span></tt>
+            </div>
+            <div id="l37"
+               class="code sev- "><tt><i>37</i> <span class="sd">        input_path : dict - Input path to scan to import dataframe</span></tt>
+            </div>
+            <div id="l38"
+               class="code sev- "><tt><i>38</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l39"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>39</i>     </tt>
+            </div>
+            <div id="l40"
+               class="code sev- "><tt><i>40</i>     <span class="c1"># Scan extension and seprator option for csv file</span></tt>
+            </div>
+            <div id="l41"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>41</i>     <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;&quot;</span></tt>
+            </div>
+            <div id="l42"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>42</i>     <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span></tt>
+            </div>
+            <div id="l43"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>43</i>     <span class="n">dataset_path</span><span class="o">=</span> <span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l44"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>44</i>    </tt>
+            </div>
+            <div id="l45"
+               class="code sev- "><tt><i>45</i>     <span class="k">if</span> <span class="s2">&quot;extension&quot;</span> <span class="ow">in</span> <span class="n">config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></tt>
+            </div>
+            <div id="l46"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>46</i>         <span class="n">extension</span><span class="o">=</span><span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;extension&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l47"
+               class="code sev- "><tt><i>47</i>     <span class="k">if</span> <span class="s2">&quot;separator&quot;</span> <span class="ow">in</span> <span class="n">config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></tt>
+            </div>
+            <div id="l48"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>48</i>         <span class="n">separator</span><span class="o">=</span><span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;separator&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l49"
+               class="code sev- "><tt><i>49</i> &nbsp;</tt>
+            </div>
+            <div id="l50"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>50</i>     <span class="n">df</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></tt>
+            </div>
+            <div id="l51"
+               class="code sev- "><tt><i>51</i> &nbsp;</tt>
+            </div>
+            <div id="l52"
+               class="code sev- "><tt><i>52</i>     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span></tt>
+            </div>
+            <div id="l53"
+               class="code sev- "><tt><i>53</i>         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;the dataset&quot;</span><span class="p">,</span> <span class="n">dataset_path</span><span class="p">,</span> <span class="s2">&quot; does not exists&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l54"
+               class="code sev- "><tt><i>54</i> &nbsp;</tt>
+            </div>
+            <div id="l55"
+               class="code sev- "><tt><i>55</i>     <span class="c1"># In case of a directory , iterate on file and concatenate raw data</span></tt>
+            </div>
+            <div id="l56"
+               class="code sev- "><tt><i>56</i>     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">):</span></tt>
+            </div>
+            <div id="l57"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>57</i>          </tt>
+            </div>
+            <div id="l58"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>58</i>         <span class="n">search_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span></tt>
+            </div>
+            <div id="l59"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E226
+                     </span>
+                     Missing whitespace around arithmetic operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E261
+                     </span>
+                     At least two spaces before inline comment</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (145 > 120 characters)</li>
+               
+               </ul><tt><i>59</i>         <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">search_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.&quot;</span><span class="o">+</span><span class="n">extension</span><span class="p">))]</span> <span class="c1"># Search all files in folder and subfolder with sepcified extension</span></tt>
+            </div>
+            <div id="l60"
+               class="code sev- "><tt><i>60</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list des fichiers a concatener :&quot;</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span></tt>
+            </div>
+            <div id="l61"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>61</i>         </tt>
+            </div>
+            <div id="l62"
+               class="code sev- "><tt><i>62</i>         <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span></tt>
+            </div>
+            <div id="l63"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ','</li>
+               
+               </ul><tt><i>63</i>             <span class="n">tmp_df</span><span class="o">=</span><span class="n">load_raw_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="n">separator</span><span class="p">)</span></tt>
+            </div>
+            <div id="l64"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ','</li>
+               
+               </ul><tt><i>64</i>             <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span><span class="n">tmp_df</span><span class="p">])</span></tt>
+            </div>
+            <div id="l65"
+               class="code sev- "><tt><i>65</i> &nbsp;</tt>
+            </div>
+            <div id="l66"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E261
+                     </span>
+                     At least two spaces before inline comment</li>
+               
+               </ul><tt><i>66</i>     <span class="k">else</span><span class="p">:</span> <span class="c1"># otherwise direct load file content as dataframe</span></tt>
+            </div>
+            <div id="l67"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ','</li>
+               
+               </ul><tt><i>67</i>         <span class="n">df</span><span class="o">=</span> <span class="n">load_raw_data</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span><span class="n">separator</span><span class="p">)</span></tt>
+            </div>
+            <div id="l68"
+               class="code sev- "><tt><i>68</i> &nbsp;</tt>
+            </div>
+            <div id="l69"
+               class="code sev- "><tt><i>69</i>     <span class="k">return</span> <span class="n">df</span></tt>
+            </div>
+            <div id="l70"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>70</i>    </tt>
+            </div>
+            <div id="l71"
+               class="code sev- "><tt><i>71</i> &nbsp;</tt>
+            </div>
+            <div id="l72"
+               class="code sev- "><tt><i>72</i> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span></tt>
+            </div>
+            <div id="l73"
+               class="code sev- "><tt><i>73</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l74"
+               class="code sev- "><tt><i>74</i> <span class="sd">    Main script of DQM component:</span></tt>
+            </div>
+            <div id="l75"
+               class="code sev- "><tt><i>75</i> &nbsp;</tt>
+            </div>
+            <div id="l76"
+               class="code sev- "><tt><i>76</i> <span class="sd">    Args:</span></tt>
+            </div>
+            <div id="l77"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (133 > 120 characters)</li>
+               
+               </ul><tt><i>77</i> <span class="sd">        pipeline_config_path : str - Path to the pipeline definition where you specify each metric you want to compute and its params</span></tt>
+            </div>
+            <div id="l78"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>78</i> <span class="sd">        result_file_path : str - Path the output YAML file where all computed metrics scores are stored </span></tt>
+            </div>
+            <div id="l79"
+               class="code sev- "><tt><i>79</i> <span class="sd">    &quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l80"
+               class="code sev- "><tt><i>80</i> &nbsp;</tt>
+            </div>
+            <div id="l81"
+               class="code sev- "><tt><i>81</i>     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Main script of DQM&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l82"
+               class="code sev- "><tt><i>82</i> &nbsp;</tt>
+            </div>
+            <div id="l83"
+               class="code sev- "><tt><i>83</i>     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span></tt>
+            </div>
+            <div id="l84"
+               class="code sev- "><tt><i>84</i>         <span class="s2">&quot;--pipeline_config_path&quot;</span><span class="p">,</span></tt>
+            </div>
+            <div id="l85"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E122
+                     </span>
+                     Continuation line missing indentation or outdented</li>
+               
+               </ul><tt><i>85</i>     <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+            </div>
+            <div id="l86"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E122
+                     </span>
+                     Continuation line missing indentation or outdented</li>
+               
+               </ul><tt><i>86</i>     <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span></tt>
+            </div>
+            <div id="l87"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E122
+                     </span>
+                     Continuation line missing indentation or outdented</li>
+               
+               </ul><tt><i>87</i>     <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the pipeline definition where you specify each metric you want to compute and its params&quot;</span></tt>
+            </div>
+            <div id="l88"
+               class="code sev- "><tt><i>88</i>     <span class="p">)</span></tt>
+            </div>
+            <div id="l89"
+               class="code sev- "><tt><i>89</i> &nbsp;</tt>
+            </div>
+            <div id="l90"
+               class="code sev- "><tt><i>90</i>     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span></tt>
+            </div>
+            <div id="l91"
+               class="code sev- "><tt><i>91</i>         <span class="s2">&quot;--result_file_path&quot;</span><span class="p">,</span></tt>
+            </div>
+            <div id="l92"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E122
+                     </span>
+                     Continuation line missing indentation or outdented</li>
+               
+               </ul><tt><i>92</i>     <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+            </div>
+            <div id="l93"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E122
+                     </span>
+                     Continuation line missing indentation or outdented</li>
+               
+               </ul><tt><i>93</i>     <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span></tt>
+            </div>
+            <div id="l94"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E122
+                     </span>
+                     Continuation line missing indentation or outdented</li>
+               
+               </ul><tt><i>94</i>     <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path the output YAML file where all computed metrics scores are stored&quot;</span></tt>
+            </div>
+            <div id="l95"
+               class="code sev- "><tt><i>95</i>     <span class="p">)</span></tt>
+            </div>
+            <div id="l96"
+               class="code sev- "><tt><i>96</i> &nbsp;</tt>
+            </div>
+            <div id="l97"
+               class="code sev- "><tt><i>97</i>     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span></tt>
+            </div>
+            <div id="l98"
+               class="code sev- "><tt><i>98</i>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;args&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span></tt>
+            </div>
+            <div id="l99"
+               class="code sev- "><tt><i>99</i> &nbsp;</tt>
+            </div>
+            <div id="l100"
+               class="code sev- "><tt><i>100</i>     <span class="c1"># Read the pipeline configuration file</span></tt>
+            </div>
+            <div id="l101"
+               class="code sev- "><tt><i>101</i> &nbsp;</tt>
+            </div>
+            <div id="l102"
+               class="code sev- "><tt><i>102</i>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pipeline_config_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span></tt>
+            </div>
+            <div id="l103"
+               class="code sev- "><tt><i>103</i>         <span class="n">pipeline_config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span></tt>
+            </div>
+            <div id="l104"
+               class="code sev- "><tt><i>104</i> &nbsp;</tt>
+            </div>
+            <div id="l105"
+               class="code sev- "><tt><i>105</i>     <span class="c1"># Crate output diretory if it does not exist</span></tt>
+            </div>
+            <div id="l106"
+               class="code sev- "><tt><i>106</i>     <span class="c1"># print(&quot;creation directory &quot;, args.result_file_path.split(os.sep)[:-1])</span></tt>
+            </div>
+            <div id="l107"
+               class="code sev- "><tt><i>107</i>     <span class="n">Path</span><span class="p">((</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">result_file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l108"
+               class="code sev- "><tt><i>108</i> &nbsp;</tt>
+            </div>
+            <div id="l109"
+               class="code sev- "><tt><i>109</i>     <span class="c1"># Init output results dict, we keep parameters from config , we will just complete this config with scores fields</span></tt>
+            </div>
+            <div id="l110"
+               class="code sev- "><tt><i>110</i> &nbsp;</tt>
+            </div>
+            <div id="l111"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>111</i>     <span class="n">res_dict</span><span class="o">=</span><span class="n">pipeline_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></tt>
+            </div>
+            <div id="l112"
+               class="code sev- "><tt><i>112</i>     <span class="c1"># Loop on metrics to compute</span></tt>
+            </div>
+            <div id="l113"
+               class="code sev- "><tt><i>113</i> &nbsp;</tt>
+            </div>
+            <div id="l114"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ','</li>
+               
+               </ul><tt><i>114</i>     <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">pipeline_config</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">])):</span></tt>
+            </div>
+            <div id="l115"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>115</i>         </tt>
+            </div>
+            <div id="l116"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>116</i>         <span class="n">item</span><span class="o">=</span><span class="n">pipeline_config</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span></tt>
+            </div>
+            <div id="l117"
+               class="code sev- "><tt><i>117</i>         <span class="c1"># print(&quot;item_en_cours :&quot;, item)</span></tt>
+            </div>
+            <div id="l118"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>118</i>         </tt>
+            </div>
+            <div id="l119"
+               class="code sev- "><tt><i>119</i>         <span class="c1"># For metrics working on tabular</span></tt>
+            </div>
+            <div id="l120"
+               class="code sev- "><tt><i>120</i>         <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;domain_gap&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l121"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>121</i>             </tt>
+            </div>
+            <div id="l122"
+               class="code sev- "><tt><i>122</i>             <span class="c1"># Load dataframe for specified domain</span></tt>
+            </div>
+            <div id="l123"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ','</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E202
+                     </span>
+                     Whitespace before ')'</li>
+               
+               </ul><tt><i>123</i>             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;procesing dataset :&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">],</span> <span class="s2">&quot;for domain : &quot;</span><span class="p">,</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]</span> <span class="p">)</span></tt>
+            </div>
+            <div id="l124"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>124</i>             <span class="n">main_df</span><span class="o">=</span><span class="n">load_dataframe</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></tt>
+            </div>
+            <div id="l125"
+               class="code sev- "><tt><i>125</i> &nbsp;</tt>
+            </div>
+            <div id="l126"
+               class="code sev- "><tt><i>126</i>             <span class="c1"># init col variable</span></tt>
+            </div>
+            <div id="l127"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E261
+                     </span>
+                     At least two spaces before inline comment</li>
+               
+               </ul><tt><i>127</i>             <span class="n">working_columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">main_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="c1"># By default</span></tt>
+            </div>
+            <div id="l128"
+               class="code sev- "><tt><i>128</i> &nbsp;</tt>
+            </div>
+            <div id="l129"
+               class="code sev- "><tt><i>129</i>             <span class="c1"># Prepare score field that will be added to result dict</span></tt>
+            </div>
+            <div id="l130"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>130</i>             <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+            </div>
+            <div id="l131"
+               class="code sev- "><tt><i>131</i> &nbsp;</tt>
+            </div>
+            <div id="l132"
+               class="code sev- "><tt><i>132</i>             <span class="c1"># Work only of specified column in keyword exists</span></tt>
+            </div>
+            <div id="l133"
+               class="code sev- "><tt><i>133</i>             <span class="k">if</span> <span class="s2">&quot;columns_names&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span></tt>
+            </div>
+            <div id="l134"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>134</i>                 <span class="n">working_columns</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;columns_names&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l135"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>135</i>             </tt>
+            </div>
+            <div id="l136"
+               class="code sev- "><tt><i>136</i>             <span class="k">match</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l137"
+               class="code sev- "><tt><i>137</i> &nbsp;</tt>
+            </div>
+            <div id="l138"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>138</i>                 <span class="k">case</span> <span class="s2">&quot;completeness&quot;</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l139"
+               class="code sev- "><tt><i>139</i> &nbsp;</tt>
+            </div>
+            <div id="l140"
+               class="code sev- "><tt><i>140</i>                     <span class="c1"># Compute completness scores</span></tt>
+            </div>
+            <div id="l141"
+               class="code sev- "><tt><i>141</i>                     <span class="n">completeness_evaluator</span> <span class="o">=</span> <span class="n">DataCompleteness</span><span class="p">()</span></tt>
+            </div>
+            <div id="l142"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (136 > 120 characters)</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>142</i>                     <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="s2">&quot;overall_score&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">completeness_tabular</span><span class="p">(</span><span class="n">main_df</span><span class="p">)</span> </tt>
+            </div>
+            <div id="l143"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>143</i>                     </tt>
+            </div>
+            <div id="l144"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>144</i>                     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l145"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (129 > 120 characters)</li>
+               
+               </ul><tt><i>145</i>                         <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span></tt>
+            </div>
+            <div id="l146"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>146</i>                     </tt>
+            </div>
+            <div id="l147"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>147</i>                 <span class="k">case</span> <span class="s2">&quot;diversity&quot;</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l148"
+               class="code sev- "><tt><i>148</i> &nbsp;</tt>
+            </div>
+            <div id="l149"
+               class="code sev- "><tt><i>149</i>                     <span class="c1"># Compute diversity scores</span></tt>
+            </div>
+            <div id="l150"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>150</i>                     <span class="n">metric_calculator</span><span class="o">=</span> <span class="n">DiversityIndexCalculator</span><span class="p">()</span></tt>
+            </div>
+            <div id="l151"
+               class="code sev- "><tt><i>151</i> &nbsp;</tt>
+            </div>
+            <div id="l152"
+               class="code sev- "><tt><i>152</i>                     <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l153"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>153</i>                         <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+            </div>
+            <div id="l154"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>154</i>                         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l155"
+               class="code sev- "><tt><i>155</i>                             <span class="k">match</span> <span class="n">metric</span><span class="p">:</span></tt>
+            </div>
+            <div id="l156"
+               class="code sev- "><tt><i>156</i>                                 <span class="k">case</span> <span class="s2">&quot;simpson&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l157"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>157</i>                                     <span class="n">computed_score</span><span class="o">=</span><span class="n">metric_calculator</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span></tt>
+            </div>
+            <div id="l158"
+               class="code sev- "><tt><i>158</i>                                 <span class="k">case</span> <span class="s2">&quot;gini&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l159"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>159</i>                                     <span class="n">computed_score</span><span class="o">=</span><span class="n">metric_calculator</span><span class="o">.</span><span class="n">gini</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span></tt>
+            </div>
+            <div id="l160"
+               class="code sev- "><tt><i>160</i>                                 <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span></tt>
+            </div>
+            <div id="l161"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E111
+                     </span>
+                     Indentation is not a multiple of 4</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>161</i>                                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The given metric&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;is not implemented&quot;</span><span class="p">)</span> </tt>
+            </div>
+            <div id="l162"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>162</i>             </tt>
+            </div>
+            <div id="l163"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>163</i>                             <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span><span class="n">computed_score</span>     </tt>
+            </div>
+            <div id="l164"
+               class="code sev- "><tt><i>164</i> &nbsp;</tt>
+            </div>
+            <div id="l165"
+               class="code sev- "><tt><i>165</i> &nbsp;</tt>
+            </div>
+            <div id="l166"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E303
+                     </span>
+                     Too many blank lines (2)</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>166</i>                 <span class="k">case</span> <span class="s2">&quot;representativeness&quot;</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l167"
+               class="code sev- "><tt><i>167</i> &nbsp;</tt>
+            </div>
+            <div id="l168"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E265
+                     </span>
+                     Block comment should start with '# '</li>
+               
+               </ul><tt><i>168</i>                     <span class="c1">#Prepare output fields in result dict</span></tt>
+            </div>
+            <div id="l169"
+               class="code sev- "><tt><i>169</i>                     <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l170"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>170</i>                         <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+            </div>
+            <div id="l171"
+               class="code sev- "><tt><i>171</i> &nbsp;</tt>
+            </div>
+            <div id="l172"
+               class="code sev- "><tt><i>172</i>                     <span class="c1"># init analyzer</span></tt>
+            </div>
+            <div id="l173"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>173</i>                     <span class="n">bins</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;bins&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l174"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>174</i>                     <span class="n">distribution</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;distribution&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l175"
+               class="code sev- "><tt><i>175</i> &nbsp;</tt>
+            </div>
+            <div id="l176"
+               class="code sev- "><tt><i>176</i>                     <span class="c1"># Compute representativeness</span></tt>
+            </div>
+            <div id="l177"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>177</i>                     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l178"
+               class="code sev- "><tt><i>178</i> &nbsp;</tt>
+            </div>
+            <div id="l179"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>179</i>                         <span class="n">var</span><span class="o">=</span> <span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span></tt>
+            </div>
+            <div id="l180"
+               class="code sev- "><tt><i>180</i>                         <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">var</span><span class="p">)</span></tt>
+            </div>
+            <div id="l181"
+               class="code sev- "><tt><i>181</i>                         <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">var</span><span class="p">)</span></tt>
+            </div>
+            <div id="l182"
+               class="code sev- "><tt><i>182</i>                         <span class="n">analyzer</span> <span class="o">=</span> <span class="n">DistributionAnalyzer</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">distribution</span><span class="p">)</span></tt>
+            </div>
+            <div id="l183"
+               class="code sev- "><tt><i>183</i> &nbsp;</tt>
+            </div>
+            <div id="l184"
+               class="code sev- "><tt><i>184</i>                         <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l185"
+               class="code sev- "><tt><i>185</i>                             <span class="k">match</span> <span class="n">metric</span><span class="p">:</span></tt>
+            </div>
+            <div id="l186"
+               class="code sev- "><tt><i>186</i>                                 <span class="k">case</span> <span class="s2">&quot;chi-square&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l187"
+               class="code sev- "><tt><i>187</i>                                     <span class="n">pvalue</span><span class="p">,</span> <span class="n">intervals_frequencies</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">chisquare_test</span><span class="p">()</span></tt>
+            </div>
+            <div id="l188"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>188</i>                                     <span class="n">computed_score</span><span class="o">=</span><span class="n">pvalue</span></tt>
+            </div>
+            <div id="l189"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>189</i>                                      </tt>
+            </div>
+            <div id="l190"
+               class="code sev- "><tt><i>190</i>                                 <span class="k">case</span> <span class="s2">&quot;kolmogorov-smirnov&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l191"
+               class="code sev- "><tt><i>191</i>                                     <span class="n">computed_score</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">kolmogorov</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span></tt>
+            </div>
+            <div id="l192"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>192</i>                     </tt>
+            </div>
+            <div id="l193"
+               class="code sev- "><tt><i>193</i>                                 <span class="k">case</span> <span class="s2">&quot;shannon-entropy&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l194"
+               class="code sev- "><tt><i>194</i>                                     <span class="n">computed_score</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">shannon_entropy</span><span class="p">()</span></tt>
+            </div>
+            <div id="l195"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>195</i>                     </tt>
+            </div>
+            <div id="l196"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>196</i>                                 <span class="k">case</span> <span class="s2">&quot;GRTE&quot;</span><span class="p">:</span>    </tt>
+            </div>
+            <div id="l197"
+               class="code sev- "><tt><i>197</i>                                     <span class="n">grte_result</span><span class="p">,</span> <span class="n">intervals_discretized</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">grte</span><span class="p">()</span></tt>
+            </div>
+            <div id="l198"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>198</i>                                     <span class="n">computed_score</span><span class="o">=</span><span class="n">grte_result</span></tt>
+            </div>
+            <div id="l199"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>199</i>                     </tt>
+            </div>
+            <div id="l200"
+               class="code sev- "><tt><i>200</i>                                 <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span></tt>
+            </div>
+            <div id="l201"
+               class="code sev- "><tt><i>201</i>                                     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The given metric&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;is not implemented&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l202"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>202</i>                             </tt>
+            </div>
+            <div id="l203"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>203</i>                             <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span><span class="n">computed_score</span>    </tt>
+            </div>
+            <div id="l204"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>204</i>                                         </tt>
+            </div>
+            <div id="l205"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>205</i>         <span class="c1"># Specificely for domain gap metrics . . </span></tt>
+            </div>
+            <div id="l206"
+               class="code sev- "><tt><i>206</i>         <span class="k">else</span><span class="p">:</span></tt>
+            </div>
+            <div id="l207"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E114
+                     </span>
+                     Indentation is not a multiple of 4 (comment)</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E117
+                     </span>
+                     Over-indented (comment)</li>
+               
+               </ul><tt><i>207</i>              <span class="c1"># Init score output file</span></tt>
+            </div>
+            <div id="l208"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E111
+                     </span>
+                     Indentation is not a multiple of 4</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E117
+                     </span>
+                     Over-indented</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>208</i>              <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+            </div>
+            <div id="l209"
+               class="code sev- "><tt><i>209</i> &nbsp;</tt>
+            </div>
+            <div id="l210"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>210</i>             <span class="c1"># iterate of metrics </span></tt>
+            </div>
+            <div id="l211"
+               class="code sev- "><tt><i>211</i> &nbsp;</tt>
+            </div>
+            <div id="l212"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E111
+                     </span>
+                     Indentation is not a multiple of 4</li>
+               
+               </ul><tt><i>212</i>              <span class="k">for</span> <span class="n">metric_dict</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l213"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>213</i>                 </tt>
+            </div>
+            <div id="l214"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>214</i>                 <span class="n">config_method</span><span class="o">=</span><span class="n">metric_dict</span><span class="p">[</span><span class="s2">&quot;method_config&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l215"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>215</i>                 <span class="n">metric</span><span class="o">=</span><span class="n">metric_dict</span><span class="p">[</span><span class="s2">&quot;metric_name&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l216"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ',' (in 2 places)</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (151 > 120 characters)</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        E202
+                     </span>
+                     Whitespace before ')'</li>
+               
+               </ul><tt><i>216</i>                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;procesing domain gap for metric : &quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;for datasets : &quot;</span><span class="p">,</span><span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">],</span><span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="p">)</span></tt>
+            </div>
+            <div id="l217"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>217</i>                 <span class="k">match</span> <span class="n">metric</span> <span class="p">:</span> </tt>
+            </div>
+            <div id="l218"
+               class="code sev- "><tt><i>218</i> &nbsp;</tt>
+            </div>
+            <div id="l219"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>219</i>                     <span class="k">case</span> <span class="s2">&quot;wasserstein&quot;</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l220"
+               class="code sev- "><tt><i>220</i>                         <span class="n">wass</span> <span class="o">=</span> <span class="n">Wasserstein</span><span class="p">()</span></tt>
+            </div>
+            <div id="l221"
+               class="code sev- "><tt><i>221</i>                         <span class="n">computed_score</span> <span class="o">=</span> <span class="n">wass</span><span class="o">.</span><span class="n">compute_1D_distance</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span></tt>
+            </div>
+            <div id="l222"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>222</i>             </tt>
+            </div>
+            <div id="l223"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>223</i>                     <span class="k">case</span> <span class="s2">&quot;FID&quot;</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l224"
+               class="code sev- "><tt><i>224</i>                         <span class="n">fid</span> <span class="o">=</span> <span class="n">FID</span><span class="p">()</span></tt>
+            </div>
+            <div id="l225"
+               class="code sev- "><tt><i>225</i>                         <span class="n">computed_score</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">compute_image_distance</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span></tt>
+            </div>
+            <div id="l226"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>226</i>             </tt>
+            </div>
+            <div id="l227"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E203
+                     </span>
+                     Whitespace before ':'</li>
+               
+               </ul><tt><i>227</i>                     <span class="k">case</span> <span class="s2">&quot;KLMVN&quot;</span> <span class="p">:</span></tt>
+            </div>
+            <div id="l228"
+               class="code sev- "><tt><i>228</i>                         <span class="n">klmvn</span> <span class="o">=</span> <span class="n">KLMVN</span><span class="p">()</span></tt>
+            </div>
+            <div id="l229"
+               class="code sev- "><tt><i>229</i>                         <span class="n">computed_score</span> <span class="o">=</span> <span class="n">klmvn</span><span class="o">.</span><span class="n">compute_image_distance</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span></tt>
+            </div>
+            <div id="l230"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>230</i>             </tt>
+            </div>
+            <div id="l231"
+               class="code sev- "><tt><i>231</i>                     <span class="k">case</span> <span class="s2">&quot;PAD&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l232"
+               class="code sev- "><tt><i>232</i>                         <span class="n">pad</span> <span class="o">=</span> <span class="n">ProxyADistance</span><span class="p">()</span></tt>
+            </div>
+            <div id="l233"
+               class="code sev- "><tt><i>233</i>                         <span class="n">computed_score</span> <span class="o">=</span> <span class="n">pad</span><span class="o">.</span><span class="n">compute_image_distance</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span></tt>
+            </div>
+            <div id="l234"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>234</i>             </tt>
+            </div>
+            <div id="l235"
+               class="code sev- "><tt><i>235</i>                     <span class="k">case</span> <span class="s2">&quot;MMD&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l236"
+               class="code sev- "><tt><i>236</i>                         <span class="n">mmd</span> <span class="o">=</span> <span class="n">MMD</span><span class="p">()</span></tt>
+            </div>
+            <div id="l237"
+               class="code sev- "><tt><i>237</i>                         <span class="n">computed_score</span> <span class="o">=</span> <span class="n">mmd</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span></tt>
+            </div>
+            <div id="l238"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>238</i>             </tt>
+            </div>
+            <div id="l239"
+               class="code sev- "><tt><i>239</i>                     <span class="k">case</span><span class="s2">&quot;CMD&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l240"
+               class="code sev- "><tt><i>240</i>                         <span class="n">cmd</span> <span class="o">=</span> <span class="n">CMD</span><span class="p">()</span></tt>
+            </div>
+            <div id="l241"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>241</i>                         <span class="n">computed_score</span><span class="o">=</span><span class="n">cmd</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span></tt>
+            </div>
+            <div id="l242"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>242</i>             </tt>
+            </div>
+            <div id="l243"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W291
+                     </span>
+                     Trailing whitespace</li>
+               
+               </ul><tt><i>243</i>                     <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>  </tt>
+            </div>
+            <div id="l244"
+               class="code sev- "><tt><i>244</i>                         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The given metric&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;is not implemented&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l245"
+               class="code sev- "><tt><i>245</i> &nbsp;</tt>
+            </div>
+            <div id="l246"
+               class="code sev- "><tt><i>246</i>                 <span class="c1"># Add computed metric to results</span></tt>
+            </div>
+            <div id="l247"
+               class="code sev- "><tt><i>247</i> &nbsp;</tt>
+            </div>
+            <div id="l248"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E225
+                     </span>
+                     Missing whitespace around operator</li>
+               
+               </ul><tt><i>248</i>                 <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">computed_score</span><span class="p">)</span></tt>
+            </div>
+            <div id="l249"
+               class="code sev- "><tt><i>249</i> &nbsp;</tt>
+            </div>
+            <div id="l250"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W293
+                     </span>
+                     Blank line contains whitespace</li>
+               
+               </ul><tt><i>250</i>                     </tt>
+            </div>
+            <div id="l251"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E303
+                     </span>
+                     Too many blank lines (2)</li>
+               
+               </ul><tt><i>251</i>     <span class="c1"># Export final results to yaml file</span></tt>
+            </div>
+            <div id="l252"
+               class="code sev- "><tt><i>252</i>     <span class="c1"># print(&quot;final results&quot;)</span></tt>
+            </div>
+            <div id="l253"
+               class="code sev- "><tt><i>253</i>     <span class="c1"># print(res_dict)</span></tt>
+            </div>
+            <div id="l254"
+               class="code sev- "><tt><i>254</i>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">result_file_path</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span></tt>
+            </div>
+            <div id="l255"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E231
+                     </span>
+                     Missing whitespace after ',' (in 2 places)</li>
+               
+               </ul><tt><i>255</i>         <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">ff</span><span class="p">,</span><span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></tt>
+            </div>
+            <div id="l256"
+               class="code sev- "><tt><i>256</i> &nbsp;</tt>
+            </div>
+            <div id="l257"
+               class="code sev- "><tt><i>257</i> &nbsp;</tt>
+            </div>
+            <div id="l258"
+               class="code sev- "><tt><i>258</i> &nbsp;</tt>
+            </div>
+            <div id="l259"
+               class="code sev- "><tt><i>259</i> &nbsp;</tt>
+            </div>
+            <div id="l260"
+               class="code sev- "><tt><i>260</i> &nbsp;</tt>
+            </div>
+            <div id="l261"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E303
+                     </span>
+                     Too many blank lines (5)</li>
+               
+               </ul><tt><i>261</i> <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l262"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W292
+                     </span>
+                     No newline at end of file</li>
+               
+               </ul><tt><i>262</i>     <span class="n">main</span><span class="p">()</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

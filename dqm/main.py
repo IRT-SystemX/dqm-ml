@@ -7,21 +7,17 @@ import yaml
 from pathlib import Path
 import os
 import pandas as pd
-import glob
-import collections
 from dqm.completeness.metric import DataCompleteness
-from dqm.diversity.diversity import DiversityCalculator
 from dqm.diversity.metric import DiversityIndexCalculator
 from dqm.representativeness.metric import DistributionAnalyzer
 import numpy as np
 from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, KLMVN
-from dqm.domain_gap.utils import load_config, display_resume
 
 ROOT_PATH = str(Path(__file__).parent.resolve()) + os.sep # To point on test directory
 
 def load_raw_data(file,separator):
     extension=file.split(".")[-1]
-    if not extension in ["csv", "xslx","parquet","pq","txt"]:
+    if extension not in ["csv", "xslx","parquet","pq","txt"]:
         raise Exception ("The file named", file, "has an extension that is not supported :--> .", extension)
 
     match extension:
@@ -30,7 +26,7 @@ def load_raw_data(file,separator):
         case "xslx" |"xls":
             df=pd.read_excel(file)
         case "parquet" | "pq":
-            df= pd_read_parquet(file)
+            df= pd.read_parquet(file)
     
     return df
 
@@ -52,6 +48,9 @@ def load_dataframe(config_dict):
         separator=config_dict["separator"]
 
     df= pd.DataFrame()
+
+    if not os.path.exists():
+        raise Exception("the dataset", dataset_path, " does not exists")
 
     # In case of a directory , iterate on file and concatenate raw data
     if os.path.isdir(dataset_path):

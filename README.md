@@ -5,9 +5,6 @@
 
 <div align="center">
     <a href="#">
-        <img src="https://img.shields.io/badge/Python-3.9-efefef">
-    </a>
-    <a href="#">
         <img src="https://img.shields.io/badge/Python-3.10-efefef">
     </a>
     <a href="#">
@@ -18,9 +15,16 @@
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/License-MPL-2">
-
-[![Code style: Pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev)
-[![Code style: flake8](https://img.shields.io/badge/code%20style-flake8-1c4a6c.svg)](https://flake8.pycqa.org/en/latest/)
+	</a>
+    <a href="_static/pylint/pylint.txt">
+        <img src="_static/pylint/pylint.svg" alt="Pylint Score">
+    </a>
+    <a href="_static/flake8/index.html">
+        <img src="_static/flake8/flake8.svg" alt="Flake8 Report">
+    </a>
+	<a href="_static/coverage/index.html">
+        <img src="_static/coverage/coverage.svg" alt="Coverage report">
+    </a>
 
 </div>
 

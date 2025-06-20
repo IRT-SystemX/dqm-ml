@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: dqm\representativeness\utils.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="dqm.representativeness.utils.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               dqm\representativeness\utils.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="E303">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>E303:</strong> too many blank lines (2)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.utils.source.html#l266">
+                  <tt><i>266</i>     <span class="k">def</span><span class="w"> </span><span class="nf">uniform_discretization</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.utils.source.html#l295">
+                  <tt><i>295</i>     <span class="k">def</span><span class="w"> </span><span class="nf">data_processing_for_chisqure_test</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.utils.source.html#l317">
+                  <tt><i>317</i>     <span class="k">def</span><span class="w"> </span><span class="nf">discretisation_intervals</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E128">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E128:</strong> continuation line under-indented for visual indent
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.utils.source.html#l375">
+                  <tt><i>375</i>                     <span class="ow">in</span> <span class="n">observed_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.utils.source.html#l379">
+                  <tt><i>379</i>                     <span class="ow">in</span> <span class="n">expected_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E502">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E502:</strong> the backslash is redundant between brackets
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.utils.source.html#l374">
+                  <tt><i>374</i>                 <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;upper_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span>\</tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.utils.source.html#l378">
+                  <tt><i>378</i>                 <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;upper_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span>\</tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E302">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E302:</strong> expected 2 blank lines, found 1
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.utils.source.html#l62">
+                  <tt><i>62</i> <span class="k">class</span><span class="w"> </span><span class="nc">DiscretisationParams</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

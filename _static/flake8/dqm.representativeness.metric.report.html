@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: dqm\representativeness\metric.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="dqm.representativeness.metric.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               dqm\representativeness\metric.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="E225">
+               <span class="count sev-2">
+                  6
+               </span>
+               <strong>E225:</strong> missing whitespace around operator
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Missing whitespace around operator:</p>
+               
+               <a href="dqm.representativeness.metric.source.html#l99">
+                  <tt><i>99</i>             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">par_dist</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace around operator (in 2 places):</p>
+               
+               <a href="dqm.representativeness.metric.source.html#l125">
+                  <tt><i>125</i>             <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">intervals_frequencies</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace around operator:</p>
+               
+               <a href="dqm.representativeness.metric.source.html#l135">
+                  <tt><i>135</i>             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">par_dist</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace around operator (in 2 places):</p>
+               
+               <a href="dqm.representativeness.metric.source.html#l161">
+                  <tt><i>161</i>             <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">intervals_frequencies</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E265">
+               <span class="count sev-2">
+                  5
+               </span>
+               <strong>E265:</strong> block comment should start with '# '
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.metric.source.html#l98">
+                  <tt><i>98</i>             <span class="c1">#if len(par_dist)&gt;0:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l118">
+                  <tt><i>118</i>             <span class="c1">#discrete_distrib = variable_analyzer.normal_discretization(bins, mean, std)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l134">
+                  <tt><i>134</i>             <span class="c1">#if len(par_dist)&gt;0:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l154">
+                  <tt><i>154</i>             <span class="c1">#discrete_distrib = variable_analyzer.uniform_discretization(bins, min_value, max_value)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l194">
+                  <tt><i>194</i>         <span class="c1">#if data.dtypes in {&#39;O&#39;, &#39;bool&#39;}:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E303">
+               <span class="count sev-2">
+                  4
+               </span>
+               <strong>E303:</strong> too many blank lines (2)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.metric.source.html#l75">
+                  <tt><i>75</i>     <span class="k">def</span><span class="w"> </span><span class="nf">chisquare_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">par_dist</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l184">
+                  <tt><i>184</i>     <span class="k">def</span><span class="w"> </span><span class="nf">kolmogorov</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">par_dist</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l238">
+                  <tt><i>238</i>     <span class="k">def</span><span class="w"> </span><span class="nf">shannon_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l285">
+                  <tt><i>285</i>     <span class="k">def</span><span class="w"> </span><span class="nf">grte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E128">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>E128:</strong> continuation line under-indented for visual indent
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.metric.source.html#l230">
+                  <tt><i>230</i>                     <span class="s2">&quot;the </span><span class="si">%s</span><span class="s2"> distribution&quot;</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l233">
+                  <tt><i>233</i>                     <span class="s2">&quot;the </span><span class="si">%s</span><span class="s2"> distribution&quot;</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l349">
+                  <tt><i>349</i>             <span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">intervals_discretized</span><span class="p">[</span><span class="s1">&#39;obs_freq&#39;</span><span class="p">])))</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E123">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E123:</strong> closing bracket does not match indentation of opening bracket's line
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.metric.source.html#l261">
+                  <tt><i>261</i>                 <span class="p">}</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l274">
+                  <tt><i>274</i>                 <span class="p">}</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E126">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E126:</strong> continuation line over-indented for hanging indent
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.metric.source.html#l221">
+                  <tt><i>221</i>                     <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.representativeness.metric.source.html#l224">
+                  <tt><i>224</i>                 <span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E251">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E251:</strong> unexpected spaces around keyword / parameter equals
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Unexpected spaces around keyword / parameter equals (in 2 places):</p>
+               
+               <a href="dqm.representativeness.metric.source.html#l219">
+                  <tt><i>219</i>             <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E502">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E502:</strong> the backslash is redundant between brackets
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.metric.source.html#l348">
+                  <tt><i>348</i>         <span class="n">grte_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">intervals_discretized</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">])</span> <span class="o">-</span>\</tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W291">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>W291:</strong> trailing whitespace
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.metric.source.html#l87">
+                  <tt><i>87</i> <span class="sd">            intervals_frequencies (pd.DataFrame): The DataFrame containing </span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W391">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>W391:</strong> blank line at end of file
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.representativeness.metric.source.html#l353">
+                  <tt><i>353</i> &nbsp;</tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

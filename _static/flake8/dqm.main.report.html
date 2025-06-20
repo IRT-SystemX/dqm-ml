@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: dqm\main.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="dqm.main.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               dqm\main.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="E225">
+               <span class="count sev-2">
+                  40
+               </span>
+               <strong>E225:</strong> missing whitespace around operator
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l19">
+                  <tt><i>19</i>     <span class="n">extension</span><span class="o">=</span><span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l25">
+                  <tt><i>25</i>             <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="n">separator</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l26">
+                  <tt><i>26</i>         <span class="k">case</span> <span class="s2">&quot;xslx&quot;</span> <span class="o">|</span><span class="s2">&quot;xls&quot;</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l27">
+                  <tt><i>27</i>             <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l29">
+                  <tt><i>29</i>             <span class="n">df</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">file</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l41">
+                  <tt><i>41</i>     <span class="n">extension</span><span class="o">=</span><span class="s2">&quot;&quot;</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l42">
+                  <tt><i>42</i>     <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l43">
+                  <tt><i>43</i>     <span class="n">dataset_path</span><span class="o">=</span> <span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l46">
+                  <tt><i>46</i>         <span class="n">extension</span><span class="o">=</span><span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;extension&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l48">
+                  <tt><i>48</i>         <span class="n">separator</span><span class="o">=</span><span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;separator&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l50">
+                  <tt><i>50</i>     <span class="n">df</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l58">
+                  <tt><i>58</i>         <span class="n">search_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l63">
+                  <tt><i>63</i>             <span class="n">tmp_df</span><span class="o">=</span><span class="n">load_raw_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="n">separator</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l64">
+                  <tt><i>64</i>             <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span><span class="n">tmp_df</span><span class="p">])</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l67">
+                  <tt><i>67</i>         <span class="n">df</span><span class="o">=</span> <span class="n">load_raw_data</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span><span class="n">separator</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l111">
+                  <tt><i>111</i>     <span class="n">res_dict</span><span class="o">=</span><span class="n">pipeline_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l116">
+                  <tt><i>116</i>         <span class="n">item</span><span class="o">=</span><span class="n">pipeline_config</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l124">
+                  <tt><i>124</i>             <span class="n">main_df</span><span class="o">=</span><span class="n">load_dataframe</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l127">
+                  <tt><i>127</i>             <span class="n">working_columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">main_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="c1"># By default</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l130">
+                  <tt><i>130</i>             <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l134">
+                  <tt><i>134</i>                 <span class="n">working_columns</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;columns_names&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l142">
+                  <tt><i>142</i>                     <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="s2">&quot;overall_score&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">completeness_tabular</span><span class="p">(</span><span class="n">main_df</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l145">
+                  <tt><i>145</i>                         <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l150">
+                  <tt><i>150</i>                     <span class="n">metric_calculator</span><span class="o">=</span> <span class="n">DiversityIndexCalculator</span><span class="p">()</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l153">
+                  <tt><i>153</i>                         <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l157">
+                  <tt><i>157</i>                                     <span class="n">computed_score</span><span class="o">=</span><span class="n">metric_calculator</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l159">
+                  <tt><i>159</i>                                     <span class="n">computed_score</span><span class="o">=</span><span class="n">metric_calculator</span><span class="o">.</span><span class="n">gini</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l163">
+                  <tt><i>163</i>                             <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span><span class="n">computed_score</span>     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l170">
+                  <tt><i>170</i>                         <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l173">
+                  <tt><i>173</i>                     <span class="n">bins</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;bins&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l174">
+                  <tt><i>174</i>                     <span class="n">distribution</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;distribution&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l179">
+                  <tt><i>179</i>                         <span class="n">var</span><span class="o">=</span> <span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l188">
+                  <tt><i>188</i>                                     <span class="n">computed_score</span><span class="o">=</span><span class="n">pvalue</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l198">
+                  <tt><i>198</i>                                     <span class="n">computed_score</span><span class="o">=</span><span class="n">grte_result</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l203">
+                  <tt><i>203</i>                             <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span><span class="n">computed_score</span>    </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l208">
+                  <tt><i>208</i>              <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l214">
+                  <tt><i>214</i>                 <span class="n">config_method</span><span class="o">=</span><span class="n">metric_dict</span><span class="p">[</span><span class="s2">&quot;method_config&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l215">
+                  <tt><i>215</i>                 <span class="n">metric</span><span class="o">=</span><span class="n">metric_dict</span><span class="p">[</span><span class="s2">&quot;metric_name&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l241">
+                  <tt><i>241</i>                         <span class="n">computed_score</span><span class="o">=</span><span class="n">cmd</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l248">
+                  <tt><i>248</i>                 <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">computed_score</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W293">
+               <span class="count sev-2">
+                  27
+               </span>
+               <strong>W293:</strong> blank line contains whitespace
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l30">
+                  <tt><i>30</i>     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l39">
+                  <tt><i>39</i>     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l44">
+                  <tt><i>44</i>    </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l57">
+                  <tt><i>57</i>          </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l61">
+                  <tt><i>61</i>         </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l70">
+                  <tt><i>70</i>    </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l115">
+                  <tt><i>115</i>         </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l118">
+                  <tt><i>118</i>         </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l121">
+                  <tt><i>121</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l135">
+                  <tt><i>135</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l143">
+                  <tt><i>143</i>                     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l146">
+                  <tt><i>146</i>                     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l162">
+                  <tt><i>162</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l189">
+                  <tt><i>189</i>                                      </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l192">
+                  <tt><i>192</i>                     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l195">
+                  <tt><i>195</i>                     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l199">
+                  <tt><i>199</i>                     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l202">
+                  <tt><i>202</i>                             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l204">
+                  <tt><i>204</i>                                         </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l213">
+                  <tt><i>213</i>                 </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l222">
+                  <tt><i>222</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l226">
+                  <tt><i>226</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l230">
+                  <tt><i>230</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l234">
+                  <tt><i>234</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l238">
+                  <tt><i>238</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l242">
+                  <tt><i>242</i>             </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l250">
+                  <tt><i>250</i>                     </tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E231">
+               <span class="count sev-2">
+                  14
+               </span>
+               <strong>E231:</strong> missing whitespace after ','
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Missing whitespace after ',':</p>
+               
+               <a href="dqm.main.source.html#l18">
+                  <tt><i>18</i> <span class="k">def</span><span class="w"> </span><span class="nf">load_raw_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">separator</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',' (in 3 places):</p>
+               
+               <a href="dqm.main.source.html#l20">
+                  <tt><i>20</i>     <span class="k">if</span> <span class="n">extension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;xslx&quot;</span><span class="p">,</span><span class="s2">&quot;parquet&quot;</span><span class="p">,</span><span class="s2">&quot;pq&quot;</span><span class="p">,</span><span class="s2">&quot;txt&quot;</span><span class="p">]:</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',':</p>
+               
+               <a href="dqm.main.source.html#l25">
+                  <tt><i>25</i>             <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="n">separator</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',':</p>
+               
+               <a href="dqm.main.source.html#l63">
+                  <tt><i>63</i>             <span class="n">tmp_df</span><span class="o">=</span><span class="n">load_raw_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="n">separator</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',':</p>
+               
+               <a href="dqm.main.source.html#l64">
+                  <tt><i>64</i>             <span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span><span class="n">tmp_df</span><span class="p">])</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',':</p>
+               
+               <a href="dqm.main.source.html#l67">
+                  <tt><i>67</i>         <span class="n">df</span><span class="o">=</span> <span class="n">load_raw_data</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span><span class="n">separator</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',':</p>
+               
+               <a href="dqm.main.source.html#l114">
+                  <tt><i>114</i>     <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">pipeline_config</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">])):</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',':</p>
+               
+               <a href="dqm.main.source.html#l123">
+                  <tt><i>123</i>             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;procesing dataset :&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">],</span> <span class="s2">&quot;for domain : &quot;</span><span class="p">,</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]</span> <span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',' (in 2 places):</p>
+               
+               <a href="dqm.main.source.html#l216">
+                  <tt><i>216</i>                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;procesing domain gap for metric : &quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;for datasets : &quot;</span><span class="p">,</span><span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">],</span><span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Missing whitespace after ',' (in 2 places):</p>
+               
+               <a href="dqm.main.source.html#l255">
+                  <tt><i>255</i>         <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">ff</span><span class="p">,</span><span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W291">
+               <span class="count sev-2">
+                  11
+               </span>
+               <strong>W291:</strong> trailing whitespace
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l35">
+                  <tt><i>35</i> <span class="sd">    This function load a pandas datframe from config dict passed as input. This config dict comes from a pipeline configuration </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l78">
+                  <tt><i>78</i> <span class="sd">        result_file_path : str - Path the output YAML file where all computed metrics scores are stored </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l142">
+                  <tt><i>142</i>                     <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="s2">&quot;overall_score&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">completeness_tabular</span><span class="p">(</span><span class="n">main_df</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l161">
+                  <tt><i>161</i>                                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The given metric&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;is not implemented&quot;</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l163">
+                  <tt><i>163</i>                             <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span><span class="n">computed_score</span>     </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l196">
+                  <tt><i>196</i>                                 <span class="k">case</span> <span class="s2">&quot;GRTE&quot;</span><span class="p">:</span>    </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l203">
+                  <tt><i>203</i>                             <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span><span class="n">computed_score</span>    </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l205">
+                  <tt><i>205</i>         <span class="c1"># Specificely for domain gap metrics . . </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l210">
+                  <tt><i>210</i>             <span class="c1"># iterate of metrics </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l217">
+                  <tt><i>217</i>                 <span class="k">match</span> <span class="n">metric</span> <span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l243">
+                  <tt><i>243</i>                     <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>  </tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E203">
+               <span class="count sev-2">
+                  10
+               </span>
+               <strong>E203:</strong> whitespace before ':'
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l138">
+                  <tt><i>138</i>                 <span class="k">case</span> <span class="s2">&quot;completeness&quot;</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l144">
+                  <tt><i>144</i>                     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l147">
+                  <tt><i>147</i>                 <span class="k">case</span> <span class="s2">&quot;diversity&quot;</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l154">
+                  <tt><i>154</i>                         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l166">
+                  <tt><i>166</i>                 <span class="k">case</span> <span class="s2">&quot;representativeness&quot;</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l177">
+                  <tt><i>177</i>                     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l217">
+                  <tt><i>217</i>                 <span class="k">match</span> <span class="n">metric</span> <span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l219">
+                  <tt><i>219</i>                     <span class="k">case</span> <span class="s2">&quot;wasserstein&quot;</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l223">
+                  <tt><i>223</i>                     <span class="k">case</span> <span class="s2">&quot;FID&quot;</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l227">
+                  <tt><i>227</i>                     <span class="k">case</span> <span class="s2">&quot;KLMVN&quot;</span> <span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E501">
+               <span class="count sev-2">
+                  7
+               </span>
+               <strong>E501:</strong> line too long (128 > 120 characters)
+               
+                  (and 6 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Line too long (128 > 120 characters):</p>
+               
+               <a href="dqm.main.source.html#l3">
+                  <tt><i>3</i> <span class="c1"># test commnad : python main.py --pipeline_config_path &quot;../examples/pipeline_example.yaml&quot; --result_file_path &quot;results/res.yaml&quot;</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (127 > 120 characters):</p>
+               
+               <a href="dqm.main.source.html#l35">
+                  <tt><i>35</i> <span class="sd">    This function load a pandas datframe from config dict passed as input. This config dict comes from a pipeline configuration </span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (145 > 120 characters):</p>
+               
+               <a href="dqm.main.source.html#l59">
+                  <tt><i>59</i>         <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">search_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.&quot;</span><span class="o">+</span><span class="n">extension</span><span class="p">))]</span> <span class="c1"># Search all files in folder and subfolder with sepcified extension</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (133 > 120 characters):</p>
+               
+               <a href="dqm.main.source.html#l77">
+                  <tt><i>77</i> <span class="sd">        pipeline_config_path : str - Path to the pipeline definition where you specify each metric you want to compute and its params</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (136 > 120 characters):</p>
+               
+               <a href="dqm.main.source.html#l142">
+                  <tt><i>142</i>                     <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="s2">&quot;overall_score&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">completeness_tabular</span><span class="p">(</span><span class="n">main_df</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (129 > 120 characters):</p>
+               
+               <a href="dqm.main.source.html#l145">
+                  <tt><i>145</i>                         <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">col</span><span class="p">]</span><span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (151 > 120 characters):</p>
+               
+               <a href="dqm.main.source.html#l216">
+                  <tt><i>216</i>                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;procesing domain gap for metric : &quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;for datasets : &quot;</span><span class="p">,</span><span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">],</span><span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E122">
+               <span class="count sev-2">
+                  6
+               </span>
+               <strong>E122:</strong> continuation line missing indentation or outdented
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l85">
+                  <tt><i>85</i>     <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l86">
+                  <tt><i>86</i>     <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l87">
+                  <tt><i>87</i>     <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the pipeline definition where you specify each metric you want to compute and its params&quot;</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l92">
+                  <tt><i>92</i>     <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l93">
+                  <tt><i>93</i>     <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l94">
+                  <tt><i>94</i>     <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path the output YAML file where all computed metrics scores are stored&quot;</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E261">
+               <span class="count sev-2">
+                  4
+               </span>
+               <strong>E261:</strong> at least two spaces before inline comment
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l16">
+                  <tt><i>16</i> <span class="n">ROOT_PATH</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="c1"># To point on test directory</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l59">
+                  <tt><i>59</i>         <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">search_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.&quot;</span><span class="o">+</span><span class="n">extension</span><span class="p">))]</span> <span class="c1"># Search all files in folder and subfolder with sepcified extension</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l66">
+                  <tt><i>66</i>     <span class="k">else</span><span class="p">:</span> <span class="c1"># otherwise direct load file content as dataframe</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l127">
+                  <tt><i>127</i>             <span class="n">working_columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">main_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="c1"># By default</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E111">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>E111:</strong> indentation is not a multiple of 4
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l161">
+                  <tt><i>161</i>                                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;The given metric&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;is not implemented&quot;</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l208">
+                  <tt><i>208</i>              <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l212">
+                  <tt><i>212</i>              <span class="k">for</span> <span class="n">metric_dict</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E303">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>E303:</strong> too many blank lines (2)
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="dqm.main.source.html#l166">
+                  <tt><i>166</i>                 <span class="k">case</span> <span class="s2">&quot;representativeness&quot;</span> <span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="dqm.main.source.html#l251">
+                  <tt><i>251</i>     <span class="c1"># Export final results to yaml file</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (5):</p>
+               
+               <a href="dqm.main.source.html#l261">
+                  <tt><i>261</i> <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E117">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E117:</strong> over-indented (comment)
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Over-indented (comment):</p>
+               
+               <a href="dqm.main.source.html#l207">
+                  <tt><i>207</i>              <span class="c1"># Init score output file</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Over-indented:</p>
+               
+               <a href="dqm.main.source.html#l208">
+                  <tt><i>208</i>              <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E202">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E202:</strong> whitespace before ')'
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l123">
+                  <tt><i>123</i>             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;procesing dataset :&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">],</span> <span class="s2">&quot;for domain : &quot;</span><span class="p">,</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]</span> <span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l216">
+                  <tt><i>216</i>                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;procesing domain gap for metric : &quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;for datasets : &quot;</span><span class="p">,</span><span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">],</span><span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E302">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E302:</strong> expected 2 blank lines, found 1
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l18">
+                  <tt><i>18</i> <span class="k">def</span><span class="w"> </span><span class="nf">load_raw_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">separator</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="dqm.main.source.html#l33">
+                  <tt><i>33</i> <span class="k">def</span><span class="w"> </span><span class="nf">load_dataframe</span><span class="p">(</span><span class="n">config_dict</span><span class="p">):</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E114">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E114:</strong> indentation is not a multiple of 4 (comment)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l207">
+                  <tt><i>207</i>              <span class="c1"># Init score output file</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E211">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E211:</strong> whitespace before '('
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l21">
+                  <tt><i>21</i>         <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s2">&quot;The file named&quot;</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="s2">&quot;has an extension that is not supported :--&gt; .&quot;</span><span class="p">,</span> <span class="n">extension</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E226">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E226:</strong> missing whitespace around arithmetic operator
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l59">
+                  <tt><i>59</i>         <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">search_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.&quot;</span><span class="o">+</span><span class="n">extension</span><span class="p">))]</span> <span class="c1"># Search all files in folder and subfolder with sepcified extension</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E265">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E265:</strong> block comment should start with '# '
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l168">
+                  <tt><i>168</i>                     <span class="c1">#Prepare output fields in result dict</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W292">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>W292:</strong> no newline at end of file
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="dqm.main.source.html#l262">
+                  <tt><i>262</i>     <span class="n">main</span><span class="p">()</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

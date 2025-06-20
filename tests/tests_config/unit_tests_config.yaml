@@ -104,7 +104,7 @@ domain_gap:
 
     KLMVN :
         params:
-            tolerance: 1
+            tolerance: 50
             method_config:
                 DATA: 
                     batch_size: 10

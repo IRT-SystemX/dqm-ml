@@ -59,6 +59,7 @@ import seaborn as sns
 
 logger = get_logger()
 
+
 class DiscretisationParams:
     """
     Parameters for discretization.
@@ -262,7 +263,6 @@ class VariableAnalysis:
         interval.append(np.inf)
         return interval
 
-
     def uniform_discretization(
         self,
         bins: int,
@@ -291,7 +291,6 @@ class VariableAnalysis:
         interval.append(np.inf)
         return interval
 
-
     def data_processing_for_chisqure_test(
         self,
         data: pd.DataFrame
@@ -312,7 +311,6 @@ class VariableAnalysis:
         if data.dtypes == 'O':
             data = data.value_counts()
         return data
-
 
     def discretisation_intervals(
         self,
@@ -371,12 +369,10 @@ class VariableAnalysis:
             expected_values = sorted(exp)
 
             intervals['obs_freq'] = intervals.apply(
-                lambda x: sum(x['lower_limit'] < i <= x['upper_limit'] for i\
-                    in observed_values), axis=1) / alpha
+                lambda x: sum(x['lower_limit'] < i <= x['upper_limit'] for i in observed_values), axis=1) / alpha
 
             intervals['exp_freq'] = intervals.apply(
-                lambda x: sum(x['lower_limit'] < i <= x['upper_limit'] for i\
-                    in expected_values), axis=1) / alpha
+                lambda x: sum(x['lower_limit'] < i <= x['upper_limit'] for i in expected_values), axis=1) / alpha
 
             return intervals
 

@@ -2710,707 +2710,710 @@
                
                   <li>
                      <span class="count sev-2">
-                        E501
+                        W291
                      </span>
-                     Line too long (126 > 120 characters)</li>
+                     Trailing whitespace</li>
                
-               </ul><tt><i>897</i> <span class="sd">            torch.Tensor: The computed FID score, representing the distance between the source and target image distributions.</span></tt>
+               </ul><tt><i>897</i> <span class="sd">            torch.Tensor: The computed FID score, representing the distance between the source and target image </span></tt>
             </div>
             <div id="l898"
-               class="code sev- "><tt><i>898</i> &nbsp;</tt>
+               class="code sev- "><tt><i>898</i> <span class="sd">            distributions.</span></tt>
             </div>
             <div id="l899"
-               class="code sev- "><tt><i>899</i> <span class="sd">        The method performs the following steps:</span></tt>
+               class="code sev- "><tt><i>899</i> &nbsp;</tt>
             </div>
             <div id="l900"
-               class="code sev- "><tt><i>900</i> <span class="sd">        1. Loads the InceptionV3 model and sets it up on the specified device.</span></tt>
+               class="code sev- "><tt><i>900</i> <span class="sd">        The method performs the following steps:</span></tt>
             </div>
             <div id="l901"
-               class="code sev- "><tt><i>901</i> <span class="sd">        2. Constructs data loaders for the source and target datasets with specified transformations.</span></tt>
+               class="code sev- "><tt><i>901</i> <span class="sd">        1. Loads the InceptionV3 model and sets it up on the specified device.</span></tt>
             </div>
             <div id="l902"
-               class="code sev- "><tt><i>902</i> <span class="sd">        3. Extracts features from the specified layer of the model for both datasets.</span></tt>
+               class="code sev- "><tt><i>902</i> <span class="sd">        2. Constructs data loaders for the source and target datasets with specified transformations.</span></tt>
             </div>
             <div id="l903"
-               class="code sev- "><tt><i>903</i> <span class="sd">        4. Calculates the mean and covariance of the features for both datasets.</span></tt>
+               class="code sev- "><tt><i>903</i> <span class="sd">        3. Extracts features from the specified layer of the model for both datasets.</span></tt>
             </div>
             <div id="l904"
-               class="code sev- "><tt><i>904</i> <span class="sd">        5. Computes the FID score using the means and covariances of the features.</span></tt>
+               class="code sev- "><tt><i>904</i> <span class="sd">        4. Calculates the mean and covariance of the features for both datasets.</span></tt>
             </div>
             <div id="l905"
-               class="code sev- "><tt><i>905</i> <span class="sd">        6. Ensures the FID score is positive by taking the absolute value.</span></tt>
+               class="code sev- "><tt><i>905</i> <span class="sd">        5. Computes the FID score using the means and covariances of the features.</span></tt>
             </div>
             <div id="l906"
-               class="code sev- "><tt><i>906</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>906</i> <span class="sd">        6. Ensures the FID score is positive by taking the absolute value.</span></tt>
             </div>
             <div id="l907"
-               class="code sev- "><tt><i>907</i>         <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>907</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
             </div>
             <div id="l908"
-               class="code sev- "><tt><i>908</i>         <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>908</i>         <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l909"
-               class="code sev- "><tt><i>909</i>         <span class="n">img_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span></tt>
+               class="code sev- "><tt><i>909</i>         <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l910"
-               class="code sev- "><tt><i>910</i>         <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>910</i>         <span class="n">img_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span></tt>
             </div>
             <div id="l911"
-               class="code sev- "><tt><i>911</i>         <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>911</i>         <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l912"
-               class="code sev- "><tt><i>912</i>         <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>912</i>         <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l913"
-               class="code sev- "><tt><i>913</i>         <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>913</i>         <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l914"
-               class="code sev- "><tt><i>914</i>         <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>914</i>         <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l915"
-               class="code sev- "><tt><i>915</i> &nbsp;</tt>
+               class="code sev- "><tt><i>915</i>         <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l916"
-               class="code sev- "><tt><i>916</i>         <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>916</i> &nbsp;</tt>
             </div>
             <div id="l917"
-               class="code sev- "><tt><i>917</i>         <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>917</i>         <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span></tt>
             </div>
             <div id="l918"
-               class="code sev- "><tt><i>918</i>         <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>918</i>         <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></tt>
             </div>
             <div id="l919"
-               class="code sev- "><tt><i>919</i> &nbsp;</tt>
+               class="code sev- "><tt><i>919</i>         <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></tt>
             </div>
             <div id="l920"
-               class="code sev- "><tt><i>920</i>         <span class="n">inception_v3</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>920</i> &nbsp;</tt>
             </div>
             <div id="l921"
-               class="code sev- "><tt><i>921</i>         <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">inception_v3</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>921</i>         <span class="n">inception_v3</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
             </div>
             <div id="l922"
-               class="code sev- "><tt><i>922</i> &nbsp;</tt>
+               class="code sev- "><tt><i>922</i>         <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">inception_v3</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span></tt>
             </div>
             <div id="l923"
-               class="code sev- "><tt><i>923</i>         <span class="c1"># compute features as tensor</span></tt>
+               class="code sev- "><tt><i>923</i> &nbsp;</tt>
             </div>
             <div id="l924"
-               class="code sev- "><tt><i>924</i>         <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>924</i>         <span class="c1"># compute features as tensor</span></tt>
             </div>
             <div id="l925"
-               class="code sev- "><tt><i>925</i>         <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>925</i>         <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
             </div>
             <div id="l926"
-               class="code sev- "><tt><i>926</i> &nbsp;</tt>
+               class="code sev- "><tt><i>926</i>         <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
             </div>
             <div id="l927"
-               class="code sev- "><tt><i>927</i>         <span class="c1"># Calculate statistics for source features</span></tt>
+               class="code sev- "><tt><i>927</i> &nbsp;</tt>
             </div>
             <div id="l928"
-               class="code sev- "><tt><i>928</i>         <span class="n">mu1</span><span class="p">,</span> <span class="n">sigma1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">source_features</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>928</i>         <span class="c1"># Calculate statistics for source features</span></tt>
             </div>
             <div id="l929"
-               class="code sev- "><tt><i>929</i> &nbsp;</tt>
+               class="code sev- "><tt><i>929</i>         <span class="n">mu1</span><span class="p">,</span> <span class="n">sigma1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">source_features</span><span class="p">)</span></tt>
             </div>
             <div id="l930"
-               class="code sev- "><tt><i>930</i>         <span class="c1"># Calculate statistics for target features</span></tt>
+               class="code sev- "><tt><i>930</i> &nbsp;</tt>
             </div>
             <div id="l931"
-               class="code sev- "><tt><i>931</i>         <span class="n">mu2</span><span class="p">,</span> <span class="n">sigma2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">target_features</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>931</i>         <span class="c1"># Calculate statistics for target features</span></tt>
             </div>
             <div id="l932"
-               class="code sev- "><tt><i>932</i> &nbsp;</tt>
+               class="code sev- "><tt><i>932</i>         <span class="n">mu2</span><span class="p">,</span> <span class="n">sigma2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">target_features</span><span class="p">)</span></tt>
             </div>
             <div id="l933"
-               class="code sev- "><tt><i>933</i>         <span class="n">diff</span> <span class="o">=</span> <span class="n">mu1</span> <span class="o">-</span> <span class="n">mu2</span></tt>
+               class="code sev- "><tt><i>933</i> &nbsp;</tt>
             </div>
             <div id="l934"
-               class="code sev- "><tt><i>934</i> &nbsp;</tt>
+               class="code sev- "><tt><i>934</i>         <span class="n">diff</span> <span class="o">=</span> <span class="n">mu1</span> <span class="o">-</span> <span class="n">mu2</span></tt>
             </div>
             <div id="l935"
-               class="code sev- "><tt><i>935</i>         <span class="c1"># Compute the square root of the product of the covariance matrices</span></tt>
+               class="code sev- "><tt><i>935</i> &nbsp;</tt>
             </div>
             <div id="l936"
-               class="code sev- "><tt><i>936</i>         <span class="n">covmean</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sqrtm</span><span class="p">(</span><span class="n">sigma1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sigma2</span><span class="p">),</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>936</i>         <span class="c1"># Compute the square root of the product of the covariance matrices</span></tt>
             </div>
             <div id="l937"
-               class="code sev- "><tt><i>937</i> &nbsp;</tt>
+               class="code sev- "><tt><i>937</i>         <span class="n">covmean</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sqrtm</span><span class="p">(</span><span class="n">sigma1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sigma2</span><span class="p">),</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></tt>
             </div>
             <div id="l938"
-               class="code sev- "><tt><i>938</i>         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">covmean</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>938</i> &nbsp;</tt>
             </div>
             <div id="l939"
-               class="code sev- "><tt><i>939</i>             <span class="n">covmean</span> <span class="o">=</span> <span class="n">covmean</span><span class="o">.</span><span class="n">real</span></tt>
+               class="code sev- "><tt><i>939</i>         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">covmean</span><span class="p">):</span></tt>
             </div>
             <div id="l940"
-               class="code sev- "><tt><i>940</i> &nbsp;</tt>
+               class="code sev- "><tt><i>940</i>             <span class="n">covmean</span> <span class="o">=</span> <span class="n">covmean</span><span class="o">.</span><span class="n">real</span></tt>
             </div>
             <div id="l941"
-               class="code sev- "><tt><i>941</i>         <span class="n">fid</span> <span class="o">=</span> <span class="p">(</span></tt>
+               class="code sev- "><tt><i>941</i> &nbsp;</tt>
             </div>
             <div id="l942"
-               class="code sev- "><tt><i>942</i>             <span class="n">diff</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">sigma1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">sigma2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">covmean</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>942</i>         <span class="n">fid</span> <span class="o">=</span> <span class="p">(</span></tt>
             </div>
             <div id="l943"
-               class="code sev- "><tt><i>943</i>         <span class="p">)</span></tt>
+               class="code sev- "><tt><i>943</i>             <span class="n">diff</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">sigma1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">sigma2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">covmean</span><span class="p">)</span></tt>
             </div>
             <div id="l944"
-               class="code sev- "><tt><i>944</i> &nbsp;</tt>
+               class="code sev- "><tt><i>944</i>         <span class="p">)</span></tt>
             </div>
             <div id="l945"
-               class="code sev- "><tt><i>945</i>         <span class="n">positive_fid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">fid</span><span class="p">))</span></tt>
+               class="code sev- "><tt><i>945</i> &nbsp;</tt>
             </div>
             <div id="l946"
-               class="code sev- "><tt><i>946</i>         <span class="k">return</span> <span class="n">positive_fid</span></tt>
+               class="code sev- "><tt><i>946</i>         <span class="n">positive_fid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">fid</span><span class="p">))</span></tt>
             </div>
             <div id="l947"
-               class="code sev- "><tt><i>947</i> &nbsp;</tt>
+               class="code sev- "><tt><i>947</i>         <span class="k">return</span> <span class="n">positive_fid</span></tt>
             </div>
             <div id="l948"
                class="code sev- "><tt><i>948</i> &nbsp;</tt>
             </div>
             <div id="l949"
-               class="code sev- "><tt><i>949</i> <span class="c1"># ========================================================================== #</span></tt>
+               class="code sev- "><tt><i>949</i> &nbsp;</tt>
             </div>
             <div id="l950"
-               class="code sev- "><tt><i>950</i> <span class="c1">#      Kullback-Leibler divergence for MultiVariate Normal distribution      #</span></tt>
+               class="code sev- "><tt><i>950</i> <span class="c1"># ========================================================================== #</span></tt>
             </div>
             <div id="l951"
-               class="code sev- "><tt><i>951</i> <span class="c1"># ========================================================================== #</span></tt>
+               class="code sev- "><tt><i>951</i> <span class="c1">#      Kullback-Leibler divergence for MultiVariate Normal distribution      #</span></tt>
             </div>
             <div id="l952"
-               class="code sev- "><tt><i>952</i> &nbsp;</tt>
+               class="code sev- "><tt><i>952</i> <span class="c1"># ========================================================================== #</span></tt>
             </div>
             <div id="l953"
                class="code sev- "><tt><i>953</i> &nbsp;</tt>
             </div>
             <div id="l954"
-               class="code sev- "><tt><i>954</i> <span class="k">class</span><span class="w"> </span><span class="nc">KLMVN</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>954</i> &nbsp;</tt>
             </div>
             <div id="l955"
-               class="code sev- "><tt><i>955</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instanciate KLMVN class to compute KLMVN metrics&quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>955</i> <span class="k">class</span><span class="w"> </span><span class="nc">KLMVN</span><span class="p">(</span><span class="n">Metric</span><span class="p">):</span></tt>
             </div>
             <div id="l956"
-               class="code sev- "><tt><i>956</i> &nbsp;</tt>
+               class="code sev- "><tt><i>956</i> <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instanciate KLMVN class to compute KLMVN metrics&quot;&quot;&quot;</span></tt>
             </div>
             <div id="l957"
-               class="code sev- "><tt><i>957</i>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>957</i> &nbsp;</tt>
             </div>
             <div id="l958"
-               class="code sev- "><tt><i>958</i>         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></tt>
+               class="code sev- "><tt><i>958</i>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
             </div>
             <div id="l959"
-               class="code sev- "><tt><i>959</i> &nbsp;</tt>
+               class="code sev- "><tt><i>959</i>         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></tt>
             </div>
             <div id="l960"
-               class="code sev- "><tt><i>960</i>     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>960</i> &nbsp;</tt>
             </div>
             <div id="l961"
-               class="code sev- "><tt><i>961</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>961</i>     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span></tt>
             </div>
             <div id="l962"
-               class="code sev- "><tt><i>962</i> <span class="sd">        Calculate the mean and covariance matrix of a set of features.</span></tt>
+               class="code sev- "><tt><i>962</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></tt>
             </div>
             <div id="l963"
-               class="code sev- "><tt><i>963</i> &nbsp;</tt>
+               class="code sev- "><tt><i>963</i> <span class="sd">        Calculate the mean and covariance matrix of a set of features.</span></tt>
             </div>
             <div id="l964"
-               class="code sev- "><tt><i>964</i> <span class="sd">        This function computes the mean vector and the covariance matrix for a given set of features.</span></tt>
+               class="code sev- "><tt><i>964</i> &nbsp;</tt>
             </div>
             <div id="l965"
-               class="code sev- "><tt><i>965</i> <span class="sd">        It ensures that the feature matrix has full rank, which is necessary for certain statistical</span></tt>
+               class="code sev- "><tt><i>965</i> <span class="sd">        This function computes the mean vector and the covariance matrix for a given set of features.</span></tt>
             </div>
             <div id="l966"
-               class="code sev- "><tt><i>966</i> <span class="sd">        operations.</span></tt>
+               class="code sev- "><tt><i>966</i> <span class="sd">        It ensures that the feature matrix has full rank, which is necessary for certain statistical</span></tt>
             </div>
             <div id="l967"
-               class="code sev- "><tt><i>967</i> &nbsp;</tt>
+               class="code sev- "><tt><i>967</i> <span class="sd">        operations.</span></tt>
             </div>
             <div id="l968"
-               class="code sev- "><tt><i>968</i> <span class="sd">        Args:</span></tt>
+               class="code sev- "><tt><i>968</i> &nbsp;</tt>
             </div>
             <div id="l969"
-               class="code sev- "><tt><i>969</i> <span class="sd">            features (torch.Tensor): A 2D tensor where each row represents a feature vector.</span></tt>
+               class="code sev- "><tt><i>969</i> <span class="sd">        Args:</span></tt>
             </div>
             <div id="l970"
-               class="code sev- "><tt><i>970</i> <span class="sd">                                     The tensor should have shape (N, D), where N is the number of</span></tt>
+               class="code sev- "><tt><i>970</i> <span class="sd">            features (torch.Tensor): A 2D tensor where each row represents a feature vector.</span></tt>
             </div>
             <div id="l971"
-               class="code sev- "><tt><i>971</i> <span class="sd">                                     samples and D is the dimensionality of the features.</span></tt>
+               class="code sev- "><tt><i>971</i> <span class="sd">                                     The tensor should have shape (N, D), where N is the number of</span></tt>
             </div>
             <div id="l972"
-               class="code sev- "><tt><i>972</i> &nbsp;</tt>
+               class="code sev- "><tt><i>972</i> <span class="sd">                                     samples and D is the dimensionality of the features.</span></tt>
             </div>
             <div id="l973"
-               class="code sev- "><tt><i>973</i> <span class="sd">        Returns:</span></tt>
+               class="code sev- "><tt><i>973</i> &nbsp;</tt>
             </div>
             <div id="l974"
-               class="code sev- "><tt><i>974</i> <span class="sd">            tuple: A tuple containing:</span></tt>
+               class="code sev- "><tt><i>974</i> <span class="sd">        Returns:</span></tt>
             </div>
             <div id="l975"
-               class="code sev- "><tt><i>975</i> <span class="sd">                - mu (torch.Tensor): The mean vector of the features, with shape (D,).</span></tt>
+               class="code sev- "><tt><i>975</i> <span class="sd">            tuple: A tuple containing:</span></tt>
             </div>
             <div id="l976"
-               class="code sev- "><tt><i>976</i> <span class="sd">                - sigma (torch.Tensor): The covariance matrix of the features, with shape (D, D).</span></tt>
+               class="code sev- "><tt><i>976</i> <span class="sd">                - mu (torch.Tensor): The mean vector of the features, with shape (D,).</span></tt>
             </div>
             <div id="l977"
-               class="code sev- "><tt><i>977</i> &nbsp;</tt>
+               class="code sev- "><tt><i>977</i> <span class="sd">                - sigma (torch.Tensor): The covariance matrix of the features, with shape (D, D).</span></tt>
             </div>
             <div id="l978"
-               class="code sev- "><tt><i>978</i> <span class="sd">        Raises:</span></tt>
+               class="code sev- "><tt><i>978</i> &nbsp;</tt>
             </div>
             <div id="l979"
-               class="code sev- "><tt><i>979</i> <span class="sd">            AssertionError: If the feature matrix does not have full rank.</span></tt>
+               class="code sev- "><tt><i>979</i> <span class="sd">        Raises:</span></tt>
             </div>
             <div id="l980"
-               class="code sev- "><tt><i>980</i> &nbsp;</tt>
+               class="code sev- "><tt><i>980</i> <span class="sd">            AssertionError: If the feature matrix does not have full rank.</span></tt>
             </div>
             <div id="l981"
-               class="code sev- "><tt><i>981</i> <span class="sd">        The function performs the following steps:</span></tt>
+               class="code sev- "><tt><i>981</i> &nbsp;</tt>
             </div>
             <div id="l982"
-               class="code sev- "><tt><i>982</i> <span class="sd">        1. Computes the mean vector of the features.</span></tt>
+               class="code sev- "><tt><i>982</i> <span class="sd">        The function performs the following steps:</span></tt>
             </div>
             <div id="l983"
-               class="code sev- "><tt><i>983</i> <span class="sd">        2. Centers the features by subtracting the mean vector.</span></tt>
+               class="code sev- "><tt><i>983</i> <span class="sd">        1. Computes the mean vector of the features.</span></tt>
             </div>
             <div id="l984"
-               class="code sev- "><tt><i>984</i> <span class="sd">        3. Computes the covariance matrix using the centered features.</span></tt>
+               class="code sev- "><tt><i>984</i> <span class="sd">        2. Centers the features by subtracting the mean vector.</span></tt>
             </div>
             <div id="l985"
-               class="code sev- "><tt><i>985</i> <span class="sd">        4. Checks the rank of the feature matrix to ensure it has full rank.</span></tt>
+               class="code sev- "><tt><i>985</i> <span class="sd">        3. Computes the covariance matrix using the centered features.</span></tt>
             </div>
             <div id="l986"
-               class="code sev- "><tt><i>986</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>986</i> <span class="sd">        4. Checks the rank of the feature matrix to ensure it has full rank.</span></tt>
             </div>
             <div id="l987"
-               class="code sev- "><tt><i>987</i>         <span class="c1"># Compute the mean of the features</span></tt>
+               class="code sev- "><tt><i>987</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
             </div>
             <div id="l988"
-               class="code sev- "><tt><i>988</i>         <span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>988</i>         <span class="c1"># Compute the mean of the features</span></tt>
             </div>
             <div id="l989"
-               class="code sev- "><tt><i>989</i> &nbsp;</tt>
+               class="code sev- "><tt><i>989</i>         <span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></tt>
             </div>
             <div id="l990"
-               class="code sev- "><tt><i>990</i>         <span class="c1"># Center the features by subtracting the mean</span></tt>
+               class="code sev- "><tt><i>990</i> &nbsp;</tt>
             </div>
             <div id="l991"
-               class="code sev- "><tt><i>991</i>         <span class="n">centered_features</span> <span class="o">=</span> <span class="n">features</span> <span class="o">-</span> <span class="n">mu</span></tt>
+               class="code sev- "><tt><i>991</i>         <span class="c1"># Center the features by subtracting the mean</span></tt>
             </div>
             <div id="l992"
-               class="code sev- "><tt><i>992</i> &nbsp;</tt>
+               class="code sev- "><tt><i>992</i>         <span class="n">centered_features</span> <span class="o">=</span> <span class="n">features</span> <span class="o">-</span> <span class="n">mu</span></tt>
             </div>
             <div id="l993"
-               class="code sev- "><tt><i>993</i>         <span class="c1"># Compute the covariance matrix (similar to np.cov with rowvar=False)</span></tt>
+               class="code sev- "><tt><i>993</i> &nbsp;</tt>
             </div>
             <div id="l994"
-               class="code sev- "><tt><i>994</i>         <span class="c1"># (N - 1) is used for unbiased estimation</span></tt>
+               class="code sev- "><tt><i>994</i>         <span class="c1"># Compute the covariance matrix (similar to np.cov with rowvar=False)</span></tt>
             </div>
             <div id="l995"
-               class="code sev- "><tt><i>995</i>         <span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">centered_features</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">centered_features</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span></tt>
+               class="code sev- "><tt><i>995</i>         <span class="c1"># (N - 1) is used for unbiased estimation</span></tt>
             </div>
             <div id="l996"
-               class="code sev- "><tt><i>996</i>             <span class="n">features</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span></tt>
+               class="code sev- "><tt><i>996</i>         <span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">centered_features</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">centered_features</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span></tt>
             </div>
             <div id="l997"
-               class="code sev- "><tt><i>997</i>         <span class="p">)</span></tt>
+               class="code sev- "><tt><i>997</i>             <span class="n">features</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span></tt>
             </div>
             <div id="l998"
-               class="code sev- "><tt><i>998</i> &nbsp;</tt>
+               class="code sev- "><tt><i>998</i>         <span class="p">)</span></tt>
             </div>
             <div id="l999"
-               class="code sev- "><tt><i>999</i>         <span class="c1"># Compute the rank of the feature matrix</span></tt>
+               class="code sev- "><tt><i>999</i> &nbsp;</tt>
             </div>
             <div id="l1000"
-               class="code sev- "><tt><i>1000</i>         <span class="n">rank_feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">features</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1000</i>         <span class="c1"># Compute the rank of the feature matrix</span></tt>
             </div>
             <div id="l1001"
-               class="code sev- "><tt><i>1001</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1001</i>         <span class="n">rank_feature</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">features</span><span class="p">)</span></tt>
             </div>
             <div id="l1002"
-               class="code sev- "><tt><i>1002</i>         <span class="c1"># Ensure the feature matrix has full rank</span></tt>
+               class="code sev- "><tt><i>1002</i> &nbsp;</tt>
             </div>
             <div id="l1003"
-               class="code sev- "><tt><i>1003</i>         <span class="k">assert</span> <span class="n">rank_feature</span> <span class="o">==</span> <span class="n">features</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;The feature matrix is not full rank.&quot;</span></tt>
+               class="code sev- "><tt><i>1003</i>         <span class="c1"># Ensure the feature matrix has full rank</span></tt>
             </div>
             <div id="l1004"
-               class="code sev- "><tt><i>1004</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1004</i>         <span class="k">assert</span> <span class="n">rank_feature</span> <span class="o">==</span> <span class="n">features</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;The feature matrix is not full rank.&quot;</span></tt>
             </div>
             <div id="l1005"
-               class="code sev- "><tt><i>1005</i>         <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span></tt>
+               class="code sev- "><tt><i>1005</i> &nbsp;</tt>
             </div>
             <div id="l1006"
-               class="code sev- "><tt><i>1006</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1006</i>         <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span></tt>
             </div>
             <div id="l1007"
-               class="code sev- "><tt><i>1007</i>     <span class="k">def</span><span class="w"> </span><span class="nf">regularize_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_matrix</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>1007</i> &nbsp;</tt>
             </div>
             <div id="l1008"
-               class="code sev- "><tt><i>1008</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>1008</i>     <span class="k">def</span><span class="w"> </span><span class="nf">regularize_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cov_matrix</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span></tt>
             </div>
             <div id="l1009"
-               class="code sev- "><tt><i>1009</i> <span class="sd">        Regularize a covariance matrix by adding a small value to its diagonal elements.</span></tt>
+               class="code sev- "><tt><i>1009</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></tt>
             </div>
             <div id="l1010"
-               class="code sev- "><tt><i>1010</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1010</i> <span class="sd">        Regularize a covariance matrix by adding a small value to its diagonal elements.</span></tt>
             </div>
             <div id="l1011"
-               class="code sev- "><tt><i>1011</i> <span class="sd">        This function enhances the numerical stability of a covariance matrix by adding a small constant</span></tt>
+               class="code sev- "><tt><i>1011</i> &nbsp;</tt>
             </div>
             <div id="l1012"
-               class="code sev- "><tt><i>1012</i> <span class="sd">        to its diagonal. This is particularly useful when the covariance matrix is nearly singular or</span></tt>
+               class="code sev- "><tt><i>1012</i> <span class="sd">        This function enhances the numerical stability of a covariance matrix by adding a small constant</span></tt>
             </div>
             <div id="l1013"
-               class="code sev- "><tt><i>1013</i> <span class="sd">        when performing operations that require the matrix to be positive definite.</span></tt>
+               class="code sev- "><tt><i>1013</i> <span class="sd">        to its diagonal. This is particularly useful when the covariance matrix is nearly singular or</span></tt>
             </div>
             <div id="l1014"
-               class="code sev- "><tt><i>1014</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1014</i> <span class="sd">        when performing operations that require the matrix to be positive definite.</span></tt>
             </div>
             <div id="l1015"
-               class="code sev- "><tt><i>1015</i> <span class="sd">        Args:</span></tt>
+               class="code sev- "><tt><i>1015</i> &nbsp;</tt>
             </div>
             <div id="l1016"
-               class="code sev- "><tt><i>1016</i> <span class="sd">            cov_matrix (numpy.ndarray): The covariance matrix to be regularized. It should be a square matrix.</span></tt>
+               class="code sev- "><tt><i>1016</i> <span class="sd">        Args:</span></tt>
             </div>
             <div id="l1017"
-               class="code sev- "><tt><i>1017</i> <span class="sd">            epsilon (float, optional): A small value to add to the diagonal elements of the covariance matrix.</span></tt>
+               class="code sev- "><tt><i>1017</i> <span class="sd">            cov_matrix (numpy.ndarray): The covariance matrix to be regularized. It should be a square matrix.</span></tt>
             </div>
             <div id="l1018"
-               class="code sev- "><tt><i>1018</i> <span class="sd">                                       Default is 1e-6.</span></tt>
+               class="code sev- "><tt><i>1018</i> <span class="sd">            epsilon (float, optional): A small value to add to the diagonal elements of the covariance matrix.</span></tt>
             </div>
             <div id="l1019"
-               class="code sev- "><tt><i>1019</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1019</i> <span class="sd">                                       Default is 1e-6.</span></tt>
             </div>
             <div id="l1020"
-               class="code sev- "><tt><i>1020</i> <span class="sd">        Returns:</span></tt>
+               class="code sev- "><tt><i>1020</i> &nbsp;</tt>
             </div>
             <div id="l1021"
-               class="code sev- "><tt><i>1021</i> <span class="sd">            numpy.ndarray: The regularized covariance matrix with the small value added to its diagonal.</span></tt>
+               class="code sev- "><tt><i>1021</i> <span class="sd">        Returns:</span></tt>
             </div>
             <div id="l1022"
-               class="code sev- "><tt><i>1022</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1022</i> <span class="sd">            numpy.ndarray: The regularized covariance matrix with the small value added to its diagonal.</span></tt>
             </div>
             <div id="l1023"
-               class="code sev- "><tt><i>1023</i> <span class="sd">        The function performs the following steps:</span></tt>
+               class="code sev- "><tt><i>1023</i> &nbsp;</tt>
             </div>
             <div id="l1024"
-               class="code sev- "><tt><i>1024</i> <span class="sd">        1. Adds the specified `epsilon` value to the diagonal elements of the input covariance matrix.</span></tt>
+               class="code sev- "><tt><i>1024</i> <span class="sd">        The function performs the following steps:</span></tt>
             </div>
             <div id="l1025"
-               class="code sev- "><tt><i>1025</i> <span class="sd">        2. Returns the modified covariance matrix.</span></tt>
+               class="code sev- "><tt><i>1025</i> <span class="sd">        1. Adds the specified `epsilon` value to the diagonal elements of the input covariance matrix.</span></tt>
             </div>
             <div id="l1026"
-               class="code sev- "><tt><i>1026</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>1026</i> <span class="sd">        2. Returns the modified covariance matrix.</span></tt>
             </div>
             <div id="l1027"
-               class="code sev- "><tt><i>1027</i>         <span class="c1"># Add a small value to the diagonal for numerical stability</span></tt>
+               class="code sev- "><tt><i>1027</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
             </div>
             <div id="l1028"
-               class="code sev- "><tt><i>1028</i>         <span class="k">return</span> <span class="n">cov_matrix</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">cov_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></tt>
+               class="code sev- "><tt><i>1028</i>         <span class="c1"># Add a small value to the diagonal for numerical stability</span></tt>
             </div>
             <div id="l1029"
-               class="code sev- "><tt><i>1029</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1029</i>         <span class="k">return</span> <span class="n">cov_matrix</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">cov_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></tt>
             </div>
             <div id="l1030"
-               class="code sev- "><tt><i>1030</i>     <span class="k">def</span><span class="w"> </span><span class="nf">klmvn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>1030</i> &nbsp;</tt>
             </div>
             <div id="l1031"
-               class="code sev- "><tt><i>1031</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>1031</i>     <span class="k">def</span><span class="w"> </span><span class="nf">klmvn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span></tt>
             </div>
             <div id="l1032"
-               class="code sev- "><tt><i>1032</i> <span class="sd">        Compute the Kullback-Leibler (KL) divergence between two multivariate normal distributions.</span></tt>
+               class="code sev- "><tt><i>1032</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></tt>
             </div>
             <div id="l1033"
-               class="code sev- "><tt><i>1033</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1033</i> <span class="sd">        Compute the Kullback-Leibler (KL) divergence between two multivariate normal distributions.</span></tt>
             </div>
             <div id="l1034"
-               class="code sev- "><tt><i>1034</i> <span class="sd">        This method calculates the KL divergence between two multivariate normal distributions defined by</span></tt>
+               class="code sev- "><tt><i>1034</i> &nbsp;</tt>
             </div>
             <div id="l1035"
-               class="code sev- "><tt><i>1035</i> <span class="sd">        their mean vectors and covariance matrices. It assumes that the covariance matrices are diagonal.</span></tt>
+               class="code sev- "><tt><i>1035</i> <span class="sd">        This method calculates the KL divergence between two multivariate normal distributions defined by</span></tt>
             </div>
             <div id="l1036"
-               class="code sev- "><tt><i>1036</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1036</i> <span class="sd">        their mean vectors and covariance matrices. It assumes that the covariance matrices are diagonal.</span></tt>
             </div>
             <div id="l1037"
-               class="code sev- "><tt><i>1037</i> <span class="sd">        Args:</span></tt>
+               class="code sev- "><tt><i>1037</i> &nbsp;</tt>
             </div>
             <div id="l1038"
-               class="code sev- "><tt><i>1038</i> <span class="sd">            mu1 (torch.Tensor): Mean vector of the first multivariate normal distribution.</span></tt>
+               class="code sev- "><tt><i>1038</i> <span class="sd">        Args:</span></tt>
             </div>
             <div id="l1039"
-               class="code sev- "><tt><i>1039</i> <span class="sd">            cov1 (torch.Tensor): Diagonal elements of the covariance matrix of the first distribution.</span></tt>
+               class="code sev- "><tt><i>1039</i> <span class="sd">            mu1 (torch.Tensor): Mean vector of the first multivariate normal distribution.</span></tt>
             </div>
             <div id="l1040"
-               class="code sev- "><tt><i>1040</i> <span class="sd">            mu2 (torch.Tensor): Mean vector of the second multivariate normal distribution.</span></tt>
+               class="code sev- "><tt><i>1040</i> <span class="sd">            cov1 (torch.Tensor): Diagonal elements of the covariance matrix of the first distribution.</span></tt>
             </div>
             <div id="l1041"
-               class="code sev- "><tt><i>1041</i> <span class="sd">            cov2 (torch.Tensor): Diagonal elements of the covariance matrix of the second distribution.</span></tt>
+               class="code sev- "><tt><i>1041</i> <span class="sd">            mu2 (torch.Tensor): Mean vector of the second multivariate normal distribution.</span></tt>
             </div>
             <div id="l1042"
-               class="code sev- "><tt><i>1042</i> <span class="sd">            device (torch.device): The device (CPU or GPU) on which to perform the computation.</span></tt>
+               class="code sev- "><tt><i>1042</i> <span class="sd">            cov2 (torch.Tensor): Diagonal elements of the covariance matrix of the second distribution.</span></tt>
             </div>
             <div id="l1043"
-               class="code sev- "><tt><i>1043</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1043</i> <span class="sd">            device (torch.device): The device (CPU or GPU) on which to perform the computation.</span></tt>
             </div>
             <div id="l1044"
-               class="code sev- "><tt><i>1044</i> <span class="sd">        Returns:</span></tt>
+               class="code sev- "><tt><i>1044</i> &nbsp;</tt>
             </div>
             <div id="l1045"
-               class="code sev- "><tt><i>1045</i> <span class="sd">            torch.Tensor: The computed KL divergence between the two distributions.</span></tt>
+               class="code sev- "><tt><i>1045</i> <span class="sd">        Returns:</span></tt>
             </div>
             <div id="l1046"
-               class="code sev- "><tt><i>1046</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1046</i> <span class="sd">            torch.Tensor: The computed KL divergence between the two distributions.</span></tt>
             </div>
             <div id="l1047"
-               class="code sev- "><tt><i>1047</i> <span class="sd">        The method performs the following steps:</span></tt>
+               class="code sev- "><tt><i>1047</i> &nbsp;</tt>
             </div>
             <div id="l1048"
-               class="code sev- "><tt><i>1048</i> <span class="sd">        1. Constructs diagonal covariance matrices from the provided diagonal elements.</span></tt>
+               class="code sev- "><tt><i>1048</i> <span class="sd">        The method performs the following steps:</span></tt>
             </div>
             <div id="l1049"
-               class="code sev- "><tt><i>1049</i> <span class="sd">        2. Creates multivariate normal distributions using the mean vectors and covariance matrices.</span></tt>
+               class="code sev- "><tt><i>1049</i> <span class="sd">        1. Constructs diagonal covariance matrices from the provided diagonal elements.</span></tt>
             </div>
             <div id="l1050"
-               class="code sev- "><tt><i>1050</i> <span class="sd">        3. Computes the KL divergence between the two distributions.</span></tt>
+               class="code sev- "><tt><i>1050</i> <span class="sd">        2. Creates multivariate normal distributions using the mean vectors and covariance matrices.</span></tt>
             </div>
             <div id="l1051"
-               class="code sev- "><tt><i>1051</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>1051</i> <span class="sd">        3. Computes the KL divergence between the two distributions.</span></tt>
             </div>
             <div id="l1052"
-               class="code sev- "><tt><i>1052</i>         <span class="c1"># assume diagonal matrix</span></tt>
+               class="code sev- "><tt><i>1052</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
             </div>
             <div id="l1053"
-               class="code sev- "><tt><i>1053</i>         <span class="n">p_cov</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cov1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">cov1</span></tt>
+               class="code sev- "><tt><i>1053</i>         <span class="c1"># assume diagonal matrix</span></tt>
             </div>
             <div id="l1054"
-               class="code sev- "><tt><i>1054</i>         <span class="n">q_cov</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cov2</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">cov2</span></tt>
+               class="code sev- "><tt><i>1054</i>         <span class="n">p_cov</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cov1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">cov1</span></tt>
             </div>
             <div id="l1055"
-               class="code sev- "><tt><i>1055</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1055</i>         <span class="n">q_cov</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cov2</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="n">cov2</span></tt>
             </div>
             <div id="l1056"
-               class="code sev- "><tt><i>1056</i>         <span class="c1"># build pdf</span></tt>
+               class="code sev- "><tt><i>1056</i> &nbsp;</tt>
             </div>
             <div id="l1057"
-               class="code sev- "><tt><i>1057</i>         <span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span> <span class="n">p_cov</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1057</i>         <span class="c1"># build pdf</span></tt>
             </div>
             <div id="l1058"
-               class="code sev- "><tt><i>1058</i>         <span class="n">q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mu2</span><span class="p">,</span> <span class="n">q_cov</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1058</i>         <span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span> <span class="n">p_cov</span><span class="p">)</span></tt>
             </div>
             <div id="l1059"
-               class="code sev- "><tt><i>1059</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1059</i>         <span class="n">q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mu2</span><span class="p">,</span> <span class="n">q_cov</span><span class="p">)</span></tt>
             </div>
             <div id="l1060"
-               class="code sev- "><tt><i>1060</i>         <span class="c1"># compute KL Divergence</span></tt>
+               class="code sev- "><tt><i>1060</i> &nbsp;</tt>
             </div>
             <div id="l1061"
-               class="code sev- "><tt><i>1061</i>         <span class="n">kld</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1061</i>         <span class="c1"># compute KL Divergence</span></tt>
             </div>
             <div id="l1062"
-               class="code sev- "><tt><i>1062</i>         <span class="k">return</span> <span class="n">kld</span></tt>
+               class="code sev- "><tt><i>1062</i>         <span class="n">kld</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">kl_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span></tt>
             </div>
             <div id="l1063"
-               class="code sev- "><tt><i>1063</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1063</i>         <span class="k">return</span> <span class="n">kld</span></tt>
             </div>
             <div id="l1064"
-               class="code sev- "><tt><i>1064</i>     <span class="k">def</span><span class="w"> </span><span class="nf">compute_image_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span></tt>
+               class="code sev- "><tt><i>1064</i> &nbsp;</tt>
             </div>
             <div id="l1065"
-               class="code sev- "><tt><i>1065</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>1065</i>     <span class="k">def</span><span class="w"> </span><span class="nf">compute_image_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span></tt>
             </div>
             <div id="l1066"
-               class="code sev- "><tt><i>1066</i> <span class="sd">        Compute the distance between image features from source and target datasets using a pre-trained model.</span></tt>
+               class="code sev- "><tt><i>1066</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></tt>
             </div>
             <div id="l1067"
-               class="code sev- "><tt><i>1067</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1067</i> <span class="sd">        Compute the distance between image features from source and target datasets using a pre-trained model.</span></tt>
             </div>
             <div id="l1068"
-               class="code sev- "><tt><i>1068</i> <span class="sd">        This method calculates the distance between the statistical representations of image features extracted</span></tt>
+               class="code sev- "><tt><i>1068</i> &nbsp;</tt>
             </div>
             <div id="l1069"
-               class="code sev- "><tt><i>1069</i> <span class="sd">        from two datasets. It uses a pre-trained model to extract features from specified layers and computes</span></tt>
+               class="code sev- "><tt><i>1069</i> <span class="sd">        This method calculates the distance between the statistical representations of image features extracted</span></tt>
             </div>
             <div id="l1070"
-               class="code sev- "><tt><i>1070</i> <span class="sd">        the Kullback-Leibler divergence between the distributions of these features.</span></tt>
+               class="code sev- "><tt><i>1070</i> <span class="sd">        from two datasets. It uses a pre-trained model to extract features from specified layers and computes</span></tt>
             </div>
             <div id="l1071"
-               class="code sev- "><tt><i>1071</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1071</i> <span class="sd">        the Kullback-Leibler divergence between the distributions of these features.</span></tt>
             </div>
             <div id="l1072"
-               class="code sev- "><tt><i>1072</i> <span class="sd">        Args:</span></tt>
+               class="code sev- "><tt><i>1072</i> &nbsp;</tt>
             </div>
             <div id="l1073"
-               class="code sev- "><tt><i>1073</i> <span class="sd">            cfg (dict): A configuration dictionary containing the following keys:</span></tt>
+               class="code sev- "><tt><i>1073</i> <span class="sd">        Args:</span></tt>
             </div>
             <div id="l1074"
-               class="code sev- "><tt><i>1074</i> <span class="sd">                - &quot;MODEL&quot;: Dictionary with model-related configurations:</span></tt>
+               class="code sev- "><tt><i>1074</i> <span class="sd">            cfg (dict): A configuration dictionary containing the following keys:</span></tt>
             </div>
             <div id="l1075"
-               class="code sev- "><tt><i>1075</i> <span class="sd">                    - &quot;device&quot; (str): The device to run the model on (e.g., &quot;cpu&quot; or &quot;cuda&quot;).</span></tt>
+               class="code sev- "><tt><i>1075</i> <span class="sd">                - &quot;MODEL&quot;: Dictionary with model-related configurations:</span></tt>
             </div>
             <div id="l1076"
-               class="code sev- "><tt><i>1076</i> <span class="sd">                    - &quot;arch&quot; (str): The architecture of the model to use.</span></tt>
+               class="code sev- "><tt><i>1076</i> <span class="sd">                    - &quot;device&quot; (str): The device to run the model on (e.g., &quot;cpu&quot; or &quot;cuda&quot;).</span></tt>
             </div>
             <div id="l1077"
-               class="code sev- "><tt><i>1077</i> <span class="sd">                    - &quot;n_layer_feature&quot; (int): The layer number from which to extract features.</span></tt>
+               class="code sev- "><tt><i>1077</i> <span class="sd">                    - &quot;arch&quot; (str): The architecture of the model to use.</span></tt>
             </div>
             <div id="l1078"
-               class="code sev- "><tt><i>1078</i> <span class="sd">                - &quot;DATA&quot;: Dictionary with data-related configurations:</span></tt>
+               class="code sev- "><tt><i>1078</i> <span class="sd">                    - &quot;n_layer_feature&quot; (int): The layer number from which to extract features.</span></tt>
             </div>
             <div id="l1079"
-               class="code sev- "><tt><i>1079</i> <span class="sd">                    - &quot;width&quot; (int): The width of the images.</span></tt>
+               class="code sev- "><tt><i>1079</i> <span class="sd">                - &quot;DATA&quot;: Dictionary with data-related configurations:</span></tt>
             </div>
             <div id="l1080"
-               class="code sev- "><tt><i>1080</i> <span class="sd">                    - &quot;height&quot; (int): The height of the images.</span></tt>
+               class="code sev- "><tt><i>1080</i> <span class="sd">                    - &quot;width&quot; (int): The width of the images.</span></tt>
             </div>
             <div id="l1081"
-               class="code sev- "><tt><i>1081</i> <span class="sd">                    - &quot;norm_mean&quot; (list of float): Mean values for image normalization.</span></tt>
+               class="code sev- "><tt><i>1081</i> <span class="sd">                    - &quot;height&quot; (int): The height of the images.</span></tt>
             </div>
             <div id="l1082"
-               class="code sev- "><tt><i>1082</i> <span class="sd">                    - &quot;norm_std&quot; (list of float): Standard deviation values for image normalization.</span></tt>
+               class="code sev- "><tt><i>1082</i> <span class="sd">                    - &quot;norm_mean&quot; (list of float): Mean values for image normalization.</span></tt>
             </div>
             <div id="l1083"
-               class="code sev- "><tt><i>1083</i> <span class="sd">                    - &quot;batch_size&quot; (int): The batch size for data loading.</span></tt>
+               class="code sev- "><tt><i>1083</i> <span class="sd">                    - &quot;norm_std&quot; (list of float): Standard deviation values for image normalization.</span></tt>
             </div>
             <div id="l1084"
-               class="code sev- "><tt><i>1084</i> <span class="sd">                    - &quot;source&quot; (str): Path to the source folder containing images.</span></tt>
+               class="code sev- "><tt><i>1084</i> <span class="sd">                    - &quot;batch_size&quot; (int): The batch size for data loading.</span></tt>
             </div>
             <div id="l1085"
-               class="code sev- "><tt><i>1085</i> <span class="sd">                    - &quot;target&quot; (str): Path to the target folder containing images.</span></tt>
+               class="code sev- "><tt><i>1085</i> <span class="sd">                    - &quot;source&quot; (str): Path to the source folder containing images.</span></tt>
             </div>
             <div id="l1086"
-               class="code sev- "><tt><i>1086</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1086</i> <span class="sd">                    - &quot;target&quot; (str): Path to the target folder containing images.</span></tt>
             </div>
             <div id="l1087"
-               class="code sev- "><tt><i>1087</i> <span class="sd">        Returns:</span></tt>
+               class="code sev- "><tt><i>1087</i> &nbsp;</tt>
             </div>
             <div id="l1088"
-               class="code sev- "><tt><i>1088</i> <span class="sd">            float: The computed distance between the source and target image features.</span></tt>
+               class="code sev- "><tt><i>1088</i> <span class="sd">        Returns:</span></tt>
             </div>
             <div id="l1089"
-               class="code sev- "><tt><i>1089</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1089</i> <span class="sd">            float: The computed distance between the source and target image features.</span></tt>
             </div>
             <div id="l1090"
-               class="code sev- "><tt><i>1090</i> <span class="sd">        The method performs the following steps:</span></tt>
+               class="code sev- "><tt><i>1090</i> &nbsp;</tt>
             </div>
             <div id="l1091"
-               class="code sev- "><tt><i>1091</i> <span class="sd">        1. Loads the model and sets it up on the specified device.</span></tt>
+               class="code sev- "><tt><i>1091</i> <span class="sd">        The method performs the following steps:</span></tt>
             </div>
             <div id="l1092"
-               class="code sev- "><tt><i>1092</i> <span class="sd">        2. Constructs data loaders for the source and target datasets with specified transformations.</span></tt>
+               class="code sev- "><tt><i>1092</i> <span class="sd">        1. Loads the model and sets it up on the specified device.</span></tt>
             </div>
             <div id="l1093"
-               class="code sev- "><tt><i>1093</i> <span class="sd">        3. Extracts features from the specified layer of the model for both datasets.</span></tt>
+               class="code sev- "><tt><i>1093</i> <span class="sd">        2. Constructs data loaders for the source and target datasets with specified transformations.</span></tt>
             </div>
             <div id="l1094"
-               class="code sev- "><tt><i>1094</i> <span class="sd">        4. Calculates the mean and covariance of the features for both datasets.</span></tt>
+               class="code sev- "><tt><i>1094</i> <span class="sd">        3. Extracts features from the specified layer of the model for both datasets.</span></tt>
             </div>
             <div id="l1095"
-               class="code sev- "><tt><i>1095</i> <span class="sd">        5. Regularizes the covariance matrices to ensure numerical stability.</span></tt>
+               class="code sev- "><tt><i>1095</i> <span class="sd">        4. Calculates the mean and covariance of the features for both datasets.</span></tt>
             </div>
             <div id="l1096"
-               class="code sev- "><tt><i>1096</i> <span class="sd">        6. Computes the Kullback-Leibler divergence between the feature distributions.</span></tt>
+               class="code sev- "><tt><i>1096</i> <span class="sd">        5. Regularizes the covariance matrices to ensure numerical stability.</span></tt>
             </div>
             <div id="l1097"
-               class="code sev- "><tt><i>1097</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
+               class="code sev- "><tt><i>1097</i> <span class="sd">        6. Computes the Kullback-Leibler divergence between the feature distributions.</span></tt>
             </div>
             <div id="l1098"
-               class="code sev- "><tt><i>1098</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1098</i> <span class="sd">        &quot;&quot;&quot;</span></tt>
             </div>
             <div id="l1099"
-               class="code sev- "><tt><i>1099</i>         <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>1099</i> &nbsp;</tt>
             </div>
             <div id="l1100"
-               class="code sev- "><tt><i>1100</i>         <span class="n">model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;arch&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>1100</i>         <span class="n">device</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;device&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l1101"
-               class="code sev- "><tt><i>1101</i>         <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>1101</i>         <span class="n">model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;arch&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l1102"
-               class="code sev- "><tt><i>1102</i>         <span class="n">img_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span></tt>
+               class="code sev- "><tt><i>1102</i>         <span class="n">n_layer_feature</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;MODEL&quot;</span><span class="p">][</span><span class="s2">&quot;n_layer_feature&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l1103"
-               class="code sev- "><tt><i>1103</i>         <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>1103</i>         <span class="n">img_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;width&quot;</span><span class="p">],</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;height&quot;</span><span class="p">])</span></tt>
             </div>
             <div id="l1104"
-               class="code sev- "><tt><i>1104</i>         <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>1104</i>         <span class="n">norm_mean</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_mean&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l1105"
-               class="code sev- "><tt><i>1105</i>         <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>1105</i>         <span class="n">norm_std</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;norm_std&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l1106"
-               class="code sev- "><tt><i>1106</i>         <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>1106</i>         <span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l1107"
-               class="code sev- "><tt><i>1107</i>         <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span></tt>
+               class="code sev- "><tt><i>1107</i>         <span class="n">source_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l1108"
-               class="code sev- "><tt><i>1108</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1108</i>         <span class="n">target_folder_path</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">]</span></tt>
             </div>
             <div id="l1109"
-               class="code sev- "><tt><i>1109</i>         <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1109</i> &nbsp;</tt>
             </div>
             <div id="l1110"
-               class="code sev- "><tt><i>1110</i>         <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1110</i>         <span class="n">transform</span> <span class="o">=</span> <span class="n">generate_transform</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">norm_mean</span><span class="p">,</span> <span class="n">norm_std</span><span class="p">)</span></tt>
             </div>
             <div id="l1111"
-               class="code sev- "><tt><i>1111</i>         <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1111</i>         <span class="n">source_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">source_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></tt>
             </div>
             <div id="l1112"
-               class="code sev- "><tt><i>1112</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1112</i>         <span class="n">target_loader</span> <span class="o">=</span> <span class="n">construct_dataloader</span><span class="p">(</span><span class="n">target_folder_path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></tt>
             </div>
             <div id="l1113"
-               class="code sev- "><tt><i>1113</i>         <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1113</i> &nbsp;</tt>
             </div>
             <div id="l1114"
-               class="code sev- "><tt><i>1114</i>         <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1114</i>         <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
             </div>
             <div id="l1115"
-               class="code sev- "><tt><i>1115</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1115</i>         <span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">extract_nth_layer_feature</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">n_layer_feature</span><span class="p">)</span></tt>
             </div>
             <div id="l1116"
-               class="code sev- "><tt><i>1116</i>         <span class="c1"># compute features as tensor</span></tt>
+               class="code sev- "><tt><i>1116</i> &nbsp;</tt>
             </div>
             <div id="l1117"
-               class="code sev- "><tt><i>1117</i>         <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1117</i>         <span class="c1"># compute features as tensor</span></tt>
             </div>
             <div id="l1118"
-               class="code sev- "><tt><i>1118</i>         <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1118</i>         <span class="n">source_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">source_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
             </div>
             <div id="l1119"
-               class="code sev- "><tt><i>1119</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1119</i>         <span class="n">target_features</span> <span class="o">=</span> <span class="n">compute_features</span><span class="p">(</span><span class="n">target_loader</span><span class="p">,</span> <span class="n">feature_extractor</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
             </div>
             <div id="l1120"
-               class="code sev- "><tt><i>1120</i>         <span class="c1"># Calculate statistics for source features</span></tt>
+               class="code sev- "><tt><i>1120</i> &nbsp;</tt>
             </div>
             <div id="l1121"
-               class="code sev- "><tt><i>1121</i>         <span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">source_features</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1121</i>         <span class="c1"># Calculate statistics for source features</span></tt>
             </div>
             <div id="l1122"
-               class="code sev- "><tt><i>1122</i>         <span class="n">cov1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularize_covariance</span><span class="p">(</span><span class="n">cov1</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1122</i>         <span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">source_features</span><span class="p">)</span></tt>
             </div>
             <div id="l1123"
-               class="code sev- "><tt><i>1123</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1123</i>         <span class="n">cov1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularize_covariance</span><span class="p">(</span><span class="n">cov1</span><span class="p">)</span></tt>
             </div>
             <div id="l1124"
-               class="code sev- "><tt><i>1124</i>         <span class="c1"># Calculate statistics for target features</span></tt>
+               class="code sev- "><tt><i>1124</i> &nbsp;</tt>
             </div>
             <div id="l1125"
-               class="code sev- "><tt><i>1125</i>         <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">target_features</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1125</i>         <span class="c1"># Calculate statistics for target features</span></tt>
             </div>
             <div id="l1126"
-               class="code sev- "><tt><i>1126</i>         <span class="n">cov2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularize_covariance</span><span class="p">(</span><span class="n">cov2</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1126</i>         <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_statistics</span><span class="p">(</span><span class="n">target_features</span><span class="p">)</span></tt>
             </div>
             <div id="l1127"
-               class="code sev- "><tt><i>1127</i> &nbsp;</tt>
+               class="code sev- "><tt><i>1127</i>         <span class="n">cov2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regularize_covariance</span><span class="p">(</span><span class="n">cov2</span><span class="p">)</span></tt>
             </div>
             <div id="l1128"
-               class="code sev- "><tt><i>1128</i>         <span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">klmvn</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>1128</i> &nbsp;</tt>
             </div>
             <div id="l1129"
-               class="code sev- "><tt><i>1129</i>         <span class="k">return</span> <span class="n">dist</span></tt>
+               class="code sev- "><tt><i>1129</i>         <span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">klmvn</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span> <span class="n">cov1</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">cov2</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span></tt>
+            </div>
+            <div id="l1130"
+               class="code sev- "><tt><i>1130</i>         <span class="k">return</span> <span class="n">dist</span></tt>
             </div>
             
          </div>

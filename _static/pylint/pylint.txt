@@ -1,66 +1,7 @@
 ************* Module dqm.main
-dqm\main.py:3:0: C0301: Line too long (128/120) (line-too-long)
-dqm\main.py:30:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:35:0: C0301: Line too long (127/120) (line-too-long)
-dqm\main.py:39:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:44:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:57:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:59:0: C0301: Line too long (145/120) (line-too-long)
-dqm\main.py:61:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:70:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:77:0: C0301: Line too long (133/120) (line-too-long)
-dqm\main.py:115:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:118:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:121:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:135:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:142:136: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:142:0: C0301: Line too long (136/120) (line-too-long)
-dqm\main.py:143:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:145:0: C0301: Line too long (129/120) (line-too-long)
-dqm\main.py:146:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:161:100: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:161:0: W0311: Bad indentation. Found 35 spaces, expected 36 (bad-indentation)
-dqm\main.py:162:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:163:102: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:189:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:192:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:195:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:196:44: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:199:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:202:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:203:102: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:204:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:205:48: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:208:0: W0311: Bad indentation. Found 13 spaces, expected 12 (bad-indentation)
-dqm\main.py:210:32: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:212:0: W0311: Bad indentation. Found 13 spaces, expected 12 (bad-indentation)
-dqm\main.py:213:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:216:0: C0301: Line too long (151/120) (line-too-long)
-dqm\main.py:217:30: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:222:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:226:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:230:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:234:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:238:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:242:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:243:27: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:250:0: C0303: Trailing whitespace (trailing-whitespace)
-dqm\main.py:262:0: C0304: Final newline missing (missing-final-newline)
-dqm\main.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-dqm\main.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
-dqm\main.py:21:8: W0719: Raising too general exception: Exception (broad-exception-raised)
-dqm\main.py:53:8: W0719: Raising too general exception: Exception (broad-exception-raised)
-dqm\main.py:102:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-dqm\main.py:161:35: W0719: Raising too general exception: Exception (broad-exception-raised)
-dqm\main.py:201:36: W0719: Raising too general exception: Exception (broad-exception-raised)
-dqm\main.py:244:24: W0719: Raising too general exception: Exception (broad-exception-raised)
-dqm\main.py:254:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-dqm\main.py:72:0: R0915: Too many statements (67/50) (too-many-statements)
-dqm\main.py:187:44: W0612: Unused variable 'intervals_frequencies' (unused-variable)
-dqm\main.py:197:49: W0612: Unused variable 'intervals_discretized' (unused-variable)
-dqm\main.py:14:0: C0412: Imports from package dqm are not grouped (ungrouped-imports)
+dqm\main.py:87:0: R0915: Too many statements (66/50) (too-many-statements)
 ************* Module dqm.diversity.diversity
-dqm\diversity\diversity.py:86:21: E0606: Possibly using variable 'diversity' before assignment (possibly-used-before-assignment)
+dqm\diversity\diversity.py:89:21: E0606: Possibly using variable 'diversity' before assignment (possibly-used-before-assignment)
 ************* Module dqm.diversity.metric
 dqm\diversity\metric.py:103:4: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module dqm.domain_gap.custom_datasets
@@ -69,8 +10,7 @@ dqm\domain_gap\custom_datasets.py:7:0: C0115: Missing class docstring (missing-c
 dqm\domain_gap\custom_datasets.py:15:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
 dqm\domain_gap\custom_datasets.py:34:0: C0115: Missing class docstring (missing-class-docstring)
 ************* Module dqm.domain_gap.metrics
-dqm\domain_gap\metrics.py:897:0: C0301: Line too long (126/120) (line-too-long)
-dqm\domain_gap\metrics.py:1:0: C0302: Too many lines in module (1129/1000) (too-many-lines)
+dqm\domain_gap\metrics.py:1:0: C0302: Too many lines in module (1130/1000) (too-many-lines)
 dqm\domain_gap\metrics.py:39:0: R0402: Use 'from torch import nn' instead (consider-using-from-import)
 dqm\domain_gap\metrics.py:66:8: W0107: Unnecessary pass statement (unnecessary-pass)
 dqm\domain_gap\metrics.py:70:8: W0107: Unnecessary pass statement (unnecessary-pass)
@@ -94,9 +34,9 @@ dqm\domain_gap\metrics.py:571:37: E0606: Possibly using variable 'error' before 
 dqm\domain_gap\metrics.py:658:0: C0115: Missing class docstring (missing-class-docstring)
 dqm\domain_gap\metrics.py:659:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
 dqm\domain_gap\metrics.py:837:0: C0115: Missing class docstring (missing-class-docstring)
-dqm\domain_gap\metrics.py:957:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
-dqm\domain_gap\metrics.py:1000:23: E1102: torch.linalg.matrix_rank is not callable (not-callable)
-dqm\domain_gap\metrics.py:1030:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+dqm\domain_gap\metrics.py:958:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
+dqm\domain_gap\metrics.py:1001:23: E1102: torch.linalg.matrix_rank is not callable (not-callable)
+dqm\domain_gap\metrics.py:1031:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
 ************* Module dqm.domain_gap.utils
 dqm\domain_gap\utils.py:150:0: C0301: Line too long (130/120) (line-too-long)
 dqm\domain_gap\utils.py:49:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
@@ -107,16 +47,15 @@ dqm\domain_gap\utils.py:60:0: C0116: Missing function or method docstring (missi
 dqm\domain_gap\utils.py:115:0: C0116: Missing function or method docstring (missing-function-docstring)
 dqm\domain_gap\utils.py:185:16: W0707: Consider explicitly re-raising using 'raise ValueError(f'Error loading model from file: {e}') from e' (raise-missing-from)
 ************* Module dqm.representativeness.metric
-dqm\representativeness\metric.py:353:0: C0305: Trailing newlines (trailing-newlines)
 dqm\representativeness\metric.py:169:11: E0606: Possibly using variable 'chi' before assignment (possibly-used-before-assignment)
-dqm\representativeness\metric.py:278:11: E0606: Possibly using variable 'intervals' before assignment (possibly-used-before-assignment)
+dqm\representativeness\metric.py:282:11: E0606: Possibly using variable 'intervals' before assignment (possibly-used-before-assignment)
 ************* Module dqm.representativeness.utils
-dqm\representativeness\utils.py:371:37: E0606: Possibly using variable 'exp' before assignment (possibly-used-before-assignment)
+dqm\representativeness\utils.py:369:37: E0606: Possibly using variable 'exp' before assignment (possibly-used-before-assignment)
 ************* Module dqm.representativeness.__init__
 dqm\representativeness\__init__.py:1:0: R0801: Similar lines in 2 files
-==dqm.diversity.twe_logger:[23:105]
-==dqm.representativeness.twe_logger:[23:103]
-LOGGER_DEFAULT_NAME = 'twe_logger'
+==dqm.diversity.twe_logger:[24:104]
+==dqm.representativeness.twe_logger:[24:104]
+LOGGER_DEFAULT_NAME = "twe_logger"
 
 
 def log_str_to_level(str_level):
@@ -129,25 +68,22 @@ def log_str_to_level(str_level):
     Returns:
         int: The corresponding logging level.
     """
-    if str_level == 'debug':
+    if str_level == "debug":
         level = logging.DEBUG
-    elif str_level == 'info':
+    elif str_level == "info":
         level = logging.INFO
-    elif str_level == 'warning':
+    elif str_level == "warning":
         level = logging.WARNING
-    elif str_level == 'error':
+    elif str_level == "error":
         level = logging.ERROR
-    elif str_level == 'critical':
+    elif str_level == "critical":
         level = logging.CRITICAL
     else:
         level = logging.NOTSET
     return level
 
 
-def get_logger(name=LOGGER_DEFAULT_NAME,
-               level='debug',
-               filename=None,
-               output=None):
+def get_logger(name=LOGGER_DEFAULT_NAME, level="debug", filename=None, output=None):
     """
     Creates and returns a logger.
 
@@ -166,22 +102,25 @@ def get_logger(name=LOGGER_DEFAULT_NAME,
 
     # Decide the output based on whether a filename is provided and output is specified
     if output is None:
-        output = 'file' if filename else 'stdout'
+        output = "file" if filename else "stdout"
 
     logger = logging.getLogger(name)
-    formatter = logging.Formatter('[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s \
-     - %(message)s', '%m-%d %H:%M:%S')
+    formatter = logging.Formatter(
+        "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s \
+     - %(message)s",
+        "%m-%d %H:%M:%S",
+    )
 
     handlers = []
 
-    if output in ['stdout', 'both']:
+    if output in ["stdout", "both"]:
         # StreamHandler to send logs to stdout
         stream_handler = logging.StreamHandler(stream=sys.stdout)
         stream_handler.setFormatter(formatter)
         stream_handler.setLevel(level)
         handlers.append(stream_handler)
 
-    if output in ['file', 'both'] and filename:
+    if output in ["file", "both"] and filename:
         # FileHandler to send logs to a file
         file_handler = logging.FileHandler(filename)
         file_handler.setFormatter(formatter)
@@ -192,11 +131,11 @@ def get_logger(name=LOGGER_DEFAULT_NAME,
         for handler in handlers:
             logger.addHandler(handler)
     else:
-        logger.handlers    = handlers
+        logger.handlers = handlers
     logger.setLevel(level)
-    logger.info("Logger: %s, handlers: %s" , name,logger.handlers)
+    logger.info("Logger: %s, handlers: %s", name, logger.handlers)
     return logger (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.62/10 (previous run: 8.68/10, -0.05)
+Your code has been rated at 9.26/10 (previous run: 9.25/10, +0.01)
 

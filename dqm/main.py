@@ -72,7 +72,7 @@ def load_dataframe(config_dict):
         file_list = [
             str(x) for x in list(search_path.rglob("*." + extension))
         ]  # Search all files in folder and subfolder with sepcified extension
-        print("list des fichiers a concatener :", file_list)
+        print("List of files found in target folder:", file_list)
 
         for file_path in file_list:
             tmp_df = load_raw_data(file_path, separator)

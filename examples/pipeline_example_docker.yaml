@@ -9,19 +9,19 @@
 
 pipeline_definition:
   - domain : "completeness"
-    dataset : "/tests/sample_data/completeness_sample_data.csv"
+    dataset : "/data_storage/sample_data/completeness_sample_data.csv"
     columns_names : ["column_1","column_3","column_6","column_9"]
 
   - domain : "representativeness"
     metrics: ["chi-square","GRTE"]
     bins : 10
     distribution : normal
-    dataset: "/tests/sample_data/SMD_test_ds_sample.csv"
+    dataset: "/data_storage/sample_data/SMD_test_ds_sample.csv"
     columns_names : ["column_2","column_4", "column_6"]
     
   - domain : "diversity"
     metrics: ["simpson","gini"]
-    dataset: "/tests/sample_data/SMD_test_ds_sample.csv"
+    dataset: "/data_storage/sample_data/SMD_test_ds_sample.csv"
     columns_names : ["column_2","column_4", "column_6"]
 
   - domain: "domain_gap"
@@ -34,8 +34,8 @@ pipeline_definition:
                 width: 299
                 norm_mean: [0.485,0.456,0.406]
                 norm_std: [0.229,0.224,0.225]
-                source: "/tests/sample_data/image_test_ds/c20"
-                target: "/tests/sample_data/image_test_ds/c33"  
+                source: "/data_storage/sample_data/image_test_ds/c20"
+                target: "/data_storage/sample_data/image_test_ds/c33"  
             MODEL:
                 arch: "resnet18"
                 device: "cpu"
@@ -51,8 +51,8 @@ pipeline_definition:
                     width: 299
                     norm_mean: [0.485,0.456,0.406]
                     norm_std: [0.229,0.224,0.225]
-                    source: "/tests/sample_data/image_test_ds/c20"
-                    target: "/tests/sample_data/image_test_ds/c33"  
+                    source: "/data_storage/sample_data/image_test_ds/c20"
+                    target: "/data_storage/sample_data/image_test_ds/c33"  
                 MODEL: 
                     device: "cpu"
                     n_layer_feature: -2
@@ -66,8 +66,8 @@ pipeline_definition:
                 width: 224
                 norm_mean: [0.485,0.456,0.406]
                 norm_std: [0.229,0.224,0.225]
-                source: "/tests/sample_data/image_test_ds/c20"
-                target: "/tests/sample_data/image_test_ds/c33"
+                source: "/data_storage/sample_data/image_test_ds/c20"
+                target: "/data_storage/sample_data/image_test_ds/c33"
 
             MODEL: 
                 arch: ["efficientnet_b0","vgg16"]
@@ -85,8 +85,8 @@ pipeline_definition:
                     width: 20
                     norm_mean: [0.485,0.456,0.406]
                     norm_std: [0.229,0.224,0.225]
-                    source: "/tests/sample_data/image_test_ds/c20"
-                    target: "/tests/sample_data/image_test_ds/c33"  
+                    source: "/data_storage/sample_data/image_test_ds/c20"
+                    target: "/data_storage/sample_data/image_test_ds/c33"  
                 MODEL: 
                     arch: "resnet18"
                     device: "cpu"
@@ -102,8 +102,8 @@ pipeline_definition:
                     width: 224
                     norm_mean: [0.485,0.456,0.406]
                     norm_std: [0.229,0.224,0.225]
-                    source: "/tests/sample_data/image_test_ds/c20"
-                    target: "/tests/sample_data/image_test_ds/c33"
+                    source: "/data_storage/sample_data/image_test_ds/c20"
+                    target: "/data_storage/sample_data/image_test_ds/c33"
 
                 MODEL: 
                     arch: "resnet18"
@@ -125,8 +125,8 @@ pipeline_definition:
                     width: 224
                     norm_mean: [0.485,0.456,0.406]
                     norm_std: [0.229,0.224,0.225]
-                    source: "/tests/sample_data/image_test_ds/c20"
-                    target: "/tests/sample_data/image_test_ds/c33" 
+                    source: "/data_storage/sample_data/image_test_ds/c20"
+                    target: "/data_storage/sample_data/image_test_ds/c33" 
 
                 MODEL: 
                     arch: "resnet18"

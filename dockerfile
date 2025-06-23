@@ -22,7 +22,7 @@ RUN wget -P /root/.cache/torch/hub/checkpoints/ https://download.pytorch.org/mod
 RUN wget -P /root/.cache/torch/hub/checkpoints/ https://download.pytorch.org/models/efficientnet_b0_rwightman-7f5810bc.pth
 RUN wget -P /root/.cache/torch/hub/checkpoints/ https://download.pytorch.org/models/vgg16-397923af.pth
 
-
+# Install DQM package and its dependencies
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN python -m pip install .

@@ -31,7 +31,7 @@ from collections import Counter
 from typing import Iterable
 import numpy as np
 
-from dqm.diversity.twe_logger import get_logger
+from dqm.utils.twe_logger import get_logger
 
 logger = get_logger()
 

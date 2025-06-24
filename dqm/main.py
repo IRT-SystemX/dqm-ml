@@ -1,4 +1,4 @@
-""""
+"""
 This script is the entry point for using DQM with command line and docker
 """
 
@@ -16,16 +16,16 @@ from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, K
 
 ROOT_PATH = str(Path(__file__).parent.resolve()) + os.sep  # To point on test directory
 
-
 def load_raw_data(file, separator):
     """
     This function load a raw data file content as a pandas dataframe
-    Args :
-        file : str - Path of the file to load
-        separator : str - Separator to use when processing csv format file
+
+    Args:
+       file (str): Path of the file to load
+       separator (str): Separator to use when processing csv format file
 
     Returns:
-        df : (pandas.DataFrame) - Output dataframe
+       df (pandas.DataFrame): Output dataframe
     """
 
     extension = file.split(".")[-1]
@@ -45,10 +45,11 @@ def load_raw_data(file, separator):
 
 def load_dataframe(config_dict):
     """
-    This function loads a pandas datframe from the config dict passed as input.
+    This function loads a pandas dataframe from the config dict passed as input.
     This config dict comes from a pipeline configuration: An example of such pipeline is presnt in examples/ folder
+    
     Args:
-        input_path : dict - Input path to scan to import dataframe
+       input_path (dict): Input path to scan to import dataframe
     """
 
     # Scan extension and seprator option for csv file
@@ -89,8 +90,8 @@ def main():
     Main script of DQM component:
 
     Args:
-        pipeline_config_path : str - Path to the pipeline definition you want to apply
-        result_file_path : str - Path the output YAML file where all computed metrics scores are stored
+        pipeline_config_path (str): Path to the pipeline definition you want to apply
+        result_file_path : (str): Path the output YAML file where all computed metrics scores are stored
     """
 
     parser = argparse.ArgumentParser(description="Main script of DQM")
@@ -110,7 +111,6 @@ def main():
     )
 
     args = parser.parse_args()
-    # print("args", args)
 
     # Read the pipeline configuration file
 

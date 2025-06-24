@@ -1,5 +1,5 @@
-🔎 Package dqm-ml
-===
+🔎 dqm-ml package
+=================
 
 .. toctree::
    :maxdepth: 4

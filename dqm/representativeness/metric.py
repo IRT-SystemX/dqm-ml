@@ -12,7 +12,7 @@ Dependencies:
     matplotlib
     scipy
     seaborn
-    dqm.representativeness.twe_logger
+    dqm.utils.twe_logger
 
 Classes:
     DistributionAnalyzer: Class for analyzing data distribution
@@ -28,7 +28,7 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 from dqm.representativeness.utils import VariableAnalysis, DiscretisationParams
-from dqm.representativeness.twe_logger import get_logger
+from dqm.utils.twe_logger import get_logger
 
 logger = get_logger()
 variable_analyzer = VariableAnalysis()

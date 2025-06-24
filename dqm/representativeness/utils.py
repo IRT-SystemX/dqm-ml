@@ -14,7 +14,7 @@ Dependencies:
     pandas
     matplotlib.pyplot
     scipy.stats
-    dqm.representativeness.twe_logger
+    dqm.utils.twe_logger
     seaborn
 
 Functions : None
@@ -54,7 +54,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from scipy import stats
-from dqm.representativeness.twe_logger import get_logger
+from dqm.utils.twe_logger import get_logger
 import seaborn as sns
 
 logger = get_logger()

@@ -1,4 +1,4 @@
- 🎡 Package dqm-ml
+🔎 Package dqm-ml
 ===
 
 .. toctree::

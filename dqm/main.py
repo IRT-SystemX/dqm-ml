@@ -13,6 +13,9 @@ from dqm.completeness.metric import DataCompleteness
 from dqm.diversity.metric import DiversityIndexCalculator
 from dqm.representativeness.metric import DistributionAnalyzer
 from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, KLMVN
+from dqm.utils.twe_logger import get_logger
+
+logger = get_logger()
 
 ROOT_PATH = str(Path(__file__).parent.resolve()) + os.sep  # To point on test directory
 
@@ -65,7 +68,7 @@ def load_dataframe(config_dict):
     df = pd.DataFrame()
 
     if not os.path.exists(dataset_path):
-        raise FileNotFoundError("the dataset", dataset_path, " does not exists")
+        raise FileNotFoundError("The dataset", dataset_path, " does not exists")
 
     # In case of a directory , iterate on file and concatenate raw data
     if os.path.isdir(dataset_path):
@@ -73,7 +76,8 @@ def load_dataframe(config_dict):
         file_list = [
             str(x) for x in list(search_path.rglob("*." + extension))
         ]  # Search all files in folder and subfolder with sepcified extension
-        print("List of files found in target folder:", file_list)
+
+        logger.info("List of files found in target folder : %s", str(file_list))
 
         for file_path in file_list:
             tmp_df = load_raw_data(file_path, separator)
@@ -112,10 +116,14 @@ def main():
 
     args = parser.parse_args()
 
+    logger.info("Starting DQM . .")
+
     # Read the pipeline configuration file
 
     with open(args.pipeline_config_path, "r", encoding="utf-8") as stream:
         pipeline_config = yaml.safe_load(stream)
+
+    
 
     # Crate output diretory if it does not exist
     # print("creation directory ", args.result_file_path.split(os.sep)[:-1])
@@ -134,10 +142,9 @@ def main():
 
         # For metrics working on tabular
         if item["domain"] != "domain_gap":
-            # Load dataframe for specified domain
-            print(
-                "procesing dataset :", item["dataset"], "for domain : ", item["domain"]
-            )
+
+            logger.info("procesing dataset : %s for domain : %s ", item["dataset"], item["domain"])
+            
             main_df = load_dataframe(item)
 
             # init col variable
@@ -237,13 +244,10 @@ def main():
             for metric_dict in item["metrics"]:
                 config_method = metric_dict["method_config"]
                 metric = metric_dict["metric_name"]
-                print(
-                    "procesing domain gap for metric : ",
-                    metric,
-                    "for datasets : ",
-                    config_method["DATA"]["source"],
-                    config_method["DATA"]["target"],
-                )
+                
+                logger.info("procesing domain gap for metric : %s for source dataset :  %s and target dataset : %s",\
+                metric, config_method["DATA"]["source"],config_method["DATA"]["target"])
+                
                 match metric:
                     case "wasserstein":
                         wass = Wasserstein()
@@ -279,11 +283,11 @@ def main():
                 )
 
     # Export final results to yaml file
-    # print("final results")
-    # print(res_dict)
+
     with open(args.result_file_path, "w+", encoding="utf-8") as ff:
         yaml.dump(res_dict, ff, default_flow_style=False, sort_keys=False)
 
-
+    logger.info("pipeline final results exported to file : %s", args.result_file_path)
+    
 if __name__ == "__main__":
     main()

@@ -121,7 +121,7 @@ You can use the dqm-ml directly to evaluate your dataset, by using the "dqm-ml" 
 
 The command line has the following form :
 
-```dqm-ml --pipeline_config_path path/to_your_pipeline_path --result_file_path path_to_your_result_file```
+```dqm-ml --pipeline_config_path path_to_your_pipeline_file --result_file_path path_to_your_result_file```
 
 This mode requires two user parameters:
   - pipeline_config_path : A path to a yaml file that will define the pipeline of evaluation you want to apply on your datasests

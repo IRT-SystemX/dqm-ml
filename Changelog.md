@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.1.1 (2025-06-27)
+
+* Added dockerization
+* Added CLI
+
 ## v 1.1.0 (2025-03-31)
 
 * Updated examples folder

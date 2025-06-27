@@ -254,9 +254,13 @@ modify it as you wish.
 
 ###  Use the dockerized version
 
+To build locally the docker image, from the root folder of the repository:
+
+```docker build . -f dockerfile -t image_name:tag```
+
 The command line to run the dqm container has the following form :
 
-```docker run -e PIPELINE_CONFIG_PATH="path_to_your_pipeline_file" -e RESULT_FILE_PATH="path_to_the_result_file" irtsystemx/dqm-ml:1.1.0```
+```docker run -e PIPELINE_CONFIG_PATH="path_to_your_pipeline_file" -e RESULT_FILE_PATH="path_to_the_result_file" irtsystemx/dqm-ml:1.1.1```
 
 You need to mount the ```PIPELINE_CONFIG_PATH``` path to ```/tmp/in/$PIPELIN_CONFIG_PATH``` and the ```$RESULT_FILE_PATH``` to  ```/tmp/out/$RESULT_FILE_PATH```
 Moreover, All datasets directores referenced in your pipeline file shall be mounted in the docker
@@ -266,7 +270,7 @@ and all your datasets used in your pipeline are stored inside locally into ```/t
 
 The command would be :
 
-```docker run -e PIPELINE_CONFIG_PATH="pipeline_example_docker.yaml" -e RESULT_FILE_PATH="result_file.yaml" -v ${PWD}/examples:/tmp/in -v ${PWD}/tests/:/data_storage/ -v ${PWD}/results_docker:/tmp/out irtsystemx/dqm-ml:1.1.0```
+```docker run -e PIPELINE_CONFIG_PATH="pipeline_example_docker.yaml" -e RESULT_FILE_PATH="result_file.yaml" -v ${PWD}/examples:/tmp/in -v ${PWD}/tests/:/data_storage/ -v ${PWD}/results_docker:/tmp/out irtsystemx/dqm-ml:1.1.1```
 
 ### User with proxy server
 

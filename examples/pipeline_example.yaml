@@ -1,11 +1,6 @@
 # This file is an example of pipeline configuration for DQM
-# in datapath field: if path is a file, the dataset is considered to be stored inn this file, if pathis a folder, a file in the given folder will be concatenated : Supported format for file are csv,xlsx and parquet.
-# by row to form the evaluated dataset
-# if column_names field  is present the metric is computed for each column, otherwise the metric will be computed on all columns by default
-# if metrics field is not present : all metrics will be computed by default
 
-# For domain gap , desired metrics shall explicitly set as primary key, then the config in method_config key.
-
+# Description of the structure of a pipelines is available in the README.md file
 
 pipeline_definition:
   - domain : "completeness"

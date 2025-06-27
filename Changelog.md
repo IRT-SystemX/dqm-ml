@@ -4,6 +4,7 @@
 
 * Added dockerization
 * Added CLI
+* Added unit tests and test plans
 
 ## v 1.1.0 (2025-03-31)
 

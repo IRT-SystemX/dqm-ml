@@ -134,9 +134,9 @@ For example, if your pipeline file is located at path :  ```examples/pipeline_ex
 ### Pipeline definition
 
 A dqm-ml pipeline is a yaml file that contains the list of dataset you want to evaluate, and the list of metrics you want to compute on each ones.
-This file has a primary key **pipeline_definition** containing  a list of items where each item has the following required fiedls:
+This file has a primary key **pipeline_definition** containing  a list of items where each item has the following required fields:
   - dataset : The path to the dataset you want to evaluate .
-  - domain : the category of metric you want to apply
+  - domain : The category of metric you want to apply
   - metrics : The list of metrics to compute on the dataset . (For completeness only this field is not used)
   
 For representativeness domain only, the following additional parameters fields are required:
@@ -146,9 +146,9 @@ For representativeness domain only, the following additional parameters fields a
   You can use an optionnal field :
   - columns : The list of columns from your dataset on which you want to restrict the computations of metrics. If this field is missing, by default the metrics are applied on all columns of the given dataset
 
-The field ```datasets ```, can be a path to a single file  or a path to a folder. If the path points on a single file,  fhe file content is directly loaded and considered as the final dataset to evaluate. Supported extension for files are "csv, txt, xls,xlsx, pq and parquet". In case of csv or txt file,  you can set a ```separator ``` field to indicate the separator to be used to parse the file.
+The field ```datasets ```, can be a path to a single file  or a path to a folder. If the path points on a single file,  the file content is directly loaded and considered as the final dataset to evaluate. Supported extension for files are "csv, txt, xls,xlsx, pq and parquet". In case of csv or txt file,  you can set a ```separator ``` field to indicate the separator to be used to parse the file.
 
-If the defined path is a folder, all files within the folder will be automatically concatened along the rows axis to build the final dataset that will be considered for the evaluation. For folders, you can use an additional ```extension ``` field to concatenate only the files with the specified extension in the target folder. By default all present files are tried to be concatenated.
+If the defined path is a folder, all files within the folder will be automatically concatened along the rows axis to build the final dataset that will be considered for the evaluation. For folders, you can use an additional ```extension ``` field to concatenate only the files with the specified extension in the target folder. By default, all present files are tried to be concatenated.
 
 For example:
 
@@ -167,7 +167,7 @@ For domain gap, because the metrics apply only on images datasets, the definitio
   - ```domain```: defining the name of the domain thus here "domain_gap"
   - ```metrics``` :   The list of metrics you want to compute, and for each item you have two fields
       - metrics_name : The name of metric to compute
-      - method_config ! The user configuration of the metric. In this part you define the source and target datasets, the chosen models, and other user parameters
+      - method_config : The user configuration of the metric. In this part you define the source and target datasets, the chosen models, and other user parameters
 
 An example of pipeline file defining the computations of many metrics from the four domains is given below:
 ```
@@ -208,7 +208,7 @@ pipeline_definition:
                 name: "fid"
 ```
 
-The result file produced at the end of thpipeline is a yaml file containig the  pipeline configuration file augmented  with a "score" field in each item, containing the corresponding metrics computed scores.
+The result file produced at the end of this pipeline is a yaml file containing the  pipeline configuration file content augmented with a "scores" field in each item, containing the metrics computed scores.
 
 Example of result_score:
 
@@ -249,24 +249,23 @@ pipeline_definition:
       column_6: 0.6955152215780268
 ```
 
-The best way to create your own pipeline definition, is to start from existing example pipelines present in the ```examples/pipeline_example.yaml``` folder and 
-modify it as you wish.
+To create your own pipeline definition, it is adviced to start from one existing model of pipeline present in the ```examples/ ``` folder.
 
 ###  Use the dockerized version
 
-To build locally the docker image, from the root folder of the repository:
+To build locally the docker image, from the root folder of the repository use the command:
 
-```docker build . -f dockerfile -t image_name:tag```
+```docker build . -f dockerfile -t your_image_name:tag```
 
 The command line to run the dqm container has the following form :
 
 ```docker run -e PIPELINE_CONFIG_PATH="path_to_your_pipeline_file" -e RESULT_FILE_PATH="path_to_the_result_file" irtsystemx/dqm-ml:1.1.1```
 
 You need to mount the ```PIPELINE_CONFIG_PATH``` path to ```/tmp/in/$PIPELIN_CONFIG_PATH``` and the ```$RESULT_FILE_PATH``` to  ```/tmp/out/$RESULT_FILE_PATH```
-Moreover, All datasets directores referenced in your pipeline file shall be mounted in the docker
+Moreover, all datasets directories referenced in your pipeline file shall be mounted in the docker
 
-For example if your pipeline file is stored at ```examples/pipeline_example_docker.yaml``` and your result file shall be stored at ```results_docker/result_file.yaml```
-and all your datasets used in your pipeline are stored inside locally into ```/tests``` folder and defined on ```data_storage/..``` folder in your pipeline file 
+For example if your pipeline file is stored at ```examples/pipeline_example_docker.yaml``` and you want your result file to be stored at ```results_docker/result_file.yaml```
+and all your datasets used in your pipeline are stored locally into ```/tests``` folder and defined on ```data_storage/..``` in your pipeline file 
 
 The command would be :
 
@@ -274,7 +273,7 @@ The command would be :
 
 ### User with proxy server
 
-The computation of domain gap metrics requires the use of pretrained models that are automatically downloaded by pytorch in a local cache directory during the first call to those metrics.
+The computation of domain gap metrics requires the use of pretrained models that are automatically downloaded by pytorch in a local cache directory during the first call of those metrics.
 
 For users behind a proxy server, this download could fail. To overcome this issue, you can manually get those pretrained models by downloading the zip archive from this  [link](http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models//dqm-ml_pretrained_models.zip) and extract it in the following folder : ``` your_user_directory/.cache/torch/hub/checkpoints/```
 

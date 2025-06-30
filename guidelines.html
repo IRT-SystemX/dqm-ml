@@ -142,10 +142,10 @@
 <section id="pipeline-definition">
 <h3>Pipeline definition<a class="headerlink" href="#pipeline-definition" title="Link to this heading"></a></h3>
 <p>A dqm-ml pipeline is a yaml file that contains the list of dataset you want to evaluate, and the list of metrics you want to compute on each ones.
-This file has a primary key <strong>pipeline_definition</strong> containing  a list of items where each item has the following required fiedls:</p>
+This file has a primary key <strong>pipeline_definition</strong> containing  a list of items where each item has the following required fields:</p>
 <ul class="simple">
 <li><p>dataset : The path to the dataset you want to evaluate .</p></li>
-<li><p>domain : the category of metric you want to apply</p></li>
+<li><p>domain : The category of metric you want to apply</p></li>
 <li><p>metrics : The list of metrics to compute on the dataset . (For completeness only this field is not used)</p></li>
 </ul>
 <p>For representativeness domain only, the following additional parameters fields are required:</p>
@@ -157,8 +157,8 @@ This file has a primary key <strong>pipeline_definition</strong> containing  a l
 <ul class="simple">
 <li><p>columns : The list of columns from your dataset on which you want to restrict the computations of metrics. If this field is missing, by default the metrics are applied on all columns of the given dataset</p></li>
 </ul>
-<p>The field <code class="docutils literal notranslate"><span class="pre">datasets</span> </code>, can be a path to a single file  or a path to a folder. If the path points on a single file,  fhe file content is directly loaded and considered as the final dataset to evaluate. Supported extension for files are “csv, txt, xls,xlsx, pq and parquet”. In case of csv or txt file,  you can set a <code class="docutils literal notranslate"><span class="pre">separator</span> </code> field to indicate the separator to be used to parse the file.</p>
-<p>If the defined path is a folder, all files within the folder will be automatically concatened along the rows axis to build the final dataset that will be considered for the evaluation. For folders, you can use an additional <code class="docutils literal notranslate"><span class="pre">extension</span> </code> field to concatenate only the files with the specified extension in the target folder. By default all present files are tried to be concatenated.</p>
+<p>The field <code class="docutils literal notranslate"><span class="pre">datasets</span> </code>, can be a path to a single file  or a path to a folder. If the path points on a single file,  the file content is directly loaded and considered as the final dataset to evaluate. Supported extension for files are “csv, txt, xls,xlsx, pq and parquet”. In case of csv or txt file,  you can set a <code class="docutils literal notranslate"><span class="pre">separator</span> </code> field to indicate the separator to be used to parse the file.</p>
+<p>If the defined path is a folder, all files within the folder will be automatically concatened along the rows axis to build the final dataset that will be considered for the evaluation. For folders, you can use an additional <code class="docutils literal notranslate"><span class="pre">extension</span> </code> field to concatenate only the files with the specified extension in the target folder. By default, all present files are tried to be concatenated.</p>
 <p>For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="o">-</span> <span class="n">domain</span> <span class="p">:</span> <span class="s2">&quot;representativeness&quot;</span>
     <span class="n">extension</span><span class="p">:</span> <span class="s2">&quot;txt&quot;</span>
@@ -175,7 +175,7 @@ This file has a primary key <strong>pipeline_definition</strong> containing  a l
 <li><p><code class="docutils literal notranslate"><span class="pre">metrics</span></code> :   The list of metrics you want to compute, and for each item you have two fields</p>
 <ul>
 <li><p>metrics_name : The name of metric to compute</p></li>
-<li><p>method_config ! The user configuration of the metric. In this part you define the source and target datasets, the chosen models, and other user parameters</p></li>
+<li><p>method_config : The user configuration of the metric. In this part you define the source and target datasets, the chosen models, and other user parameters</p></li>
 </ul>
 </li>
 </ul>
@@ -217,7 +217,7 @@ This file has a primary key <strong>pipeline_definition</strong> containing  a l
                 <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;fid&quot;</span>
 </pre></div>
 </div>
-<p>The result file produced at the end of thpipeline is a yaml file containig the  pipeline configuration file augmented  with a “score” field in each item, containing the corresponding metrics computed scores.</p>
+<p>The result file produced at the end of this pipeline is a yaml file containing the  pipeline configuration file content augmented with a “scores” field in each item, containing the metrics computed scores.</p>
 <p>Example of result_score:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline_definition</span><span class="p">:</span>
 <span class="o">-</span> <span class="n">domain</span><span class="p">:</span> <span class="n">completeness</span>
@@ -255,25 +255,24 @@ This file has a primary key <strong>pipeline_definition</strong> containing  a l
       <span class="n">column_6</span><span class="p">:</span> <span class="mf">0.6955152215780268</span>
 </pre></div>
 </div>
-<p>The best way to create your own pipeline definition, is to start from existing example pipelines present in the <code class="docutils literal notranslate"><span class="pre">examples/pipeline_example.yaml</span></code> folder and
-modify it as you wish.</p>
+<p>To create your own pipeline definition, it is adviced to start from one existing model of pipeline present in the <code class="docutils literal notranslate"><span class="pre">examples/</span> </code> folder.</p>
 </section>
 <section id="use-the-dockerized-version">
 <h3>Use the dockerized version<a class="headerlink" href="#use-the-dockerized-version" title="Link to this heading"></a></h3>
-<p>To build locally the docker image, from the root folder of the repository:</p>
-<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span> <span class="pre">.</span> <span class="pre">-f</span> <span class="pre">dockerfile</span> <span class="pre">-t</span> <span class="pre">image_name:tag</span></code></p>
+<p>To build locally the docker image, from the root folder of the repository use the command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span> <span class="pre">.</span> <span class="pre">-f</span> <span class="pre">dockerfile</span> <span class="pre">-t</span> <span class="pre">your_image_name:tag</span></code></p>
 <p>The command line to run the dqm container has the following form :</p>
 <p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-e</span> <span class="pre">PIPELINE_CONFIG_PATH=&quot;path_to_your_pipeline_file&quot;</span> <span class="pre">-e</span> <span class="pre">RESULT_FILE_PATH=&quot;path_to_the_result_file&quot;</span> <span class="pre">irtsystemx/dqm-ml:1.1.1</span></code></p>
 <p>You need to mount the <code class="docutils literal notranslate"><span class="pre">PIPELINE_CONFIG_PATH</span></code> path to <code class="docutils literal notranslate"><span class="pre">/tmp/in/$PIPELIN_CONFIG_PATH</span></code> and the <code class="docutils literal notranslate"><span class="pre">$RESULT_FILE_PATH</span></code> to  <code class="docutils literal notranslate"><span class="pre">/tmp/out/$RESULT_FILE_PATH</span></code>
-Moreover, All datasets directores referenced in your pipeline file shall be mounted in the docker</p>
-<p>For example if your pipeline file is stored at <code class="docutils literal notranslate"><span class="pre">examples/pipeline_example_docker.yaml</span></code> and your result file shall be stored at <code class="docutils literal notranslate"><span class="pre">results_docker/result_file.yaml</span></code>
-and all your datasets used in your pipeline are stored inside locally into <code class="docutils literal notranslate"><span class="pre">/tests</span></code> folder and defined on <code class="docutils literal notranslate"><span class="pre">data_storage/..</span></code> folder in your pipeline file</p>
+Moreover, all datasets directories referenced in your pipeline file shall be mounted in the docker</p>
+<p>For example if your pipeline file is stored at <code class="docutils literal notranslate"><span class="pre">examples/pipeline_example_docker.yaml</span></code> and you want your result file to be stored at <code class="docutils literal notranslate"><span class="pre">results_docker/result_file.yaml</span></code>
+and all your datasets used in your pipeline are stored locally into <code class="docutils literal notranslate"><span class="pre">/tests</span></code> folder and defined on <code class="docutils literal notranslate"><span class="pre">data_storage/..</span></code> in your pipeline file</p>
 <p>The command would be :</p>
 <p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-e</span> <span class="pre">PIPELINE_CONFIG_PATH=&quot;pipeline_example_docker.yaml&quot;</span> <span class="pre">-e</span> <span class="pre">RESULT_FILE_PATH=&quot;result_file.yaml&quot;</span> <span class="pre">-v</span> <span class="pre">${PWD}/examples:/tmp/in</span> <span class="pre">-v</span> <span class="pre">${PWD}/tests/:/data_storage/</span> <span class="pre">-v</span> <span class="pre">${PWD}/results_docker:/tmp/out</span> <span class="pre">irtsystemx/dqm-ml:1.1.1</span></code></p>
 </section>
 <section id="user-with-proxy-server">
 <h3>User with proxy server<a class="headerlink" href="#user-with-proxy-server" title="Link to this heading"></a></h3>
-<p>The computation of domain gap metrics requires the use of pretrained models that are automatically downloaded by pytorch in a local cache directory during the first call to those metrics.</p>
+<p>The computation of domain gap metrics requires the use of pretrained models that are automatically downloaded by pytorch in a local cache directory during the first call of those metrics.</p>
 <p>For users behind a proxy server, this download could fail. To overcome this issue, you can manually get those pretrained models by downloading the zip archive from this  <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models//dqm-ml_pretrained_models.zip">link</a> and extract it in the following folder : <code class="docutils literal notranslate"> <span class="pre">your_user_directory/.cache/torch/hub/checkpoints/</span></code></p>
 </section>
 <section id="use-the-library-within-your-python-code">

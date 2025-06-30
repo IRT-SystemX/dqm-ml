@@ -40,8 +40,8 @@ jobs:
     - name : Build the documentation
       run: |
         cd scripts 
-        chmod +x build_documentation_linux.sh
-        ./build_documentation_linux.sh
+        chmod +x build_sphinx_documentation_linux.sh
+        ./build_sphinx_documentation_linux.sh
         cd ..
         
     - name: Deploy to GitHub Pages

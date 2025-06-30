@@ -1,13 +1,8 @@
 name: Deploy Sphinx Docs to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
 
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build_and_deploy:
@@ -25,28 +20,33 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.9'
+        python-version: '3.12'
 
-    - name: Install dependencies
+    - name: Install dependencies for next steps
       run: |
+        sudo apt-get update && sudo apt-get install -y libxml2-utils
         sudo apt-get update && sudo apt-get install -y pandoc
-        python -m pip install --upgrade pip 
-        pip install setuptools
+        python -m pip install --upgrade pip
+        pip install -r scripts/docs_requirements.txt
+        pip install -r scripts/quality_requirements.txt
         pip install .
-        pip install -r docs/docs_req.txt
-
-    - name: Build the documentation
+       
+    - name: Run quality check and test coverage
       run: |
-        cp -R _static docs/source/
-        cp -R examples docs/source/
-        cd docs
-        make html
-
+        cd scripts 
+        chmod +x run_quality_check.sh
+        ./run_quality_check.sh
+        cd ..
+    - name : Build the documentation
+      run: |
+        cd scripts 
+        chmod +x build_documentation_linux.sh
+        ./build_documentation_linux.sh
+        cd ..
+        
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages
         folder: docs/build/html/
         clean: true
-
-

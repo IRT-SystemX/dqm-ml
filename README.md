@@ -5,9 +5,6 @@
 
 <div align="center">
     <a href="#">
-        <img src="https://img.shields.io/badge/Python-3.9-efefef">
-    </a>
-    <a href="#">
         <img src="https://img.shields.io/badge/Python-3.10-efefef">
     </a>
     <a href="#">
@@ -18,11 +15,21 @@
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/License-MPL-2">
-
-[![Code style: Pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev)
-[![Code style: flake8](https://img.shields.io/badge/code%20style-flake8-1c4a6c.svg)](https://flake8.pycqa.org/en/latest/)
+	</a>
+    <a href="_static/pylint/pylint.txt">
+        <img src="_static/pylint/pylint.svg" alt="Pylint Score">
+    </a>
+    <a href="_static/flake8/index.html">
+        <img src="_static/flake8/flake8.svg" alt="Flake8 Report">
+    </a>
+	<a href="_static/coverage/index.html">
+        <img src="_static/coverage/coverage.svg" alt="Coverage report">
+    </a>
 
 </div>
+
+<br>
+<br>
 
 # Data Quality Metrics
 
@@ -104,6 +111,175 @@ pip install .
 
 ## Usage
 
+There is two ways to use the dqm library :
+  - Import dqm package and call the dqm functions within your python code
+  - In standalone mode using direct command line from a terminal, or run the DQm-ML container
+
+### Standalone mode
+
+You can use the dqm-ml directly to evaluate your dataset, by using the "dqm-ml" command from your terminal.
+
+The command line has the following form :
+
+```dqm-ml --pipeline_config_path path_to_your_pipeline_file --result_file_path path_to_your_result_file```
+
+This mode requires two user parameters:
+  - pipeline_config_path : A path to a yaml file that will define the pipeline of evaluation you want to apply on your datasests
+  - result_file_path : A yaml file containing the set of computed scores for each defined metric in your pipeline
+
+For example, if your pipeline file is located at path :  ```examples/pipeline_example.yaml ``` and you want your result file to be stored at  ```"examples/results_pipeline_example.yaml```, you will type in your terminal : 
+
+  ```dqm-ml --pipeline_config_path "examples/pipeline_example.yaml" --result_file_path "examples/results_pipeline_example.yaml"```
+
+### Pipeline definition
+
+A dqm-ml pipeline is a yaml file that contains the list of dataset you want to evaluate, and the list of metrics you want to compute on each ones.
+This file has a primary key **pipeline_definition** containing  a list of items where each item has the following required fiedls:
+  - dataset : The path to the dataset you want to evaluate .
+  - domain : the category of metric you want to apply
+  - metrics : The list of metrics to compute on the dataset . (For completeness only this field is not used)
+  
+For representativeness domain only, the following additional parameters fields are required:
+  - bins : 
+  - distribution :
+
+  You can use an optionnal field :
+  - columns : The list of columns from your dataset on which you want to restrict the computations of metrics. If this field is missing, by default the metrics are applied on all columns of the given dataset
+
+The field ```datasets ```, can be a path to a single file  or a path to a folder. If the path points on a single file,  fhe file content is directly loaded and considered as the final dataset to evaluate. Supported extension for files are "csv, txt, xls,xlsx, pq and parquet". In case of csv or txt file,  you can set a ```separator ``` field to indicate the separator to be used to parse the file.
+
+If the defined path is a folder, all files within the folder will be automatically concatened along the rows axis to build the final dataset that will be considered for the evaluation. For folders, you can use an additional ```extension ``` field to concatenate only the files with the specified extension in the target folder. By default all present files are tried to be concatenated.
+
+For example:
+
+```
+ - domain : "representativeness"
+    extension: "txt"
+    metrics: ["chi-square","GRTE"]
+    bins : 10
+    distribution : "normal"
+    dataset: "tdata/my_data_folder"
+    columns_names : ["col_1", "col_5","col_9"]
+```
+
+
+For domain gap, because the metrics apply only on images datasets, the definition is quite different, the item has the following field
+  - ```domain```: defining the name of the domain thus here "domain_gap"
+  - ```metrics``` :   The list of metrics you want to compute, and for each item you have two fields
+      - metrics_name : The name of metric to compute
+      - method_config ! The user configuration of the metric. In this part you define the source and target datasets, the chosen models, and other user parameters
+
+An example of pipeline file defining the computations of many metrics from the four domains is given below:
+```
+pipeline_definition:
+  - domain : "completeness"
+    dataset : "tests/sample_data/completeness_sample_data.csv"
+    columns_names : ["column_1","column_3","column_6","column_9"]
+
+  - domain : "representativeness"
+    metrics: ["chi-square","GRTE"]
+    bins : 10
+    distribution : normal
+    dataset: "tests/sample_data/SMD_test_ds_sample.csv"
+    columns_names : ["column_2","column_4", "column_6"]
+    
+  - domain : "diversity"
+    metrics: ["simpson","gini"]
+    dataset: "tests/sample_data/SMD_test_ds_sample.csv"
+    columns_names : ["column_2","column_4", "column_6"]
+
+  - domain: "domain_gap"
+    metrics:
+      - metric_name: wasserstein
+        method_config:
+            DATA: 
+                batch_size: 32
+                height: 299
+                width: 299
+                norm_mean: [0.485,0.456,0.406]
+                norm_std: [0.229,0.224,0.225]
+                source: "tests/sample_data/image_test_ds/c20"
+                target: "tests/sample_data/image_test_ds/c33"  
+            MODEL:
+                arch: "resnet18"
+                device: "cpu"
+                n_layer_feature: -2
+            METHOD: 
+                name: "fid"
+```
+
+The result file produced at the end of thpipeline is a yaml file containig the  pipeline configuration file augmented  with a "score" field in each item, containing the corresponding metrics computed scores.
+
+Example of result_score:
+
+```
+pipeline_definition:
+- domain: completeness
+  dataset: tests/sample_data/completeness_sample_data.csv
+  columns_names:
+  - column_1
+  - column_3
+  - column_6
+  - column_9
+  scores:
+    overall_score: 0.61825
+    column_1: 1
+    column_3: 0.782
+    column_6: 0.48
+    column_9: 0.211
+- domain: representativeness
+  metrics:
+  - chi-square
+  - GRTE
+  bins: 10
+  distribution: normal
+  dataset: tests/sample_data/SMD_test_ds_sample.csv
+  columns_names:
+  - column_2
+  - column_4
+  - column_6
+  scores:
+    chi-square:
+      column_2: 1.8740034461104008e-34
+      column_4: 2.7573644464553625e-86
+      column_6: 3.469236770038776e-64
+    GRTE:
+      column_2: 0.8421470393366073
+      column_4: 0.7615162001699769
+      column_6: 0.6955152215780268
+```
+
+The best way to create your own pipeline definition, is to start from existing example pipelines present in the ```examples/pipeline_example.yaml``` folder and 
+modify it as you wish.
+
+###  Use the dockerized version
+
+To build locally the docker image, from the root folder of the repository:
+
+```docker build . -f dockerfile -t image_name:tag```
+
+The command line to run the dqm container has the following form :
+
+```docker run -e PIPELINE_CONFIG_PATH="path_to_your_pipeline_file" -e RESULT_FILE_PATH="path_to_the_result_file" irtsystemx/dqm-ml:1.1.1```
+
+You need to mount the ```PIPELINE_CONFIG_PATH``` path to ```/tmp/in/$PIPELIN_CONFIG_PATH``` and the ```$RESULT_FILE_PATH``` to  ```/tmp/out/$RESULT_FILE_PATH```
+Moreover, All datasets directores referenced in your pipeline file shall be mounted in the docker
+
+For example if your pipeline file is stored at ```examples/pipeline_example_docker.yaml``` and your result file shall be stored at ```results_docker/result_file.yaml```
+and all your datasets used in your pipeline are stored inside locally into ```/tests``` folder and defined on ```data_storage/..``` folder in your pipeline file 
+
+The command would be :
+
+```docker run -e PIPELINE_CONFIG_PATH="pipeline_example_docker.yaml" -e RESULT_FILE_PATH="result_file.yaml" -v ${PWD}/examples:/tmp/in -v ${PWD}/tests/:/data_storage/ -v ${PWD}/results_docker:/tmp/out irtsystemx/dqm-ml:1.1.1```
+
+### User with proxy server
+
+The computation of domain gap metrics requires the use of pretrained models that are automatically downloaded by pytorch in a local cache directory during the first call to those metrics.
+
+For users behind a proxy server, this download could fail. To overcome this issue, you can manually get those pretrained models by downloading the zip archive from this  [link](http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models//dqm-ml_pretrained_models.zip) and extract it in the following folder : ``` your_user_directory/.cache/torch/hub/checkpoints/```
+
+### Use the library within your python code
+
 [//]: # (All validated and verified functions are detailed in the files **call_main.py**. )
 
 Each metric is used by importing the corresponding modules and class into your code.
@@ -132,11 +308,13 @@ For example:
 
 We provide in the folder ```/examples/domain_gap_cfg``` a set of config files for each domain_gap approaches`:
 
-For some domain_gap examples, the **200_bird_dataset** will be required. It can be downloaded from this [link](http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip). The zip archive will be extracted into the ```examples/datasets/``` folder.
+For some domain_gap examples, the **200_bird_dataset** will be required. It can be downloaded from this [link](http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip). The zip archive shall be extracted into the ```examples/datasets/``` folder.
+
+1 pipeline example that instanciates every metrics implemented in dqm-ml named ```pipeline_example.yaml``` and its corresponding results ```results_pipeline_example.yaml```.
+
+1 pipeline example similar to the previous one, but with different datasets path, as shown in the example of how using the containerized version.
 
 ## References
-
-
 
 ```
 @inproceedings{chaouche2024dqm,

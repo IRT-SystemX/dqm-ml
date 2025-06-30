@@ -12,19 +12,18 @@ Shannon Entropy calculation, and the GRTE (Granular Relative and Theoretical Ent
 analysis. These tests help in understanding the distribution
 and entropy of the 'Traffic_light_unknown' variable in the dataset.
 
-Author: 
+Author:
     Faouzi Adjed
     Anani DJATO
 """
 import pandas as pd
 import numpy as np
 from dqm.representativeness.metric import DistributionAnalyzer
-#from metric import DistributionAnalyzer
 
 # Dataset path
 path = "datasets/features.csv"
 data = pd.read_csv(path, sep=",")
-#print("Data info:\n", data.info())
+# print("Data info:\n", data.info())
 # print("The first 5 lines:\n", data.head())
 var = data["contrast"]
 mean = np.mean(var)

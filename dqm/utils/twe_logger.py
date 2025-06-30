@@ -18,10 +18,11 @@ Usage:
         logger.info("This is an info message")
         logger.error("This is an error message")
 """
+
 import logging
 import sys
 
-LOGGER_DEFAULT_NAME = 'twe_logger'
+LOGGER_DEFAULT_NAME = "twe_logger"
 
 
 def log_str_to_level(str_level):
@@ -29,38 +30,35 @@ def log_str_to_level(str_level):
     Converts a string to a corresponding logging level.
 
     Args:
-        str_level (str): The logging level as a string. 
+        str_level (str): The logging level as a string.
 
     Returns:
         int: The corresponding logging level.
     """
-    if str_level == 'debug':
+    if str_level == "debug":
         level = logging.DEBUG
-    elif str_level == 'info':
+    elif str_level == "info":
         level = logging.INFO
-    elif str_level == 'warning':
+    elif str_level == "warning":
         level = logging.WARNING
-    elif str_level == 'error':
+    elif str_level == "error":
         level = logging.ERROR
-    elif str_level == 'critical':
+    elif str_level == "critical":
         level = logging.CRITICAL
     else:
         level = logging.NOTSET
     return level
 
 
-def get_logger(name=LOGGER_DEFAULT_NAME,
-               level='debug',
-               filename=None,
-               output=None):
+def get_logger(name=LOGGER_DEFAULT_NAME, level="debug", filename=None, output=None):
     """
     Creates and returns a logger.
 
     Args:
         name (str, optional): The name of the logger.
         level (int or str, optional): The logging level.
-        filename (str, optional): The name of the file where the logger should write. 
-        output (str, optional): Where should the logger write. 
+        filename (str, optional): The name of the file where the logger should write.
+        output (str, optional): Where should the logger write.
                                 Can be 'stdout', 'file', or 'both'.
 
     Returns:
@@ -71,22 +69,25 @@ def get_logger(name=LOGGER_DEFAULT_NAME,
 
     # Decide the output based on whether a filename is provided and output is specified
     if output is None:
-        output = 'file' if filename else 'stdout'
+        output = "file" if filename else "stdout"
 
     logger = logging.getLogger(name)
-    formatter = logging.Formatter('[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s \
-     - %(message)s', '%m-%d %H:%M:%S')
+    formatter = logging.Formatter(
+        "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s \
+     - %(message)s",
+        "%m-%d %H:%M:%S",
+    )
 
     handlers = []
 
-    if output in ['stdout', 'both']:
+    if output in ["stdout", "both"]:
         # StreamHandler to send logs to stdout
         stream_handler = logging.StreamHandler(stream=sys.stdout)
         stream_handler.setFormatter(formatter)
         stream_handler.setLevel(level)
         handlers.append(stream_handler)
 
-    if output in ['file', 'both'] and filename:
+    if output in ["file", "both"] and filename:
         # FileHandler to send logs to a file
         file_handler = logging.FileHandler(filename)
         file_handler.setFormatter(formatter)
@@ -97,7 +98,7 @@ def get_logger(name=LOGGER_DEFAULT_NAME,
         for handler in handlers:
             logger.addHandler(handler)
     else:
-        logger.handlers    = handlers
+        logger.handlers = handlers
     logger.setLevel(level)
-    logger.info("Logger: %s, handlers: %s" , name,logger.handlers)
+    logger.info("Logger: %s, handlers: %s", name, logger.handlers)
     return logger

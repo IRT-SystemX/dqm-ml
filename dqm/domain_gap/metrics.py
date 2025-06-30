@@ -894,7 +894,8 @@ class FID(Metric):
                     - "target" (str): Path to the target folder containing images.
 
         Returns:
-            torch.Tensor: The computed FID score, representing the distance between the source and target image distributions.
+            torch.Tensor: The computed FID score, representing the distance between the source and target image 
+            distributions.
 
         The method performs the following steps:
         1. Loads the InceptionV3 model and sets it up on the specified device.

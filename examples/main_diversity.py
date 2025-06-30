@@ -117,6 +117,6 @@ if __name__ == "__main__":
 
     for i in df:
         if df.dtypes[i] not in ("object", "bool"):
-            print(f"For { i } feature :")
+            print(f"For {i} feature :")
             analyzer.calculate_diversity_scores(df, i)
             print("---------------------------------------------------------")

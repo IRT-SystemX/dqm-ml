@@ -46,7 +46,7 @@ To contribute code, please follow these steps:
    
 ## Submission
 
-To submit your code, please make a pull request to our [main](https://github.com/IRT-SystemX/dqm-ml/tree/main) branch. For those just getting started, Github has a [how to](https://help.github.com/articles/using-pull-requests/) about pull requests.
+To submit your code, please make a pull request to our [develop](https://github.com/IRT-SystemX/dqm-ml/tree/develop) branch. For those just getting started, Github has a [how to](https://help.github.com/articles/using-pull-requests/) about pull requests.
 
 You will be asked to sign [our CLA (Contributing License Agreement)](CLA.md) before we can merge your code. Please read it before you start working on the project.
 

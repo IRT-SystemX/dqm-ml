@@ -32,6 +32,7 @@ def main():
 
     cfg = load_config(args.cfg)
     method = cfg["METHOD"]["name"]
+    dist = ""
 
     start = time.time()
     # Choose the appropriate method and compute the distance

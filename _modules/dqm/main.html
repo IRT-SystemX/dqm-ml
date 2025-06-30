@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dqm.main &mdash; dqm-ml 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            dqm-ml
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">🔄 Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">🔎 dqm-ml package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">dqm-ml</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dqm.main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dqm.main</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script is the entry point for using DQM with command line and docker</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.completeness.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataCompleteness</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.diversity.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiversityIndexCalculator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.representativeness.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributionAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.domain_gap.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">CMD</span><span class="p">,</span> <span class="n">MMD</span><span class="p">,</span> <span class="n">Wasserstein</span><span class="p">,</span> <span class="n">ProxyADistance</span><span class="p">,</span> <span class="n">FID</span><span class="p">,</span> <span class="n">KLMVN</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.utils.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="c1"># Init the logger</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="load_dataframe">
+<a class="viewcode-back" href="../../dqm.html#dqm.main.load_dataframe">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_dataframe</span><span class="p">(</span><span class="n">config_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function loads a pandas dataframe from the config dict passed as input.</span>
+<span class="sd">    This config dict comes from a pipeline configuration: An example of such pipeline is present in examples/ folder</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">       config_dict (dict): Dict containing a metric configuration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">extension_filter</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span>
+    <span class="n">dataset_path</span> <span class="o">=</span> <span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Scan existing extension and separator fields if they exists</span>
+    <span class="k">if</span> <span class="s2">&quot;extension&quot;</span> <span class="ow">in</span> <span class="n">config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">extension_filter</span> <span class="o">=</span> <span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;extension&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;separator&quot;</span> <span class="ow">in</span> <span class="n">config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">separator</span> <span class="o">=</span> <span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;separator&quot;</span><span class="p">]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="c1"># Check if dataset path exists</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+            <span class="s2">&quot;FileNotFoundError -&gt; The dataset </span><span class="si">%s</span><span class="s2"> does not exists&quot;</span><span class="p">,</span> <span class="n">dataset_path</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span>
+
+    <span class="c1"># In case of a path to a directory , iterate on files and concatenate raw data</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">):</span>
+        <span class="n">search_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span>
+
+        <span class="c1"># Search all files in folder and subfolder with specified extension</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">search_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.&quot;</span> <span class="o">+</span> <span class="n">extension_filter</span><span class="p">))]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Number of files found in target folder : </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">file_list</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_list</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                <span class="s2">&quot;Error, no data files have been found in the dataset folder&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+
+        <span class="c1"># Concatenate raw data of found datafiles</span>
+        <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+            <span class="n">tmp_df</span> <span class="o">=</span> <span class="n">load_raw_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">separator</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">tmp_df</span><span class="p">])</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># otherwise direct load file content as dataframe</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">load_raw_data</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">separator</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+
+<div class="viewcode-block" id="load_raw_data">
+<a class="viewcode-back" href="../../dqm.html#dqm.main.load_raw_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_raw_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">separator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function load a raw data file content as a pandas dataframe</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">       file (str): Path of the file to load</span>
+<span class="sd">       separator (str): Separator to use when processing csv and txt format file</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">       df (pandas.DataFrame): Output dataframe</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check if the passed extension of input path is supported</span>
+    <span class="n">extension</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">extension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;csv&quot;</span><span class="p">,</span> <span class="s2">&quot;txt&quot;</span><span class="p">,</span> <span class="s2">&quot;xslx&quot;</span><span class="p">,</span> <span class="s2">&quot;xls&quot;</span><span class="p">,</span> <span class="s2">&quot;parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;pq&quot;</span><span class="p">]:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+            <span class="s2">&quot;The file named </span><span class="si">%s</span><span class="s2"> has an extension that is not supported :--&gt; </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">file</span><span class="p">,</span>
+            <span class="n">extension</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+
+    <span class="c1"># Call the appropriate read function</span>
+    <span class="k">match</span> <span class="n">extension</span><span class="p">:</span>
+        <span class="k">case</span> <span class="s2">&quot;csv&quot;</span> <span class="o">|</span> <span class="s2">&quot;txt&quot;</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">separator</span><span class="p">)</span>
+        <span class="k">case</span> <span class="s2">&quot;xslx&quot;</span> <span class="o">|</span> <span class="s2">&quot;xls&quot;</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">case</span> <span class="s2">&quot;parquet&quot;</span> <span class="o">|</span> <span class="s2">&quot;pq&quot;</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../dqm.html#dqm.main.main">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main script of DQM component:</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pipeline_config_path (str): Path to the pipeline definition you want to apply</span>
+<span class="sd">        result_file_path : (str): Path the output YAML file where all computed metrics scores are stored</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Main script of DQM&quot;</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--pipeline_config_path&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the pipeline definition where you specify each metric you want to compute and its params&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--result_file_path&quot;</span><span class="p">,</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path the output YAML file where all computed metrics scores are stored&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting DQM-ML . .&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Read the pipeline configuration file</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">pipeline_config_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="n">pipeline_config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+
+    <span class="c1"># Create output diretory if it does not exist</span>
+
+    <span class="n">Path</span><span class="p">((</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">result_file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span>
+        <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;creation directory : </span><span class="si">%s</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">result_file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># Init output results dict, we start from the input config dict, we will just complete this dict with scores fields</span>
+
+    <span class="n">res_dict</span> <span class="o">=</span> <span class="n">pipeline_config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># Loop on metrics to compute</span>
+
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pipeline_config</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">])):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">pipeline_config</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span>
+
+        <span class="c1"># For metrics working only on tabular (all metrics excepted domain gap category)</span>
+        <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;domain_gap&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;procesing dataset : </span><span class="si">%s</span><span class="s2"> for domain : </span><span class="si">%s</span><span class="s2"> &quot;</span><span class="p">,</span>
+                <span class="n">item</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">],</span>
+                <span class="n">item</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Load dataset</span>
+            <span class="n">main_df</span> <span class="o">=</span> <span class="n">load_dataframe</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+            <span class="c1"># Init list of columns on which metrics shall be computed</span>
+            <span class="n">working_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">main_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  <span class="c1"># By default, consider all columns</span>
+
+            <span class="c1"># Overload with column_names fied, if it does exist in configuration</span>
+            <span class="k">if</span> <span class="s2">&quot;columns_names&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">working_columns</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;columns_names&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Init score field that will be filled</span>
+            <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># Call the corresponding metric computation functions</span>
+            <span class="k">match</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;domain&quot;</span><span class="p">]:</span>
+                <span class="k">case</span> <span class="s2">&quot;completeness&quot;</span><span class="p">:</span>
+                    <span class="c1"># Compute overall completness scores</span>
+                    <span class="n">completeness_evaluator</span> <span class="o">=</span> <span class="n">DataCompleteness</span><span class="p">()</span>
+                    <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="s2">&quot;overall_score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">completeness_tabular</span><span class="p">(</span><span class="n">main_df</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Compute column specific completeness</span>
+                    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span><span class="p">:</span>
+                        <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+                        <span class="p">)</span>
+
+                <span class="k">case</span> <span class="s2">&quot;diversity&quot;</span><span class="p">:</span>
+                    <span class="c1"># Compute diversity scores</span>
+                    <span class="n">metric_calculator</span> <span class="o">=</span> <span class="n">DiversityIndexCalculator</span><span class="p">()</span>
+
+                    <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span>
+                        <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span><span class="p">:</span>
+                            <span class="k">match</span> <span class="n">metric</span><span class="p">:</span>
+                                <span class="k">case</span> <span class="s2">&quot;simpson&quot;</span><span class="p">:</span>
+                                    <span class="n">computed_score</span> <span class="o">=</span> <span class="n">metric_calculator</span><span class="o">.</span><span class="n">simpson</span><span class="p">(</span>
+                                        <span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                                <span class="k">case</span> <span class="s2">&quot;gini&quot;</span><span class="p">:</span>
+                                    <span class="n">computed_score</span> <span class="o">=</span> <span class="n">metric_calculator</span><span class="o">.</span><span class="n">gini</span><span class="p">(</span>
+                                        <span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                                    <span class="p">)</span>
+                                <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                        <span class="s2">&quot;The given metric&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;is not implemented&quot;</span>
+                                    <span class="p">)</span>
+
+                            <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span>
+                                <span class="n">col</span>
+                            <span class="p">]</span> <span class="o">=</span> <span class="n">computed_score</span>
+
+                <span class="k">case</span> <span class="s2">&quot;representativeness&quot;</span><span class="p">:</span>
+                    <span class="c1"># Prepare output fields in result dict</span>
+                    <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span>
+                        <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+                    <span class="c1"># Init analyzer</span>
+                    <span class="n">bins</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;bins&quot;</span><span class="p">]</span>
+                    <span class="n">distribution</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;distribution&quot;</span><span class="p">]</span>
+
+                    <span class="c1"># Compute representativeness</span>
+                    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">working_columns</span><span class="p">:</span>
+                        <span class="n">var</span> <span class="o">=</span> <span class="n">main_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                        <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                        <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">DistributionAnalyzer</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">distribution</span><span class="p">)</span>
+
+                        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span>
+                            <span class="k">match</span> <span class="n">metric</span><span class="p">:</span>
+                                <span class="k">case</span> <span class="s2">&quot;chi-square&quot;</span><span class="p">:</span>
+                                    <span class="n">pvalue</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">chisquare_test</span><span class="p">()</span>
+                                    <span class="n">computed_score</span> <span class="o">=</span> <span class="n">pvalue</span>
+
+                                <span class="k">case</span> <span class="s2">&quot;kolmogorov-smirnov&quot;</span><span class="p">:</span>
+                                    <span class="n">computed_score</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">kolmogorov</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+
+                                <span class="k">case</span> <span class="s2">&quot;shannon-entropy&quot;</span><span class="p">:</span>
+                                    <span class="n">computed_score</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">shannon_entropy</span><span class="p">()</span>
+
+                                <span class="k">case</span> <span class="s2">&quot;GRTE&quot;</span><span class="p">:</span>
+                                    <span class="n">grte_result</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">grte</span><span class="p">()</span>
+                                    <span class="n">computed_score</span> <span class="o">=</span> <span class="n">grte_result</span>
+
+                                <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                        <span class="s2">&quot;The given metric&quot;</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="s2">&quot;is not implemented&quot;</span>
+                                    <span class="p">)</span>
+
+                            <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">][</span>
+                                <span class="n">col</span>
+                            <span class="p">]</span> <span class="o">=</span> <span class="n">computed_score</span>
+
+        <span class="c1"># Specificely for domain gap metrics . .</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Init score output file</span>
+            <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># Iterate on metrics items</span>
+
+            <span class="k">for</span> <span class="n">metric_dict</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">]:</span>
+                <span class="n">config_method</span> <span class="o">=</span> <span class="n">metric_dict</span><span class="p">[</span><span class="s2">&quot;method_config&quot;</span><span class="p">]</span>
+                <span class="n">metric</span> <span class="o">=</span> <span class="n">metric_dict</span><span class="p">[</span><span class="s2">&quot;metric_name&quot;</span><span class="p">]</span>
+
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;procesing domain gap for metric : </span><span class="si">%s</span><span class="s2"> for source dataset :  </span><span class="si">%s</span><span class="s2"> and target dataset : </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">metric</span><span class="p">,</span>
+                    <span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;source&quot;</span><span class="p">],</span>
+                    <span class="n">config_method</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="s2">&quot;target&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+
+                <span class="k">match</span> <span class="n">metric</span><span class="p">:</span>
+                    <span class="k">case</span> <span class="s2">&quot;wasserstein&quot;</span><span class="p">:</span>
+                        <span class="n">wass</span> <span class="o">=</span> <span class="n">Wasserstein</span><span class="p">()</span>
+                        <span class="n">computed_score</span> <span class="o">=</span> <span class="n">wass</span><span class="o">.</span><span class="n">compute_1D_distance</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span>
+
+                    <span class="k">case</span> <span class="s2">&quot;FID&quot;</span><span class="p">:</span>
+                        <span class="n">fid</span> <span class="o">=</span> <span class="n">FID</span><span class="p">()</span>
+                        <span class="n">computed_score</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">compute_image_distance</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span>
+
+                    <span class="k">case</span> <span class="s2">&quot;KLMVN&quot;</span><span class="p">:</span>
+                        <span class="n">klmvn</span> <span class="o">=</span> <span class="n">KLMVN</span><span class="p">()</span>
+                        <span class="n">computed_score</span> <span class="o">=</span> <span class="n">klmvn</span><span class="o">.</span><span class="n">compute_image_distance</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span>
+
+                    <span class="k">case</span> <span class="s2">&quot;PAD&quot;</span><span class="p">:</span>
+                        <span class="n">pad</span> <span class="o">=</span> <span class="n">ProxyADistance</span><span class="p">()</span>
+                        <span class="n">computed_score</span> <span class="o">=</span> <span class="n">pad</span><span class="o">.</span><span class="n">compute_image_distance</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span>
+
+                    <span class="k">case</span> <span class="s2">&quot;MMD&quot;</span><span class="p">:</span>
+                        <span class="n">mmd</span> <span class="o">=</span> <span class="n">MMD</span><span class="p">()</span>
+                        <span class="n">computed_score</span> <span class="o">=</span> <span class="n">mmd</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span>
+
+                    <span class="k">case</span> <span class="s2">&quot;CMD&quot;</span><span class="p">:</span>
+                        <span class="n">cmd</span> <span class="o">=</span> <span class="n">CMD</span><span class="p">()</span>
+                        <span class="n">computed_score</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">config_method</span><span class="p">)</span>
+
+                    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                            <span class="s2">&quot;The given metric </span><span class="si">%s</span><span class="s2"> is not implemented&quot;</span><span class="p">,</span> <span class="n">metric</span>
+                        <span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span>
+
+                <span class="c1"># Add computed metric to results</span>
+
+                <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;pipeline_definition&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;scores&quot;</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                    <span class="n">computed_score</span>
+                <span class="p">)</span>
+
+    <span class="c1"># Export final results to yaml file</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">result_file_path</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
+        <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">ff</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;pipeline final results exported to file : </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">result_file_path</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

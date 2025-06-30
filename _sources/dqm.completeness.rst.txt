@@ -4,14 +4,6 @@ dqm.completeness package
 Submodules
 ----------
 
-dqm.completeness.main module
-----------------------------
-
-.. automodule:: dqm.completeness.main
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 dqm.completeness.metric module
 ------------------------------
 

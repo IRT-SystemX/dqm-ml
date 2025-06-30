@@ -1,0 +1,57 @@
+************* Module dqm.main
+dqm/main.py:109:0: R0915: Too many statements (70/50) (too-many-statements)
+************* Module dqm.representativeness.metric
+dqm/representativeness/metric.py:169:11: E0606: Possibly using variable 'chi' before assignment (possibly-used-before-assignment)
+dqm/representativeness/metric.py:282:11: E0606: Possibly using variable 'intervals' before assignment (possibly-used-before-assignment)
+************* Module dqm.representativeness.utils
+dqm/representativeness/utils.py:369:37: E0606: Possibly using variable 'exp' before assignment (possibly-used-before-assignment)
+************* Module dqm.diversity.diversity
+dqm/diversity/diversity.py:89:21: E0606: Possibly using variable 'diversity' before assignment (possibly-used-before-assignment)
+************* Module dqm.diversity.metric
+dqm/diversity/metric.py:103:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module dqm.domain_gap.custom_datasets
+dqm/domain_gap/custom_datasets.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+dqm/domain_gap/custom_datasets.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+dqm/domain_gap/custom_datasets.py:15:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+dqm/domain_gap/custom_datasets.py:34:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module dqm.domain_gap.metrics
+dqm/domain_gap/metrics.py:1:0: C0302: Too many lines in module (1130/1000) (too-many-lines)
+dqm/domain_gap/metrics.py:39:0: R0402: Use 'from torch import nn' instead (consider-using-from-import)
+dqm/domain_gap/metrics.py:66:8: W0107: Unnecessary pass statement (unnecessary-pass)
+dqm/domain_gap/metrics.py:70:8: W0107: Unnecessary pass statement (unnecessary-pass)
+dqm/domain_gap/metrics.py:79:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
+dqm/domain_gap/metrics.py:98:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+dqm/domain_gap/metrics.py:127:4: W0221: Number of parameters was 1 in 'Metric.compute' and is now 2 in overriding 'MMD.compute' method (arguments-differ)
+dqm/domain_gap/metrics.py:170:8: W0127: Assigning the same variable 'device' to itself (self-assigning-variable)
+dqm/domain_gap/metrics.py:127:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+dqm/domain_gap/metrics.py:254:4: C0116: Missing function or method docstring (missing-function-docstring)
+dqm/domain_gap/metrics.py:259:0: C0115: Missing class docstring (missing-class-docstring)
+dqm/domain_gap/metrics.py:261:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
+dqm/domain_gap/metrics.py:281:15: R1716: Simplify chained comparison between the operands (chained-comparison)
+dqm/domain_gap/metrics.py:287:4: R0917: Too many positional arguments (9/5) (too-many-positional-arguments)
+dqm/domain_gap/metrics.py:331:31: R1735: Consider using '{}' instead of a call to 'dict'. (use-dict-literal)
+dqm/domain_gap/metrics.py:287:4: R0912: Too many branches (15/12) (too-many-branches)
+dqm/domain_gap/metrics.py:393:4: W0221: Number of parameters was 1 in 'Metric.compute' and is now 2 in overriding 'CMD.compute' method (arguments-differ)
+dqm/domain_gap/metrics.py:511:0: C0115: Missing class docstring (missing-class-docstring)
+dqm/domain_gap/metrics.py:512:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
+dqm/domain_gap/metrics.py:540:8: C0200: Consider using enumerate instead of iterating with range and len (consider-using-enumerate)
+dqm/domain_gap/metrics.py:571:37: E0606: Possibly using variable 'error' before assignment (possibly-used-before-assignment)
+dqm/domain_gap/metrics.py:658:0: C0115: Missing class docstring (missing-class-docstring)
+dqm/domain_gap/metrics.py:659:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
+dqm/domain_gap/metrics.py:837:0: C0115: Missing class docstring (missing-class-docstring)
+dqm/domain_gap/metrics.py:958:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
+dqm/domain_gap/metrics.py:1001:23: E1102: torch.linalg.matrix_rank is not callable (not-callable)
+dqm/domain_gap/metrics.py:1031:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+************* Module dqm.domain_gap.utils
+dqm/domain_gap/utils.py:150:0: C0301: Line too long (130/120) (line-too-long)
+dqm/domain_gap/utils.py:49:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+dqm/domain_gap/utils.py:54:8: R1722: Consider using 'sys.exit' instead (consider-using-sys-exit)
+dqm/domain_gap/utils.py:57:8: R1722: Consider using 'sys.exit' instead (consider-using-sys-exit)
+dqm/domain_gap/utils.py:46:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+dqm/domain_gap/utils.py:60:0: C0116: Missing function or method docstring (missing-function-docstring)
+dqm/domain_gap/utils.py:115:0: C0116: Missing function or method docstring (missing-function-docstring)
+dqm/domain_gap/utils.py:185:16: W0707: Consider explicitly re-raising using 'raise ValueError(f'Error loading model from file: {e}') from e' (raise-missing-from)
+
+-----------------------------------
+Your code has been rated at 9.25/10
+

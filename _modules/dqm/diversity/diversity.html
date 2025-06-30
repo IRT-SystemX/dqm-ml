@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dqm.diversity.diversity &mdash; dqm-ml 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            dqm-ml
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">🔄 Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">🔎 dqm-ml package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">dqm-ml</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dqm.diversity.diversity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for dqm.diversity.diversity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module, DiversityCalculator, calculates various types of diversity in datasets.</span>
+<span class="sd">It focuses on both lexical and visual diversities, employing statistical indices for</span>
+<span class="sd">different metrics such as richness, variety, color, and shape. Useful in linguistics,</span>
+<span class="sd">image processing, and data analysis, it helps understand the diversity of elements</span>
+<span class="sd">in a dataset.</span>
+
+<span class="sd">Authors:</span>
+<span class="sd">    Faouzi ADJED</span>
+<span class="sd">    Anani DJATO</span>
+
+<span class="sd">Dependencies:</span>
+<span class="sd">    numpy</span>
+<span class="sd">    collections.Counter</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    DiversityCalculator: A class that provides methods for calculating</span>
+<span class="sd">      different types of diversity in datasets.</span>
+
+<span class="sd">Functions: None</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">    To use this module, create an instance of the DiversityCalculator class and call its</span>
+<span class="sd">    compute_diversity method with appropriate arguments.</span>
+<span class="sd">    Example:</span>
+<span class="sd">    calculator = DiversityCalculator()</span>
+<span class="sd">    diversity_score = calculator.compute_diversity(data, &#39;lexical&#39;, &#39;richness&#39;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.utils.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="DiversityCalculator">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiversityCalculator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to compute various types of diversity within data.</span>
+
+<span class="sd">    This class offers methods to calculate lexical and visual diversities in datasets using</span>
+<span class="sd">    different statistical measures. It can measure lexical diversity in terms of richness and</span>
+<span class="sd">    variety, and visual diversity in terms of color and shape using indices like Shannon,</span>
+<span class="sd">    Simpson, and Gini-Simpson.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        compute_diversity: Calculates diversity based on specified type and need.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DiversityCalculator.compute_diversity">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator.compute_diversity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_diversity</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">diversity_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">need</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute diversity of given data based on type and need.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (Iterable): Dataset for diversity computation.</span>
+<span class="sd">            diversity_type (str): Type of diversity (&#39;lexical&#39; or &#39;visual&#39;).</span>
+<span class="sd">            need (str): Specific need for calculation (&#39;richness&#39;, &#39;variety&#39;, &#39;color&#39;, &#39;shape&#39;)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            diversity (float): Calculated diversity value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">diversity_type</span> <span class="o">==</span> <span class="s2">&quot;lexical&quot;</span> <span class="ow">and</span> <span class="n">need</span> <span class="o">==</span> <span class="s2">&quot;richness&quot;</span><span class="p">:</span>
+            <span class="c1"># Compute lexical richness using Shannon Index</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">norm_counts</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">/</span> <span class="n">counts</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">diversity</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">norm_counts</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">norm_counts</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">diversity_type</span> <span class="o">==</span> <span class="s2">&quot;lexical&quot;</span> <span class="ow">and</span> <span class="n">need</span> <span class="o">==</span> <span class="s2">&quot;variety&quot;</span><span class="p">:</span>
+            <span class="c1"># Compute lexical variety using Simpson Index</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">norm_counts</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">/</span> <span class="n">counts</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">diversity</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">norm_counts</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">diversity_type</span> <span class="o">==</span> <span class="s2">&quot;visual&quot;</span> <span class="ow">and</span> <span class="n">need</span> <span class="o">==</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span>
+            <span class="c1"># Compute color diversity using Richness Index</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">diversity</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">diversity_type</span> <span class="o">==</span> <span class="s2">&quot;visual&quot;</span> <span class="ow">and</span> <span class="n">need</span> <span class="o">==</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span>
+            <span class="c1"># Compute shape diversity using Gini-Simpson Index</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">diversity</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">freqs</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Invalid diversity type or need.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">diversity</span><span class="p">)</span>  <span class="c1"># To be homogenous on output data type</span></div>
+
+
+<div class="viewcode-block" id="DiversityCalculator.validate_inputs">
+<a class="viewcode-back" href="../../../dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator.validate_inputs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diversity_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">need</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is added just to have at least two public methods</span>
+<span class="sd">        in a class as required by Python coding standards.</span>
+
+<span class="sd">        This method validates the inputs for compute_diversity method.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">        diversity_type (str): Type of diversity to be computed.</span>
+<span class="sd">        need (str): Specific need for diversity calculation.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valid_diversity_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lexical&quot;</span><span class="p">,</span> <span class="s2">&quot;visual&quot;</span><span class="p">]</span>
+        <span class="n">valid_needs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;richness&quot;</span><span class="p">,</span> <span class="s2">&quot;variety&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">diversity_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_diversity_types</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid diversity type : </span><span class="si">%s</span><span class="s2">. Must be one of </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="n">diversity_type</span><span class="p">,</span>
+                <span class="n">valid_diversity_types</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">need</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_needs</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Invalid need: </span><span class="si">%s</span><span class="s2">. Must be one of </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">need</span><span class="p">,</span> <span class="n">valid_needs</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

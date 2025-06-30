@@ -13,7 +13,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=fc837d61"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -48,7 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">🔄 Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dqm.html">🎡 Package dqm-ml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">🔎 dqm-ml package</a></li>
 </ul>
 
         </div>
@@ -85,6 +85,7 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
@@ -148,6 +149,8 @@
 </li>
       <li><a href="dqm.domain_gap.html#dqm.domain_gap.metrics.Wasserstein.compute_cov_matrix">compute_cov_matrix() (dqm.domain_gap.metrics.Wasserstein method)</a>
 </li>
+      <li><a href="dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator.compute_diversity">compute_diversity() (dqm.diversity.diversity.DiversityCalculator method)</a>, <a href="dqm.diversity.html#id0">[1]</a>
+</li>
       <li><a href="dqm.domain_gap.html#dqm.domain_gap.utils.compute_features">compute_features() (in module dqm.domain_gap.utils)</a>
 </li>
       <li><a href="dqm.domain_gap.html#dqm.domain_gap.metrics.FID.compute_image_distance">compute_image_distance() (dqm.domain_gap.metrics.FID method)</a>
@@ -192,6 +195,8 @@
 </li>
       <li><a href="dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer">DistributionAnalyzer (class in dqm.representativeness.metric)</a>
 </li>
+      <li><a href="dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator">DiversityCalculator (class in dqm.diversity.diversity)</a>
+</li>
       <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator">DiversityIndexCalculator (class in dqm.diversity.metric)</a>
 </li>
       <li>
@@ -222,6 +227,13 @@
         <li><a href="dqm.diversity.html#module-dqm.diversity">module</a>
 </li>
       </ul></li>
+      <li>
+    dqm.diversity.diversity
+
+      <ul>
+        <li><a href="dqm.diversity.html#module-dqm.diversity.diversity">module</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
@@ -232,17 +244,17 @@
 </li>
       </ul></li>
       <li>
-    dqm.diversity.twe_logger
-
-      <ul>
-        <li><a href="dqm.diversity.html#module-dqm.diversity.twe_logger">module</a>
-</li>
-      </ul></li>
-      <li>
     dqm.domain_gap
 
       <ul>
         <li><a href="dqm.domain_gap.html#module-dqm.domain_gap">module</a>
+</li>
+      </ul></li>
+      <li>
+    dqm.domain_gap.custom_datasets
+
+      <ul>
+        <li><a href="dqm.domain_gap.html#module-dqm.domain_gap.custom_datasets">module</a>
 </li>
       </ul></li>
       <li>
@@ -260,6 +272,13 @@
 </li>
       </ul></li>
       <li>
+    dqm.main
+
+      <ul>
+        <li><a href="dqm.html#module-dqm.main">module</a>
+</li>
+      </ul></li>
+      <li>
     dqm.representativeness
 
       <ul>
@@ -274,17 +293,24 @@
 </li>
       </ul></li>
       <li>
-    dqm.representativeness.twe_logger
-
-      <ul>
-        <li><a href="dqm.representativeness.html#module-dqm.representativeness.twe_logger">module</a>
-</li>
-      </ul></li>
-      <li>
     dqm.representativeness.utils
 
       <ul>
         <li><a href="dqm.representativeness.html#module-dqm.representativeness.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    dqm.utils
+
+      <ul>
+        <li><a href="dqm.utils.html#module-dqm.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    dqm.utils.twe_logger
+
+      <ul>
+        <li><a href="dqm.utils.html#module-dqm.utils.twe_logger">module</a>
 </li>
       </ul></li>
   </ul></td>
@@ -327,17 +353,25 @@
 </li>
       <li><a href="dqm.representativeness.html#dqm.representativeness.utils.DiscretisationParams.get_data">get_data() (dqm.representativeness.utils.DiscretisationParams method)</a>, <a href="dqm.representativeness.html#id4">[1]</a>
 </li>
-      <li><a href="dqm.diversity.html#dqm.diversity.twe_logger.get_logger">get_logger() (in module dqm.diversity.twe_logger)</a>
-
-      <ul>
-        <li><a href="dqm.representativeness.html#dqm.representativeness.twe_logger.get_logger">(in module dqm.representativeness.twe_logger)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.gini">gini() (dqm.diversity.metric.DiversityIndexCalculator method)</a>, <a href="dqm.diversity.html#id0">[1]</a>
+      <li><a href="dqm.utils.html#dqm.utils.twe_logger.get_logger">get_logger() (in module dqm.utils.twe_logger)</a>
+</li>
+      <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.gini">gini() (dqm.diversity.metric.DiversityIndexCalculator method)</a>, <a href="dqm.diversity.html#id1">[1]</a>
 </li>
       <li><a href="dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer.grte">grte() (dqm.representativeness.metric.DistributionAnalyzer method)</a>, <a href="dqm.representativeness.html#id1">[1]</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dqm.domain_gap.html#dqm.domain_gap.custom_datasets.ImagesFromFolderDataset">ImagesFromFolderDataset (class in dqm.domain_gap.custom_datasets)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dqm.domain_gap.html#dqm.domain_gap.custom_datasets.ImagesWithLabelsDataset">ImagesWithLabelsDataset (class in dqm.domain_gap.custom_datasets)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -361,22 +395,24 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="dqm.domain_gap.html#dqm.domain_gap.utils.load_config">load_config() (in module dqm.domain_gap.utils)</a>
 </li>
-      <li><a href="dqm.domain_gap.html#dqm.domain_gap.utils.load_model">load_model() (in module dqm.domain_gap.utils)</a>
+      <li><a href="dqm.html#dqm.main.load_dataframe">load_dataframe() (in module dqm.main)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dqm.diversity.html#dqm.diversity.twe_logger.log_str_to_level">log_str_to_level() (in module dqm.diversity.twe_logger)</a>
-
-      <ul>
-        <li><a href="dqm.representativeness.html#dqm.representativeness.twe_logger.log_str_to_level">(in module dqm.representativeness.twe_logger)</a>
+      <li><a href="dqm.domain_gap.html#dqm.domain_gap.utils.load_model">load_model() (in module dqm.domain_gap.utils)</a>
 </li>
-      </ul></li>
+      <li><a href="dqm.html#dqm.main.load_raw_data">load_raw_data() (in module dqm.main)</a>
+</li>
+      <li><a href="dqm.utils.html#dqm.utils.twe_logger.log_str_to_level">log_str_to_level() (in module dqm.utils.twe_logger)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dqm.html#dqm.main.main">main() (in module dqm.main)</a>
+</li>
       <li><a href="dqm.domain_gap.html#dqm.domain_gap.metrics.Metric">Metric (class in dqm.domain_gap.metrics)</a>
 </li>
       <li><a href="dqm.domain_gap.html#dqm.domain_gap.metrics.MMD">MMD (class in dqm.domain_gap.metrics)</a>
@@ -393,23 +429,29 @@
 </li>
         <li><a href="dqm.diversity.html#module-dqm.diversity">dqm.diversity</a>
 </li>
+        <li><a href="dqm.diversity.html#module-dqm.diversity.diversity">dqm.diversity.diversity</a>
+</li>
         <li><a href="dqm.diversity.html#module-dqm.diversity.metric">dqm.diversity.metric</a>
 </li>
-        <li><a href="dqm.diversity.html#module-dqm.diversity.twe_logger">dqm.diversity.twe_logger</a>
-</li>
         <li><a href="dqm.domain_gap.html#module-dqm.domain_gap">dqm.domain_gap</a>
+</li>
+        <li><a href="dqm.domain_gap.html#module-dqm.domain_gap.custom_datasets">dqm.domain_gap.custom_datasets</a>
 </li>
         <li><a href="dqm.domain_gap.html#module-dqm.domain_gap.metrics">dqm.domain_gap.metrics</a>
 </li>
         <li><a href="dqm.domain_gap.html#module-dqm.domain_gap.utils">dqm.domain_gap.utils</a>
 </li>
+        <li><a href="dqm.html#module-dqm.main">dqm.main</a>
+</li>
         <li><a href="dqm.representativeness.html#module-dqm.representativeness">dqm.representativeness</a>
 </li>
         <li><a href="dqm.representativeness.html#module-dqm.representativeness.metric">dqm.representativeness.metric</a>
 </li>
-        <li><a href="dqm.representativeness.html#module-dqm.representativeness.twe_logger">dqm.representativeness.twe_logger</a>
-</li>
         <li><a href="dqm.representativeness.html#module-dqm.representativeness.utils">dqm.representativeness.utils</a>
+</li>
+        <li><a href="dqm.utils.html#module-dqm.utils">dqm.utils</a>
+</li>
+        <li><a href="dqm.utils.html#module-dqm.utils.twe_logger">dqm.utils.twe_logger</a>
 </li>
       </ul></li>
   </ul></td>
@@ -426,7 +468,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.num">num() (dqm.diversity.metric.DiversityIndexCalculator method)</a>, <a href="dqm.diversity.html#id1">[1]</a>
+      <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.num">num() (dqm.diversity.metric.DiversityIndexCalculator method)</a>, <a href="dqm.diversity.html#id2">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -442,7 +484,7 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.prob">prob() (dqm.diversity.metric.DiversityIndexCalculator method)</a>, <a href="dqm.diversity.html#id2">[1]</a>
+      <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.prob">prob() (dqm.diversity.metric.DiversityIndexCalculator method)</a>, <a href="dqm.diversity.html#id3">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -472,7 +514,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.simpson">simpson() (dqm.diversity.metric.DiversityIndexCalculator method)</a>, <a href="dqm.diversity.html#id3">[1]</a>
+      <li><a href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.simpson">simpson() (dqm.diversity.metric.DiversityIndexCalculator method)</a>, <a href="dqm.diversity.html#id4">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -496,10 +538,12 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.variable_counting">variable_counting() (dqm.representativeness.utils.VariableAnalysis method)</a>, <a href="dqm.representativeness.html#id15">[1]</a>
+      <li><a href="dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator.validate_inputs">validate_inputs() (dqm.diversity.diversity.DiversityCalculator method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.variable_counting">variable_counting() (dqm.representativeness.utils.VariableAnalysis method)</a>, <a href="dqm.representativeness.html#id15">[1]</a>
+</li>
       <li><a href="dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis">VariableAnalysis (class in dqm.representativeness.utils)</a>
 </li>
   </ul></td>

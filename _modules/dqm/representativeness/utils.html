@@ -13,7 +13,7 @@
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
-      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -48,7 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../domain_gap.html">🍋 Domain gap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../representativeness.html">🍓 Representativeness</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">🔄 Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dqm.html">🎡 Package dqm-ml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">🔎 dqm-ml package</a></li>
 </ul>
 
         </div>
@@ -92,7 +92,7 @@
 <span class="sd">    pandas</span>
 <span class="sd">    matplotlib.pyplot</span>
 <span class="sd">    scipy.stats</span>
-<span class="sd">    dqm.representativeness.twe_logger</span>
+<span class="sd">    dqm.utils.twe_logger</span>
 <span class="sd">    seaborn</span>
 
 <span class="sd">Functions : None</span>
@@ -132,10 +132,11 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.representativeness.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.utils.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
 
 <div class="viewcode-block" id="DiscretisationParams">
 <a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.DiscretisationParams">[docs]</a>
@@ -366,7 +367,6 @@
         <span class="k">return</span> <span class="n">interval</span></div>
 
 
-
 <div class="viewcode-block" id="VariableAnalysis.uniform_discretization">
 <a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.uniform_discretization">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">uniform_discretization</span><span class="p">(</span>
@@ -398,7 +398,6 @@
         <span class="k">return</span> <span class="n">interval</span></div>
 
 
-
 <div class="viewcode-block" id="VariableAnalysis.data_processing_for_chisqure_test">
 <a class="viewcode-back" href="../../../dqm.representativeness.html#dqm.representativeness.utils.VariableAnalysis.data_processing_for_chisqure_test">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data_processing_for_chisqure_test</span><span class="p">(</span>
@@ -421,7 +420,6 @@
         <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">data</span></div>
-
 
 
 <div class="viewcode-block" id="VariableAnalysis.discretisation_intervals">
@@ -483,12 +481,10 @@
             <span class="n">expected_values</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
 
             <span class="n">intervals</span><span class="p">[</span><span class="s1">&#39;obs_freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intervals</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;upper_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span>\
-                    <span class="ow">in</span> <span class="n">observed_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;upper_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">observed_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span>
 
             <span class="n">intervals</span><span class="p">[</span><span class="s1">&#39;exp_freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intervals</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;upper_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span>\
-                    <span class="ow">in</span> <span class="n">expected_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;lower_limit&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;upper_limit&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">expected_values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span>
 
             <span class="k">return</span> <span class="n">intervals</span>
 

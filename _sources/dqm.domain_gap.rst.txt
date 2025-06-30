@@ -4,10 +4,10 @@ dqm.domain\_gap package
 Submodules
 ----------
 
-dqm.domain\_gap.main module
----------------------------
+dqm.domain\_gap.custom\_datasets module
+---------------------------------------
 
-.. automodule:: dqm.domain_gap.main
+.. automodule:: dqm.domain_gap.custom_datasets
    :members:
    :show-inheritance:
    :undoc-members:

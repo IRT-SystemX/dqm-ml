@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎡 Package dqm-ml &mdash; dqm-ml 1.1.0 documentation</title>
+  <title>dqm package &mdash; dqm-ml 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -14,14 +14,14 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=fc837d61"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="dqm.completeness package" href="dqm.completeness.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="modules.html" /> 
+    <link rel="prev" title="🔎 dqm-ml package" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,17 +51,26 @@
 <li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">🔄 Changelog</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">🎡 Package dqm-ml</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.diversity.html">dqm.diversity package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.domain_gap.html">dqm.domain_gap package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">🔎 dqm-ml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">dqm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html">dqm.diversity package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.domain_gap.html">dqm.domain_gap package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.utils.html">dqm.utils package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#dqm-main-module">dqm.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-dqm">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dqm.main">dqm.main module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dqm.main.load_dataframe"><code class="docutils literal notranslate"><span class="pre">load_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dqm.main.load_raw_data"><code class="docutils literal notranslate"><span class="pre">load_raw_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dqm.main.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-dqm">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -80,8 +89,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
-      <li class="breadcrumb-item active">🎡 Package dqm-ml</li>
+          <li class="breadcrumb-item"><a href="modules.html">🔎 dqm-ml package</a></li>
+      <li class="breadcrumb-item active">dqm package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/dqm.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -91,15 +100,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="package-dqm-ml">
-<h1>🎡 Package dqm-ml<a class="headerlink" href="#package-dqm-ml" title="Link to this heading"></a></h1>
+  <section id="dqm-package">
+<h1>dqm package<a class="headerlink" href="#dqm-package" title="Link to this heading"></a></h1>
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dqm.completeness.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.completeness.html#dqm-completeness-main-module">dqm.completeness.main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.completeness.html#module-dqm.completeness.metric">dqm.completeness.metric module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="dqm.completeness.html#dqm.completeness.metric.completeness_tabular"><code class="docutils literal notranslate"><span class="pre">completeness_tabular()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="dqm.completeness.html#dqm.completeness.metric.data_completion"><code class="docutils literal notranslate"><span class="pre">data_completion()</span></code></a></li>
@@ -117,7 +125,15 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dqm.diversity.html">dqm.diversity package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dqm.diversity.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.diversity.html#dqm-diversity-main-module">dqm.diversity.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.diversity.html#module-dqm.diversity.diversity">dqm.diversity.diversity module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator"><code class="docutils literal notranslate"><span class="pre">DiversityCalculator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator.compute_diversity"><code class="docutils literal notranslate"><span class="pre">DiversityCalculator.compute_diversity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id0"><code class="docutils literal notranslate"><span class="pre">DiversityCalculator.compute_diversity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.diversity.DiversityCalculator.validate_inputs"><code class="docutils literal notranslate"><span class="pre">DiversityCalculator.validate_inputs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.diversity.html#module-dqm.diversity.metric">dqm.diversity.metric module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.num"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.num()</span></code></a></li>
@@ -125,17 +141,12 @@
 <li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.prob"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.prob()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.gini"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.gini()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.metric.DiversityIndexCalculator.RD"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.RD()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id0"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.gini()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id1"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.num()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id2"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.prob()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id3"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.simpson()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id1"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.gini()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id2"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.num()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id3"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.prob()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html#id4"><code class="docutils literal notranslate"><span class="pre">DiversityIndexCalculator.simpson()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.diversity.html#module-dqm.diversity.twe_logger">dqm.diversity.twe_logger module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.twe_logger.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.diversity.html#dqm.diversity.twe_logger.log_str_to_level"><code class="docutils literal notranslate"><span class="pre">log_str_to_level()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.diversity.html#module-dqm.diversity">Module contents</a></li>
@@ -143,7 +154,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dqm.domain_gap.html">dqm.domain_gap package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dqm.domain_gap.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.domain_gap.html#dqm-domain-gap-main-module">dqm.domain_gap.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.domain_gap.html#module-dqm.domain_gap.custom_datasets">dqm.domain_gap.custom_datasets module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dqm.domain_gap.html#dqm.domain_gap.custom_datasets.ImagesFromFolderDataset"><code class="docutils literal notranslate"><span class="pre">ImagesFromFolderDataset</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.domain_gap.html#dqm.domain_gap.custom_datasets.ImagesWithLabelsDataset"><code class="docutils literal notranslate"><span class="pre">ImagesWithLabelsDataset</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.domain_gap.html#module-dqm.domain_gap.metrics">dqm.domain_gap.metrics module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="dqm.domain_gap.html#dqm.domain_gap.metrics.CMD"><code class="docutils literal notranslate"><span class="pre">CMD</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="dqm.domain_gap.html#dqm.domain_gap.metrics.CMD.compute"><code class="docutils literal notranslate"><span class="pre">CMD.compute()</span></code></a></li>
@@ -205,7 +220,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dqm.representativeness.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.representativeness.html#dqm-representativeness-main-module">dqm.representativeness.main module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.representativeness.html#module-dqm.representativeness.metric">dqm.representativeness.metric module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer"><code class="docutils literal notranslate"><span class="pre">DistributionAnalyzer</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="dqm.representativeness.html#dqm.representativeness.metric.DistributionAnalyzer.chisquare_test"><code class="docutils literal notranslate"><span class="pre">DistributionAnalyzer.chisquare_test()</span></code></a></li>
@@ -218,11 +232,6 @@
 <li class="toctree-l4"><a class="reference internal" href="dqm.representativeness.html#id3"><code class="docutils literal notranslate"><span class="pre">DistributionAnalyzer.shannon_entropy()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.representativeness.html#module-dqm.representativeness.twe_logger">dqm.representativeness.twe_logger module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="dqm.representativeness.html#dqm.representativeness.twe_logger.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.representativeness.html#dqm.representativeness.twe_logger.log_str_to_level"><code class="docutils literal notranslate"><span class="pre">log_str_to_level()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dqm.representativeness.html#module-dqm.representativeness.utils">dqm.representativeness.utils module</a><ul>
@@ -263,14 +272,71 @@
 <li class="toctree-l2"><a class="reference internal" href="dqm.representativeness.html#module-dqm.representativeness">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dqm.utils.html">dqm.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dqm.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.utils.html#module-dqm.utils.twe_logger">dqm.utils.twe_logger module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dqm.utils.html#dqm.utils.twe_logger.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.utils.html#dqm.utils.twe_logger.log_str_to_level"><code class="docutils literal notranslate"><span class="pre">log_str_to_level()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dqm.utils.html#module-dqm.utils">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="dqm-main-module">
-<h2>dqm.main module<a class="headerlink" href="#dqm-main-module" title="Link to this heading"></a></h2>
+<section id="module-dqm.main">
+<span id="dqm-main-module"></span><h2>dqm.main module<a class="headerlink" href="#module-dqm.main" title="Link to this heading"></a></h2>
+<p>This script is the entry point for using DQM with command line and docker</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.main.load_dataframe">
+<span class="sig-prename descclassname"><span class="pre">dqm.main.</span></span><span class="sig-name descname"><span class="pre">load_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/main.html#load_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.main.load_dataframe" title="Link to this definition"></a></dt>
+<dd><p>This function loads a pandas dataframe from the config dict passed as input.
+This config dict comes from a pipeline configuration: An example of such pipeline is present in examples/ folder</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_dict</strong> (<em>dict</em>) – Dict containing a metric configuration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.main.load_raw_data">
+<span class="sig-prename descclassname"><span class="pre">dqm.main.</span></span><span class="sig-name descname"><span class="pre">load_raw_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/main.html#load_raw_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.main.load_raw_data" title="Link to this definition"></a></dt>
+<dd><p>This function load a raw data file content as a pandas dataframe</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str</em>) – Path of the file to load</p></li>
+<li><p><strong>separator</strong> (<em>str</em>) – Separator to use when processing csv and txt format file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output dataframe</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>df (pandas.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.main.main">
+<span class="sig-prename descclassname"><span class="pre">dqm.main.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/main.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.main.main" title="Link to this definition"></a></dt>
+<dd><p>Main script of DQM component:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pipeline_config_path</strong> (<em>str</em>) – Path to the pipeline definition you want to apply</p></li>
+<li><p><strong>result_file_path</strong> – (str): Path the output YAML file where all computed metrics scores are stored</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-dqm">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dqm" title="Link to this heading"></a></h2>
@@ -281,7 +347,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="🔎 dqm-ml package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="dqm.completeness.html" class="btn btn-neutral float-right" title="dqm.completeness package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

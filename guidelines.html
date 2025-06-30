@@ -14,7 +14,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=fc837d61"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -48,7 +48,14 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">💡 Guideline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#set-up-a-clean-virtual-environnement">Set up a clean virtual environnement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-the-library">Install the library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#standalone-mode">Standalone mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline-definition">Pipeline definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-the-dockerized-version">Use the dockerized version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-with-proxy-server">User with proxy server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-the-library-within-your-python-code">Use the library within your python code</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#available-examples">Available examples</a></li>
 </ul>
 </li>
@@ -57,7 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">🔄 Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dqm.html">🎡 Package dqm-ml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">🔎 dqm-ml package</a></li>
 </ul>
 
         </div>
@@ -114,8 +121,166 @@
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>There is two ways to use the dqm library :</p>
+<ul class="simple">
+<li><p>Import dqm package and call the dqm functions within your python code</p></li>
+<li><p>In standalone mode using direct command line from a terminal, or run the DQm-ML container</p></li>
+</ul>
+<section id="standalone-mode">
+<h3>Standalone mode<a class="headerlink" href="#standalone-mode" title="Link to this heading"></a></h3>
+<p>You can use the dqm-ml directly to evaluate your dataset, by using the “dqm-ml” command from your terminal.</p>
+<p>The command line has the following form :</p>
+<p><code class="docutils literal notranslate"><span class="pre">dqm-ml</span> <span class="pre">--pipeline_config_path</span> <span class="pre">path_to_your_pipeline_file</span> <span class="pre">--result_file_path</span> <span class="pre">path_to_your_result_file</span></code></p>
+<p>This mode requires two user parameters:</p>
+<ul class="simple">
+<li><p>pipeline_config_path : A path to a yaml file that will define the pipeline of evaluation you want to apply on your datasests</p></li>
+<li><p>result_file_path : A yaml file containing the set of computed scores for each defined metric in your pipeline</p></li>
+</ul>
+<p>For example, if your pipeline file is located at path :  <code class="docutils literal notranslate"><span class="pre">examples/pipeline_example.yaml</span> </code> and you want your result file to be stored at  <code class="docutils literal notranslate"><span class="pre">&quot;examples/results_pipeline_example.yaml</span></code>, you will type in your terminal :</p>
+<p><code class="docutils literal notranslate"><span class="pre">dqm-ml</span> <span class="pre">--pipeline_config_path</span> <span class="pre">&quot;examples/pipeline_example.yaml&quot;</span> <span class="pre">--result_file_path</span> <span class="pre">&quot;examples/results_pipeline_example.yaml&quot;</span></code></p>
+</section>
+<section id="pipeline-definition">
+<h3>Pipeline definition<a class="headerlink" href="#pipeline-definition" title="Link to this heading"></a></h3>
+<p>A dqm-ml pipeline is a yaml file that contains the list of dataset you want to evaluate, and the list of metrics you want to compute on each ones.
+This file has a primary key <strong>pipeline_definition</strong> containing  a list of items where each item has the following required fiedls:</p>
+<ul class="simple">
+<li><p>dataset : The path to the dataset you want to evaluate .</p></li>
+<li><p>domain : the category of metric you want to apply</p></li>
+<li><p>metrics : The list of metrics to compute on the dataset . (For completeness only this field is not used)</p></li>
+</ul>
+<p>For representativeness domain only, the following additional parameters fields are required:</p>
+<ul class="simple">
+<li><p>bins :</p></li>
+<li><p>distribution :</p></li>
+</ul>
+<p>You can use an optionnal field :</p>
+<ul class="simple">
+<li><p>columns : The list of columns from your dataset on which you want to restrict the computations of metrics. If this field is missing, by default the metrics are applied on all columns of the given dataset</p></li>
+</ul>
+<p>The field <code class="docutils literal notranslate"><span class="pre">datasets</span> </code>, can be a path to a single file  or a path to a folder. If the path points on a single file,  fhe file content is directly loaded and considered as the final dataset to evaluate. Supported extension for files are “csv, txt, xls,xlsx, pq and parquet”. In case of csv or txt file,  you can set a <code class="docutils literal notranslate"><span class="pre">separator</span> </code> field to indicate the separator to be used to parse the file.</p>
+<p>If the defined path is a folder, all files within the folder will be automatically concatened along the rows axis to build the final dataset that will be considered for the evaluation. For folders, you can use an additional <code class="docutils literal notranslate"><span class="pre">extension</span> </code> field to concatenate only the files with the specified extension in the target folder. By default all present files are tried to be concatenated.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="o">-</span> <span class="n">domain</span> <span class="p">:</span> <span class="s2">&quot;representativeness&quot;</span>
+    <span class="n">extension</span><span class="p">:</span> <span class="s2">&quot;txt&quot;</span>
+    <span class="n">metrics</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;chi-square&quot;</span><span class="p">,</span><span class="s2">&quot;GRTE&quot;</span><span class="p">]</span>
+    <span class="n">bins</span> <span class="p">:</span> <span class="mi">10</span>
+    <span class="n">distribution</span> <span class="p">:</span> <span class="s2">&quot;normal&quot;</span>
+    <span class="n">dataset</span><span class="p">:</span> <span class="s2">&quot;tdata/my_data_folder&quot;</span>
+    <span class="n">columns_names</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;col_1&quot;</span><span class="p">,</span> <span class="s2">&quot;col_5&quot;</span><span class="p">,</span><span class="s2">&quot;col_9&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For domain gap, because the metrics apply only on images datasets, the definition is quite different, the item has the following field</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">domain</span></code>: defining the name of the domain thus here “domain_gap”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metrics</span></code> :   The list of metrics you want to compute, and for each item you have two fields</p>
+<ul>
+<li><p>metrics_name : The name of metric to compute</p></li>
+<li><p>method_config ! The user configuration of the metric. In this part you define the source and target datasets, the chosen models, and other user parameters</p></li>
+</ul>
+</li>
+</ul>
+<p>An example of pipeline file defining the computations of many metrics from the four domains is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline_definition</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">domain</span> <span class="p">:</span> <span class="s2">&quot;completeness&quot;</span>
+    <span class="n">dataset</span> <span class="p">:</span> <span class="s2">&quot;tests/sample_data/completeness_sample_data.csv&quot;</span>
+    <span class="n">columns_names</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;column_1&quot;</span><span class="p">,</span><span class="s2">&quot;column_3&quot;</span><span class="p">,</span><span class="s2">&quot;column_6&quot;</span><span class="p">,</span><span class="s2">&quot;column_9&quot;</span><span class="p">]</span>
+
+  <span class="o">-</span> <span class="n">domain</span> <span class="p">:</span> <span class="s2">&quot;representativeness&quot;</span>
+    <span class="n">metrics</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;chi-square&quot;</span><span class="p">,</span><span class="s2">&quot;GRTE&quot;</span><span class="p">]</span>
+    <span class="n">bins</span> <span class="p">:</span> <span class="mi">10</span>
+    <span class="n">distribution</span> <span class="p">:</span> <span class="n">normal</span>
+    <span class="n">dataset</span><span class="p">:</span> <span class="s2">&quot;tests/sample_data/SMD_test_ds_sample.csv&quot;</span>
+    <span class="n">columns_names</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;column_2&quot;</span><span class="p">,</span><span class="s2">&quot;column_4&quot;</span><span class="p">,</span> <span class="s2">&quot;column_6&quot;</span><span class="p">]</span>
+
+  <span class="o">-</span> <span class="n">domain</span> <span class="p">:</span> <span class="s2">&quot;diversity&quot;</span>
+    <span class="n">metrics</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;simpson&quot;</span><span class="p">,</span><span class="s2">&quot;gini&quot;</span><span class="p">]</span>
+    <span class="n">dataset</span><span class="p">:</span> <span class="s2">&quot;tests/sample_data/SMD_test_ds_sample.csv&quot;</span>
+    <span class="n">columns_names</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;column_2&quot;</span><span class="p">,</span><span class="s2">&quot;column_4&quot;</span><span class="p">,</span> <span class="s2">&quot;column_6&quot;</span><span class="p">]</span>
+
+  <span class="o">-</span> <span class="n">domain</span><span class="p">:</span> <span class="s2">&quot;domain_gap&quot;</span>
+    <span class="n">metrics</span><span class="p">:</span>
+      <span class="o">-</span> <span class="n">metric_name</span><span class="p">:</span> <span class="n">wasserstein</span>
+        <span class="n">method_config</span><span class="p">:</span>
+            <span class="n">DATA</span><span class="p">:</span>
+                <span class="n">batch_size</span><span class="p">:</span> <span class="mi">32</span>
+                <span class="n">height</span><span class="p">:</span> <span class="mi">299</span>
+                <span class="n">width</span><span class="p">:</span> <span class="mi">299</span>
+                <span class="n">norm_mean</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.485</span><span class="p">,</span><span class="mf">0.456</span><span class="p">,</span><span class="mf">0.406</span><span class="p">]</span>
+                <span class="n">norm_std</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.229</span><span class="p">,</span><span class="mf">0.224</span><span class="p">,</span><span class="mf">0.225</span><span class="p">]</span>
+                <span class="n">source</span><span class="p">:</span> <span class="s2">&quot;tests/sample_data/image_test_ds/c20&quot;</span>
+                <span class="n">target</span><span class="p">:</span> <span class="s2">&quot;tests/sample_data/image_test_ds/c33&quot;</span>
+            <span class="n">MODEL</span><span class="p">:</span>
+                <span class="n">arch</span><span class="p">:</span> <span class="s2">&quot;resnet18&quot;</span>
+                <span class="n">device</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span>
+                <span class="n">n_layer_feature</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span>
+            <span class="n">METHOD</span><span class="p">:</span>
+                <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;fid&quot;</span>
+</pre></div>
+</div>
+<p>The result file produced at the end of thpipeline is a yaml file containig the  pipeline configuration file augmented  with a “score” field in each item, containing the corresponding metrics computed scores.</p>
+<p>Example of result_score:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline_definition</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">domain</span><span class="p">:</span> <span class="n">completeness</span>
+  <span class="n">dataset</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sample_data</span><span class="o">/</span><span class="n">completeness_sample_data</span><span class="o">.</span><span class="n">csv</span>
+  <span class="n">columns_names</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">column_1</span>
+  <span class="o">-</span> <span class="n">column_3</span>
+  <span class="o">-</span> <span class="n">column_6</span>
+  <span class="o">-</span> <span class="n">column_9</span>
+  <span class="n">scores</span><span class="p">:</span>
+    <span class="n">overall_score</span><span class="p">:</span> <span class="mf">0.61825</span>
+    <span class="n">column_1</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="n">column_3</span><span class="p">:</span> <span class="mf">0.782</span>
+    <span class="n">column_6</span><span class="p">:</span> <span class="mf">0.48</span>
+    <span class="n">column_9</span><span class="p">:</span> <span class="mf">0.211</span>
+<span class="o">-</span> <span class="n">domain</span><span class="p">:</span> <span class="n">representativeness</span>
+  <span class="n">metrics</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">chi</span><span class="o">-</span><span class="n">square</span>
+  <span class="o">-</span> <span class="n">GRTE</span>
+  <span class="n">bins</span><span class="p">:</span> <span class="mi">10</span>
+  <span class="n">distribution</span><span class="p">:</span> <span class="n">normal</span>
+  <span class="n">dataset</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sample_data</span><span class="o">/</span><span class="n">SMD_test_ds_sample</span><span class="o">.</span><span class="n">csv</span>
+  <span class="n">columns_names</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">column_2</span>
+  <span class="o">-</span> <span class="n">column_4</span>
+  <span class="o">-</span> <span class="n">column_6</span>
+  <span class="n">scores</span><span class="p">:</span>
+    <span class="n">chi</span><span class="o">-</span><span class="n">square</span><span class="p">:</span>
+      <span class="n">column_2</span><span class="p">:</span> <span class="mf">1.8740034461104008e-34</span>
+      <span class="n">column_4</span><span class="p">:</span> <span class="mf">2.7573644464553625e-86</span>
+      <span class="n">column_6</span><span class="p">:</span> <span class="mf">3.469236770038776e-64</span>
+    <span class="n">GRTE</span><span class="p">:</span>
+      <span class="n">column_2</span><span class="p">:</span> <span class="mf">0.8421470393366073</span>
+      <span class="n">column_4</span><span class="p">:</span> <span class="mf">0.7615162001699769</span>
+      <span class="n">column_6</span><span class="p">:</span> <span class="mf">0.6955152215780268</span>
+</pre></div>
+</div>
+<p>The best way to create your own pipeline definition, is to start from existing example pipelines present in the <code class="docutils literal notranslate"><span class="pre">examples/pipeline_example.yaml</span></code> folder and
+modify it as you wish.</p>
+</section>
+<section id="use-the-dockerized-version">
+<h3>Use the dockerized version<a class="headerlink" href="#use-the-dockerized-version" title="Link to this heading"></a></h3>
+<p>To build locally the docker image, from the root folder of the repository:</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span> <span class="pre">.</span> <span class="pre">-f</span> <span class="pre">dockerfile</span> <span class="pre">-t</span> <span class="pre">image_name:tag</span></code></p>
+<p>The command line to run the dqm container has the following form :</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-e</span> <span class="pre">PIPELINE_CONFIG_PATH=&quot;path_to_your_pipeline_file&quot;</span> <span class="pre">-e</span> <span class="pre">RESULT_FILE_PATH=&quot;path_to_the_result_file&quot;</span> <span class="pre">irtsystemx/dqm-ml:1.1.1</span></code></p>
+<p>You need to mount the <code class="docutils literal notranslate"><span class="pre">PIPELINE_CONFIG_PATH</span></code> path to <code class="docutils literal notranslate"><span class="pre">/tmp/in/$PIPELIN_CONFIG_PATH</span></code> and the <code class="docutils literal notranslate"><span class="pre">$RESULT_FILE_PATH</span></code> to  <code class="docutils literal notranslate"><span class="pre">/tmp/out/$RESULT_FILE_PATH</span></code>
+Moreover, All datasets directores referenced in your pipeline file shall be mounted in the docker</p>
+<p>For example if your pipeline file is stored at <code class="docutils literal notranslate"><span class="pre">examples/pipeline_example_docker.yaml</span></code> and your result file shall be stored at <code class="docutils literal notranslate"><span class="pre">results_docker/result_file.yaml</span></code>
+and all your datasets used in your pipeline are stored inside locally into <code class="docutils literal notranslate"><span class="pre">/tests</span></code> folder and defined on <code class="docutils literal notranslate"><span class="pre">data_storage/..</span></code> folder in your pipeline file</p>
+<p>The command would be :</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-e</span> <span class="pre">PIPELINE_CONFIG_PATH=&quot;pipeline_example_docker.yaml&quot;</span> <span class="pre">-e</span> <span class="pre">RESULT_FILE_PATH=&quot;result_file.yaml&quot;</span> <span class="pre">-v</span> <span class="pre">${PWD}/examples:/tmp/in</span> <span class="pre">-v</span> <span class="pre">${PWD}/tests/:/data_storage/</span> <span class="pre">-v</span> <span class="pre">${PWD}/results_docker:/tmp/out</span> <span class="pre">irtsystemx/dqm-ml:1.1.1</span></code></p>
+</section>
+<section id="user-with-proxy-server">
+<h3>User with proxy server<a class="headerlink" href="#user-with-proxy-server" title="Link to this heading"></a></h3>
+<p>The computation of domain gap metrics requires the use of pretrained models that are automatically downloaded by pytorch in a local cache directory during the first call to those metrics.</p>
+<p>For users behind a proxy server, this download could fail. To overcome this issue, you can manually get those pretrained models by downloading the zip archive from this  <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models//dqm-ml_pretrained_models.zip">link</a> and extract it in the following folder : <code class="docutils literal notranslate"> <span class="pre">your_user_directory/.cache/torch/hub/checkpoints/</span></code></p>
+</section>
+<section id="use-the-library-within-your-python-code">
+<h3>Use the library within your python code<a class="headerlink" href="#use-the-library-within-your-python-code" title="Link to this heading"></a></h3>
 <p>Each metric is used by importing the corresponding modules and class into your code.
 For more information about each metric, refer to the specific README.md in <code class="docutils literal notranslate"><span class="pre">dqm/&lt;metric_name&gt;</span></code> subfolders</p>
+</section>
 </section>
 <section id="available-examples">
 <h2>Available examples<a class="headerlink" href="#available-examples" title="Link to this heading"></a></h2>
@@ -132,7 +297,9 @@ For more information about each metric, refer to the specific README.md in <code
 <p>For example:</p>
 <p><code class="docutils literal notranslate"> <span class="pre">python</span> <span class="pre">examples/main_domain_gap.py</span> <span class="pre">--cfg</span> <span class="pre">examples/domain_gap_cfg/cmd/cmd.json</span></code></p>
 <p>We provide in the folder <code class="docutils literal notranslate"><span class="pre">/examples/domain_gap_cfg</span></code> a set of config files for each domain_gap approaches`:</p>
-<p>For some domain_gap examples, the <strong>200_bird_dataset</strong> will be required. It can be downloaded from this <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip">link</a>. The zip archive will be extracted into the <code class="docutils literal notranslate"><span class="pre">examples/datasets/</span></code> folder.</p>
+<p>For some domain_gap examples, the <strong>200_bird_dataset</strong> will be required. It can be downloaded from this <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip">link</a>. The zip archive shall be extracted into the <code class="docutils literal notranslate"><span class="pre">examples/datasets/</span></code> folder.</p>
+<p>1 pipeline example that instanciates every metrics implemented in dqm-ml named <code class="docutils literal notranslate"><span class="pre">pipeline_example.yaml</span></code> and its corresponding results <code class="docutils literal notranslate"><span class="pre">results_pipeline_example.yaml</span></code>.</p>
+<p>1 pipeline example similar to the previous one, but with different datasets path, as shown in the example of how using the containerized version.</p>
 </section>
 </section>
 

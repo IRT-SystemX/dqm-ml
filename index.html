@@ -14,7 +14,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=fc837d61"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -50,7 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">🔄 Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dqm.html">🎡 Package dqm-ml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">🔎 dqm-ml package</a></li>
 </ul>
 
         </div>
@@ -85,9 +85,6 @@
 </div>
 <div align="center">
     <a href="#">
-        <img src="https://img.shields.io/badge/Python-3.9-efefef">
-    </a>
-    <a href="#">
         <img src="https://img.shields.io/badge/Python-3.10-efefef">
     </a>
     <a href="#">
@@ -98,9 +95,19 @@
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/License-MPL-2">
-<p><a class="reference external" href="https://github.com/pylint-dev"><img alt="Code style: Pylint" src="https://img.shields.io/badge/linting-pylint-yellowgreen" /></a>
-<a class="reference external" href="https://flake8.pycqa.org/en/latest/"><img alt="Code style: flake8" src="https://img.shields.io/badge/code%20style-flake8-1c4a6c.svg" /></a></p>
+        </a>
+    <a href="_static/pylint/pylint.txt">
+        <img src="_static/pylint/pylint.svg" alt="Pylint Score">
+    </a>
+    <a href="_static/flake8/index.html">
+        <img src="_static/flake8/flake8.svg" alt="Flake8 Report">
+    </a>
+        <a href="_static/coverage/index.html">
+        <img src="_static/coverage/coverage.svg" alt="Coverage report">
+    </a>
 </div>
+<br>
+<br>
 <section id="data-quality-metrics">
 <h2>Data Quality Metrics<a class="headerlink" href="#data-quality-metrics" title="Link to this heading"></a></h2>
 <p>The current version of the Data Quality Metrics (called <strong>dqm-ml</strong>) computes three data inherent metrics and one data-model dependent metric.</p>
@@ -182,7 +189,14 @@
 <li class="toctree-l1"><a class="reference internal" href="guidelines.html">💡 Guideline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="guidelines.html#set-up-a-clean-virtual-environnement">Set up a clean virtual environnement</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guidelines.html#install-the-library">Install the library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="guidelines.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guidelines.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#standalone-mode">Standalone mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#pipeline-definition">Pipeline definition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#use-the-dockerized-version">Use the dockerized version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#user-with-proxy-server">User with proxy server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="guidelines.html#use-the-library-within-your-python-code">Use the library within your python code</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="guidelines.html#available-examples">Available examples</a></li>
 </ul>
 </li>
@@ -224,21 +238,19 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">🔄 Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#v1-1-1-2025-06-27">v1.1.1 (2025-06-27)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#v-1-1-0-2025-03-31">v 1.1.0 (2025-03-31)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#v-1-0-0-2024-01-31">v 1.0.0 (2024-01-31)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="dqm.html">🎡 Package dqm-ml</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.diversity.html">dqm.diversity package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.domain_gap.html">dqm.domain_gap package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">🔎 dqm-ml package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dqm.html">dqm package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dqm.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.html#module-dqm.main">dqm.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.html#module-dqm">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#dqm-main-module">dqm.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm">Module contents</a></li>
 </ul>
 </li>
 </ul>

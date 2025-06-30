@@ -14,7 +14,7 @@
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=fc837d61"></script>
-      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -51,24 +51,21 @@
 <li class="toctree-l1"><a class="reference internal" href="domain_gap.html">🍋 Domain gap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="representativeness.html">🍓 Representativeness</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">🔄 Changelog</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="dqm.html">🎡 Package dqm-ml</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="dqm.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.diversity.html">dqm.diversity package</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">dqm.domain_gap package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dqm-domain-gap-main-module">dqm.domain_gap.main module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-dqm.domain_gap.metrics">dqm.domain_gap.metrics module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-dqm.domain_gap.utils">dqm.domain_gap.utils module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-dqm.domain_gap">Module contents</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">🔎 dqm-ml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="dqm.html">dqm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="dqm.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html">dqm.diversity package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">dqm.domain_gap package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.utils.html">dqm.utils package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.html#module-dqm.main">dqm.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dqm.html#module-dqm">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#dqm-main-module">dqm.main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dqm.html#module-dqm">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -87,8 +84,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
-          <li class="breadcrumb-item"><a href="dqm.html">🎡 Package dqm-ml</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">🔎 dqm-ml package</a></li>
+          <li class="breadcrumb-item"><a href="dqm.html">dqm package</a></li>
       <li class="breadcrumb-item active">dqm.domain_gap package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/dqm.domain_gap.rst.txt" rel="nofollow"> View page source</a>
@@ -104,8 +101,20 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="dqm-domain-gap-main-module">
-<h2>dqm.domain_gap.main module<a class="headerlink" href="#dqm-domain-gap-main-module" title="Link to this heading"></a></h2>
+<section id="module-dqm.domain_gap.custom_datasets">
+<span id="dqm-domain-gap-custom-datasets-module"></span><h2>dqm.domain_gap.custom_datasets module<a class="headerlink" href="#module-dqm.domain_gap.custom_datasets" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.custom_datasets.ImagesFromFolderDataset">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.custom_datasets.</span></span><span class="sig-name descname"><span class="pre">ImagesFromFolderDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/custom_datasets.html#ImagesFromFolderDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.custom_datasets.ImagesFromFolderDataset" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dqm.domain_gap.custom_datasets.ImagesWithLabelsDataset">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.custom_datasets.</span></span><span class="sig-name descname"><span class="pre">ImagesWithLabelsDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txt_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/custom_datasets.html#ImagesWithLabelsDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.custom_datasets.ImagesWithLabelsDataset" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+</dd></dl>
+
 </section>
 <section id="module-dqm.domain_gap.metrics">
 <span id="dqm-domain-gap-metrics-module"></span><h2>dqm.domain_gap.metrics module<a class="headerlink" href="#module-dqm.domain_gap.metrics" title="Link to this heading"></a></h2>
@@ -142,7 +151,7 @@ twe_logger</p>
 6. Process multiple tasks using process_tasks(cfg, tsk).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.CMD">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">CMD</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#CMD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.CMD" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">CMD</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#CMD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.CMD" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.CMD.compute">
@@ -215,7 +224,7 @@ and the loss is computed as a weighted sum of the differences in moments of the 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.FID">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">FID</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#FID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.FID" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">FID</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#FID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.FID" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.FID.calculate_statistics">
@@ -285,7 +294,8 @@ of images, commonly used to evaluate the quality of generated images.</p>
 </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The computed FID score, representing the distance between the source and target image distributions.</p>
+<dd class="field-even"><p>The computed FID score, representing the distance between the source and target image
+distributions.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>torch.Tensor</p>
@@ -304,7 +314,7 @@ of images, commonly used to evaluate the quality of generated images.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.KLMVN">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">KLMVN</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#KLMVN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.KLMVN" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">KLMVN</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#KLMVN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.KLMVN" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
 <p>Instanciate KLMVN class to compute KLMVN metrics</p>
 <dl class="py method">
@@ -455,7 +465,7 @@ Default is 1e-6.</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.MMD">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">MMD</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#MMD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.MMD" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">MMD</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#MMD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.MMD" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
 <p>Maximum Mean Discrepancy metric class defintion</p>
 <dl class="py method">
@@ -517,7 +527,7 @@ measure between the datasets.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.Metric">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Metric" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Metric" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Base class for defining a metric.</p>
 <dl class="py method">
@@ -535,7 +545,7 @@ measure between the datasets.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.ProxyADistance">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">ProxyADistance</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#ProxyADistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.ProxyADistance" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">ProxyADistance</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#ProxyADistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.ProxyADistance" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dqm.domain_gap.metrics.Metric" title="dqm.domain_gap.metrics.Metric"><code class="xref py py-class docutils literal notranslate"><span class="pre">Metric</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.ProxyADistance.adapt_format_like_pred">
@@ -655,7 +665,7 @@ function for each model, and the average distance across all models is returned.
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.RMSELoss">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">RMSELoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#RMSELoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.RMSELoss" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">RMSELoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#RMSELoss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.RMSELoss" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
 <p>Compute the Root Mean Squared Error (RMSE) loss between the predicted values and the target values.</p>
 <p>This class provides a PyTorch module for calculating the RMSE loss, which is a common metric for
@@ -707,7 +717,7 @@ registered hooks while the latter silently ignores them.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.Wasserstein">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">Wasserstein</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Wasserstein"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Wasserstein" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dqm.domain_gap.metrics.</span></span><span class="sig-name descname"><span class="pre">Wasserstein</span></span><a class="reference internal" href="_modules/dqm/domain_gap/metrics.html#Wasserstein"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.domain_gap.metrics.Wasserstein" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="dqm.domain_gap.metrics.Wasserstein.compute_1D_distance">

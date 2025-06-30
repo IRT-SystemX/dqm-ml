@@ -1,4 +1,4 @@
-🎡 Package dqm-ml
+dqm package
 ===========
 
 Subpackages
@@ -11,6 +11,7 @@ Subpackages
    dqm.diversity
    dqm.domain_gap
    dqm.representativeness
+   dqm.utils
 
 Submodules
 ----------

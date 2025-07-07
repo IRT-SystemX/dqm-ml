@@ -38,9 +38,8 @@ class bcolors:
 
 class CustomFormatter(logging.Formatter):
 
-    MSG_FMT = "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s"
+    MSG_FMT = "[%(asctime)s] %(name)s %(levelname)s - %(message)s {%(pathname)s:%(lineno)d} "
     DATE_FMT = "%m-%d %H:%M:%S"
-    
     LVL_COLOR = {
         logging.DEBUG: bcolors.OKBLUE,
         logging.INFO: '',

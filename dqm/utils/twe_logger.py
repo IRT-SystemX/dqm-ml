@@ -25,6 +25,36 @@ import sys
 LOGGER_DEFAULT_NAME = "twe_logger"
 
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+class CustomFormatter(logging.Formatter):
+
+    MSG_FMT = "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s"
+    DATE_FMT = "%m-%d %H:%M:%S"
+    
+    LVL_COLOR = {
+        logging.DEBUG: bcolors.OKBLUE,
+        logging.INFO: '',
+        logging.WARNING: bcolors.WARNING,
+        logging.ERROR: bcolors.FAIL,
+        logging.CRITICAL: bcolors.FAIL + bcolors.BOLD
+    }
+
+    def format(self, record):
+
+        log_fmt = self.LVL_COLOR.get(record.levelno) + self.MSG_FMT + bcolors.ENDC  # noqa: E501
+        formatter = logging.Formatter(log_fmt, self.DATE_FMT)
+        return formatter.format(record)
+
 def log_str_to_level(str_level):
     """
     Converts a string to a corresponding logging level.
@@ -72,11 +102,9 @@ def get_logger(name=LOGGER_DEFAULT_NAME, level="debug", filename=None, output=No
         output = "file" if filename else "stdout"
 
     logger = logging.getLogger(name)
-    formatter = logging.Formatter(
-        "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s \
-     - %(message)s",
-        "%m-%d %H:%M:%S",
-    )
+
+    ## Log file will have the color characters, but it can be parsed
+    formatter = CustomFormatter()
 
     handlers = []
 

@@ -9,13 +9,15 @@ import numpy as np
 import yaml
 import pandas as pd
 
+
 from dqm.completeness.metric import DataCompleteness
 from dqm.diversity.metric import DiversityIndexCalculator
 from dqm.representativeness.metric import DistributionAnalyzer
 from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, KLMVN
-from dqm.utils.twe_logger import get_logger
 
-# Init the logger
+from dqm.utils.twe_logger import get_logger
+# Init the logger before loading metrics to enable logger config before
+# TODO : import metrics after cli parameters reading to make log consistents
 logger = get_logger()
 
 

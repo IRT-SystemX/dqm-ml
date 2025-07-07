@@ -13,6 +13,9 @@
     <a href="#">
         <img src="https://img.shields.io/badge/Python-3.12-efefef">
     </a>
+	<a href="#">
+        <img src="https://img.shields.io/badge/Python-3.13-efefef">
+    </a>
     <a href="#">
         <img src="https://img.shields.io/badge/License-MPL-2">
 	</a>

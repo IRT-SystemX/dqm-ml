@@ -33,7 +33,7 @@ Example:
 
 from dqm.diversity.diversity import DiversityCalculator
 from dqm.diversity.metric import DiversityIndexCalculator
-from dqm.diversity.twe_logger import get_logger
+from dqm.utils.twe_logger import get_logger
 import pandas as pd
 
 

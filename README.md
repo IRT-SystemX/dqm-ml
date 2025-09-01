@@ -5,13 +5,7 @@
 
 <div align="center">
     <a href="#">
-        <img src="https://img.shields.io/badge/Python-3.10-efefef">
-    </a>
-    <a href="#">
-        <img src="https://img.shields.io/badge/Python-3.11-efefef">
-    </a>
-    <a href="#">
-        <img src="https://img.shields.io/badge/Python-3.12-efefef">
+        <img src="https://img.shields.io/badge/Python-3.11%20--%203.13-blue"">
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/License-MPL-2">

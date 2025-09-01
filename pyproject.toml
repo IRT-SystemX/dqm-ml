@@ -3,9 +3,9 @@ name = "dqm-ml"
 description="Python library designed to compute data quality metrics for Machine Learning"
 readme = "README.md"
 dynamic = ["dependencies"]
-version= "1.1.1"
+version= "1.1.2"
 license ="MPL-2.0"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [
   {name = "IRT SystemX"},
   {email="support@irt-systemx.fr"}

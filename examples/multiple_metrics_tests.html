@@ -80,7 +80,7 @@
   <section id="Tests-of-Completeness,-Representtiveness">
 <h1>Tests of Completeness, Representtiveness<a class="headerlink" href="#Tests-of-Completeness,-Representtiveness" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Common Libraries</span>
@@ -101,7 +101,7 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># upload data</span>
@@ -115,7 +115,7 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -351,8 +351,8 @@
 <section id="Completeness">
 <h1>Completeness<a class="headerlink" href="#Completeness" title="Link to this heading"></a></h1>
 <p>you can see also the file: <em>dqm/completeness/main.py</em></p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Specific Libraries</span>
@@ -360,22 +360,8 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[3]</span><span class="ansi-green-fg">, line 2</span>
-<span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)">## Specific Libraries </span>
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">2</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-blue-intense-fg ansi-bold">dqm</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">completeness</span><span class="ansi-blue-intense-fg ansi-bold">.</span><span class="ansi-blue-intense-fg ansi-bold">metric</span><span style="color: rgb(188,188,188)"> </span><span class="ansi-bold" style="color: rgb(0,135,0)">import</span> DataCompleteness
-
-<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;dqm&#39;
-</pre></div></div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute completeness on the whole dataset</span>
@@ -386,7 +372,8 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -394,7 +381,7 @@
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute completeness on a single column</span>
@@ -418,8 +405,8 @@ Completeness Score for Column: 1
 </section>
 <section id="Representativeness">
 <h1>Representativeness<a class="headerlink" href="#Representativeness" title="Link to this heading"></a></h1>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Specific Libraries</span>
@@ -427,17 +414,8 @@ Completeness Score for Column: 1
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[03-28 15:55:04] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
-[03-28 15:55:04] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
-</pre></div></div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">]</span> <span class="c1"># you can choose another variable from the data.</span>
@@ -457,7 +435,7 @@ Completeness Score for Column: 1
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters for analysis</span>
@@ -474,11 +452,11 @@ Completeness Score for Column: 1
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[03-28 15:55:05] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\twe_logger.py:102} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+[07-17 07:34:09] {/home/jovyan/env-DQM-ML/lib/python3.12/site-packages/dqm/utils/twe_logger.py:103} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method chisquare_test</span>
@@ -493,34 +471,34 @@ Completeness Score for Column: 1
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[03-28 15:55:07] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\metric.py:170} INFO      - pvalue = 0.0 &lt; 0.05: Data is not following the normal distribution
+[07-17 07:34:13] {/home/jovyan/env-DQM-ML/lib/python3.12/site-packages/dqm/representativeness/metric.py:170} INFO      - pvalue = 0.0 &lt; 0.05: Data is not following the normal distribution
 Chi-Square Test: p-value = 0.0
 Chi-Square Test: discretized intervalls are
  =     lower_limit  upper_limit  obs_freq  exp_freq
-0          -inf    94.797922       7.0    1209.0
-1     94.797922   438.511806    1406.0    1108.0
-2    438.511806   670.413932    1274.0    1168.0
-3    670.413932   854.722390    2869.0    1065.0
-4    854.722390  1012.842636    2083.0    1120.0
-5   1012.842636  1154.839504    1025.0    1105.0
-6   1154.839504  1286.420763     723.0    1127.0
-7   1286.420763  1411.278511     621.0    1119.0
-8   1411.278511  1532.079828     618.0    1123.0
-9   1532.079828  1650.965885     847.0    1145.0
-10  1650.965885  1769.851942    1309.0    1082.0
-11  1769.851942  1890.653258    1646.0    1118.0
-12  1890.653258  2015.511006    1460.0    1193.0
-13  2015.511006  2147.092266    1182.0    1161.0
-14  2147.092266  2289.089134     897.0    1122.0
-15  2289.089134  2447.209380     708.0    1127.0
-16  2447.209380  2631.517838     711.0    1126.0
-17  2631.517838  2863.419964     806.0    1205.0
-18  2863.419964  3207.133848     935.0    1163.0
-19  3207.133848          inf    1626.0    1167.0
+0          -inf    94.797922       7.0    1159.0
+1     94.797922   438.511806    1406.0    1148.0
+2    438.511806   670.413932    1274.0    1163.0
+3    670.413932   854.722390    2869.0    1104.0
+4    854.722390  1012.842636    2083.0    1177.0
+5   1012.842636  1154.839504    1025.0    1147.0
+6   1154.839504  1286.420763     723.0    1132.0
+7   1286.420763  1411.278511     621.0    1123.0
+8   1411.278511  1532.079828     618.0    1166.0
+9   1532.079828  1650.965885     847.0    1132.0
+10  1650.965885  1769.851942    1309.0    1122.0
+11  1769.851942  1890.653258    1646.0    1068.0
+12  1890.653258  2015.511006    1460.0    1178.0
+13  2015.511006  2147.092266    1182.0    1126.0
+14  2147.092266  2289.089134     897.0    1102.0
+15  2289.089134  2447.209380     708.0    1119.0
+16  2447.209380  2631.517838     711.0    1142.0
+17  2631.517838  2863.419964     806.0    1169.0
+18  2863.419964  3207.133848     935.0    1171.0
+19  3207.133848          inf    1626.0    1105.0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method kolmogorov</span>
@@ -534,14 +512,13 @@ Chi-Square Test: discretized intervalls are
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-par dist (np.float64(1650.9658847770813), np.float64(946.0829447223126))
-[03-28 15:56:05] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\metric.py:227} INFO      - KstestResult(statistic=np.float64(0.08743767587843615), pvalue=np.float64(8.40127378157898e-152), statistic_location=np.float64(1038.29640591), statistic_sign=np.int8(1))
-[03-28 15:56:05] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\representativeness\metric.py:230} INFO      - p-value = 8.40127378157898e-152 &lt; 0.05 : The data is not followingthe normal distribution
-Kolmogorov-Smirnov Test: p-value = 8.40127378157898e-152
+[07-17 07:34:13] {/home/jovyan/env-DQM-ML/lib/python3.12/site-packages/dqm/representativeness/metric.py:221} INFO      - KstestResult(statistic=np.float64(0.08743767587843615), pvalue=np.float64(8.401273781579098e-152), statistic_location=np.float64(1038.29640591), statistic_sign=np.int8(1))
+[07-17 07:34:13] {/home/jovyan/env-DQM-ML/lib/python3.12/site-packages/dqm/representativeness/metric.py:224} INFO      - p-value = 8.401273781579098e-152 &lt; 0.05 : The data is not followingthe normal distribution
+Kolmogorov-Smirnov Test: p-value = 8.401273781579098e-152
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method shannon_entropy</span>
@@ -555,11 +532,11 @@ Kolmogorov-Smirnov Test: p-value = 8.40127378157898e-152
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Shannon Entropy: 2.9951117507101492
+Shannon Entropy: 2.9955321870672886
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method grte</span>
@@ -574,14 +551,14 @@ Shannon Entropy: 2.9951117507101492
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-GRTE: 0.7474979873526185
+GRTE: 0.7475167233363545
 </pre></div></div>
 </div>
 </section>
 <section id="Diversity-test">
 <h1>Diversity test<a class="headerlink" href="#Diversity-test" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specifion Libraries</span>
@@ -590,7 +567,7 @@ GRTE: 0.7474979873526185
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metric_calculator</span> <span class="o">=</span> <span class="n">DiversityIndexCalculator</span><span class="p">()</span>
@@ -598,7 +575,7 @@ GRTE: 0.7474979873526185
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simpson index</span>
@@ -607,7 +584,8 @@ GRTE: 0.7474979873526185
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -615,7 +593,7 @@ GRTE: 0.7474979873526185
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gini-Simpson Index</span>
@@ -624,20 +602,21 @@ GRTE: 0.7474979873526185
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 0.9999560227089405
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dqm.diversity.diversity</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiversityCalculator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dqm.diversity.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiversityIndexCalculator</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.diversity.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.utils.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">DataDiversityAnalyzer</span><span class="p">:</span>
@@ -708,16 +687,8 @@ GRTE: 0.7474979873526185
 <br/><br/><br/><br/></pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[03-28 15:56:28] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\diversity\twe_logger.py:104} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
-</pre></div></div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use of DataDiversityAnalyzer Class</span>
@@ -739,21 +710,21 @@ GRTE: 0.7474979873526185
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[03-28 16:01:40] {C:\SAUVEGARDES_FIN_CONFIANCE\FONDATION\Support_composants\env-dqm-NG\Lib\site-packages\dqm\diversity\twe_logger.py:104} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+[07-17 07:34:29] {/home/jovyan/env-DQM-ML/lib/python3.12/site-packages/dqm/utils/twe_logger.py:103} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
 For blur_level feature :
-[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:56} INFO      - Simpson index: 1.0
-[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:59} INFO      - Gini index: 0.9999560497516811
-[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:62} INFO      - Diversity score: 10.032452283817129
+[07-17 07:34:29] {/tmp/ipykernel_21031/3944685327.py:56} INFO      - Simpson index: 1.0
+[07-17 07:34:29] {/tmp/ipykernel_21031/3944685327.py:59} INFO      - Gini index: 0.9999560497516811
+[07-17 07:34:29] {/tmp/ipykernel_21031/3944685327.py:62} INFO      - Diversity score: 10.032452283817129
 ---------------------------------------------------------
 For luminosity_level feature :
-[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:56} INFO      - Simpson index: 0.9999999729560708
-[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:59} INFO      - Gini index: 0.9999560227089405
-[03-28 16:01:40] {C:\Users\josquin.foulliaron\AppData\Local\Temp\ipykernel_29424\3773604603.py:62} INFO      - Diversity score: 10.03202578794723
+[07-17 07:34:29] {/tmp/ipykernel_21031/3944685327.py:56} INFO      - Simpson index: 0.9999999729560708
+[07-17 07:34:29] {/tmp/ipykernel_21031/3944685327.py:59} INFO      - Gini index: 0.9999560227089405
+[07-17 07:34:29] {/tmp/ipykernel_21031/3944685327.py:62} INFO      - Diversity score: 10.03202578794723
 ---------------------------------------------------------
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
@@ -792,11 +763,12 @@ c33
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-np.float64(1.5)
+np.float64(-3.0)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">

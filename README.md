@@ -23,6 +23,19 @@
 </div>
 
 <br>
+<div align="center">
+    <a href="https://github.com/IRT-SystemX/dqm-ml">
+        <img src="https://img.shields.io/badge/GitHub-Repository-181717?logo=github" alt="GitHub">
+    </a>
+    <a href="https://irt-systemx.github.io/dqm-ml/">
+        <img src="https://img.shields.io/badge/Online%20Documentation-available-0A66C2?logo=readthedocs&logoColor=white" alt="Docs">
+    </a>
+    <a href="https://pypi.org/project/dqm-ml/">
+        <img src="https://img.shields.io/pypi/v/dqm-ml?color=blue&label=PyPI&logo=pypi&logoColor=white" alt="PyPI">
+    </a>
+</div>
+
+<br>
 <br>
 
 # Data Quality Metrics

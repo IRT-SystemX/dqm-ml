@@ -14,6 +14,7 @@ from dqm.diversity.metric import DiversityIndexCalculator
 from dqm.representativeness.metric import DistributionAnalyzer
 from dqm.domain_gap.metrics import CMD, MMD, Wasserstein, ProxyADistance, FID, KLMVN
 from dqm.utils.twe_logger import get_logger
+from dqm.cli.dependency import get_available_command
 
 # Init the logger
 logger = get_logger()
@@ -114,9 +115,29 @@ def main():
         pipeline_config_path (str): Path to the pipeline definition you want to apply
         result_file_path : (str): Path the output YAML file where all computed metrics scores are stored
     """
+    # TODO : insertion of new command line inside DQM, will be refactored in v 2.0, for instance 
+    # We keep classical execution with a fake "legacy" command
+    
+    parser = argparse.ArgumentParser(description="Main script of DQM", add_help = False)    
+    command_list = get_available_command()
+    command_list["legacy"] = None  # We add a legacy command by default
 
-    parser = argparse.ArgumentParser(description="Main script of DQM")
+    parser.add_argument("command", choices=command_list, default="legacy", nargs='?', help="Available command for your dqm-ml")
 
+    cli_args, remaining = parser.parse_known_args(None)
+
+    if cli_args.command != "legacy":
+        if cli_args.command in command_list and command_list[cli_args.command] is not None:
+            command_list[cli_args.command](remaining)
+        else:
+            raise ValueError(f"Unkow comand {cli_args.command}")
+        return
+       
+    parser = argparse.ArgumentParser(
+        prog="dqm-ml", description="DQM-ML Pipeline client", epilog="for more informations see README"
+    )
+
+    # For legacy cli, we continue with default cli
     parser.add_argument(
         "--pipeline_config_path",
         required=True,
@@ -130,6 +151,8 @@ def main():
         type=str,
         help="Path the output YAML file where all computed metrics scores are stored",
     )
+
+
 
     args = parser.parse_args()
 
@@ -315,7 +338,6 @@ def main():
                 )
 
     # Export final results to yaml file
-
     with open(args.result_file_path, "w+", encoding="utf-8") as ff:
         yaml.dump(res_dict, ff, default_flow_style=False, sort_keys=False)
 

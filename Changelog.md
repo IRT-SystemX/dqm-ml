@@ -1,7 +1,7 @@
 # Changelog
 
 
-# 1.1.3 (18/12/2023)
+## 1.1.3 (2025-12-17)
 
 * Added CLI to call the new metric API V2
 * Added an example noteobok for using the new metric API V2 with optimized versions of completeness and representativeness

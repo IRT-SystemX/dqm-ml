@@ -120,7 +120,7 @@ pip install .
 
 There is two ways to use the dqm library :
   - Import dqm package and call the dqm functions within your python code
-  - In standalone mode using direct command line from a terminal, or run the DQm-ML container
+  - In standalone mode using direct command line from a terminal, or run the DQM-ML container
 
 ### Standalone mode
 
@@ -165,7 +165,7 @@ For example:
     metrics: ["chi-square","GRTE"]
     bins : 10
     distribution : "normal"
-    dataset: "tdata/my_data_folder"
+    dataset: "data/my_data_folder"
     columns_names : ["col_1", "col_5","col_9"]
 ```
 
@@ -319,6 +319,14 @@ For some domain_gap examples, the **200_bird_dataset** will be required. It can 
 1 pipeline example that instanciates every metrics implemented in dqm-ml named ```pipeline_example.yaml``` and its corresponding results ```results_pipeline_example.yaml```.
 
 1 pipeline example similar to the previous one, but with different datasets path, as shown in the example of how using the containerized version.
+
+## Preview of the next version 
+
+In the next version (2.0.0), the current code will be completly refactorized with a new metrics API, and all metrics from this current version will be refactorized  and with many optimizations, and in particular large-scale dataset support. In this preview version, additionaly to existing ones,  new optimized versions of **completeness**  and **representativeness** are available.
+
+A notebook showing how to apply those metrics optimized versions is available in the **example** folder at the current location :
+
+**/examples/multiple_metrics_tests_v2.ipynb**
 
 ## References
 

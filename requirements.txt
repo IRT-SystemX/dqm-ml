@@ -10,4 +10,4 @@ POT==0.9.5
 ipykernel==6.29.5
 seaborn==0.13.2
 pyaml==25.7.0
-dqm-ml-core>=0.0.4
+dqm-ml-core==0.0.5

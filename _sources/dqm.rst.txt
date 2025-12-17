@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   dqm.cli
    dqm.completeness
    dqm.diversity
    dqm.domain_gap

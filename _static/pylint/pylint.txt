@@ -1,14 +1,30 @@
 ************* Module dqm.main
-dqm/main.py:109:0: R0915: Too many statements (70/50) (too-many-statements)
-************* Module dqm.domain_gap.utils
-dqm/domain_gap/utils.py:150:0: C0301: Line too long (130/120) (line-too-long)
-dqm/domain_gap/utils.py:49:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-dqm/domain_gap/utils.py:54:8: R1722: Consider using 'sys.exit' instead (consider-using-sys-exit)
-dqm/domain_gap/utils.py:57:8: R1722: Consider using 'sys.exit' instead (consider-using-sys-exit)
-dqm/domain_gap/utils.py:46:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-dqm/domain_gap/utils.py:60:0: C0116: Missing function or method docstring (missing-function-docstring)
-dqm/domain_gap/utils.py:115:0: C0116: Missing function or method docstring (missing-function-docstring)
-dqm/domain_gap/utils.py:185:16: W0707: Consider explicitly re-raising using 'raise ValueError(f'Error loading model from file: {e}') from e' (raise-missing-from)
+dqm/main.py:118:96: C0303: Trailing whitespace (trailing-whitespace)
+dqm/main.py:120:0: C0303: Trailing whitespace (trailing-whitespace)
+dqm/main.py:121:88: C0303: Trailing whitespace (trailing-whitespace)
+dqm/main.py:125:0: C0301: Line too long (127/120) (line-too-long)
+dqm/main.py:135:0: C0303: Trailing whitespace (trailing-whitespace)
+dqm/main.py:118:5: W0511: TODO : insertion of new command line inside DQM, will be refactored in v 2.0, for instance  (fixme)
+dqm/main.py:110:0: R0912: Too many branches (32/12) (too-many-branches)
+dqm/main.py:110:0: R0915: Too many statements (80/50) (too-many-statements)
+************* Module dqm.representativeness.utils
+dqm/representativeness/utils.py:369:37: E0606: Possibly using variable 'exp' before assignment (possibly-used-before-assignment)
+************* Module dqm.representativeness.metric
+dqm/representativeness/metric.py:169:11: E0606: Possibly using variable 'chi' before assignment (possibly-used-before-assignment)
+dqm/representativeness/metric.py:282:11: E0606: Possibly using variable 'intervals' before assignment (possibly-used-before-assignment)
+************* Module dqm.diversity.metric
+dqm/diversity/metric.py:103:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module dqm.diversity.diversity
+dqm/diversity/diversity.py:89:21: E0606: Possibly using variable 'diversity' before assignment (possibly-used-before-assignment)
+************* Module dqm.cli.dependency
+dqm/cli/dependency.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+dqm/cli/dependency.py:11:0: C0116: Missing function or method docstring (missing-function-docstring)
+dqm/cli/dependency.py:23:0: C0116: Missing function or method docstring (missing-function-docstring)
+dqm/cli/dependency.py:23:20: W0613: Unused argument 'arg_list' (unused-argument)
+dqm/cli/dependency.py:37:0: C0116: Missing function or method docstring (missing-function-docstring)
+dqm/cli/dependency.py:43:8: C0415: Import outside toplevel (dqm_ml_pipeline._version_.version) (import-outside-toplevel)
+dqm/cli/dependency.py:44:8: C0415: Import outside toplevel (dqm_ml_pipeline.cli.execute) (import-outside-toplevel)
+dqm/cli/dependency.py:46:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 ************* Module dqm.domain_gap.metrics
 dqm/domain_gap/metrics.py:1:0: C0302: Too many lines in module (1130/1000) (too-many-lines)
 dqm/domain_gap/metrics.py:39:0: R0402: Use 'from torch import nn' instead (consider-using-from-import)
@@ -42,16 +58,15 @@ dqm/domain_gap/custom_datasets.py:1:0: C0114: Missing module docstring (missing-
 dqm/domain_gap/custom_datasets.py:7:0: C0115: Missing class docstring (missing-class-docstring)
 dqm/domain_gap/custom_datasets.py:15:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
 dqm/domain_gap/custom_datasets.py:34:0: C0115: Missing class docstring (missing-class-docstring)
-************* Module dqm.representativeness.utils
-dqm/representativeness/utils.py:369:37: E0606: Possibly using variable 'exp' before assignment (possibly-used-before-assignment)
-************* Module dqm.representativeness.metric
-dqm/representativeness/metric.py:169:11: E0606: Possibly using variable 'chi' before assignment (possibly-used-before-assignment)
-dqm/representativeness/metric.py:282:11: E0606: Possibly using variable 'intervals' before assignment (possibly-used-before-assignment)
-************* Module dqm.diversity.diversity
-dqm/diversity/diversity.py:89:21: E0606: Possibly using variable 'diversity' before assignment (possibly-used-before-assignment)
-************* Module dqm.diversity.metric
-dqm/diversity/metric.py:103:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module dqm.domain_gap.utils
+dqm/domain_gap/utils.py:150:0: C0301: Line too long (130/120) (line-too-long)
+dqm/domain_gap/utils.py:49:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+dqm/domain_gap/utils.py:54:8: R1722: Consider using 'sys.exit' instead (consider-using-sys-exit)
+dqm/domain_gap/utils.py:57:8: R1722: Consider using 'sys.exit' instead (consider-using-sys-exit)
+dqm/domain_gap/utils.py:60:0: C0116: Missing function or method docstring (missing-function-docstring)
+dqm/domain_gap/utils.py:115:0: C0116: Missing function or method docstring (missing-function-docstring)
+dqm/domain_gap/utils.py:185:16: W0707: Consider explicitly re-raising using 'raise ValueError(f'Error loading model from file: {e}') from e' (raise-missing-from)
 
 -----------------------------------
-Your code has been rated at 9.25/10
+Your code has been rated at 9.14/10
 

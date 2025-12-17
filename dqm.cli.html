@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>dqm.utils package &mdash; dqm-ml 1.1.0 documentation</title>
+  <title>dqm.cli package &mdash; dqm-ml 1.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -20,7 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="dqm.representativeness package" href="dqm.representativeness.html" /> 
+    <link rel="next" title="dqm.completeness package" href="dqm.completeness.html" />
+    <link rel="prev" title="dqm package" href="dqm.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,12 +54,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">🔎 dqm-ml package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="dqm.html">dqm package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="dqm.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="dqm.cli.html">dqm.cli package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">dqm.cli package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dqm.completeness.html">dqm.completeness package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dqm.diversity.html">dqm.diversity package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dqm.domain_gap.html">dqm.domain_gap package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="dqm.representativeness.html">dqm.representativeness package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">dqm.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dqm.utils.html">dqm.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="dqm.html#submodules">Submodules</a></li>
@@ -86,9 +87,9 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="modules.html">🔎 dqm-ml package</a></li>
           <li class="breadcrumb-item"><a href="dqm.html">dqm package</a></li>
-      <li class="breadcrumb-item active">dqm.utils package</li>
+      <li class="breadcrumb-item active">dqm.cli package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/dqm.utils.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/dqm.cli.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -96,78 +97,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="dqm-utils-package">
-<h1>dqm.utils package<a class="headerlink" href="#dqm-utils-package" title="Link to this heading"></a></h1>
+  <section id="dqm-cli-package">
+<h1>dqm.cli package<a class="headerlink" href="#dqm-cli-package" title="Link to this heading"></a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-dqm.utils.twe_logger">
-<span id="dqm-utils-twe-logger-module"></span><h2>dqm.utils.twe_logger module<a class="headerlink" href="#module-dqm.utils.twe_logger" title="Link to this heading"></a></h2>
-<p>The confiance_logger module provides a preconfigured logger for logging messages
-with specified formatting and output control. It can log messages to the standard output,
-to a specified file, or both.</p>
-<dl>
-<dt>Usage:</dt><dd><dl class="simple">
-<dt>Import the module and get the default logger:</dt><dd><p>import twe_logger
-logger = twe_logger.get_logger()</p>
-</dd>
-</dl>
-<p>If you need a logger with different parameters, call <cite>get_logger</cite> with the desired parameters:</p>
-<blockquote>
-<div><p>logger = twe_logger.get_logger(filename=”my_logs.log”)
-logger = twe_logger.get_logger(name=”my_logger”, level=’debug’,
-filename=’my_logs.log’, output=”both”)</p>
-</div></blockquote>
-<p>Then, use the logger within your code:</p>
-<blockquote>
-<div><p>logger.info(“This is an info message”)
-logger.error(“This is an error message”)</p>
-</div></blockquote>
-</dd>
-</dl>
+<section id="module-dqm.cli.dependency">
+<span id="dqm-cli-dependency-module"></span><h2>dqm.cli.dependency module<a class="headerlink" href="#module-dqm.cli.dependency" title="Link to this heading"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="dqm.utils.twe_logger.get_logger">
-<span class="sig-prename descclassname"><span class="pre">dqm.utils.twe_logger.</span></span><span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'twe_logger'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'debug'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/utils/twe_logger.html#get_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.utils.twe_logger.get_logger" title="Link to this definition"></a></dt>
-<dd><p>Creates and returns a logger.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the logger.</p></li>
-<li><p><strong>level</strong> (<em>int</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – The logging level.</p></li>
-<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the file where the logger should write.</p></li>
-<li><p><strong>output</strong> (<em>str</em><em>, </em><em>optional</em>) – Where should the logger write.
-Can be ‘stdout’, ‘file’, or ‘both’.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The logger.</p>
-</dd>
+<dt class="sig sig-object py" id="dqm.cli.dependency.display_list_of">
+<span class="sig-prename descclassname"><span class="pre">dqm.cli.dependency.</span></span><span class="sig-name descname"><span class="pre">display_list_of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/cli/dependency.html#display_list_of"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.cli.dependency.display_list_of" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dqm.cli.dependency.get_available_command">
+<span class="sig-prename descclassname"><span class="pre">dqm.cli.dependency.</span></span><span class="sig-name descname"><span class="pre">get_available_command</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/cli/dependency.html#get_available_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.cli.dependency.get_available_command" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>logging.Logger</p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="dqm.utils.twe_logger.log_str_to_level">
-<span class="sig-prename descclassname"><span class="pre">dqm.utils.twe_logger.</span></span><span class="sig-name descname"><span class="pre">log_str_to_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">str_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/utils/twe_logger.html#log_str_to_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.utils.twe_logger.log_str_to_level" title="Link to this definition"></a></dt>
-<dd><p>Converts a string to a corresponding logging level.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>str_level</strong> (<em>str</em>) – The logging level as a string.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The corresponding logging level.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="dqm.cli.dependency.optional_dependencies">
+<span class="sig-prename descclassname"><span class="pre">dqm.cli.dependency.</span></span><span class="sig-name descname"><span class="pre">optional_dependencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dqm/cli/dependency.html#optional_dependencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dqm.cli.dependency.optional_dependencies" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
-<section id="module-dqm.utils">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dqm.utils" title="Link to this heading"></a></h2>
+<section id="module-dqm.cli">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dqm.cli" title="Link to this heading"></a></h2>
 </section>
 </section>
 
@@ -175,7 +134,8 @@ Can be ‘stdout’, ‘file’, or ‘both’.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="dqm.representativeness.html" class="btn btn-neutral float-left" title="dqm.representativeness package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dqm.html" class="btn btn-neutral float-left" title="dqm package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dqm.completeness.html" class="btn btn-neutral float-right" title="dqm.completeness package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

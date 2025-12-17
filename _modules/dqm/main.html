@@ -92,6 +92,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">dqm.representativeness.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributionAnalyzer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dqm.domain_gap.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">CMD</span><span class="p">,</span> <span class="n">MMD</span><span class="p">,</span> <span class="n">Wasserstein</span><span class="p">,</span> <span class="n">ProxyADistance</span><span class="p">,</span> <span class="n">FID</span><span class="p">,</span> <span class="n">KLMVN</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dqm.utils.twe_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.cli.dependency</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_available_command</span>
 
 <span class="c1"># Init the logger</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
@@ -200,9 +201,29 @@
 <span class="sd">        pipeline_config_path (str): Path to the pipeline definition you want to apply</span>
 <span class="sd">        result_file_path : (str): Path the output YAML file where all computed metrics scores are stored</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO : insertion of new command line inside DQM, will be refactored in v 2.0, for instance </span>
+    <span class="c1"># We keep classical execution with a fake &quot;legacy&quot; command</span>
+    
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Main script of DQM&quot;</span><span class="p">,</span> <span class="n">add_help</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>    
+    <span class="n">command_list</span> <span class="o">=</span> <span class="n">get_available_command</span><span class="p">()</span>
+    <span class="n">command_list</span><span class="p">[</span><span class="s2">&quot;legacy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># We add a legacy command by default</span>
 
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Main script of DQM&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">command_list</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;legacy&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Available command for your dqm-ml&quot;</span><span class="p">)</span>
 
+    <span class="n">cli_args</span><span class="p">,</span> <span class="n">remaining</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cli_args</span><span class="o">.</span><span class="n">command</span> <span class="o">!=</span> <span class="s2">&quot;legacy&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cli_args</span><span class="o">.</span><span class="n">command</span> <span class="ow">in</span> <span class="n">command_list</span> <span class="ow">and</span> <span class="n">command_list</span><span class="p">[</span><span class="n">cli_args</span><span class="o">.</span><span class="n">command</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">command_list</span><span class="p">[</span><span class="n">cli_args</span><span class="o">.</span><span class="n">command</span><span class="p">](</span><span class="n">remaining</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unkow comand </span><span class="si">{</span><span class="n">cli_args</span><span class="o">.</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+       
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;dqm-ml&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;DQM-ML Pipeline client&quot;</span><span class="p">,</span> <span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;for more informations see README&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># For legacy cli, we continue with default cli</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--pipeline_config_path&quot;</span><span class="p">,</span>
         <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -216,6 +237,8 @@
         <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path the output YAML file where all computed metrics scores are stored&quot;</span><span class="p">,</span>
     <span class="p">)</span>
+
+
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
@@ -401,7 +424,6 @@
                 <span class="p">)</span>
 
     <span class="c1"># Export final results to yaml file</span>
-
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">result_file_path</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ff</span><span class="p">:</span>
         <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">ff</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 

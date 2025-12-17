@@ -57,6 +57,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#available-examples">Available examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preview-of-the-next-version">Preview of the next version</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="completeness.html">🍊 Completeness</a></li>
@@ -124,7 +125,7 @@
 <p>There is two ways to use the dqm library :</p>
 <ul class="simple">
 <li><p>Import dqm package and call the dqm functions within your python code</p></li>
-<li><p>In standalone mode using direct command line from a terminal, or run the DQm-ML container</p></li>
+<li><p>In standalone mode using direct command line from a terminal, or run the DQM-ML container</p></li>
 </ul>
 <section id="standalone-mode">
 <h3>Standalone mode<a class="headerlink" href="#standalone-mode" title="Link to this heading"></a></h3>
@@ -165,7 +166,7 @@ This file has a primary key <strong>pipeline_definition</strong> containing  a l
     <span class="n">metrics</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;chi-square&quot;</span><span class="p">,</span><span class="s2">&quot;GRTE&quot;</span><span class="p">]</span>
     <span class="n">bins</span> <span class="p">:</span> <span class="mi">10</span>
     <span class="n">distribution</span> <span class="p">:</span> <span class="s2">&quot;normal&quot;</span>
-    <span class="n">dataset</span><span class="p">:</span> <span class="s2">&quot;tdata/my_data_folder&quot;</span>
+    <span class="n">dataset</span><span class="p">:</span> <span class="s2">&quot;data/my_data_folder&quot;</span>
     <span class="n">columns_names</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;col_1&quot;</span><span class="p">,</span> <span class="s2">&quot;col_5&quot;</span><span class="p">,</span><span class="s2">&quot;col_9&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -299,6 +300,12 @@ For more information about each metric, refer to the specific README.md in <code
 <p>For some domain_gap examples, the <strong>200_bird_dataset</strong> will be required. It can be downloaded from this <a class="reference external" href="http://minio-storage.apps.confianceai-public.irtsysx.fr/ml-models/200-birds-species.zip">link</a>. The zip archive shall be extracted into the <code class="docutils literal notranslate"><span class="pre">examples/datasets/</span></code> folder.</p>
 <p>1 pipeline example that instanciates every metrics implemented in dqm-ml named <code class="docutils literal notranslate"><span class="pre">pipeline_example.yaml</span></code> and its corresponding results <code class="docutils literal notranslate"><span class="pre">results_pipeline_example.yaml</span></code>.</p>
 <p>1 pipeline example similar to the previous one, but with different datasets path, as shown in the example of how using the containerized version.</p>
+</section>
+<section id="preview-of-the-next-version">
+<h2>Preview of the next version<a class="headerlink" href="#preview-of-the-next-version" title="Link to this heading"></a></h2>
+<p>In the next version (2.0.0), the current code will be completly refactorized with a new metrics API, and all metrics from this current version will be refactorized  and with many optimizations, and in particular large-scale dataset support. In this preview version, additionaly to existing ones,  new optimized versions of <strong>completeness</strong>  and <strong>representativeness</strong> are available.</p>
+<p>A notebook showing how to apply those metrics optimized versions is available in the <strong>example</strong> folder at the current location :</p>
+<p><strong>/examples/multiple_metrics_tests_v2.ipynb</strong></p>
 </section>
 </section>
 

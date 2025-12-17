@@ -1,0 +1,723 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tests of Completeness, Representtiveness &mdash; dqm-ml 1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=fc837d61"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            dqm-ml
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guidelines.html">💡 Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../completeness.html">🍊 Completeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../diversity.html">🍎 Diversity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../domain_gap.html">🍋 Domain gap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../representativeness.html">🍓 Representativeness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">🔄 Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">🔎 dqm-ml package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">dqm-ml</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tests of Completeness, Representtiveness</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/multiple_metrics_tests_v2.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Tests-of-Completeness,-Representtiveness">
+<h1>Tests of Completeness, Representtiveness<a class="headerlink" href="#Tests-of-Completeness,-Representtiveness" title="Link to this heading"></a></h1>
+<p>Replay of the V1 example notebook related to completeness and representativeness using the new API V2 and optimized reimplementation of metrics. Full versions with all reimplemented metrics will be provided in the next version (2.0.0)</p>
+<ul class="simple">
+<li><p>Previous code will be commented when needed</p></li>
+<li><p>replacement included</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Common Libraries</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<section id="Tests-on-challenge-welding-data">
+<h2>Tests on challenge welding data<a class="headerlink" href="#Tests-on-challenge-welding-data" title="Link to this heading"></a></h2>
+<p>This dataset is described on the website of challenge welding : <a class="reference external" href="https://confianceai.github.io/Welding-Quality-Detection-Challenge/">https://confianceai.github.io/Welding-Quality-Detection-Challenge/</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># upload data</span>
+<span class="c1"># Dataset path</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;datasets/challenge_welding.csv&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+<span class="c1">#print(&quot;Data info:\n&quot;, data.info())</span>
+<span class="c1"># print(&quot;The first 5 lines:\n&quot;, data.head())</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample_id</th>
+      <th>class</th>
+      <th>timestamp</th>
+      <th>welding-seams</th>
+      <th>labelling_type</th>
+      <th>resolution</th>
+      <th>path</th>
+      <th>sha256</th>
+      <th>storage_type</th>
+      <th>data_origin</th>
+      <th>blur_level</th>
+      <th>blur_class</th>
+      <th>luminosity_level</th>
+      <th>external_path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>data_37966</td>
+      <td>OK</td>
+      <td>08/07/2022 02:05</td>
+      <td>c33</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'0F\\\x12\xa1\x81\xcdL\xc3~\xbe\x03\xc90\x91\...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>1667.425860</td>
+      <td>clean</td>
+      <td>51.079433</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>data_25403</td>
+      <td>OK</td>
+      <td>19/07/2022 00:51</td>
+      <td>c102</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\tlM\xd7\x83\\\x7fm\xaeV\xc6\xbd\xd6S@\x17S\...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>868.574712</td>
+      <td>blur</td>
+      <td>32.825601</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>data_27038</td>
+      <td>OK</td>
+      <td>28/07/2022 16:08</td>
+      <td>c102</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\xeb\xba/\xe0-\xe6\x14\xd6\xe0\xf2oT\xd1\xa9...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>1078.402671</td>
+      <td>clean</td>
+      <td>35.192525</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>data_8767</td>
+      <td>OK</td>
+      <td>31/01/20 09:41</td>
+      <td>c33</td>
+      <td>expert</td>
+      <td>[1920 1080]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b"\x9e@!\xd3\xdd\xaa'\xb7]\xeb\xf7B\x800\xf1\x...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>1240.198851</td>
+      <td>clean</td>
+      <td>38.510588</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>data_4744</td>
+      <td>OK</td>
+      <td>25/11/19 21:57</td>
+      <td>c20</td>
+      <td>expert</td>
+      <td>[1920 1080]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\x0c\xd8\xcfb\x95\\\xb9\xa8w\xe7^\xea\rX,8\x...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>3371.897144</td>
+      <td>clean</td>
+      <td>46.001366</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>22748</th>
+      <td>data_66456</td>
+      <td>OK</td>
+      <td>29/10/19 01:33</td>
+      <td>c102</td>
+      <td>expert</td>
+      <td>[1920 1080]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\x9fZ^\xc5j\xf1\xd8JRw\x03\xa4C\x04\xa6\xa1\...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>4463.079210</td>
+      <td>clean</td>
+      <td>41.554284</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>22749</th>
+      <td>data_24294</td>
+      <td>OK</td>
+      <td>07/07/2022 01:40</td>
+      <td>c102</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\x05\x07x\xa4\xb8\x01\xf1a\x18.\x13\xe4\xe6\...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>859.194594</td>
+      <td>blur</td>
+      <td>31.966749</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>22750</th>
+      <td>data_25568</td>
+      <td>OK</td>
+      <td>19/07/2022 11:59</td>
+      <td>c102</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'O\x0eT\xa1\x8b\xa0\xf5\xaei\x81\xe8\x16\x96p...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>977.316444</td>
+      <td>clean</td>
+      <td>40.872106</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>22751</th>
+      <td>data_39356</td>
+      <td>OK</td>
+      <td>13/07/2022 06:45</td>
+      <td>c33</td>
+      <td>operator</td>
+      <td>[960 540]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\x1bh\xd9\x8aK\x88\xc1\xcb\xea\xff\xe3]{\x0e...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>1653.447154</td>
+      <td>clean</td>
+      <td>50.429395</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+    <tr>
+      <th>22752</th>
+      <td>data_8988</td>
+      <td>OK</td>
+      <td>09/03/20 12:22</td>
+      <td>c33</td>
+      <td>expert</td>
+      <td>[1920 1080]</td>
+      <td>challenge-welding/datasets/welding-detection-c...</td>
+      <td>b'\xce\x0e\x87\xd7\x9b\x8d\xc4\x10[\xe9\x8fl\x...</td>
+      <td>s3</td>
+      <td>real</td>
+      <td>593.528212</td>
+      <td>blur</td>
+      <td>39.343171</td>
+      <td>http://minio-storage.apps.confianceai-public.i...</td>
+    </tr>
+  </tbody>
+</table>
+<p>22753 rows × 14 columns</p>
+</div></div>
+</div>
+</section>
+</section>
+<section id="Completeness">
+<h1>Completeness<a class="headerlink" href="#Completeness" title="Link to this heading"></a></h1>
+<p>you can see also the file: <em>dqm/completeness/main.py</em></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Specific Libraries dqml-ml V1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.completeness.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataCompleteness</span>
+
+<span class="c1">## Specific Libraries dqml-ml V2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm_ml_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompletenessProcessor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm_ml_core</span><span class="w"> </span><span class="kn">import</span>  <span class="n">MetricRunner</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute completeness on the whole dataset</span>
+<span class="n">completeness_evaluator</span> <span class="o">=</span> <span class="n">DataCompleteness</span><span class="p">()</span>
+<span class="n">overall_score</span> <span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">completeness_tabular</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;V1 : &quot;</span><span class="p">,</span> <span class="n">overall_score</span><span class="p">)</span>
+
+<span class="n">runner</span> <span class="o">=</span> <span class="n">MetricRunner</span><span class="p">()</span>
+
+<span class="n">metric</span> <span class="o">=</span> <span class="n">CompletenessProcessor</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;include_per_column&quot;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+<span class="n">metrics_values</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;V2 : &quot;</span><span class="p">,</span> <span class="n">metrics_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+V1 :  1.0
+V2 :  {&#39;completeness_overall&#39;: 1.0}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute completeness on a single column</span>
+<span class="n">column_score</span> <span class="o">=</span> <span class="n">completeness_evaluator</span><span class="o">.</span><span class="n">data_completion</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;blur_level&#39;</span><span class="p">])</span>
+
+<span class="c1"># Print the results</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Overall Data Completeness Score: </span><span class="si">{</span><span class="n">overall_score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Completeness Score for Column: </span><span class="si">{</span><span class="n">column_score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># With API V2 - configure column and metric metric name in outdict</span>
+<span class="n">metric</span> <span class="o">=</span> <span class="n">CompletenessProcessor</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;input_columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">]})</span>
+<span class="n">metrics_values</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Overall Data Completeness Score: &#39;</span><span class="p">,</span> <span class="n">metrics_values</span><span class="p">[</span><span class="s1">&#39;completeness_overall&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Completeness Score for Column: &#39;</span><span class="p">,</span> <span class="n">metrics_values</span><span class="p">[</span><span class="s1">&#39;completeness_blur_level&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Overall Data Completeness Score: 1.0
+Completeness Score for Column: 1
+Overall Data Completeness Score:  1.0
+Completeness Score for Column:  1.0
+</pre></div></div>
+</div>
+</section>
+<section id="Representativeness">
+<h1>Representativeness<a class="headerlink" href="#Representativeness" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Specific Libraries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm.representativeness.metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributionAnalyzer</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[12-17 13:09:10] {/home/jovyan/Maturation/env-dqm-ml/lib/python3.13/site-packages/dqm/utils/twe_logger.py:103} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+[12-17 13:09:10] {/home/jovyan/Maturation/env-dqm-ml/lib/python3.13/site-packages/dqm/utils/twe_logger.py:103} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">]</span> <span class="c1"># you can choose another variable from the data.</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="c1"># data = pd.Series(np.random.normal(0, 1, 1000))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="n">std</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1650.9658847770813 946.0829447223126
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters for analysis</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">distribution</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span>
+
+<span class="c1"># Instantiation of DistributionAnalyzer</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">DistributionAnalyzer</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">distribution</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[12-17 13:09:11] {/home/jovyan/Maturation/env-dqm-ml/lib/python3.13/site-packages/dqm/utils/twe_logger.py:103} INFO      - Logger: twe_logger, handlers: [&lt;StreamHandler stdout (DEBUG)&gt;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method chisquare_test</span>
+<span class="n">pvalue</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">chisquare_test</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chi-Square Test: p-value = </span><span class="si">{</span><span class="n">pvalue</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[12-17 13:09:14] {/home/jovyan/Maturation/env-dqm-ml/lib/python3.13/site-packages/dqm/representativeness/metric.py:170} INFO      - pvalue = 0.0 &lt; 0.05: Data is not following the normal distribution
+Chi-Square Test: p-value = 0.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method chisquare_test for V3</span>
+<span class="c1">## Specific Libraries dqml-ml V2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dqm_ml_core</span><span class="w"> </span><span class="kn">import</span> <span class="n">RepresentativenessProcessor</span>
+
+<span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">distribution</span> <span class="o">=</span> <span class="s1">&#39;normal&#39;</span>
+
+<span class="n">metric</span> <span class="o">=</span> <span class="n">RepresentativenessProcessor</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;metrics&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;chi-square&quot;</span><span class="p">],</span> <span class="s2">&quot;input_columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">],</span> <span class="s2">&quot;bins&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;distribution&quot;</span> <span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">})</span>
+<span class="n">metrics_values</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics_values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chi-Square Test: p-value = &quot;</span><span class="p">,</span> <span class="n">metrics_values</span><span class="p">[</span><span class="s2">&quot;chi-square_blur_level_p_value&quot;</span><span class="p">])</span>
+
+<span class="c1">#pvalue, intervals_frequencies = analyzer.chisquare_test()</span>
+<span class="c1">#print(f&quot;Chi-Square Test: p-value = {pvalue}&quot;)</span>
+<span class="c1">#print(f&quot;Chi-Square Test: discretized intervalls are \n = {intervals_frequencies}&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;chi-square_blur_level_p_value&#39;: 0.0, &#39;chi-square_blur_level_statistic&#39;: 7048.087773024402, &#39;chi-square_blur_level_interpretation&#39;: &#39;does_not_follow_distribution&#39;, &#39;_metadata&#39;: &#39;{&#34;bins&#34;: 20, &#34;distribution&#34;: &#34;normal&#34;, &#34;metrics_computed&#34;: [&#34;chi-square&#34;], &#34;total_samples&#34;: 22753, &#34;columns_analyzed&#34;: [&#34;blur_level&#34;], &#34;ks_sampling_enabled&#34;: false, &#34;note&#34;: &#34;KS test uses random sampling approximation for scalability&#34;}&#39;}
+Chi-Square Test: p-value =  0.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method kolmogorov</span>
+<span class="n">ks_pvalue</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">kolmogorov</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="n">std</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kolmogorov-Smirnov Test: p-value = </span><span class="si">{</span><span class="n">ks_pvalue</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[12-17 13:09:14] {/home/jovyan/Maturation/env-dqm-ml/lib/python3.13/site-packages/dqm/representativeness/metric.py:221} INFO      - KstestResult(statistic=np.float64(0.08743767587843615), pvalue=np.float64(8.401273781579098e-152), statistic_location=np.float64(1038.29640591), statistic_sign=np.int8(1))
+[12-17 13:09:14] {/home/jovyan/Maturation/env-dqm-ml/lib/python3.13/site-packages/dqm/representativeness/metric.py:224} INFO      - p-value = 8.401273781579098e-152 &lt; 0.05 : The data is not followingthe normal distribution
+Kolmogorov-Smirnov Test: p-value = 8.401273781579098e-152
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metric</span> <span class="o">=</span> <span class="n">RepresentativenessProcessor</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;metrics&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;kolmogorov-smirnov&quot;</span><span class="p">],</span> <span class="s2">&quot;input_columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">],</span> <span class="s2">&quot;bins&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;distribution&quot;</span> <span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">})</span>
+<span class="n">metrics_values</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics_values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kolmogorov-Smirnov Test: p-value = &quot;</span><span class="p">,</span> <span class="n">metrics_values</span><span class="p">[</span><span class="s2">&quot;kolmogorov-smirnov_blur_level_p_value&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;kolmogorov-smirnov_blur_level_p_value&#39;: 0.009753347289739563, &#39;kolmogorov-smirnov_blur_level_statistic&#39;: 0.0726015117572063, &#39;kolmogorov-smirnov_blur_level_interpretation&#39;: &#39;does_not_follow_distribution&#39;, &#39;kolmogorov-smirnov_blur_level_sample_size&#39;: 500, &#39;kolmogorov-smirnov_blur_level_note&#39;: &#39;approximated_from_random_samples&#39;, &#39;_metadata&#39;: &#39;{&#34;bins&#34;: 20, &#34;distribution&#34;: &#34;normal&#34;, &#34;metrics_computed&#34;: [&#34;kolmogorov-smirnov&#34;], &#34;total_samples&#34;: 22753, &#34;columns_analyzed&#34;: [&#34;blur_level&#34;], &#34;ks_sampling_enabled&#34;: true, &#34;note&#34;: &#34;KS test uses random sampling approximation for scalability&#34;}&#39;}
+Kolmogorov-Smirnov Test: p-value =  0.009753347289739563
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method shannon_entropy</span>
+<span class="n">entropy</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">shannon_entropy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shannon Entropy: </span><span class="si">{</span><span class="n">entropy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Shannon Entropy: 2.9953301802692853
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metric</span> <span class="o">=</span> <span class="n">RepresentativenessProcessor</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;metrics&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;shannon-entropy&quot;</span><span class="p">],</span> <span class="s2">&quot;input_columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">],</span> <span class="s2">&quot;bins&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;distribution&quot;</span> <span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">})</span>
+<span class="n">metrics_values</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics_values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shannon Entropy Test: p-value = &quot;</span><span class="p">,</span> <span class="n">metrics_values</span><span class="p">[</span><span class="s2">&quot;shannon-entropy_blur_level_entropy&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;shannon-entropy_blur_level_entropy&#39;: 0.0, &#39;shannon-entropy_blur_level_interpretation&#39;: &#39;low_diversity&#39;, &#39;_metadata&#39;: &#39;{&#34;bins&#34;: 20, &#34;distribution&#34;: &#34;normal&#34;, &#34;metrics_computed&#34;: [&#34;shannon-entropy&#34;], &#34;total_samples&#34;: 22753, &#34;columns_analyzed&#34;: [&#34;blur_level&#34;], &#34;ks_sampling_enabled&#34;: false, &#34;note&#34;: &#34;KS test uses random sampling approximation for scalability&#34;}&#39;}
+Shannon Entropy Test: p-value =  0.0
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the method grte</span>
+<span class="n">grte_result</span><span class="p">,</span> <span class="n">intervals_discretized</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">grte</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GRTE: </span><span class="si">{</span><span class="n">grte_result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1">#print(f&quot;GRTE discretized intervalls are \n = {intervals_discretized}&quot;) # uncomment to display data discretization</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GRTE: 0.7474311921010316
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metric</span> <span class="o">=</span> <span class="n">RepresentativenessProcessor</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;metrics&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;grte&quot;</span><span class="p">],</span> <span class="s2">&quot;input_columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">],</span> <span class="s2">&quot;bins&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;distribution&quot;</span> <span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">})</span>
+<span class="n">metrics_values</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics_values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GRTE = &quot;</span><span class="p">,</span> <span class="n">metrics_values</span><span class="p">[</span><span class="s2">&quot;grte_blur_level_grte_value&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;grte_blur_level_grte_value&#39;: 0.003347168773970686, &#39;grte_blur_level_interpretation&#39;: &#39;low_representativeness&#39;, &#39;_metadata&#39;: &#39;{&#34;bins&#34;: 20, &#34;distribution&#34;: &#34;normal&#34;, &#34;metrics_computed&#34;: [&#34;grte&#34;], &#34;total_samples&#34;: 22753, &#34;columns_analyzed&#34;: [&#34;blur_level&#34;], &#34;ks_sampling_enabled&#34;: false, &#34;note&#34;: &#34;KS test uses random sampling approximation for scalability&#34;}&#39;}
+GRTE =  0.003347168773970686
+</pre></div></div>
+</div>
+</section>
+<section id="We-can-compute-all-metrics-at-once">
+<h1>We can compute all metrics at once<a class="headerlink" href="#We-can-compute-all-metrics-at-once" title="Link to this heading"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metric</span> <span class="o">=</span> <span class="n">RepresentativenessProcessor</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;input_columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;blur_level&quot;</span><span class="p">],</span> <span class="s2">&quot;bins&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;distribution&quot;</span> <span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">})</span>
+<span class="n">metrics_values</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">metrics_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;chi-square_blur_level_p_value&#39;: 0.0, &#39;chi-square_blur_level_statistic&#39;: 6238.9516482113795, &#39;chi-square_blur_level_interpretation&#39;: &#39;does_not_follow_distribution&#39;, &#39;kolmogorov-smirnov_blur_level_p_value&#39;: 7.651794192324447e-05, &#39;kolmogorov-smirnov_blur_level_statistic&#39;: 0.10042789800275398, &#39;kolmogorov-smirnov_blur_level_interpretation&#39;: &#39;does_not_follow_distribution&#39;, &#39;kolmogorov-smirnov_blur_level_sample_size&#39;: 500, &#39;kolmogorov-smirnov_blur_level_note&#39;: &#39;approximated_from_random_samples&#39;, &#39;shannon-entropy_blur_level_entropy&#39;: 2.9950324819300826, &#39;shannon-entropy_blur_level_interpretation&#39;: &#39;high_diversity&#39;, &#39;grte_blur_level_grte_value&#39;: 0.7479459737054072, &#39;grte_blur_level_interpretation&#39;: &#39;high_representativeness&#39;, &#39;_metadata&#39;: &#39;{&#34;bins&#34;: 20, &#34;distribution&#34;: &#34;normal&#34;, &#34;metrics_computed&#34;: [&#34;chi-square&#34;, &#34;grte&#34;, &#34;kolmogorov-smirnov&#34;, &#34;shannon-entropy&#34;], &#34;total_samples&#34;: 22753, &#34;columns_analyzed&#34;: [&#34;blur_level&#34;], &#34;ks_sampling_enabled&#34;: true, &#34;note&#34;: &#34;KS test uses random sampling approximation for scalability&#34;}&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, IRT SystemX.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

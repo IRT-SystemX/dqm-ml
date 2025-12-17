@@ -27,6 +27,111 @@
     <div class="container-fluid mt-3">
         <div class="card bg-light mb-3">
           <div class="card-header">
+            <h5 class="mb-0">dqm.cli.dependency</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-sm">
+                <thead class="thead-light">
+                  <tr scope="col">
+                    <th></th>
+                    <th data-field="line">Line</th>
+                    <th data-field="column">Column</th>
+                    <th data-field="type">Type</th>
+                    <th data-field="obj">Object</th>
+                    <th data-field="message">Message</th>
+                    <th data-field="symbol">Symbol</th>
+                    <th data-field="message_id">Message Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/cli/dependency.py#L1" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Missing module docstring</td>
+                    <td>missing-module-docstring</td>
+                    <td>C0114</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/cli/dependency.py#L11" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>11</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>optional_dependencies</td>
+                    <td>Missing function or method docstring</td>
+                    <td>missing-function-docstring</td>
+                    <td>C0116</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/cli/dependency.py#L23" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>23</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>display_list_of</td>
+                    <td>Missing function or method docstring</td>
+                    <td>missing-function-docstring</td>
+                    <td>C0116</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm/cli/dependency.py#L23" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>23</td>
+                    <td>20</td>
+                    <td>warning</td>
+                    <td>display_list_of</td>
+                    <td>Unused argument 'arg_list'</td>
+                    <td>unused-argument</td>
+                    <td>W0613</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/cli/dependency.py#L37" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>37</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td>get_available_command</td>
+                    <td>Missing function or method docstring</td>
+                    <td>missing-function-docstring</td>
+                    <td>C0116</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/cli/dependency.py#L43" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>43</td>
+                    <td>8</td>
+                    <td>convention</td>
+                    <td>get_available_command</td>
+                    <td>Import outside toplevel (dqm_ml_pipeline._version_.version)</td>
+                    <td>import-outside-toplevel</td>
+                    <td>C0415</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/cli/dependency.py#L44" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>44</td>
+                    <td>8</td>
+                    <td>convention</td>
+                    <td>get_available_command</td>
+                    <td>Import outside toplevel (dqm_ml_pipeline.cli.execute)</td>
+                    <td>import-outside-toplevel</td>
+                    <td>C0415</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm/cli/dependency.py#L46" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>46</td>
+                    <td>8</td>
+                    <td>warning</td>
+                    <td>get_available_command</td>
+                    <td>Use lazy % formatting in logging functions</td>
+                    <td>logging-fstring-interpolation</td>
+                    <td>W1203</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-light mb-3">
+          <div class="card-header">
             <h5 class="mb-0">dqm.diversity.diversity</h5>
           </div>
           <div class="card-body">
@@ -516,16 +621,6 @@
                     <td>R1722</td>
                   </tr>
                   <tr class="table-primary">
-                    <td><a href="/blob//dqm/domain_gap/utils.py#L46" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
-                    <td>46</td>
-                    <td>0</td>
-                    <td>refactor</td>
-                    <td>load_config</td>
-                    <td>Either all return statements in a function should return an expression, or none of them should.</td>
-                    <td>inconsistent-return-statements</td>
-                    <td>R1710</td>
-                  </tr>
-                  <tr class="table-primary">
                     <td><a href="/blob//dqm/domain_gap/utils.py#L60" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
                     <td>60</td>
                     <td>0</td>
@@ -581,12 +676,82 @@
                 </thead>
                 <tbody>
                   <tr class="table-primary">
-                    <td><a href="/blob//dqm/main.py#L109" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
-                    <td>109</td>
+                    <td><a href="/blob//dqm/main.py#L118" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>118</td>
+                    <td>96</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Trailing whitespace</td>
+                    <td>trailing-whitespace</td>
+                    <td>C0303</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/main.py#L120" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>120</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Trailing whitespace</td>
+                    <td>trailing-whitespace</td>
+                    <td>C0303</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/main.py#L121" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>121</td>
+                    <td>88</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Trailing whitespace</td>
+                    <td>trailing-whitespace</td>
+                    <td>C0303</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/main.py#L125" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>125</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Line too long (127/120)</td>
+                    <td>line-too-long</td>
+                    <td>C0301</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/main.py#L135" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>135</td>
+                    <td>0</td>
+                    <td>convention</td>
+                    <td></td>
+                    <td>Trailing whitespace</td>
+                    <td>trailing-whitespace</td>
+                    <td>C0303</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td><a href="/blob//dqm/main.py#L118" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>118</td>
+                    <td>5</td>
+                    <td>warning</td>
+                    <td></td>
+                    <td>TODO : insertion of new command line inside DQM, will be refactored in v 2.0, for instance </td>
+                    <td>fixme</td>
+                    <td>W0511</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/main.py#L110" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>110</td>
                     <td>0</td>
                     <td>refactor</td>
                     <td>main</td>
-                    <td>Too many statements (70/50)</td>
+                    <td>Too many branches (32/12)</td>
+                    <td>too-many-branches</td>
+                    <td>R0912</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td><a href="/blob//dqm/main.py#L110" class="btn btn-light btn-sm" role="button"><i class="fas fa-code"></i> Source</a></td>
+                    <td>110</td>
+                    <td>0</td>
+                    <td>refactor</td>
+                    <td>main</td>
+                    <td>Too many statements (80/50)</td>
                     <td>too-many-statements</td>
                     <td>R0915</td>
                   </tr>

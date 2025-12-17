@@ -1,0 +1,21 @@
+dqm.cli package
+===============
+
+Submodules
+----------
+
+dqm.cli.dependency module
+-------------------------
+
+.. automodule:: dqm.cli.dependency
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: dqm.cli
+   :members:
+   :show-inheritance:
+   :undoc-members:

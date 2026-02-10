@@ -62,6 +62,7 @@ The data-model dependent metrics are:
 > - Feature computation on different type of data to allow metrics on these features
 >
 > ** Please provide feedback and/or feature need on the new repository
+> [V2.0 preview in this repository](#preview-of-the-next-version)
 
 [//]: # (- Coverage : The coverage of a couple "Dataset + ML Model" is the ability of the execution of the ML Model on this dataset to generate elements that match the expected space.)
 

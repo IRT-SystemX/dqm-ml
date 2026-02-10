@@ -52,6 +52,17 @@ The data-model dependent metrics are:
 
 (Definitions from [Confiance.ai program](https://www.confiance.ai/))
 
+> [!IMPORTANT]  
+> dqm-ml-v2 is under development more information in <a href="https://github.com/Safenai/dqm-ml-workspace">  <img src="https://img.shields.io/badge/GitHub-Repository-181717?logo=github" alt="GitHub">  </a>
+> Main change provided
+>
+> - API consistency between metrics
+> - Batch computation to manage huge dataset that not fit in memory
+> - split in multiple package to only requiere dependency needed by your request metrics
+> - Feature computation on different type of data to allow metrics on these features
+>
+> ** Please provide feedback and/or feature need on the new repository
+
 [//]: # (- Coverage : The coverage of a couple "Dataset + ML Model" is the ability of the execution of the ML Model on this dataset to generate elements that match the expected space.)
 
 For each metric, several approaches are developped to handle the maximum of data types. For more technical and scientific details, please refer to this [deliverable](https://catalog.confiance.ai/records/p46p6-1wt83/files/Scientific_Contribution_For_Data_quality_assessment_metrics_for_Machine_learning_process-v2.pdf?download=1)

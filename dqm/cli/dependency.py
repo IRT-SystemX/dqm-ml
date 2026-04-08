@@ -40,10 +40,10 @@ def get_available_command() -> dict[str, Any]:
 
     # We import available command for dqml cli
     with optional_dependencies(optional_dep_mode):
-        from dqm_ml_pipeline._version_ import version as pipeline_version
-        from dqm_ml_pipeline.cli import execute
+        from dqm_ml_job._version_ import version as pipeline_version
+        from dqm_ml_job.cli import execute
 
-        logger.debug(f"Different dqm-ml-pipeline version {pipeline_version}")
+        logger.debug(f"Different dqm-ml-job version {pipeline_version}")
         command_list["process"] = execute
 
     return command_list

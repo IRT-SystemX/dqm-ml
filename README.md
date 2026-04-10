@@ -53,15 +53,35 @@ The data-model dependent metrics are:
 (Definitions from [Confiance.ai program](https://www.confiance.ai/))
 
 > [!IMPORTANT]  
-> dqm-ml-v2 is under development more information in <a href="https://github.com/Safenai/dqm-ml-workspace">  <img src="https://img.shields.io/badge/GitHub-Repository-181717?logo=github" alt="GitHub">  </a>
-> Main change provided
+> **V2.0.0-rc is now available!** The new version has been released as a release candidate.
 >
+> Check out the new repository: <a href="https://github.com/Safenai/dqm-ml-workspace">
+>   <img src="https://img.shields.io/badge/GitHub-Repository-181717?logo=github" alt="GitHub">
+> </a>
+>
+> **What's New in V2:**
+> - **CLI renamed**: `dqm-ml-v2` → `dqm-ml` (use `dqm-ml process -p config.yaml`)
 > - API consistency between metrics
-> - Batch computation to manage huge dataset that not fit in memory
-> - split in multiple package to only requiere dependency needed by your request metrics
-> - Feature computation on different type of data to allow metrics on these features
+> - Batch computation to handle large datasets that don't fit in memory
+> - Split into multiple packages to only require dependencies needed for your metrics
+> - Feature computation on different data types (images, tabular, embeddings)
+> - Security fixes: 10 vulnerabilities addressed
 >
-> ** Please provide feedback and/or feature need on the new repository
+> **Quick Install:**
+> ```bash
+> pip install dqm-ml  # CLI and core
+> pip install dqm-ml[all]  # Everything
+> ```
+>
+> **Recent Improvements (V1.1.5 - V1.1.6):**
+> - Multiple data selection support in same job
+> - Progress bar for long-running computations  
+> - Auto-creation of output directories
+> - Security updates and dependency upgrades
+> - Test framework moved to workspace root
+> - Renamed dqm-ml-pipeline → dqm-ml-job
+>
+> **Please provide feedback and/or feature requests on the new repository**
 > [V2.0 preview in this repository](#preview-of-the-next-version)
 
 [//]: # (- Coverage : The coverage of a couple "Dataset + ML Model" is the ability of the execution of the ML Model on this dataset to generate elements that match the expected space.)
@@ -332,13 +352,21 @@ For some domain_gap examples, the **200_bird_dataset** will be required. It can 
 
 1 pipeline example similar to the previous one, but with different datasets path, as shown in the example of how using the containerized version.
 
-## Preview of the next version 
+## V2.0.0 is Now Available!
 
-In the next version (2.0.0), the current code will be completly refactorized with a new metrics API, and all metrics from this current version will be refactorized  and with many optimizations, and in particular large-scale dataset support. In this preview version, additionaly to existing ones,  new optimized versions of **completeness**  and **representativeness** are available.
+The new V2 version is now available as a release candidate. Key improvements:
 
-A notebook showing how to apply those metrics optimized versions is available in the **example** folder at the current location :
+- **Multi data selection**: Compute metrics on multiple datasets in one job
+- **Progress feedback**: Visual progress bar during computation  
+- **Auto-created outputs**: Output directories created automatically
+- **Better documentation**: Full docs at [safenai.github.io/dqm-ml-workspace](https://safenai.github.io/dqm-ml-workspace)
+- **Security fixes**: 10 vulnerabilities addressed
 
-**/examples/multiple_metrics_tests_v2.ipynb**
+For the latest V2 features and documentation, see:
+- **Repository**: [github.com/Safenai/dqm-ml-workspace](https://github.com/Safenai/dqm-ml-workspace)
+- **CLI Docs**: [dqm-ml process command](https://safenai.github.io/dqm-ml-workspace/docs/quickstart/)
+- **Metrics**: [Available metrics](https://safenai.github.io/dqm-ml-workspace/docs/metrics/)
+
 
 ## References
 
